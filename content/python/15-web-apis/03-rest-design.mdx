@@ -21,7 +21,7 @@ A resource is a thing the client can name: an invoice, a line item, a user. The 
 
 ### Names and methods
 
-Use plural nouns: `/invoices` and `/invoices/{invoice_id}` is the idea, with the parameter inside the path template the framework already understands. Nest a line only when its life is inside the parent. Do not nest so deep that the client must know five ids to update a name. Do not put verbs in the path for ordinary CRUD. POST on the collection creates. GET on the item reads. A verb path is justified for an action that is not a resource edit, such as sending an invoice, and even then you should be able to say why PUT did not fit.
+Use plural nouns: `/invoices` and `/invoices/` plus an invoice id parameter is the idea, with the parameter inside the path template the framework already understands. Nest a line only when its life is inside the parent. Do not nest so deep that the client must know five ids to update a name. Do not put verbs in the path for ordinary CRUD. POST on the collection creates. GET on the item reads. A verb path is justified for an action that is not a resource edit, such as sending an invoice, and even then you should be able to say why PUT did not fit.
 
 Query parameters filter and paginate. They do not identify the primary resource. A status filter plus a limit is a filter. A path full of verbs is a different style, and mixing the two in one API is how clients write special cases.
 
