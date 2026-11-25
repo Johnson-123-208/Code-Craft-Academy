@@ -1,0 +1,83 @@
+{
+  "title": "Callable Strategy",
+  "slug": "python-ex-callable-strategy",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "polymorphism"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(style, message)`. `style` is `upper` or `prefix`. Apply that strategy to `message`. `upper` returns the uppercase message. `prefix` returns `note:` plus the message. The caller selects the callable. You dispatch through a dict of functions.\n",
+  "constraints": [
+    "Two strategies",
+    "message is a string"
+  ],
+  "examples": [
+    {
+      "input": "style = \"upper\", message = \"Ada\"",
+      "output": "\"ADA\""
+    },
+    {
+      "input": "style = \"prefix\", message = \"Ada\"",
+      "output": "\"note:Ada\""
+    }
+  ],
+  "starter_code": "def solve(style, message):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Map the style name to a function.",
+    "Call that function with the message.",
+    "Do not if/elif on the style inside the transformation itself."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "A strategy can be a function."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "style": "upper",
+        "message": "Ada"
+      },
+      "expected": "ADA"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "style": "prefix",
+        "message": "Ada"
+      },
+      "expected": "note:Ada"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "style": "upper",
+        "message": ""
+      },
+      "expected": ""
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "style": "prefix",
+        "message": ""
+      },
+      "expected": "note:"
+    }
+  ],
+  "editorial": "A strategy can be a function. You do not need a class when the behavior is one call with no stored state. The dict is the selection. The functions are the strategies. The message is the argument they share.",
+  "reference_solution": "def solve(style, message):\n    def upper(text):\n        return text.upper()\n\n    def prefix(text):\n        return \"note:\" + text\n\n    return {\"upper\": upper, \"prefix\": prefix}[style](message)\n"
+}

@@ -1,0 +1,83 @@
+{
+  "title": "Registry",
+  "slug": "python-ex-channel-registry",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "polymorphism"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(kind, message)`. `kind` is `email`, `sms`, or something else. A registry maps known kinds to constructors. Return the send result `kind:message` for a known kind. Return `error` for an unknown kind. Do not use a long if chain in the send path.\n",
+  "constraints": [
+    "Unknown kinds are error",
+    "The message is passed to send"
+  ],
+  "examples": [
+    {
+      "input": "kind = \"email\", message = \"hi\"",
+      "output": "\"email:hi\""
+    },
+    {
+      "input": "kind = \"sms\", message = \"hi\"",
+      "output": "\"sms:hi\""
+    }
+  ],
+  "starter_code": "def solve(kind, message):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Register constructors, not already-sent messages.",
+    "Look up the kind. A miss returns error.",
+    "Construct, then send."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "A registry turns a new channel into a registration instead of a new branch in the caller."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "kind": "email",
+        "message": "hi"
+      },
+      "expected": "email:hi"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "kind": "sms",
+        "message": "hi"
+      },
+      "expected": "sms:hi"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "kind": "push",
+        "message": "hi"
+      },
+      "expected": "error"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "kind": "email",
+        "message": ""
+      },
+      "expected": "email:"
+    }
+  ],
+  "editorial": "A registry turns a new channel into a registration instead of a new branch in the caller. The lookup failure is the unknown-kind error. Constructing on use keeps the registry from holding live connections it does not need yet.",
+  "reference_solution": "def solve(kind, message):\n    class Email:\n        def send(self, text):\n            return \"email:\" + text\n\n    class Sms:\n        def send(self, text):\n            return \"sms:\" + text\n\n    registry = {\"email\": Email, \"sms\": Sms}\n    cls = registry.get(kind)\n    if cls is None:\n        return \"error\"\n    return cls().send(message)\n"
+}

@@ -1,0 +1,83 @@
+{
+  "title": "Suffix Swap",
+  "slug": "python-ex-suffix-swap",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "pathlib"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(path, new_suffix)`. `path` is a POSIX path. Replace the final suffix, including the dot, with `new_suffix`. `new_suffix` includes the leading dot when you want one. A name with no suffix gains `new_suffix`. Return the path string. Do not change directories.\n",
+  "constraints": [
+    "Only the last suffix changes",
+    "new_suffix may be an empty string, which removes the suffix"
+  ],
+  "examples": [
+    {
+      "input": "path = \"/tmp/a.txt\", new_suffix = \".md\"",
+      "output": "\"/tmp/a.md\""
+    },
+    {
+      "input": "path = \"a\", new_suffix = \".txt\"",
+      "output": "\"a.txt\""
+    }
+  ],
+  "starter_code": "def solve(path, new_suffix):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Split off the last slash so the directory is untouched.",
+    "If the filename contains a dot and is not a dotfile with no further dot, replace from the last dot. A leading-dot name like .gitignore has no suffix to replace. Treat a name that starts with a dot and has no other dot as having no suffix.",
+    "Append or replace, then rejoin the directory."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "pathlib."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "path": "/tmp/a.txt",
+        "new_suffix": ".md"
+      },
+      "expected": "/tmp/a.md"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "path": "a",
+        "new_suffix": ".txt"
+      },
+      "expected": "a.txt"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "path": "/tmp/.gitignore",
+        "new_suffix": ".bak"
+      },
+      "expected": "/tmp/.gitignore.bak"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "path": "a.tar.gz",
+        "new_suffix": ".bz2"
+      },
+      "expected": "a.tar.bz2"
+    }
+  ],
+  "editorial": "pathlib.Path.with_suffix replaces the last suffix and leaves the parent. A string replace of .txt can hit a directory name. Operating on the final segment only is the safe version of the same idea.",
+  "reference_solution": "def solve(path, new_suffix):\n    if \"/\" in path:\n        parent, name = path.rsplit(\"/\", 1)\n        prefix = parent + \"/\"\n    else:\n        name = path\n        prefix = \"\"\n    if name.startswith(\".\") and name.count(\".\") == 1:\n        stem = name\n    elif \".\" in name:\n        stem = name.rsplit(\".\", 1)[0]\n    else:\n        stem = name\n    return prefix + stem + new_suffix\n"
+}

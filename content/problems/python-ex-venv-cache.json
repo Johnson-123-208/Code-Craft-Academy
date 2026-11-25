@@ -1,0 +1,83 @@
+{
+  "title": "Cache Key",
+  "slug": "python-ex-venv-cache",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "quality"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(cached_lock, new_lock)`. Both are lockfile hashes. Return `reuse` when they are equal and non-empty. Return `rebuild` when they differ or either is empty.\n",
+  "constraints": [
+    "An empty hash never reuses",
+    "Equal hashes reuse"
+  ],
+  "examples": [
+    {
+      "input": "cached_lock = \"abc\", new_lock = \"abc\"",
+      "output": "\"reuse\""
+    },
+    {
+      "input": "cached_lock = \"abc\", new_lock = \"def\"",
+      "output": "\"rebuild\""
+    }
+  ],
+  "starter_code": "def solve(cached_lock, new_lock):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Reject empty strings.",
+    "Equal non-empty hashes return reuse.",
+    "Everything else rebuilds."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "A CI cache of the virtualenv is safe only when the lockfile that produced it is the lockfile you have now."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "cached_lock": "abc",
+        "new_lock": "abc"
+      },
+      "expected": "reuse"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "cached_lock": "abc",
+        "new_lock": "def"
+      },
+      "expected": "rebuild"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "cached_lock": "",
+        "new_lock": ""
+      },
+      "expected": "rebuild"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "cached_lock": "abc",
+        "new_lock": ""
+      },
+      "expected": "rebuild"
+    }
+  ],
+  "editorial": "A CI cache of the virtualenv is safe only when the lockfile that produced it is the lockfile you have now. Keying the cache on the lock hash makes a dependency bump rebuild. Reusing a cache from a different lock tests the old graph and can go green for the wrong reason.",
+  "reference_solution": "def solve(cached_lock, new_lock):\n    if cached_lock and cached_lock == new_lock:\n        return \"reuse\"\n    return \"rebuild\"\n"
+}

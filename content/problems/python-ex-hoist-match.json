@@ -1,0 +1,83 @@
+{
+  "title": "Hoist Check",
+  "slug": "python-ex-hoist-match",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "performance"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(per_row, once)`. Both are strings, the result of compiling a pattern inside the loop and the result of compiling it once. Return `match` when they are equal and `drift` when they are not. Hoisting must not change the result.\n",
+  "constraints": [
+    "Equal results match",
+    "Any difference is drift"
+  ],
+  "examples": [
+    {
+      "input": "per_row = \"ab\", once = \"ab\"",
+      "output": "\"match\""
+    },
+    {
+      "input": "per_row = \"ab\", once = \"a\"",
+      "output": "\"drift\""
+    }
+  ],
+  "starter_code": "def solve(per_row, once):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Compare the two strings.",
+    "Return match or drift.",
+    "Do not ignore case unless they already match."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "A hoist that changes the output is not an optimization."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "per_row": "ab",
+        "once": "ab"
+      },
+      "expected": "match"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "per_row": "ab",
+        "once": "a"
+      },
+      "expected": "drift"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "per_row": "",
+        "once": ""
+      },
+      "expected": "match"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "per_row": "a",
+        "once": "A"
+      },
+      "expected": "drift"
+    }
+  ],
+  "editorial": "A hoist that changes the output is not an optimization. The before and after strings have to match. The call count drops in the profile. This function is the behavior check that sits next to that profile.",
+  "reference_solution": "def solve(per_row, once):\n    return \"match\" if per_row == once else \"drift\"\n"
+}

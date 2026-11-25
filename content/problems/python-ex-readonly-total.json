@@ -1,0 +1,91 @@
+{
+  "title": "Read Only Total",
+  "slug": "python-ex-readonly-total",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "properties"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(prices, assign)`. `prices` is a list of integers. The total is their sum. `assign` is the string `none` when nobody assigns to the total, or `set` when they try. Return the sum when `assign` is `none`. Return `error` when they try to set the total. Do not change the prices.\n",
+  "constraints": [
+    "The total is derived",
+    "Assignment is rejected"
+  ],
+  "examples": [
+    {
+      "input": "prices = [10, 20], assign = \"none\"",
+      "output": "30"
+    },
+    {
+      "input": "prices = [10], assign = \"set\"",
+      "output": "\"error\""
+    }
+  ],
+  "starter_code": "def solve(prices, assign):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Sum the prices.",
+    "If assign is set, return error instead of the sum.",
+    "An empty price list sums to 0."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "A property without a setter raises on assignment."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "prices": [
+          10,
+          20
+        ],
+        "assign": "none"
+      },
+      "expected": 30
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "prices": [
+          10
+        ],
+        "assign": "set"
+      },
+      "expected": "error"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "prices": [],
+        "assign": "none"
+      },
+      "expected": 0
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "prices": [
+          0,
+          5
+        ],
+        "assign": "none"
+      },
+      "expected": 5
+    }
+  ],
+  "editorial": "A property without a setter raises on assignment. The total is computed from the items, so storing it would drift. The set flag is the assignment attempt. The sum is the only legal read.",
+  "reference_solution": "def solve(prices, assign):\n    if assign == \"set\":\n        return \"error\"\n    return sum(prices)\n"
+}

@@ -1,0 +1,131 @@
+{
+  "title": "Group Length",
+  "slug": "python-ex-group-length-iter",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "itertools"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(words)`. Sort the words by length, then group consecutive equal lengths. Return a list of `[length, [words...]]` in increasing length. Words inside a group keep the order they had after the sort, which is their original relative order because the sort is stable and the key is only the length.\n",
+  "constraints": [
+    "Sort before grouping",
+    "group is consecutive only"
+  ],
+  "examples": [
+    {
+      "input": "words = [\"bb\", \"a\", \"ccc\", \"d\"]",
+      "output": "[[1, [\"a\", \"d\"]], [2, [\"bb\"]], [3, [\"ccc\"]]]"
+    },
+    {
+      "input": "words = []",
+      "output": "[]"
+    }
+  ],
+  "starter_code": "def solve(words):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "sorted(words, key=len) first.",
+    "Then groupby on len.",
+    "Materialize each group with list() before the next group."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n log n)",
+        "space": "O(n)"
+      },
+      "explanation": "itertools."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "words": [
+          "bb",
+          "a",
+          "ccc",
+          "d"
+        ]
+      },
+      "expected": [
+        [
+          1,
+          [
+            "a",
+            "d"
+          ]
+        ],
+        [
+          2,
+          [
+            "bb"
+          ]
+        ],
+        [
+          3,
+          [
+            "ccc"
+          ]
+        ]
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "words": []
+      },
+      "expected": []
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "words": [
+          "a"
+        ]
+      },
+      "expected": [
+        [
+          1,
+          [
+            "a"
+          ]
+        ]
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "words": [
+          "aa",
+          "b",
+          "cc"
+        ]
+      },
+      "expected": [
+        [
+          1,
+          [
+            "b"
+          ]
+        ],
+        [
+          2,
+          [
+            "aa",
+            "cc"
+          ]
+        ]
+      ]
+    }
+  ],
+  "editorial": "itertools.groupby only merges adjacent equal keys. Without the sort, equal lengths that are not neighbors stay split. Materializing each group immediately matters because the group iterator is tied to the source and is consumed when the next group starts.",
+  "reference_solution": "def solve(words):\n    from itertools import groupby\n    ordered = sorted(words, key=len)\n    out = []\n    for length, group in groupby(ordered, key=len):\n        out.append([length, list(group)])\n    return out\n"
+}

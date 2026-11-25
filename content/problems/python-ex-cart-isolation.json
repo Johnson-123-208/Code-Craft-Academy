@@ -1,0 +1,128 @@
+{
+  "title": "Cart Isolation",
+  "slug": "python-ex-cart-isolation",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "oop"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(adds)`. `adds` is a list of `[cart, item]` pairs. `cart` is `a` or `b`. Create two carts that do not share an items list. Apply the adds. Return `{\"a\": [...], \"b\": [...]}` with each cart's items in order.\n",
+  "constraints": [
+    "The two carts start empty",
+    "Appending to one must not change the other"
+  ],
+  "examples": [
+    {
+      "input": "adds = [[\"a\", \"milk\"], [\"b\", \"bread\"], [\"a\", \"eggs\"]]",
+      "output": "{\"a\": [\"milk\", \"eggs\"], \"b\": [\"bread\"]}"
+    },
+    {
+      "input": "adds = []",
+      "output": "{\"a\": [], \"b\": []}"
+    }
+  ],
+  "starter_code": "def solve(adds):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Construct two objects. Give each its own list inside __init__.",
+    "Do not use a class-level list.",
+    "Return copies of the two lists."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "A class attribute list is shared by every instance."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "adds": [
+          [
+            "a",
+            "milk"
+          ],
+          [
+            "b",
+            "bread"
+          ],
+          [
+            "a",
+            "eggs"
+          ]
+        ]
+      },
+      "expected": {
+        "a": [
+          "milk",
+          "eggs"
+        ],
+        "b": [
+          "bread"
+        ]
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "adds": []
+      },
+      "expected": {
+        "a": [],
+        "b": []
+      }
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "adds": [
+          [
+            "b",
+            "x"
+          ]
+        ]
+      },
+      "expected": {
+        "a": [],
+        "b": [
+          "x"
+        ]
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "adds": [
+          [
+            "a",
+            "1"
+          ],
+          [
+            "a",
+            "2"
+          ]
+        ]
+      },
+      "expected": {
+        "a": [
+          "1",
+          "2"
+        ],
+        "b": []
+      }
+    }
+  ],
+  "editorial": "A class attribute list is shared by every instance. The bug shows up as soon as the second cart is created and sees the first cart's items. Creating the list in __init__ gives each instance its own object. The result dict is the two independent histories.",
+  "reference_solution": "def solve(adds):\n    class Cart:\n        def __init__(self):\n            self.items = []\n\n        def add(self, item):\n            self.items.append(item)\n\n    carts = {\"a\": Cart(), \"b\": Cart()}\n    for name, item in adds:\n        carts[name].add(item)\n    return {\"a\": list(carts[\"a\"].items), \"b\": list(carts[\"b\"].items)}\n"
+}

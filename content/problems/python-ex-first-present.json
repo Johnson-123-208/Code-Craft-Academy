@@ -1,0 +1,93 @@
+{
+  "title": "First Present",
+  "slug": "python-ex-first-present",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "none"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(values)`. `values` is a list of strings. Return the first item that is neither the token `none` nor the empty string. The string `0` counts as present. If every item is missing or empty, return the string `none`.\n",
+  "constraints": [
+    "Scan from the left",
+    "0 is present"
+  ],
+  "examples": [
+    {
+      "input": "values = [\"none\", \"\", \"0\", \"ada\"]",
+      "output": "\"0\""
+    },
+    {
+      "input": "values = [\"\", \"none\"]",
+      "output": "\"none\""
+    }
+  ],
+  "starter_code": "def solve(values):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Skip none and the empty string.",
+    "Return the first remaining item immediately.",
+    "If the loop ends, return none."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "A chain of optional fields should stop at the first real value."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "values": [
+          "none",
+          "",
+          "0",
+          "ada"
+        ]
+      },
+      "expected": "0"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "values": [
+          "",
+          "none"
+        ]
+      },
+      "expected": "none"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "values": [
+          "ada",
+          "grace"
+        ]
+      },
+      "expected": "ada"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "values": [
+          "none",
+          "grace"
+        ]
+      },
+      "expected": "grace"
+    }
+  ],
+  "editorial": "A chain of optional fields should stop at the first real value. Empty string and the missing token are both absent. The string 0 is a real value a truthiness test would drop, so the skip list has to be explicit.",
+  "reference_solution": "def solve(values):\n    for value in values:\n        if value != \"none\" and value != \"\":\n            return value\n    return \"none\"\n"
+}

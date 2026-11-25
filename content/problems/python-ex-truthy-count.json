@@ -1,0 +1,92 @@
+{
+  "title": "Truthy Count",
+  "slug": "python-ex-truthy-count",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "truthiness"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(items)`. Count how many items are truthy. Integers use normal truthiness, so 0 is falsy and every other integer is truthy. The empty string is falsy. The string `none` is falsy and stands for None. Every other non-empty string is truthy, including the strings `false` and `0`. Return the count.\n",
+  "constraints": [
+    "none is a string token for None",
+    "The string 0 is truthy"
+  ],
+  "examples": [
+    {
+      "input": "items = [0, 1, \"\", \"a\", \"none\"]",
+      "output": "2"
+    },
+    {
+      "input": "items = [\"false\", \"0\", 0]",
+      "output": "2"
+    }
+  ],
+  "starter_code": "def solve(items):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Treat the string none like None.",
+    "Use a normal truthiness test for ints and for every other string.",
+    "Do not special-case the word false. It is a non-empty string."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Truthiness is a fixed table: None, 0, and the empty string are falsy."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "items": [
+          0,
+          1,
+          "",
+          "a",
+          "none"
+        ]
+      },
+      "expected": 2
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "items": [
+          "false",
+          "0",
+          0
+        ]
+      },
+      "expected": 2
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "items": []
+      },
+      "expected": 0
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "items": [
+          "none",
+          "none"
+        ]
+      },
+      "expected": 0
+    }
+  ],
+  "editorial": "Truthiness is a fixed table: None, 0, and the empty string are falsy. A string of the digit 0 is not the integer 0. Counting with that table is the whole problem. The token none is how the judge passes a missing value without a JSON null.",
+  "reference_solution": "def solve(items):\n    count = 0\n    for item in items:\n        if item == \"none\":\n            continue\n        if item:\n            count += 1\n    return count\n"
+}

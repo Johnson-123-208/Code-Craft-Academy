@@ -1,0 +1,79 @@
+{
+  "title": "Missing Method",
+  "slug": "python-ex-abstract-hole",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "abc"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(implements_send)`. `implements_send` is 1 or 0. Return `ok` when the subclass implements `send` and can be constructed. Return `abstract` when it does not. Do not return a traceback.\n",
+  "constraints": [
+    "A hole means the class stays abstract",
+    "ok means construction would succeed"
+  ],
+  "examples": [
+    {
+      "input": "implements_send = 1",
+      "output": "\"ok\""
+    },
+    {
+      "input": "implements_send = 0",
+      "output": "\"abstract\""
+    }
+  ],
+  "starter_code": "def solve(implements_send):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "If implements_send is 0, return abstract.",
+    "If it is 1, return ok.",
+    "You may also try to construct a real ABC subclass and catch TypeError. The string result is what the judge compares."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "Instantiating a class that still has abstract methods raises TypeError."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "implements_send": 1
+      },
+      "expected": "ok"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "implements_send": 0
+      },
+      "expected": "abstract"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "implements_send": 1
+      },
+      "expected": "ok"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "implements_send": 0
+      },
+      "expected": "abstract"
+    }
+  ],
+  "editorial": "Instantiating a class that still has abstract methods raises TypeError. The class object itself can be created. The failure is at construction. That is how you notice a forgotten method before a production call.",
+  "reference_solution": "def solve(implements_send):\n    return \"ok\" if implements_send else \"abstract\"\n"
+}

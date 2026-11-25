@@ -1,0 +1,94 @@
+{
+  "title": "First Above",
+  "slug": "python-ex-first-above",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "generators"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(items, limit)`. Return the first integer strictly greater than `limit`. If none exists, return the string `none`. Stop at the first hit. Later larger values do not matter.\n",
+  "constraints": [
+    "items is a list of integers",
+    "The comparison is strict"
+  ],
+  "examples": [
+    {
+      "input": "items = [1, 4, 9], limit = 3",
+      "output": "4"
+    },
+    {
+      "input": "items = [1, 2], limit = 5",
+      "output": "\"none\""
+    }
+  ],
+  "starter_code": "def solve(items, limit):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Walk from the left.",
+    "Return the item as soon as it is greater than limit.",
+    "If the loop ends, return the string none."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "A generator that yields until a condition fails is takewhile."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "items": [
+          1,
+          4,
+          9
+        ],
+        "limit": 3
+      },
+      "expected": 4
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "items": [
+          1,
+          2
+        ],
+        "limit": 5
+      },
+      "expected": "none"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "items": [],
+        "limit": 0
+      },
+      "expected": "none"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "items": [
+          3,
+          3,
+          4
+        ],
+        "limit": 3
+      },
+      "expected": 4
+    }
+  ],
+  "editorial": "A generator that yields until a condition fails is takewhile. This function is the dual: the first success. Scanning the rest of the list after a hit cannot change the answer and is the bug when the tail is expensive.",
+  "reference_solution": "def solve(items, limit):\n    for item in items:\n        if item > limit:\n            return item\n    return \"none\"\n"
+}

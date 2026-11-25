@@ -1,0 +1,106 @@
+{
+  "title": "Registry Add",
+  "slug": "python-ex-registry-add",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "patterns"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(registrations, kind)`. `registrations` is a list of `[kind, builder]` pairs in order. A duplicate kind returns `error` for the whole registration and does not silently overwrite. If registration succeeds, return the builder name for `kind`, or `missing` if that kind was never registered.\n",
+  "constraints": [
+    "The first duplicate aborts",
+    "Builders are strings"
+  ],
+  "examples": [
+    {
+      "input": "registrations = [[\"email\", \"Email\"], [\"sms\", \"Sms\"]], kind = \"sms\"",
+      "output": "\"Sms\""
+    },
+    {
+      "input": "registrations = [[\"email\", \"A\"], [\"email\", \"B\"]], kind = \"email\"",
+      "output": "\"error\""
+    }
+  ],
+  "starter_code": "def solve(registrations, kind):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Insert into a dict only when the kind is new.",
+    "On a duplicate, return error immediately.",
+    "After a clean insert pass, look up kind."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "A factory registry that overwrites a kind hides two teams registering the same name."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "registrations": [
+          [
+            "email",
+            "Email"
+          ],
+          [
+            "sms",
+            "Sms"
+          ]
+        ],
+        "kind": "sms"
+      },
+      "expected": "Sms"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "registrations": [
+          [
+            "email",
+            "A"
+          ],
+          [
+            "email",
+            "B"
+          ]
+        ],
+        "kind": "email"
+      },
+      "expected": "error"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "registrations": [],
+        "kind": "email"
+      },
+      "expected": "missing"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "registrations": [
+          [
+            "email",
+            "Email"
+          ]
+        ],
+        "kind": "sms"
+      },
+      "expected": "missing"
+    }
+  ],
+  "editorial": "A factory registry that overwrites a kind hides two teams registering the same name. Rejecting the duplicate makes the clash visible at startup. The lookup after a clean registration is the normal factory path.",
+  "reference_solution": "def solve(registrations, kind):\n    table = {}\n    for key, builder in registrations:\n        if key in table:\n            return \"error\"\n        table[key] = builder\n    return table.get(kind, \"missing\")\n"
+}

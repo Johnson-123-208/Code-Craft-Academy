@@ -1,0 +1,99 @@
+{
+  "title": "Notify",
+  "slug": "python-ex-notify",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "polymorphism"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(channels, message)`. `channels` is a list of `email` or `sms`. Send `message` through each. Email returns `email:message`. SMS returns `sms:message`. Return the list of those results. Do not branch on the channel name inside the sender loop. Look up an object and call `send`.\n",
+  "constraints": [
+    "The loop calls send",
+    "Order follows channels"
+  ],
+  "examples": [
+    {
+      "input": "channels = [\"email\", \"sms\"], message = \"hi\"",
+      "output": "[\"email:hi\", \"sms:hi\"]"
+    },
+    {
+      "input": "channels = [\"sms\"], message = \"x\"",
+      "output": "[\"sms:x\"]"
+    }
+  ],
+  "starter_code": "def solve(channels, message):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Two small classes each implement send.",
+    "Map the name to an instance.",
+    "Append channel.send(message) in a loop with no isinstance check."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Polymorphism here is one method name and two implementations."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "channels": [
+          "email",
+          "sms"
+        ],
+        "message": "hi"
+      },
+      "expected": [
+        "email:hi",
+        "sms:hi"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "channels": [
+          "sms"
+        ],
+        "message": "x"
+      },
+      "expected": [
+        "sms:x"
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "channels": [],
+        "message": "hi"
+      },
+      "expected": []
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "channels": [
+          "email",
+          "email"
+        ],
+        "message": ""
+      },
+      "expected": [
+        "email:",
+        "email:"
+      ]
+    }
+  ],
+  "editorial": "Polymorphism here is one method name and two implementations. The loop does not grow when a third channel appears. A type switch in the loop is the design this function replaces. The prefix in the result shows which implementation ran.",
+  "reference_solution": "def solve(channels, message):\n    class Email:\n        def send(self, text):\n            return \"email:\" + text\n\n    class Sms:\n        def send(self, text):\n            return \"sms:\" + text\n\n    table = {\"email\": Email(), \"sms\": Sms()}\n    return [table[name].send(message) for name in channels]\n"
+}

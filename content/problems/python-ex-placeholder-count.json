@@ -1,0 +1,83 @@
+{
+  "title": "Placeholder Count",
+  "slug": "python-ex-placeholder-count",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "sqlite"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(sql, params)`. Count question marks in `sql`. Return `ok` when the count equals `params`, and `mismatch` otherwise. Do not ignore question marks inside text. The tests have no quoted question marks.\n",
+  "constraints": [
+    "Each ? is one placeholder",
+    "params is the count you were given"
+  ],
+  "examples": [
+    {
+      "input": "sql = \"SELECT * FROM t WHERE id = ?\", params = 1",
+      "output": "\"ok\""
+    },
+    {
+      "input": "sql = \"UPDATE t SET a = ? WHERE id = ?\", params = 1",
+      "output": "\"mismatch\""
+    }
+  ],
+  "starter_code": "def solve(sql, params):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Count the character ?.",
+    "Compare to params.",
+    "Return ok or mismatch."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "A one-tuple needs a trailing comma, and a placeholder count that does not match the parameter sequence raises at execute time."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "sql": "SELECT * FROM t WHERE id = ?",
+        "params": 1
+      },
+      "expected": "ok"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "sql": "UPDATE t SET a = ? WHERE id = ?",
+        "params": 1
+      },
+      "expected": "mismatch"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "sql": "SELECT 1",
+        "params": 0
+      },
+      "expected": "ok"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "sql": "SELECT ?",
+        "params": 2
+      },
+      "expected": "mismatch"
+    }
+  ],
+  "editorial": "A one-tuple needs a trailing comma, and a placeholder count that does not match the parameter sequence raises at execute time. Counting question marks against the length of the parameter list catches the bug before the driver does, for SQL that does not hide question marks in string literals.",
+  "reference_solution": "def solve(sql, params):\n    return \"ok\" if sql.count(\"?\") == params else \"mismatch\"\n"
+}

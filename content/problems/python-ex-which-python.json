@@ -1,0 +1,97 @@
+{
+  "title": "Which Python",
+  "slug": "python-ex-which-python",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "toolchain"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(paths, major, minor)`. `paths` is a list of executable paths. Return the first path whose filename contains `{major}.{minor}` (for example `python3.12`) or `python{major}{minor}` / `Python{major}{minor}` (for example `python312`). If none match, return an empty string. Match the filename only, not a parent directory.\n",
+  "constraints": [
+    "major and minor are integers",
+    "Return the original path string"
+  ],
+  "examples": [
+    {
+      "input": "paths = [\"C:/Python311/python.exe\", \"/usr/bin/python3.12\"], major = 3, minor = 12",
+      "output": "\"/usr/bin/python3.12\""
+    },
+    {
+      "input": "paths = [\"C:/Python312/python.exe\"], major = 3, minor = 11",
+      "output": "\"\""
+    }
+  ],
+  "starter_code": "def solve(paths, major, minor):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Take the last path segment after either slash style before you search.",
+    "Build the dotted tag and the compact tags from major and minor.",
+    "Return the first hit. Later matches do not matter."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "A launcher list often contains several interpreters."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "paths": [
+          "C:/Python311/python.exe",
+          "/usr/bin/python3.12"
+        ],
+        "major": 3,
+        "minor": 12
+      },
+      "expected": "/usr/bin/python3.12"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "paths": [
+          "C:/Python312/python.exe"
+        ],
+        "major": 3,
+        "minor": 11
+      },
+      "expected": ""
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "paths": [
+          "/opt/python310/bin/python3.10",
+          "/opt/python312/bin/python3.12"
+        ],
+        "major": 3,
+        "minor": 10
+      },
+      "expected": "/opt/python310/bin/python3.10"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "paths": [
+          "D:/tools/python313.exe"
+        ],
+        "major": 3,
+        "minor": 13
+      },
+      "expected": "D:/tools/python313.exe"
+    }
+  ],
+  "editorial": "A launcher list often contains several interpreters. The filename is the contract you can check without executing the binary. Searching the whole path would treat a directory named python3.11 as a match for a 3.12 binary sitting inside it.",
+  "reference_solution": "def solve(paths, major, minor):\n    tags = (f\"{major}.{minor}\", f\"python{major}{minor}\", f\"Python{major}{minor}\")\n    for path in paths:\n        name = path.replace(\"\\\\\", \"/\").split(\"/\")[-1]\n        if any(tag in name for tag in tags):\n            return path\n    return \"\"\n"
+}

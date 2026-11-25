@@ -1,0 +1,90 @@
+{
+  "title": "Loop Snapshot",
+  "slug": "python-ex-loop-snapshot",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "closures"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(n)`. Return a list of `n` integers `0, 1, ..., n-1`. This is the result of calling `n` functions created in a loop, each of which captured its own index. The bug to avoid is every function returning `n` or `n-1`. `n` may be 0.\n",
+  "constraints": [
+    "n is a non-negative integer",
+    "Each index is captured separately"
+  ],
+  "examples": [
+    {
+      "input": "n = 3",
+      "output": "[0, 1, 2]"
+    },
+    {
+      "input": "n = 0",
+      "output": "[]"
+    }
+  ],
+  "starter_code": "def solve(n):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Build the functions with a default argument, `lambda i=i: i`, or append i into a new cell each iteration.",
+    "Call them after the loop.",
+    "The results are 0 through n-1, not the final loop variable."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "A lambda that reads the loop variable looks up that variable when it is called, which is after the loop has finished."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "n": 3
+      },
+      "expected": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "n": 0
+      },
+      "expected": []
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "n": 1
+      },
+      "expected": [
+        0
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "n": 4
+      },
+      "expected": [
+        0,
+        1,
+        2,
+        3
+      ]
+    }
+  ],
+  "editorial": "A lambda that reads the loop variable looks up that variable when it is called, which is after the loop has finished. Binding the current integer as a default argument, or storing it in a new list cell, snapshots the value from that iteration. Calling the functions then yields 0 through n-1.",
+  "reference_solution": "def solve(n):\n    fns = []\n    for i in range(n):\n        fns.append((lambda i=i: i))\n    return [fn() for fn in fns]\n"
+}

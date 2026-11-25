@@ -1,0 +1,107 @@
+{
+  "title": "Symmetric Difference",
+  "slug": "python-ex-symmetric",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "sets"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(left, right)`. Return the sorted list of strings that appear in exactly one of the two lists. A string in both, even with different counts, is excluded.\n",
+  "constraints": [
+    "Return sorted unique strings",
+    "Presence matters, not counts"
+  ],
+  "examples": [
+    {
+      "input": "left = [\"a\", \"b\"], right = [\"b\", \"c\"]",
+      "output": "[\"a\", \"c\"]"
+    },
+    {
+      "input": "left = [\"a\", \"a\"], right = [\"a\"]",
+      "output": "[]"
+    }
+  ],
+  "starter_code": "def solve(left, right):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Convert both sides to sets.",
+    "The symmetric difference operator is ^.",
+    "Sort before returning."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n + m log k)",
+        "space": "O(n + m)"
+      },
+      "explanation": "Symmetric difference is the union minus the intersection."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "left": [
+          "a",
+          "b"
+        ],
+        "right": [
+          "b",
+          "c"
+        ]
+      },
+      "expected": [
+        "a",
+        "c"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "left": [
+          "a",
+          "a"
+        ],
+        "right": [
+          "a"
+        ]
+      },
+      "expected": []
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "left": [],
+        "right": [
+          "a"
+        ]
+      },
+      "expected": [
+        "a"
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "left": [
+          "b",
+          "a"
+        ],
+        "right": []
+      },
+      "expected": [
+        "a",
+        "b"
+      ]
+    }
+  ],
+  "editorial": "Symmetric difference is the union minus the intersection. Counting occurrences would be a different problem. Sets drop counts first, then ^ keeps the elements in one side only, and sorting makes the list stable.",
+  "reference_solution": "def solve(left, right):\n    return sorted(set(left) ^ set(right))\n"
+}

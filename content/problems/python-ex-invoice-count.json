@@ -1,0 +1,102 @@
+{
+  "title": "Invoice Count",
+  "slug": "python-ex-invoice-count",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "sql"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(rows)`. Each row is `[customer, invoice]` where `invoice` is an int or the string `none` for an unmatched parent from a left join. Return how many rows have a real invoice id.\n",
+  "constraints": [
+    "none does not count",
+    "Zero is a real id if you ever see it. The tests use positive ids or none."
+  ],
+  "examples": [
+    {
+      "input": "rows = [[\"ada\", 1], [\"ada\", 2], [\"grace\", \"none\"]]",
+      "output": "2"
+    },
+    {
+      "input": "rows = [[\"grace\", \"none\"]]",
+      "output": "0"
+    }
+  ],
+  "starter_code": "def solve(rows):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Count rows whose invoice is not the string none.",
+    "Do not count the length of the list.",
+    "Customers with only a null invoice add nothing."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "COUNT(*) after a left join counts parent rows."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "rows": [
+          [
+            "ada",
+            1
+          ],
+          [
+            "ada",
+            2
+          ],
+          [
+            "grace",
+            "none"
+          ]
+        ]
+      },
+      "expected": 2
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "rows": [
+          [
+            "grace",
+            "none"
+          ]
+        ]
+      },
+      "expected": 0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "rows": []
+      },
+      "expected": 0
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "rows": [
+          [
+            "ada",
+            3
+          ]
+        ]
+      },
+      "expected": 1
+    }
+  ],
+  "editorial": "COUNT(*) after a left join counts parent rows. COUNT(invoice_id) skips nulls. The string none is that null. Counting the wrong one invents invoices for customers who have none.",
+  "reference_solution": "def solve(rows):\n    return sum(1 for _customer, invoice in rows if invoice != \"none\")\n"
+}

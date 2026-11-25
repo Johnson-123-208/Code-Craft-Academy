@@ -1,0 +1,93 @@
+{
+  "title": "Join Words",
+  "slug": "python-ex-join-words",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "strings"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(words, sep)`. Strip each word, drop empties, and join the rest with `sep`. Do not put the separator before the first word or after the last.\n",
+  "constraints": [
+    "sep is a string",
+    "Empty words disappear"
+  ],
+  "examples": [
+    {
+      "input": "words = [\" a \", \"\", \"b\"], sep = \",\"",
+      "output": "\"a,b\""
+    },
+    {
+      "input": "words = [\"  \"], sep = \"-\"",
+      "output": "\"\""
+    }
+  ],
+  "starter_code": "def solve(words, sep):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Strip first, then filter.",
+    "str.join inserts the separator between items only.",
+    "No surviving words returns an empty string."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "join is the linear way to build this string."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "words": [
+          " a ",
+          "",
+          "b"
+        ],
+        "sep": ","
+      },
+      "expected": "a,b"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "words": [
+          "  "
+        ],
+        "sep": "-"
+      },
+      "expected": ""
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "words": [
+          "a",
+          "b",
+          "c"
+        ],
+        "sep": ""
+      },
+      "expected": "abc"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "words": [],
+        "sep": ","
+      },
+      "expected": ""
+    }
+  ],
+  "editorial": "join is the linear way to build this string. Concatenating in a loop copies a growing buffer. Filtering blanks first keeps the separator from doubling up around empty slots.",
+  "reference_solution": "def solve(words, sep):\n    cleaned = [word.strip() for word in words if word.strip()]\n    return sep.join(cleaned)\n"
+}

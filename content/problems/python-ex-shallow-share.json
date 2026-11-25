@@ -1,0 +1,145 @@
+{
+  "title": "Shallow Share",
+  "slug": "python-ex-shallow-share",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "copying"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(rows, value)`. `rows` is a list of lists of integers. Make a shallow copy, append `value` to the first inner list through the copy, and return `{\"original\": ..., \"copy\": ...}`. Both sides show the appended value, because a shallow copy shares the inner lists. If `rows` is empty, return both as empty lists and do not append.\n",
+  "constraints": [
+    "Shallow copy shares inner lists",
+    "An empty outer list has nothing to append to"
+  ],
+  "examples": [
+    {
+      "input": "rows = [[1], [2]], value = 9",
+      "output": "{\"original\": [[1, 9], [2]], \"copy\": [[1, 9], [2]]}"
+    },
+    {
+      "input": "rows = [[]], value = 1",
+      "output": "{\"original\": [[1]], \"copy\": [[1]]}"
+    }
+  ],
+  "starter_code": "def solve(rows, value):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Copy the outer list only: list(rows) after you have built real inner lists.",
+    "Append through the copy's first row.",
+    "Return both structures. They alias."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "list(outer) copies the outer list and not the inner lists."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "rows": [
+          [
+            1
+          ],
+          [
+            2
+          ]
+        ],
+        "value": 9
+      },
+      "expected": {
+        "original": [
+          [
+            1,
+            9
+          ],
+          [
+            2
+          ]
+        ],
+        "copy": [
+          [
+            1,
+            9
+          ],
+          [
+            2
+          ]
+        ]
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "rows": [
+          []
+        ],
+        "value": 1
+      },
+      "expected": {
+        "original": [
+          [
+            1
+          ]
+        ],
+        "copy": [
+          [
+            1
+          ]
+        ]
+      }
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "rows": [],
+        "value": 1
+      },
+      "expected": {
+        "original": [],
+        "copy": []
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "rows": [
+          [
+            1,
+            2
+          ]
+        ],
+        "value": 3
+      },
+      "expected": {
+        "original": [
+          [
+            1,
+            2,
+            3
+          ]
+        ],
+        "copy": [
+          [
+            1,
+            2,
+            3
+          ]
+        ]
+      }
+    }
+  ],
+  "editorial": "list(outer) copies the outer list and not the inner lists. An append to copy[0] is an append to original[0]. That alias is the bug and the demonstration. A deep copy would have hidden the append from the original, which is the next problem.",
+  "reference_solution": "def solve(rows, value):\n    original = [list(row) for row in rows]\n    if not original:\n        return {\"original\": [], \"copy\": []}\n    copied = list(original)\n    copied[0].append(value)\n    return {\"original\": original, \"copy\": [list(row) for row in copied]}\n"
+}

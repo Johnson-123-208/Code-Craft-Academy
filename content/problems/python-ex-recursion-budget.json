@@ -1,0 +1,83 @@
+{
+  "title": "Recursion Budget",
+  "slug": "python-ex-recursion-budget",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "recursion"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(n, limit)`. A countdown wants to make `n` recursive calls. The interpreter will allow at most `limit` of them. Return how many calls actually run: the smaller of `n` and `limit` when both are positive, otherwise 0.\n",
+  "constraints": [
+    "n and limit are integers",
+    "A non-positive budget or countdown runs nothing"
+  ],
+  "examples": [
+    {
+      "input": "n = 5, limit = 3",
+      "output": "3"
+    },
+    {
+      "input": "n = 2, limit = 10",
+      "output": "2"
+    }
+  ],
+  "starter_code": "def solve(n, limit):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "If either input is less than 1, return 0.",
+    "Otherwise return the minimum of the two numbers.",
+    "Do not recurse in your solution. The budget is a closed form."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "A recursive countdown of n needs n frames before it hits the base case."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "n": 5,
+        "limit": 3
+      },
+      "expected": 3
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "n": 2,
+        "limit": 10
+      },
+      "expected": 2
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "n": 0,
+        "limit": 4
+      },
+      "expected": 0
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "n": 8,
+        "limit": 0
+      },
+      "expected": 0
+    }
+  ],
+  "editorial": "A recursive countdown of n needs n frames before it hits the base case. The useful question before you raise the recursion limit is how many of those frames the current budget still allows. min(n, limit) is that number when both are positive.",
+  "reference_solution": "def solve(n, limit):\n    if n < 1 or limit < 1:\n        return 0\n    return n if n < limit else limit\n"
+}

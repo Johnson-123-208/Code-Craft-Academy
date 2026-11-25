@@ -1,0 +1,83 @@
+{
+  "title": "Status Step",
+  "slug": "python-ex-status-step",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "state"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(current, nxt)`. An order may move `cart` to `placed`, `placed` to `paid` or `cancelled`, and `paid` to `shipped`. Any other jump returns `current` unchanged. `shipped` and `cancelled` have no exits.\n",
+  "constraints": [
+    "Both arguments are status strings",
+    "Illegal jumps do not raise"
+  ],
+  "examples": [
+    {
+      "input": "current = \"cart\", nxt = \"placed\"",
+      "output": "\"placed\""
+    },
+    {
+      "input": "current = \"cart\", nxt = \"shipped\"",
+      "output": "\"cart\""
+    }
+  ],
+  "starter_code": "def solve(current, nxt):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Store the allowed next statuses in a dict of lists.",
+    "If nxt is in the list for current, return nxt.",
+    "Otherwise return current. A missing status has an empty list."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "A status graph is data."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "current": "cart",
+        "nxt": "placed"
+      },
+      "expected": "placed"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "current": "cart",
+        "nxt": "shipped"
+      },
+      "expected": "cart"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "current": "placed",
+        "nxt": "cancelled"
+      },
+      "expected": "cancelled"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "current": "shipped",
+        "nxt": "paid"
+      },
+      "expected": "shipped"
+    }
+  ],
+  "editorial": "A status graph is data. Encoding it as a dict makes an illegal edge obvious and keeps the function from growing a new condition per edge. Returning the old status, rather than raising, matches a handler that ignores a duplicate click.",
+  "reference_solution": "def solve(current, nxt):\n    allowed = {\n        \"cart\": [\"placed\"],\n        \"placed\": [\"paid\", \"cancelled\"],\n        \"paid\": [\"shipped\"],\n        \"shipped\": [],\n        \"cancelled\": [],\n    }\n    if nxt in allowed.get(current, []):\n        return nxt\n    return current\n"
+}

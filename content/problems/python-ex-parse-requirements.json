@@ -1,0 +1,110 @@
+{
+  "title": "Requirements Parse",
+  "slug": "python-ex-parse-requirements",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "packaging"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(lines)`. Each line is a string. Ignore blank lines and lines whose stripped text starts with `#`. Every remaining line has the form `name==version`. Return a list of `[name, version]` pairs in order, with surrounding whitespace removed from both sides.\n",
+  "constraints": [
+    "The separator is exactly ==",
+    "Comments may have leading spaces"
+  ],
+  "examples": [
+    {
+      "input": "lines = [\"fastapi==0.115.0\", \"\", \"# comment\", \"uvicorn==0.32.0\"]",
+      "output": "[[\"fastapi\", \"0.115.0\"], [\"uvicorn\", \"0.32.0\"]]"
+    },
+    {
+      "input": "lines = [\"  requests==2.32.3  \", \"#nope\"]",
+      "output": "[[\"requests\", \"2.32.3\"]]"
+    }
+  ],
+  "starter_code": "def solve(lines):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Strip the line before you decide it is blank or a comment.",
+    "Split on == once. A version will not contain that separator in these tests.",
+    "Keep the original order. Do not sort."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "A requirements file is a line protocol."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "lines": [
+          "fastapi==0.115.0",
+          "",
+          "# comment",
+          "uvicorn==0.32.0"
+        ]
+      },
+      "expected": [
+        [
+          "fastapi",
+          "0.115.0"
+        ],
+        [
+          "uvicorn",
+          "0.32.0"
+        ]
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "lines": [
+          "  requests==2.32.3  ",
+          "#nope"
+        ]
+      },
+      "expected": [
+        [
+          "requests",
+          "2.32.3"
+        ]
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "lines": []
+      },
+      "expected": []
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "lines": [
+          "# only",
+          "  ",
+          "ruff==0.8.0"
+        ]
+      },
+      "expected": [
+        [
+          "ruff",
+          "0.8.0"
+        ]
+      ]
+    }
+  ],
+  "editorial": "A requirements file is a line protocol. Comments and blanks are not packages. Splitting a pinned line on == is enough for the direct-dependency pins this course uses. Ranges and extras are out of scope.",
+  "reference_solution": "def solve(lines):\n    out = []\n    for line in lines:\n        text = line.strip()\n        if not text or text.startswith(\"#\"):\n            continue\n        name, version = text.split(\"==\", 1)\n        out.append([name.strip(), version.strip()])\n    return out\n"
+}

@@ -1,0 +1,99 @@
+{
+  "title": "Shadow Limit",
+  "slug": "python-ex-shadow-limit",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "oop"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(class_limit, instance_limit)`. `class_limit` is the class attribute. `instance_limit` is either an integer override or the string `none` when the instance does not set the attribute. Return `{\"class_read\": class_limit, \"instance_read\": ...}`. The instance read is the override when present, otherwise the class value. Also return `shared` as 1 when the instance did not override, else 0.\n",
+  "constraints": [
+    "none means no instance attribute",
+    "The class value is always reported"
+  ],
+  "examples": [
+    {
+      "input": "class_limit = 10, instance_limit = \"none\"",
+      "output": "{\"class_read\": 10, \"instance_read\": 10, \"shared\": 1}"
+    },
+    {
+      "input": "class_limit = 10, instance_limit = 3",
+      "output": "{\"class_read\": 10, \"instance_read\": 3, \"shared\": 0}"
+    }
+  ],
+  "starter_code": "def solve(class_limit, instance_limit):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "If instance_limit is none, the instance read equals the class limit and shared is 1.",
+    "Otherwise the instance read is the override and shared is 0.",
+    "Do not add the two numbers."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "Attribute lookup checks the instance dict first and then the class."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "class_limit": 10,
+        "instance_limit": "none"
+      },
+      "expected": {
+        "class_read": 10,
+        "instance_read": 10,
+        "shared": 1
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "class_limit": 10,
+        "instance_limit": 3
+      },
+      "expected": {
+        "class_read": 10,
+        "instance_read": 3,
+        "shared": 0
+      }
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "class_limit": 0,
+        "instance_limit": "none"
+      },
+      "expected": {
+        "class_read": 0,
+        "instance_read": 0,
+        "shared": 1
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "class_limit": 2,
+        "instance_limit": 2
+      },
+      "expected": {
+        "class_read": 2,
+        "instance_read": 2,
+        "shared": 0
+      }
+    }
+  ],
+  "editorial": "Attribute lookup checks the instance dict first and then the class. An assignment on the instance shadows the class attribute for that instance only. Other instances still see the class value. shared records whether this read fell through to the class.",
+  "reference_solution": "def solve(class_limit, instance_limit):\n    if instance_limit == \"none\":\n        return {\"class_read\": class_limit, \"instance_read\": class_limit, \"shared\": 1}\n    return {\"class_read\": class_limit, \"instance_read\": instance_limit, \"shared\": 0}\n"
+}

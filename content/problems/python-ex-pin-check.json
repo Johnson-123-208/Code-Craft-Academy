@@ -1,0 +1,92 @@
+{
+  "title": "Pin Check",
+  "slug": "python-ex-pin-check",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "packaging"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(lines, name)`. `lines` are frozen pins of the form `package==version`. Return the version string for `name`. If `name` is absent, return the string `none`. Match the package name exactly. Do not return a JSON null.\n",
+  "constraints": [
+    "One pin per line",
+    "The missing marker is the string none"
+  ],
+  "examples": [
+    {
+      "input": "lines = [\"fastapi==0.115.0\", \"uvicorn==0.32.0\"], name = \"uvicorn\"",
+      "output": "\"0.32.0\""
+    },
+    {
+      "input": "lines = [\"fastapi==0.115.0\"], name = \"ruff\"",
+      "output": "\"none\""
+    }
+  ],
+  "starter_code": "def solve(lines, name):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Split each line on ==.",
+    "Compare the package side to name before you look at the next line.",
+    "Absence is the string none so the judge can see it. Do not skip the return."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "A lock line answers the question a direct dependency asks: what version was installed."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "lines": [
+          "fastapi==0.115.0",
+          "uvicorn==0.32.0"
+        ],
+        "name": "uvicorn"
+      },
+      "expected": "0.32.0"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "lines": [
+          "fastapi==0.115.0"
+        ],
+        "name": "ruff"
+      },
+      "expected": "none"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "lines": [
+          "A==1",
+          "B==2",
+          "A==9"
+        ],
+        "name": "A"
+      },
+      "expected": "1"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "lines": [],
+        "name": "fastapi"
+      },
+      "expected": "none"
+    }
+  ],
+  "editorial": "A lock line answers the question a direct dependency asks: what version was installed. Scanning until the name matches is enough because a frozen file lists each distribution once. Returning a visible missing marker keeps the function total.",
+  "reference_solution": "def solve(lines, name):\n    for line in lines:\n        package, version = line.split(\"==\", 1)\n        if package == name:\n            return version\n    return \"none\"\n"
+}

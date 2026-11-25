@@ -1,0 +1,102 @@
+{
+  "title": "Facade Cycle",
+  "slug": "python-ex-facade-cycle",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "packages"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(edges)`. `edges` is a list of `[src, dst]` import edges. Return `cycle` if `pkg` imports `pkg.sub` and `pkg.sub` imports `pkg`. Return `ok` otherwise. Only that pair matters.\n",
+  "constraints": [
+    "The package init and the submodule are named pkg and pkg.sub",
+    "A one-way edge is ok"
+  ],
+  "examples": [
+    {
+      "input": "edges = [[\"pkg\", \"pkg.sub\"], [\"pkg.sub\", \"pkg\"]]",
+      "output": "\"cycle\""
+    },
+    {
+      "input": "edges = [[\"pkg\", \"pkg.sub\"]]",
+      "output": "\"ok\""
+    }
+  ],
+  "starter_code": "def solve(edges):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Look for both directions.",
+    "A missing direction is ok.",
+    "Do not flag unrelated pairs."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "A package __init__ that imports a submodule, while the submodule imports the package to reach a facade name, is a cycle."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "edges": [
+          [
+            "pkg",
+            "pkg.sub"
+          ],
+          [
+            "pkg.sub",
+            "pkg"
+          ]
+        ]
+      },
+      "expected": "cycle"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "edges": [
+          [
+            "pkg",
+            "pkg.sub"
+          ]
+        ]
+      },
+      "expected": "ok"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "edges": []
+      },
+      "expected": "ok"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "edges": [
+          [
+            "pkg.sub",
+            "pkg"
+          ],
+          [
+            "other",
+            "pkg"
+          ]
+        ]
+      },
+      "expected": "ok"
+    }
+  ],
+  "editorial": "A package __init__ that imports a submodule, while the submodule imports the package to reach a facade name, is a cycle. The loader is still inside the package when the submodule asks for it. Moving the facade to a third module, or delaying one import, breaks this specific pair.",
+  "reference_solution": "def solve(edges):\n    have = {(src, dst) for src, dst in edges}\n    if (\"pkg\", \"pkg.sub\") in have and (\"pkg.sub\", \"pkg\") in have:\n        return \"cycle\"\n    return \"ok\"\n"
+}

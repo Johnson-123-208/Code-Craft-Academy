@@ -1,0 +1,88 @@
+{
+  "title": "Score Chunk",
+  "slug": "python-ex-score-chunk",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "multiprocessing"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(nums)`. Return the sum of squares. This is a pure function of the chunk, safe to ship to another process.\n",
+  "constraints": [
+    "Empty chunk is 0",
+    "Negatives square to positives"
+  ],
+  "examples": [
+    {
+      "input": "nums = [1, 2, 3]",
+      "output": "14"
+    },
+    {
+      "input": "nums = []",
+      "output": "0"
+    }
+  ],
+  "starter_code": "def solve(nums):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Square each number.",
+    "Add them.",
+    "Do not touch global state."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "A process pool can only help if the task is pure and the arguments pickle."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "nums": [
+          1,
+          2,
+          3
+        ]
+      },
+      "expected": 14
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "nums": []
+      },
+      "expected": 0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "nums": [
+          -2,
+          2
+        ]
+      },
+      "expected": 8
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "nums": [
+          0
+        ]
+      },
+      "expected": 0
+    }
+  ],
+  "editorial": "A process pool can only help if the task is pure and the arguments pickle. Sum of squares reads the chunk and returns an int. It does not close over a socket or a lock. That is the shape of work you ship to a worker.",
+  "reference_solution": "def solve(nums):\n    return sum(n * n for n in nums)\n"
+}

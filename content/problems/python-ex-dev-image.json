@@ -1,0 +1,97 @@
+{
+  "title": "Dev Image",
+  "slug": "python-ex-dev-image",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "quality"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(names)`. Return the names that must stay out of the runtime image: `pytest`, `ruff`, and `mypy`, in the order they appear in `names`. Other names are omitted.\n",
+  "constraints": [
+    "Only those three tools",
+    "Keep input order"
+  ],
+  "examples": [
+    {
+      "input": "names = [\"fastapi\", \"pytest\", \"ruff\", \"uvicorn\", \"mypy\"]",
+      "output": "[\"pytest\", \"ruff\", \"mypy\"]"
+    },
+    {
+      "input": "names = [\"fastapi\"]",
+      "output": "[]"
+    }
+  ],
+  "starter_code": "def solve(names):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Membership in the dev set.",
+    "Walk names in order.",
+    "Do not include fastapi."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "The production image installs the application, not the gate."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "names": [
+          "fastapi",
+          "pytest",
+          "ruff",
+          "uvicorn",
+          "mypy"
+        ]
+      },
+      "expected": [
+        "pytest",
+        "ruff",
+        "mypy"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "names": [
+          "fastapi"
+        ]
+      },
+      "expected": []
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "names": []
+      },
+      "expected": []
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "names": [
+          "mypy",
+          "mypy"
+        ]
+      },
+      "expected": [
+        "mypy",
+        "mypy"
+      ]
+    }
+  ],
+  "editorial": "The production image installs the application, not the gate. pytest, ruff, and mypy belong in the dev extra and in CI. Shipping them does not make the service more correct. It makes the image larger and the attack surface wider.",
+  "reference_solution": "def solve(names):\n    dev = {\"pytest\", \"ruff\", \"mypy\"}\n    return [name for name in names if name in dev]\n"
+}

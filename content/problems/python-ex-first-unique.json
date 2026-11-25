@@ -1,0 +1,91 @@
+{
+  "title": "First Unique",
+  "slug": "python-ex-first-unique",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "dicts"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Bloomberg"
+  ],
+  "statement": "Implement `solve(items)`. Return the earliest string that appears exactly once. If every string repeats or the list is empty, return the string `none`. A later unique value does not beat an earlier one.\n",
+  "constraints": [
+    "Scan counts first, then scan the list again",
+    "none is the missing marker"
+  ],
+  "examples": [
+    {
+      "input": "items = [\"a\", \"b\", \"a\", \"c\"]",
+      "output": "\"b\""
+    },
+    {
+      "input": "items = [\"a\", \"a\"]",
+      "output": "\"none\""
+    }
+  ],
+  "starter_code": "def solve(items):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Count every item.",
+    "Walk the list a second time and return the first item whose count is 1.",
+    "If that walk ends, return none."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(u)"
+      },
+      "explanation": "The first unique value is not the same as the last time a count flipped to 1, unless you also remember indexes."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "items": [
+          "a",
+          "b",
+          "a",
+          "c"
+        ]
+      },
+      "expected": "b"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "items": [
+          "a",
+          "a"
+        ]
+      },
+      "expected": "none"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "items": []
+      },
+      "expected": "none"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "items": [
+          "b",
+          "a",
+          "a"
+        ]
+      },
+      "expected": "b"
+    }
+  ],
+  "editorial": "The first unique value is not the same as the last time a count flipped to 1, unless you also remember indexes. Two passes are obvious and linear: counts, then the original order. One pass with a queue of candidates also works if you drop a candidate when it repeats.",
+  "reference_solution": "def solve(items):\n    counts = {}\n    for item in items:\n        counts[item] = counts.get(item, 0) + 1\n    for item in items:\n        if counts[item] == 1:\n            return item\n    return \"none\"\n"
+}

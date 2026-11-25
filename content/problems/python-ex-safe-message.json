@@ -1,0 +1,83 @@
+{
+  "title": "Safe Message",
+  "slug": "python-ex-safe-message",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "exceptions"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(invoice_id, secret)`. Return the string `invoice {id} failed` with the id interpolated. The `secret` argument must not appear in the result. Ignoring the secret on purpose is the behavior.\n",
+  "constraints": [
+    "The id is included",
+    "The secret is not"
+  ],
+  "examples": [
+    {
+      "input": "invoice_id = \"i1\", secret = \"4242\"",
+      "output": "\"invoice i1 failed\""
+    },
+    {
+      "input": "invoice_id = \"i2\", secret = \"\"",
+      "output": "\"invoice i2 failed\""
+    }
+  ],
+  "starter_code": "def solve(invoice_id, secret):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Build the message from the id only.",
+    "Do not concatenate secret.",
+    "A test will pass a secret that must be absent. You can assert that by simply never reading it into the string."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Exception messages end up in logs and in API bodies."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "invoice_id": "i1",
+        "secret": "4242"
+      },
+      "expected": "invoice i1 failed"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "invoice_id": "i2",
+        "secret": ""
+      },
+      "expected": "invoice i2 failed"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "invoice_id": "abc",
+        "secret": "token"
+      },
+      "expected": "invoice abc failed"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "invoice_id": "0",
+        "secret": "0"
+      },
+      "expected": "invoice 0 failed"
+    }
+  ],
+  "editorial": "Exception messages end up in logs and in API bodies. An invoice id is useful. A card number or token that happened to be in scope is not. Leaving the secret out of the format string is the fix. The unused argument is the temptation.",
+  "reference_solution": "def solve(invoice_id, secret):\n    del secret\n    return f\"invoice {invoice_id} failed\"\n"
+}

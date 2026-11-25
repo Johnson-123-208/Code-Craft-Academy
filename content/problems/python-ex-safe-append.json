@@ -1,0 +1,96 @@
+{
+  "title": "Safe Append",
+  "slug": "python-ex-safe-append",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "functions"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(items, value)`. `items` is either the string `none` or a list. When it is `none`, start from a fresh list. Append `value` and return the list. A missing list must not be confused with a list the caller already owns: you only allocate when the argument is the token `none`.\n",
+  "constraints": [
+    "none means the caller passed no list",
+    "value is an integer"
+  ],
+  "examples": [
+    {
+      "input": "items = \"none\", value = 1",
+      "output": "[1]"
+    },
+    {
+      "input": "items = [1, 2], value = 3",
+      "output": "[1, 2, 3]"
+    }
+  ],
+  "starter_code": "def solve(items, value):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "If items is the string none, use a new empty list.",
+    "Otherwise copy the incoming list so you do not mutate the caller's object, then append.",
+    "Return the list that received the append."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "A default argument of [] is shared across calls."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "items": "none",
+        "value": 1
+      },
+      "expected": [
+        1
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "items": [
+          1,
+          2
+        ],
+        "value": 3
+      },
+      "expected": [
+        1,
+        2,
+        3
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "items": "none",
+        "value": 0
+      },
+      "expected": [
+        0
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "items": [],
+        "value": 4
+      },
+      "expected": [
+        4
+      ]
+    }
+  ],
+  "editorial": "A default argument of [] is shared across calls. The safe pattern is a default of None and a new list inside the function. Here none is the token for that missing argument. Copying a provided list keeps this function from mutating a list the judge still holds.",
+  "reference_solution": "def solve(items, value):\n    base = [] if items == \"none\" else list(items)\n    base.append(value)\n    return base\n"
+}

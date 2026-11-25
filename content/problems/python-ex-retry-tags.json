@@ -1,0 +1,99 @@
+{
+  "title": "Retry Transient",
+  "slug": "python-ex-retry-tags",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "decorators"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(attempts, tag, limit)`. `attempts` is a list of result tags in order. Retry only while the tag equals `tag`, and stop after `limit` tries. Return the first tag that is not the retryable one, or the last tag you actually tried if every try was retryable. `limit` is the maximum number of attempts, not the number of extra retries.\n",
+  "constraints": [
+    "limit is at least 1 in the successful-path tests, and may be 0",
+    "A limit of 0 returns the string error"
+  ],
+  "examples": [
+    {
+      "input": "attempts = [\"timeout\", \"timeout\", \"ok\"], tag = \"timeout\", limit = 3",
+      "output": "\"ok\""
+    },
+    {
+      "input": "attempts = [\"timeout\", \"ok\"], tag = \"timeout\", limit = 1",
+      "output": "\"timeout\""
+    }
+  ],
+  "starter_code": "def solve(attempts, tag, limit):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "If limit is less than 1, return error.",
+    "Walk attempts, but never more than limit of them.",
+    "Return immediately when the tag is not the retryable tag."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(limit)",
+        "space": "O(1)"
+      },
+      "explanation": "A retry decorator that retries every exception will retry a ValueError the caller caused."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "attempts": [
+          "timeout",
+          "timeout",
+          "ok"
+        ],
+        "tag": "timeout",
+        "limit": 3
+      },
+      "expected": "ok"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "attempts": [
+          "timeout",
+          "ok"
+        ],
+        "tag": "timeout",
+        "limit": 1
+      },
+      "expected": "timeout"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "attempts": [
+          "busy",
+          "busy"
+        ],
+        "tag": "busy",
+        "limit": 2
+      },
+      "expected": "busy"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "attempts": [
+          "ok"
+        ],
+        "tag": "timeout",
+        "limit": 0
+      },
+      "expected": "error"
+    }
+  ],
+  "editorial": "A retry decorator that retries every exception will retry a ValueError the caller caused. Filtering on one tag, and capping the attempts, is the policy. The returned tag is the one the caller would observe: the first permanent result, or the final transient failure if the budget ends there.",
+  "reference_solution": "def solve(attempts, tag, limit):\n    if limit < 1:\n        return \"error\"\n    seen = \"error\"\n    for index, result in enumerate(attempts):\n        if index == limit:\n            break\n        seen = result\n        if result != tag:\n            return result\n    return seen\n"
+}

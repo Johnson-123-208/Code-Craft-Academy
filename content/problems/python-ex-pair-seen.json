@@ -1,0 +1,110 @@
+{
+  "title": "Pair Seen",
+  "slug": "python-ex-pair-seen",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "sets"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(points)`. `points` is a list of `[x, y]` integer coordinates. Return how many points were new when seen in order. A repeated coordinate does not increase the count. `(1, 2)` and `(2, 1)` are different points.\n",
+  "constraints": [
+    "Order of first appearance defines new",
+    "Coordinates are integers"
+  ],
+  "examples": [
+    {
+      "input": "points = [[1, 2], [2, 1], [1, 2]]",
+      "output": "2"
+    },
+    {
+      "input": "points = []",
+      "output": "0"
+    }
+  ],
+  "starter_code": "def solve(points):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Store tuples (x, y) in a set. Lists are not hashable.",
+    "Increment only when the tuple was absent, then add it.",
+    "The answer is the size of that set."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(u)"
+      },
+      "explanation": "A coordinate is a pair, and a pair is hashable only as a tuple."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "points": [
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            1,
+            2
+          ]
+        ]
+      },
+      "expected": 2
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "points": []
+      },
+      "expected": 0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "points": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "points": [
+          [
+            1,
+            1
+          ],
+          [
+            1,
+            2
+          ]
+        ]
+      },
+      "expected": 2
+    }
+  ],
+  "editorial": "A coordinate is a pair, and a pair is hashable only as a tuple. Using a list as a set element throws. The count of successful inserts is the number of distinct points, which is also the final size of the set.",
+  "reference_solution": "def solve(points):\n    seen = set()\n    for x, y in points:\n        seen.add((x, y))\n    return len(seen)\n"
+}

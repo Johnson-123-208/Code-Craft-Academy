@@ -1,0 +1,86 @@
+{
+  "title": "Fixture Scope",
+  "slug": "python-ex-fixture-scope",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "pytest"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(scope)`. `scope` is `function` or `module`. Two tests append 1. Function scope gives the second test a fresh list, so it sees `[1]`. Module scope shares the list, so the second test sees `[1, 1]`. Return the second test's list. Any other scope returns `error`.\n",
+  "constraints": [
+    "function isolates",
+    "module leaks if the fixture is a list"
+  ],
+  "examples": [
+    {
+      "input": "scope = \"function\"",
+      "output": "[1]"
+    },
+    {
+      "input": "scope = \"module\"",
+      "output": "[1, 1]"
+    }
+  ],
+  "starter_code": "def solve(scope):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "function returns [1].",
+    "module returns [1, 1].",
+    "Other words return error."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "A module-scoped mutable fixture is one object for every test in the module."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "scope": "function"
+      },
+      "expected": [
+        1
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "scope": "module"
+      },
+      "expected": [
+        1,
+        1
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "scope": "session"
+      },
+      "expected": "error"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "scope": "function"
+      },
+      "expected": [
+        1
+      ]
+    }
+  ],
+  "editorial": "A module-scoped mutable fixture is one object for every test in the module. Appends accumulate. Function scope builds it again. The second test's list is the observation. Wider scope is a performance choice you only want for immutable fixtures.",
+  "reference_solution": "def solve(scope):\n    if scope == \"function\":\n        return [1]\n    if scope == \"module\":\n        return [1, 1]\n    return \"error\"\n"
+}

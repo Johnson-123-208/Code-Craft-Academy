@@ -1,0 +1,109 @@
+{
+  "title": "Running Max",
+  "slug": "python-ex-running-max",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "loops"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(items)`. `items` is a non-empty list of integers. Return a list of the same length where position `i` is the maximum of `items[0]` through `items[i]` inclusive.\n",
+  "constraints": [
+    "The list is non-empty",
+    "One pass"
+  ],
+  "examples": [
+    {
+      "input": "items = [1, 3, 2, 5]",
+      "output": "[1, 3, 3, 5]"
+    },
+    {
+      "input": "items = [4, 4, 1]",
+      "output": "[4, 4, 4]"
+    }
+  ],
+  "starter_code": "def solve(items):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Start the best value at the first element.",
+    "Walk left to right, raising best when the current item is larger.",
+    "Append best on every step, including the first."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Prefix maxima are one variable and one pass."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "items": [
+          1,
+          3,
+          2,
+          5
+        ]
+      },
+      "expected": [
+        1,
+        3,
+        3,
+        5
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "items": [
+          4,
+          4,
+          1
+        ]
+      },
+      "expected": [
+        4,
+        4,
+        4
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "items": [
+          7
+        ]
+      },
+      "expected": [
+        7
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "items": [
+          3,
+          2,
+          1
+        ]
+      },
+      "expected": [
+        3,
+        3,
+        3
+      ]
+    }
+  ],
+  "editorial": "Prefix maxima are one variable and one pass. Re-scanning the prefix at every index is quadratic and produces the same list. The first element is the maximum of a prefix of length 1, so it is always copied into the output.",
+  "reference_solution": "def solve(items):\n    best = items[0]\n    out = []\n    for item in items:\n        if item > best:\n            best = item\n        out.append(best)\n    return out\n"
+}

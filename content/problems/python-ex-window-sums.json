@@ -1,0 +1,105 @@
+{
+  "title": "Window Sums",
+  "slug": "python-ex-window-sums",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "sliding-window"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google"
+  ],
+  "statement": "Implement `solve(items, k)`. Return the sum of every contiguous window of length `k`. Windows step forward by one index. If `k` is outside 1 through the length, return an empty list. Reuse the previous sum: add the incoming value and subtract the value that left.\n",
+  "constraints": [
+    "items is a list of integers",
+    "k is an integer"
+  ],
+  "examples": [
+    {
+      "input": "items = [1, 2, 3, 4], k = 2",
+      "output": "[3, 5, 7]"
+    },
+    {
+      "input": "items = [1, 2, 3], k = 3",
+      "output": "[6]"
+    }
+  ],
+  "starter_code": "def solve(items, k):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Reject a bad k first.",
+    "The first window is the sum of the prefix of length k.",
+    "Each later window is previous + items[i] - items[i-k]."
+  ],
+  "approaches": [
+    {
+      "name": "Sliding sum",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n-k)"
+      },
+      "explanation": "Recomputing each window from scratch is O(n*k)."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "items": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "k": 2
+      },
+      "expected": [
+        3,
+        5,
+        7
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "items": [
+          1,
+          2,
+          3
+        ],
+        "k": 3
+      },
+      "expected": [
+        6
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "items": [
+          1,
+          2
+        ],
+        "k": 3
+      },
+      "expected": []
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "items": [
+          5
+        ],
+        "k": 1
+      },
+      "expected": [
+        5
+      ]
+    }
+  ],
+  "editorial": "Recomputing each window from scratch is O(n*k). The sliding update is O(n) because adjacent windows share k-1 terms. The first window is the only one you sum from scratch.",
+  "reference_solution": "def solve(items, k):\n    if k < 1 or k > len(items):\n        return []\n    total = sum(items[:k])\n    out = [total]\n    for index in range(k, len(items)):\n        total += items[index] - items[index - k]\n        out.append(total)\n    return out\n"
+}

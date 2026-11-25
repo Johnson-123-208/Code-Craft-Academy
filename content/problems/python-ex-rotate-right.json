@@ -1,0 +1,109 @@
+{
+  "title": "Rotate Right",
+  "slug": "python-ex-rotate-right",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "lists"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft"
+  ],
+  "statement": "Implement `solve(items, k)`. Return the list rotated right by `k` positions. `k` may be larger than the length. Reduce it modulo the length. An empty list returns an empty list. Rotation by a multiple of the length returns a copy of the same order.\n",
+  "constraints": [
+    "k is a non-negative integer",
+    "Right rotation moves the tail to the front"
+  ],
+  "examples": [
+    {
+      "input": "items = [1, 2, 3, 4, 5], k = 2",
+      "output": "[4, 5, 1, 2, 3]"
+    },
+    {
+      "input": "items = [1, 2, 3], k = 3",
+      "output": "[1, 2, 3]"
+    }
+  ],
+  "starter_code": "def solve(items, k):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "If the list is empty, return an empty list before the modulo.",
+    "k %= len(items). A zero k returns a copy.",
+    "The new list is items[-k:] + items[:-k]. Reversals are an equivalent in-place method."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Right rotation by k makes the last k elements the new prefix."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "items": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "k": 2
+      },
+      "expected": [
+        4,
+        5,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "items": [
+          1,
+          2,
+          3
+        ],
+        "k": 3
+      },
+      "expected": [
+        1,
+        2,
+        3
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "items": [],
+        "k": 2
+      },
+      "expected": []
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "items": [
+          1,
+          2
+        ],
+        "k": 5
+      },
+      "expected": [
+        2,
+        1
+      ]
+    }
+  ],
+  "editorial": "Right rotation by k makes the last k elements the new prefix. Modulo avoids walking k when k is a large multiple of the length. Three reversals do the same rotation with constant extra memory. Either way the order of the two slices stays intact.",
+  "reference_solution": "def solve(items, k):\n    if not items:\n        return []\n    k %= len(items)\n    if k == 0:\n        return list(items)\n    return list(items[-k:]) + list(items[:-k])\n"
+}

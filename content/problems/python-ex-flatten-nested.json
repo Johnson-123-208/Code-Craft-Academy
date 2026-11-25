@@ -1,0 +1,102 @@
+{
+  "title": "Flatten Nested",
+  "slug": "python-ex-flatten-nested",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "recursion"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(value)`. `value` is a tree of lists. Lists may contain integers or further lists. Strings are not used. Return one flat list of the integers in left-to-right order. An integer at the top level is a one-element list. An empty list returns an empty list.\n",
+  "constraints": [
+    "Leaves are integers",
+    "Order is preorder of the leaves"
+  ],
+  "examples": [
+    {
+      "input": "value = [1, [2, [3]], 4]",
+      "output": "[1, 2, 3, 4]"
+    },
+    {
+      "input": "value = []",
+      "output": "[]"
+    }
+  ],
+  "starter_code": "def solve(value):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "If the value is a list, extend the result with a recursive flatten of each child.",
+    "If the value is an int, it is a leaf.",
+    "Do not flatten by assuming a fixed depth."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(d)"
+      },
+      "explanation": "The type test is the recursion structure: a list is an internal node and an int is a leaf."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "value": [
+          1,
+          [
+            2,
+            [
+              3
+            ]
+          ],
+          4
+        ]
+      },
+      "expected": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "value": []
+      },
+      "expected": []
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "value": 5
+      },
+      "expected": [
+        5
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "value": [
+          [],
+          [
+            1
+          ]
+        ]
+      },
+      "expected": [
+        1
+      ]
+    }
+  ],
+  "editorial": "The type test is the recursion structure: a list is an internal node and an int is a leaf. A one-level comprehension stops too early on a nested list. The base case is the integer, not the empty list. The empty list simply contributes no children.",
+  "reference_solution": "def solve(value):\n    if type(value) is int:\n        return [value]\n    out = []\n    for child in value:\n        out.extend(solve(child))\n    return out\n"
+}

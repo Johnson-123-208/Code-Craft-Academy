@@ -1,0 +1,89 @@
+{
+  "title": "Safe Product",
+  "slug": "python-ex-safe-product",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "functools"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(nums)`. Return the product of the integers. An empty list returns 1, the identity for multiplication.\n",
+  "constraints": [
+    "Empty product is 1",
+    "Zeros count"
+  ],
+  "examples": [
+    {
+      "input": "nums = [2, 3, 4]",
+      "output": "24"
+    },
+    {
+      "input": "nums = []",
+      "output": "1"
+    }
+  ],
+  "starter_code": "def solve(nums):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "math.prod has start=1.",
+    "A loop starting at 1 matches it.",
+    "Do not return 0 for an empty list."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "The product of no factors is 1, just as the sum of no terms is 0."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "nums": [
+          2,
+          3,
+          4
+        ]
+      },
+      "expected": 24
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "nums": []
+      },
+      "expected": 1
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "nums": [
+          0,
+          5
+        ]
+      },
+      "expected": 0
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "nums": [
+          -2,
+          3
+        ]
+      },
+      "expected": -6
+    }
+  ],
+  "editorial": "The product of no factors is 1, just as the sum of no terms is 0. Starting the accumulator at 1 makes the empty list work without a special case. A zero in the list still forces the product to 0.",
+  "reference_solution": "def solve(nums):\n    product = 1\n    for num in nums:\n        product *= num\n    return product\n"
+}

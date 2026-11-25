@@ -1,0 +1,97 @@
+{
+  "title": "Cause Chain",
+  "slug": "python-ex-cause-chain",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "exceptions"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(tags)`. `tags` is a list from the outermost translated error to the original cause, so the last item is the root. Return the list from the root up to the outer error, which is the order you walk `__cause__` links if each translation wrapped the previous one and you start at the outside... Return the tags reversed: root first.\n",
+  "constraints": [
+    "The last input is the original cause",
+    "Do not drop the outer tag"
+  ],
+  "examples": [
+    {
+      "input": "tags = [\"BillingError\", \"Timeout\", \"socket\"]",
+      "output": "[\"socket\", \"Timeout\", \"BillingError\"]"
+    },
+    {
+      "input": "tags = [\"NotFound\"]",
+      "output": "[\"NotFound\"]"
+    }
+  ],
+  "starter_code": "def solve(tags):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Reverse the list.",
+    "The first element of the result is the root cause.",
+    "A single tag returns a one-element list."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "raise New from old sets __cause__."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "tags": [
+          "BillingError",
+          "Timeout",
+          "socket"
+        ]
+      },
+      "expected": [
+        "socket",
+        "Timeout",
+        "BillingError"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "tags": [
+          "NotFound"
+        ]
+      },
+      "expected": [
+        "NotFound"
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "tags": []
+      },
+      "expected": []
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "tags": [
+          "Outer",
+          "Inner"
+        ]
+      },
+      "expected": [
+        "Inner",
+        "Outer"
+      ]
+    }
+  ],
+  "editorial": "raise New from old sets __cause__. Walking the chain from the exception you caught reaches the original failure last if you start at the outside and follow cause. Reversing the outside-to-root list puts the root first, which is the order this report wants.",
+  "reference_solution": "def solve(tags):\n    return list(reversed(tags))\n"
+}

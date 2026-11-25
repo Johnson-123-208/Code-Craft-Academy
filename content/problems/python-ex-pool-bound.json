@@ -1,0 +1,83 @@
+{
+  "title": "Pool Bound",
+  "slug": "python-ex-pool-bound",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "threading"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(cap, jobs)`. Return the worker count to use: the minimum of `cap` and `jobs`, and 0 if either is 0 or negative.\n",
+  "constraints": [
+    "Do not start more workers than jobs",
+    "Do not exceed the cap"
+  ],
+  "examples": [
+    {
+      "input": "cap = 4, jobs = 10",
+      "output": "4"
+    },
+    {
+      "input": "cap = 8, jobs = 3",
+      "output": "3"
+    }
+  ],
+  "starter_code": "def solve(cap, jobs):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Non-positive inputs return 0.",
+    "Otherwise return the smaller of cap and jobs.",
+    "Both are integers."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "A pool larger than the job count wastes threads."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "cap": 4,
+        "jobs": 10
+      },
+      "expected": 4
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "cap": 8,
+        "jobs": 3
+      },
+      "expected": 3
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "cap": 0,
+        "jobs": 5
+      },
+      "expected": 0
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "cap": 2,
+        "jobs": 2
+      },
+      "expected": 2
+    }
+  ],
+  "editorial": "A pool larger than the job count wastes threads. A pool larger than the cap stampedes a shared resource. The bound is the minimum of the two, after rejecting non-positive configuration that cannot mean a real pool.",
+  "reference_solution": "def solve(cap, jobs):\n    if cap < 1 or jobs < 1:\n        return 0\n    return cap if cap < jobs else jobs\n"
+}

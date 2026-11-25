@@ -1,0 +1,123 @@
+{
+  "title": "No Alias Return",
+  "slug": "python-ex-cache-copy",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "copying"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(stored)`. Store a copy of the integer list. Return `{\"stored\": the stored copy, \"read\": a separate copy}`. The two lists must be equal and must not be the same object. The way to show that in JSON is to append 1 to the read copy only, and return both: `stored` stays the original numbers and `read` ends with the extra 1.\n",
+  "constraints": [
+    "stored is a list of integers",
+    "The extra 1 is appended only to the read side"
+  ],
+  "examples": [
+    {
+      "input": "stored = [1, 2]",
+      "output": "{\"stored\": [1, 2], \"read\": [1, 2, 1]}"
+    },
+    {
+      "input": "stored = []",
+      "output": "{\"stored\": [], \"read\": [1]}"
+    }
+  ],
+  "starter_code": "def solve(stored):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Save list(stored) as the cache.",
+    "Return another list(cache) as the read, then append 1 to that read list.",
+    "Do not append to the cache."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "A cache that returns its internal list invites the caller to mutate the cache."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "stored": [
+          1,
+          2
+        ]
+      },
+      "expected": {
+        "stored": [
+          1,
+          2
+        ],
+        "read": [
+          1,
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "stored": []
+      },
+      "expected": {
+        "stored": [],
+        "read": [
+          1
+        ]
+      }
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "stored": [
+          0
+        ]
+      },
+      "expected": {
+        "stored": [
+          0
+        ],
+        "read": [
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "stored": [
+          4,
+          5,
+          6
+        ]
+      },
+      "expected": {
+        "stored": [
+          4,
+          5,
+          6
+        ],
+        "read": [
+          4,
+          5,
+          6,
+          1
+        ]
+      }
+    }
+  ],
+  "editorial": "A cache that returns its internal list invites the caller to mutate the cache. Returning a copy makes the append a private change. The two lists in the result are the evidence: the stored side lacks the trailing 1 that the read side has.",
+  "reference_solution": "def solve(stored):\n    cache = list(stored)\n    read = list(cache)\n    read.append(1)\n    return {\"stored\": cache, \"read\": read}\n"
+}

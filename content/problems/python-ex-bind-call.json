@@ -1,0 +1,109 @@
+{
+  "title": "Keyword Flags",
+  "slug": "python-ex-bind-call",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "functions"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(bound)`. `bound` is a dict of the names a call actually bound: it always contains `verbose` and `dry_run`, each 0 or 1, and it contains `label` only when the caller passed it. Return `{\"verbose\": ..., \"dry_run\": ..., \"label\": ...}`. The label is the string `none` when it was omitted. This is the shape of a function that forces flags to be keyword-only: the mapping is the bound arguments, not a positional pile.\n",
+  "constraints": [
+    "verbose and dry_run are always present",
+    "A missing label key means the string none"
+  ],
+  "examples": [
+    {
+      "input": "bound = {\"verbose\": 1, \"dry_run\": 0, \"label\": \"nightly\"}",
+      "output": "{\"verbose\": 1, \"dry_run\": 0, \"label\": \"nightly\"}"
+    },
+    {
+      "input": "bound = {\"verbose\": 0, \"dry_run\": 1}",
+      "output": "{\"verbose\": 0, \"dry_run\": 1, \"label\": \"none\"}"
+    }
+  ],
+  "starter_code": "def solve(bound):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Read verbose and dry_run directly.",
+    "Use bound.get(\"label\", \"none\") for the optional name.",
+    "Do not invent defaults other than none for the label."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "Keyword-only parameters stop a caller from passing a boolean in the wrong slot."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "bound": {
+          "verbose": 1,
+          "dry_run": 0,
+          "label": "nightly"
+        }
+      },
+      "expected": {
+        "verbose": 1,
+        "dry_run": 0,
+        "label": "nightly"
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "bound": {
+          "verbose": 0,
+          "dry_run": 1
+        }
+      },
+      "expected": {
+        "verbose": 0,
+        "dry_run": 1,
+        "label": "none"
+      }
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "bound": {
+          "verbose": 0,
+          "dry_run": 0,
+          "label": ""
+        }
+      },
+      "expected": {
+        "verbose": 0,
+        "dry_run": 0,
+        "label": ""
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "bound": {
+          "verbose": 1,
+          "dry_run": 1
+        }
+      },
+      "expected": {
+        "verbose": 1,
+        "dry_run": 1,
+        "label": "none"
+      }
+    }
+  ],
+  "editorial": "Keyword-only parameters stop a caller from passing a boolean in the wrong slot. After the call is bound, the function sees names, not positions. The omitted label is a missing key, reported as the token none so a test can see the difference between omitted and an empty label.",
+  "reference_solution": "def solve(bound):\n    return {\n        \"verbose\": bound[\"verbose\"],\n        \"dry_run\": bound[\"dry_run\"],\n        \"label\": bound.get(\"label\", \"none\"),\n    }\n"
+}

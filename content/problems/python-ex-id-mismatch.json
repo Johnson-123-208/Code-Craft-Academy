@@ -1,0 +1,83 @@
+{
+  "title": "Path Versus Body",
+  "slug": "python-ex-id-mismatch",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "fastapi"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(path_id, body_id)`. Return `ok` when `body_id` is the empty string, meaning the body omitted the id, or when the two ids are equal. Return `mismatch` when the body id is non-empty and different.\n",
+  "constraints": [
+    "An omitted body id is the empty string and is ok",
+    "A disagreeing id is mismatch"
+  ],
+  "examples": [
+    {
+      "input": "path_id = \"i1\", body_id = \"\"",
+      "output": "\"ok\""
+    },
+    {
+      "input": "path_id = \"i1\", body_id = \"i1\"",
+      "output": "\"ok\""
+    }
+  ],
+  "starter_code": "def solve(path_id, body_id):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Empty body_id is ok.",
+    "Equal ids are ok.",
+    "Otherwise mismatch."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "The resource id lives in the path."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "path_id": "i1",
+        "body_id": ""
+      },
+      "expected": "ok"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "path_id": "i1",
+        "body_id": "i1"
+      },
+      "expected": "ok"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "path_id": "i1",
+        "body_id": "i2"
+      },
+      "expected": "mismatch"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "path_id": "",
+        "body_id": "i2"
+      },
+      "expected": "mismatch"
+    }
+  ],
+  "editorial": "The resource id lives in the path. A body that repeats a different id is a confused client, and updating the path id while saving the body id splits the record. Reject the mismatch. An omitted body id means the path is the only id, which is the normal case.",
+  "reference_solution": "def solve(path_id, body_id):\n    if body_id == \"\" or body_id == path_id:\n        return \"ok\"\n    return \"mismatch\"\n"
+}

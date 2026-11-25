@@ -1,0 +1,83 @@
+{
+  "title": "Red First",
+  "slug": "python-ex-red-first",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "testing"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(actual, expected)`. A buggy clamp returned `actual` and the test expects `expected`. Return `fail` when they differ and `pass` when they match. Include nothing else. The failing test is the first TDD step.\n",
+  "constraints": [
+    "Different values fail",
+    "Equal values pass"
+  ],
+  "examples": [
+    {
+      "input": "actual = -2, expected = 0",
+      "output": "\"fail\""
+    },
+    {
+      "input": "actual = 0, expected = 0",
+      "output": "\"pass\""
+    }
+  ],
+  "starter_code": "def solve(actual, expected):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Compare the two numbers.",
+    "Return fail or pass.",
+    "Do not clamp them yourself."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "The first step of a bugfix in TDD is a test that fails on the current code."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "actual": -2,
+        "expected": 0
+      },
+      "expected": "fail"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "actual": 0,
+        "expected": 0
+      },
+      "expected": "pass"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "actual": 11,
+        "expected": 10
+      },
+      "expected": "fail"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "actual": 4,
+        "expected": 4
+      },
+      "expected": "pass"
+    }
+  ],
+  "editorial": "The first step of a bugfix in TDD is a test that fails on the current code. If actual is already expected, you have not reproduced the bug. The word fail is the red bar. You write the fix only after you see it.",
+  "reference_solution": "def solve(actual, expected):\n    return \"pass\" if actual == expected else \"fail\"\n"
+}

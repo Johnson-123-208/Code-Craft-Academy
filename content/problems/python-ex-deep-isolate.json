@@ -1,0 +1,150 @@
+{
+  "title": "Deep Isolate",
+  "slug": "python-ex-deep-isolate",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "copying"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(rows, value)`. Deep-copy `rows`, append `value` to the first inner list of the copy, and return `{\"original\": ..., \"copy\": ...}`. The original must not contain `value`. If `rows` is empty, return two empty lists.\n",
+  "constraints": [
+    "Use a deep copy",
+    "Only the copy grows"
+  ],
+  "examples": [
+    {
+      "input": "rows = [[1], [2]], value = 9",
+      "output": "{\"original\": [[1], [2]], \"copy\": [[1, 9], [2]]}"
+    },
+    {
+      "input": "rows = [[]], value = 1",
+      "output": "{\"original\": [[]], \"copy\": [[1]]}"
+    }
+  ],
+  "starter_code": "def solve(rows, value):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "copy.deepcopy, or a manual copy of every inner list, before the append.",
+    "Append only on the copy.",
+    "Return both so the test can see the original stayed put."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "A deep copy duplicates the inner lists."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "rows": [
+          [
+            1
+          ],
+          [
+            2
+          ]
+        ],
+        "value": 9
+      },
+      "expected": {
+        "original": [
+          [
+            1
+          ],
+          [
+            2
+          ]
+        ],
+        "copy": [
+          [
+            1,
+            9
+          ],
+          [
+            2
+          ]
+        ]
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "rows": [
+          []
+        ],
+        "value": 1
+      },
+      "expected": {
+        "original": [
+          []
+        ],
+        "copy": [
+          [
+            1
+          ]
+        ]
+      }
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "rows": [],
+        "value": 1
+      },
+      "expected": {
+        "original": [],
+        "copy": []
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "rows": [
+          [
+            1,
+            2
+          ],
+          [
+            3
+          ]
+        ],
+        "value": 4
+      },
+      "expected": {
+        "original": [
+          [
+            1,
+            2
+          ],
+          [
+            3
+          ]
+        ],
+        "copy": [
+          [
+            1,
+            2,
+            4
+          ],
+          [
+            3
+          ]
+        ]
+      }
+    }
+  ],
+  "editorial": "A deep copy duplicates the inner lists. Mutating the copy then leaves the original unchanged. deepcopy is the library call. Rebuilding each inner list with list(row) is the same depth for this one-level structure and is what you should recognize as a manual deep copy of a list of lists.",
+  "reference_solution": "def solve(rows, value):\n    import copy\n    original = [list(row) for row in rows]\n    if not original:\n        return {\"original\": [], \"copy\": []}\n    copied = copy.deepcopy(original)\n    copied[0].append(value)\n    return {\"original\": original, \"copy\": copied}\n"
+}

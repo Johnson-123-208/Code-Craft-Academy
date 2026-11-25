@@ -1,0 +1,83 @@
+{
+  "title": "Assert Shape",
+  "slug": "python-ex-assert-equal",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "unittest"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(expected, actual)`. Return `pass` when the two values are equal and `fail` when they are not. Integers and strings compare with ordinary equality. Do not coerce.\n",
+  "constraints": [
+    "1 and the string 1 are not equal",
+    "Equal values pass"
+  ],
+  "examples": [
+    {
+      "input": "expected = 1, actual = 1",
+      "output": "\"pass\""
+    },
+    {
+      "input": "expected = 1, actual = 2",
+      "output": "\"fail\""
+    }
+  ],
+  "starter_code": "def solve(expected, actual):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Use ==.",
+    "Return pass or fail.",
+    "Do not strip strings."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "assertEqual fails when the values differ and the message shows both."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "expected": 1,
+        "actual": 1
+      },
+      "expected": "pass"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "expected": 1,
+        "actual": 2
+      },
+      "expected": "fail"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "expected": "1",
+        "actual": 1
+      },
+      "expected": "fail"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "expected": "",
+        "actual": ""
+      },
+      "expected": "pass"
+    }
+  ],
+  "editorial": "assertEqual fails when the values differ and the message shows both. This function is that comparison's outcome. A truthiness check would treat two different non-empty strings as the same success, which is the weaker assertion.",
+  "reference_solution": "def solve(expected, actual):\n    return \"pass\" if expected == actual else \"fail\"\n"
+}

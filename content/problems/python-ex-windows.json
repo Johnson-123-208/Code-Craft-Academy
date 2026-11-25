@@ -1,0 +1,116 @@
+{
+  "title": "Window",
+  "slug": "python-ex-windows",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "generators"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(items, k)`. Return every contiguous window of length `k` as a list of lists. Windows overlap and step by 1. If `k` is less than 1 or greater than the length, return an empty list. Each window is a new list.\n",
+  "constraints": [
+    "k is an integer",
+    "Items are integers"
+  ],
+  "examples": [
+    {
+      "input": "items = [1, 2, 3, 4], k = 2",
+      "output": "[[1, 2], [2, 3], [3, 4]]"
+    },
+    {
+      "input": "items = [1, 2, 3], k = 3",
+      "output": "[[1, 2, 3]]"
+    }
+  ],
+  "starter_code": "def solve(items, k):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "The number of windows is len(items) - k + 1 when k is valid.",
+    "Slice items[i:i+k] for each start.",
+    "Reject a non-positive k before you slice."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n*k)",
+        "space": "O(n*k)"
+      },
+      "explanation": "Overlapping windows are a sliding slice."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "items": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "k": 2
+      },
+      "expected": [
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ]
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "items": [
+          1,
+          2,
+          3
+        ],
+        "k": 3
+      },
+      "expected": [
+        [
+          1,
+          2,
+          3
+        ]
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "items": [
+          1,
+          2
+        ],
+        "k": 0
+      },
+      "expected": []
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "items": [
+          1
+        ],
+        "k": 2
+      },
+      "expected": []
+    }
+  ],
+  "editorial": "Overlapping windows are a sliding slice. A generator can yield one slice at a time. Copying each slice matters because a later mutation of a shared buffer would corrupt earlier windows. An illegal k yields nothing rather than a partial tail.",
+  "reference_solution": "def solve(items, k):\n    if k < 1 or k > len(items):\n        return []\n    return [list(items[i:i + k]) for i in range(len(items) - k + 1)]\n"
+}

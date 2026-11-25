@@ -1,0 +1,107 @@
+{
+  "title": "Retry Budget",
+  "slug": "python-ex-retry-budget",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "loops"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(outcomes, budget)`. `outcomes` is a list of `ok` or `fail` in the order attempts would happen. You may consume at most `budget` outcomes. Stop at the first `ok` and return `{\"attempts\": used, \"result\": \"ok\"}`. If the budget runs out or the list runs out on failures, return `{\"attempts\": used, \"result\": \"fail\"}`. Do not read past the budget.\n",
+  "constraints": [
+    "budget is a non-negative integer",
+    "attempts counts outcomes you actually consumed"
+  ],
+  "examples": [
+    {
+      "input": "outcomes = [\"fail\", \"ok\", \"ok\"], budget = 3",
+      "output": "{\"attempts\": 2, \"result\": \"ok\"}"
+    },
+    {
+      "input": "outcomes = [\"fail\", \"fail\"], budget = 2",
+      "output": "{\"attempts\": 2, \"result\": \"fail\"}"
+    }
+  ],
+  "starter_code": "def solve(outcomes, budget):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Increment used before you look at the outcome, and stop when used would exceed budget.",
+    "Return immediately on ok.",
+    "If you never see ok, the result is fail and attempts is how many you consumed."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(budget)",
+        "space": "O(1)"
+      },
+      "explanation": "A retry loop has two exits: success, and the budget."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "outcomes": [
+          "fail",
+          "ok",
+          "ok"
+        ],
+        "budget": 3
+      },
+      "expected": {
+        "attempts": 2,
+        "result": "ok"
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "outcomes": [
+          "fail",
+          "fail"
+        ],
+        "budget": 2
+      },
+      "expected": {
+        "attempts": 2,
+        "result": "fail"
+      }
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "outcomes": [
+          "ok"
+        ],
+        "budget": 0
+      },
+      "expected": {
+        "attempts": 0,
+        "result": "fail"
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "outcomes": [
+          "fail",
+          "ok"
+        ],
+        "budget": 1
+      },
+      "expected": {
+        "attempts": 1,
+        "result": "fail"
+      }
+    }
+  ],
+  "editorial": "A retry loop has two exits: success, and the budget. Consuming an outcome past the budget is the bug, even if a later ok exists. The attempts field is the number of outcomes read, which is what a metric would increment.",
+  "reference_solution": "def solve(outcomes, budget):\n    used = 0\n    for outcome in outcomes:\n        if used == budget:\n            break\n        used += 1\n        if outcome == \"ok\":\n            return {\"attempts\": used, \"result\": \"ok\"}\n    return {\"attempts\": used, \"result\": \"fail\"}\n"
+}

@@ -1,0 +1,83 @@
+{
+  "title": "Guarded Balance",
+  "slug": "python-ex-guarded-balance",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "sqlalchemy"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(balance, amount)`. Same debit guard as the SQL form: positive amount, sufficient balance, otherwise `conflict`. Success returns the new balance.\n",
+  "constraints": [
+    "Insufficient funds are conflict",
+    "Non-positive amounts are conflict"
+  ],
+  "examples": [
+    {
+      "input": "balance = 100, amount = 40",
+      "output": "60"
+    },
+    {
+      "input": "balance = 10, amount = 40",
+      "output": "\"conflict\""
+    }
+  ],
+  "starter_code": "def solve(balance, amount):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Reject a bad amount as conflict.",
+    "Reject a short balance as conflict.",
+    "Otherwise subtract."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "Editing account."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "balance": 100,
+        "amount": 40
+      },
+      "expected": 60
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "balance": 10,
+        "amount": 40
+      },
+      "expected": "conflict"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "balance": 10,
+        "amount": 0
+      },
+      "expected": "conflict"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "balance": 5,
+        "amount": 5
+      },
+      "expected": 0
+    }
+  ],
+  "editorial": "Editing account.balance in Python from a value you loaded earlier is a lost update. The guarded UPDATE changes the row only when the current balance covers the debit. This function is that statement's result: a new balance or a conflict the caller turns into 409.",
+  "reference_solution": "def solve(balance, amount):\n    if type(amount) is not int or amount <= 0 or balance < amount:\n        return \"conflict\"\n    return balance - amount\n"
+}

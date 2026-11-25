@@ -1,0 +1,79 @@
+{
+  "title": "Main Guard",
+  "slug": "python-ex-main-guard",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "modules"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(name)`. `name` is the value a module sees as `__name__`. Return `script` when `name` is `__main__`. Return `imported` for every other string, including the package's own module name.\n",
+  "constraints": [
+    "The guard compares against the string __main__",
+    "Any other name means the file was imported"
+  ],
+  "examples": [
+    {
+      "input": "name = \"__main__\"",
+      "output": "\"script\""
+    },
+    {
+      "input": "name = \"myapp.api\"",
+      "output": "\"imported\""
+    }
+  ],
+  "starter_code": "def solve(name):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "This is an equality check, not a prefix check. `__main__extra` is imported.",
+    "Do not special-case the empty string.",
+    "Return those two words exactly."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "Python sets __name__ to __main__ only for the file it was asked to run."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "name": "__main__"
+      },
+      "expected": "script"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "name": "myapp.api"
+      },
+      "expected": "imported"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "name": "__main__extra"
+      },
+      "expected": "imported"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "name": ""
+      },
+      "expected": "imported"
+    }
+  ],
+  "editorial": "Python sets __name__ to __main__ only for the file it was asked to run. Importing that file sets __name__ to the module name, so top-level work hidden behind the guard does not run on import. The function is that comparison and nothing else.",
+  "reference_solution": "def solve(name):\n    return \"script\" if name == \"__main__\" else \"imported\"\n"
+}

@@ -1,0 +1,95 @@
+{
+  "title": "Floor Pair",
+  "slug": "python-ex-floor-pair",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "numbers"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(a, b)`. Return `[a // b, a % b]`, Python's floor quotient and remainder. `b` is never 0. For negatives, the remainder has the sign of the divisor and the identity `b * quotient + remainder == a` holds. Do not use int() truncation toward zero.\n",
+  "constraints": [
+    "b is not zero",
+    "Return a list of two integers"
+  ],
+  "examples": [
+    {
+      "input": "a = 7, b = 3",
+      "output": "[2, 1]"
+    },
+    {
+      "input": "a = -7, b = 3",
+      "output": "[-3, 2]"
+    }
+  ],
+  "starter_code": "def solve(a, b):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "The // and % operators already implement floor division.",
+    "Check a negative dividend. Toward-zero division is the bug.",
+    "The remainder's sign follows b, not a."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "Python's floor division rounds toward negative infinity, so -7 // 3 is -3 and the remainder is 2, because 3 * -3 + 2 = -7."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "a": 7,
+        "b": 3
+      },
+      "expected": [
+        2,
+        1
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "a": -7,
+        "b": 3
+      },
+      "expected": [
+        -3,
+        2
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "a": 7,
+        "b": -3
+      },
+      "expected": [
+        -3,
+        -2
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "a": -7,
+        "b": -3
+      },
+      "expected": [
+        2,
+        -1
+      ]
+    }
+  ],
+  "editorial": "Python's floor division rounds toward negative infinity, so -7 // 3 is -3 and the remainder is 2, because 3 * -3 + 2 = -7. Languages that truncate toward zero produce a different pair. Matching Python means using // and % rather than reimplementing C division.",
+  "reference_solution": "def solve(a, b):\n    return [a // b, a % b]\n"
+}

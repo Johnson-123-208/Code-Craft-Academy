@@ -1,0 +1,79 @@
+{
+  "title": "Call Count",
+  "slug": "python-ex-call-count",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "decorators"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(times)`. A wrapper counts how many times it is entered. Call it `times` times and return the count. `times` may be 0, which returns 0. The wrapped function does nothing visible. The count is the decorator's state.\n",
+  "constraints": [
+    "times is a non-negative integer",
+    "Each call adds exactly 1"
+  ],
+  "examples": [
+    {
+      "input": "times = 3",
+      "output": "3"
+    },
+    {
+      "input": "times = 0",
+      "output": "0"
+    }
+  ],
+  "starter_code": "def solve(times):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "A list cell or nonlocal integer holds the count.",
+    "The wrapper increments, then calls the inner function.",
+    "Return the count after the loop, not a list of partial counts."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(times)",
+        "space": "O(1)"
+      },
+      "explanation": "A counting decorator wraps the call."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "times": 3
+      },
+      "expected": 3
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "times": 0
+      },
+      "expected": 0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "times": 1
+      },
+      "expected": 1
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "times": 5
+      },
+      "expected": 5
+    }
+  ],
+  "editorial": "A counting decorator wraps the call. The counter lives in the wrapper's closure, not on the inner function, unless you attach it there on purpose. Calling the wrapper times times yields the integer times, including zero when you never enter it.",
+  "reference_solution": "def solve(times):\n    count = [0]\n\n    def wrapped():\n        count[0] += 1\n\n    for _ in range(times):\n        wrapped()\n    return count[0]\n"
+}

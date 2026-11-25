@@ -1,0 +1,100 @@
+{
+  "title": "Take Until",
+  "slug": "python-ex-takewhile",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "itertools"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(items, limit)`. Return the prefix of integers that are strictly less than `limit`, stopping at the first value that is not. Later small values after a large one are not included. This is takewhile, not a filter.\n",
+  "constraints": [
+    "Stop at the first failure",
+    "Do not resume"
+  ],
+  "examples": [
+    {
+      "input": "items = [1, 2, 5, 3], limit = 4",
+      "output": "[1, 2]"
+    },
+    {
+      "input": "items = [5, 1], limit = 4",
+      "output": "[]"
+    }
+  ],
+  "starter_code": "def solve(items, limit):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Walk until an item is >= limit.",
+    "Return the items you kept.",
+    "An empty prefix is an empty list."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "filter would drop the large value and keep later small ones."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "items": [
+          1,
+          2,
+          5,
+          3
+        ],
+        "limit": 4
+      },
+      "expected": [
+        1,
+        2
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "items": [
+          5,
+          1
+        ],
+        "limit": 4
+      },
+      "expected": []
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "items": [],
+        "limit": 1
+      },
+      "expected": []
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "items": [
+          1,
+          2
+        ],
+        "limit": 10
+      },
+      "expected": [
+        1,
+        2
+      ]
+    }
+  ],
+  "editorial": "filter would drop the large value and keep later small ones. takewhile defines a prefix. The difference shows up as soon as a value breaks the predicate and a later value would have passed.",
+  "reference_solution": "def solve(items, limit):\n    out = []\n    for item in items:\n        if item >= limit:\n            break\n        out.append(item)\n    return out\n"
+}

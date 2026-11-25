@@ -1,0 +1,100 @@
+{
+  "title": "Unique Yield",
+  "slug": "python-ex-unique-yield",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "generators"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(items)`. Yield the first occurrence of each string and return those yields as a list, in order. Later duplicates disappear. The producer may keep a set of seen values. It must not need the full output list in order to decide the next yield.\n",
+  "constraints": [
+    "items is a list of strings",
+    "First-seen order"
+  ],
+  "examples": [
+    {
+      "input": "items = [\"a\", \"b\", \"a\", \"c\", \"b\"]",
+      "output": "[\"a\", \"b\", \"c\"]"
+    },
+    {
+      "input": "items = []",
+      "output": "[]"
+    }
+  ],
+  "starter_code": "def solve(items):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "A set records what you have already yielded.",
+    "Yield, or append to the result, only when the item is new.",
+    "Do not sort. Order is appearance order."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(u)"
+      },
+      "explanation": "A generator can remember seen keys without storing the output."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "items": [
+          "a",
+          "b",
+          "a",
+          "c",
+          "b"
+        ]
+      },
+      "expected": [
+        "a",
+        "b",
+        "c"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "items": []
+      },
+      "expected": []
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "items": [
+          "a",
+          "a"
+        ]
+      },
+      "expected": [
+        "a"
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "items": [
+          "b",
+          "a"
+        ]
+      },
+      "expected": [
+        "b",
+        "a"
+      ]
+    }
+  ],
+  "editorial": "A generator can remember seen keys without storing the output. The caller materializes the yields. Sorting first would group duplicates and destroy first-seen order, which is a different function from unique-in-order.",
+  "reference_solution": "def solve(items):\n    def unique(source):\n        seen = set()\n        for item in source:\n            if item in seen:\n                continue\n            seen.add(item)\n            yield item\n    return list(unique(items))\n"
+}

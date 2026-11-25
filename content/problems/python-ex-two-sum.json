@@ -1,0 +1,112 @@
+{
+  "title": "Two Sum",
+  "slug": "python-ex-two-sum",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "dicts"
+  ],
+  "company_tags": [
+    "Google",
+    "Amazon",
+    "Meta",
+    "Adobe"
+  ],
+  "statement": "Implement `solve(nums, target)`. Return `[i, j]` with `i < j` and `nums[i] + nums[j] == target`. There is exactly one solution in the tests that should hit, except one case with no pair, which returns `[-1, -1]`. Do not use the same index twice. One pass with a map from value to index is enough.\n",
+  "constraints": [
+    "At most one valid pair",
+    "Indexes increase"
+  ],
+  "examples": [
+    {
+      "input": "nums = [2, 7, 11, 15], target = 9",
+      "output": "[0, 1]"
+    },
+    {
+      "input": "nums = [3, 2, 4], target = 6",
+      "output": "[1, 2]"
+    }
+  ],
+  "starter_code": "def solve(nums, target):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "For each value, the partner is target - value.",
+    "Look in the map of values already seen, then store the current index.",
+    "Storing after the lookup stops a value from matching itself."
+  ],
+  "approaches": [
+    {
+      "name": "One-pass hash map",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "The map remembers a previous index for each value."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "nums": [
+          2,
+          7,
+          11,
+          15
+        ],
+        "target": 9
+      },
+      "expected": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "nums": [
+          3,
+          2,
+          4
+        ],
+        "target": 6
+      },
+      "expected": [
+        1,
+        2
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "nums": [
+          3,
+          3
+        ],
+        "target": 6
+      },
+      "expected": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "nums": [
+          1,
+          2
+        ],
+        "target": 5
+      },
+      "expected": [
+        -1,
+        -1
+      ]
+    }
+  ],
+  "editorial": "The map remembers a previous index for each value. When the complement is already there, the pair is the stored index and the current index, which is in increasing order. Checking before inserting is what makes two copies of the same number work, and what stops a single number from pairing with itself.",
+  "reference_solution": "def solve(nums, target):\n    seen = {}\n    for index, value in enumerate(nums):\n        need = target - value\n        if need in seen:\n            return [seen[need], index]\n        seen[value] = index\n    return [-1, -1]\n"
+}

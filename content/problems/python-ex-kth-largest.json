@@ -1,0 +1,100 @@
+{
+  "title": "Kth Largest",
+  "slug": "python-ex-kth-largest",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "heaps"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Facebook",
+    "Microsoft"
+  ],
+  "statement": "Implement `solve(nums, k)`. Return the kth largest integer in `nums`, where `k` is 1-based. Duplicates count separately, so in `[3, 3]` the first and second largest are both 3. `k` is between 1 and the length.\n",
+  "constraints": [
+    "k is 1-based",
+    "Duplicates are real elements"
+  ],
+  "examples": [
+    {
+      "input": "nums = [3, 2, 1, 5, 6, 4], k = 2",
+      "output": "5"
+    },
+    {
+      "input": "nums = [3, 3], k = 2",
+      "output": "3"
+    }
+  ],
+  "starter_code": "def solve(nums, k):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "A min-heap of size k holds the largest k values seen so far.",
+    "Push each number. If the heap exceeds k, pop the smallest of those k.",
+    "The root is the kth largest."
+  ],
+  "approaches": [
+    {
+      "name": "Min-heap of size k",
+      "complexity": {
+        "time": "O(n log k)",
+        "space": "O(k)"
+      },
+      "explanation": "Sorting descending and indexing k-1 is correct and uses more comparisons than you need when k is small."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "nums": [
+          3,
+          2,
+          1,
+          5,
+          6,
+          4
+        ],
+        "k": 2
+      },
+      "expected": 5
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "nums": [
+          3,
+          3
+        ],
+        "k": 2
+      },
+      "expected": 3
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "nums": [
+          1
+        ],
+        "k": 1
+      },
+      "expected": 1
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "nums": [
+          7,
+          1,
+          7
+        ],
+        "k": 1
+      },
+      "expected": 7
+    }
+  ],
+  "editorial": "Sorting descending and indexing k-1 is correct and uses more comparisons than you need when k is small. A min-heap of size k stays at the k largest values. Its root is the smallest of those, which is the kth largest overall.",
+  "reference_solution": "def solve(nums, k):\n    import heapq\n    heap = []\n    for num in nums:\n        heapq.heappush(heap, num)\n        if len(heap) > k:\n            heapq.heappop(heap)\n    return heap[0]\n"
+}

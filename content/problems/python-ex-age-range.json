@@ -1,0 +1,79 @@
+{
+  "title": "Range Age",
+  "slug": "python-ex-age-range",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "pydantic"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(age)`. Return `ok` when `age` is an int from 0 through 130 inclusive. Return `error` otherwise. The string `bool` is an error.\n",
+  "constraints": [
+    "0 and 130 are valid",
+    "131 is not"
+  ],
+  "examples": [
+    {
+      "input": "age = 0",
+      "output": "\"ok\""
+    },
+    {
+      "input": "age = 130",
+      "output": "\"ok\""
+    }
+  ],
+  "starter_code": "def solve(age):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Reject the bool token.",
+    "Then require type int.",
+    "Then check the inclusive range."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "A bounded age is a field constraint, not a free integer."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "age": 0
+      },
+      "expected": "ok"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "age": 130
+      },
+      "expected": "ok"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "age": 131
+      },
+      "expected": "error"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "age": "bool"
+      },
+      "expected": "error"
+    }
+  ],
+  "editorial": "A bounded age is a field constraint, not a free integer. The ends are inclusive because 0 and 130 are representable ages in this contract. A JSON boolean must not sneak in as 1.",
+  "reference_solution": "def solve(age):\n    if age == \"bool\" or type(age) is not int:\n        return \"error\"\n    if 0 <= age <= 130:\n        return \"ok\"\n    return \"error\"\n"
+}

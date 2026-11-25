@@ -1,0 +1,94 @@
+{
+  "title": "Parse Ids",
+  "slug": "python-ex-parse-ids",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "files"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(lines)`. Skip lines that are blank after stripping and lines whose stripped text starts with `#`. Return the remaining lines stripped, in order.\n",
+  "constraints": [
+    "A comment may have leading spaces",
+    "Do not parse the ids further"
+  ],
+  "examples": [
+    {
+      "input": "lines = [\" a \", \"\", \"# c\", \"b\"]",
+      "output": "[\"a\", \"b\"]"
+    },
+    {
+      "input": "lines = [\"# only\"]",
+      "output": "[]"
+    }
+  ],
+  "starter_code": "def solve(lines):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Strip once and reuse that string.",
+    "Continue on empty or hash-leading lines.",
+    "Append the stripped text."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "An id file is a line protocol with comments."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "lines": [
+          " a ",
+          "",
+          "# c",
+          "b"
+        ]
+      },
+      "expected": [
+        "a",
+        "b"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "lines": [
+          "# only"
+        ]
+      },
+      "expected": []
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "lines": []
+      },
+      "expected": []
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "lines": [
+          "  # indented",
+          "id"
+        ]
+      },
+      "expected": [
+        "id"
+      ]
+    }
+  ],
+  "editorial": "An id file is a line protocol with comments. The strip has to happen before the comment test, or a space before the hash becomes an id. The result is the ids, not the raw lines.",
+  "reference_solution": "def solve(lines):\n    out = []\n    for line in lines:\n        text = line.strip()\n        if not text or text.startswith(\"#\"):\n            continue\n        out.append(text)\n    return out\n"
+}

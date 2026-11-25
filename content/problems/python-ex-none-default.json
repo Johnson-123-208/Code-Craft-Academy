@@ -1,0 +1,83 @@
+{
+  "title": "Or Default",
+  "slug": "python-ex-none-default",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "none"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(value, default)`. `value` and `default` are strings. The token `none` stands for a missing value. Return `default` only when `value` is exactly `none`. Return `value` unchanged when it is `0` or an empty string. Do not use a truthiness test.\n",
+  "constraints": [
+    "The missing token is the string none",
+    "0 and the empty string are real values"
+  ],
+  "examples": [
+    {
+      "input": "value = \"none\", default = \"guest\"",
+      "output": "\"guest\""
+    },
+    {
+      "input": "value = \"0\", default = \"guest\"",
+      "output": "\"0\""
+    }
+  ],
+  "starter_code": "def solve(value, default):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Compare value to the string none.",
+    "Any other string, including 0 and the empty string, is returned as itself.",
+    "or would treat those as missing. Do not use it."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "The expression value or default replaces every falsy value, and 0 and the empty string are falsy."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "value": "none",
+        "default": "guest"
+      },
+      "expected": "guest"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "value": "0",
+        "default": "guest"
+      },
+      "expected": "0"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "value": "",
+        "default": "guest"
+      },
+      "expected": ""
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "value": "ada",
+        "default": "guest"
+      },
+      "expected": "ada"
+    }
+  ],
+  "editorial": "The expression value or default replaces every falsy value, and 0 and the empty string are falsy. A missing configuration field is None, which this problem spells as the token none. Only that token takes the default.",
+  "reference_solution": "def solve(value, default):\n    if value == \"none\":\n        return default\n    return value\n"
+}

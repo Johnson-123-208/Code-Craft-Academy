@@ -1,0 +1,106 @@
+{
+  "title": "Forward Options",
+  "slug": "python-ex-merge-options",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "functions"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(base, overrides)`. Both are flat dicts of string keys to string values. Return a new dict with every key from either side. When a key is in both, the override wins. Do not drop keys that appear only in overrides. Do not mutate the inputs.\n",
+  "constraints": [
+    "Values are strings",
+    "Overrides replace base on the same key"
+  ],
+  "examples": [
+    {
+      "input": "base = {\"host\": \"localhost\", \"port\": \"80\"}, overrides = {\"port\": \"443\"}",
+      "output": "{\"host\": \"localhost\", \"port\": \"443\"}"
+    },
+    {
+      "input": "base = {\"a\": \"1\"}, overrides = {\"b\": \"2\"}",
+      "output": "{\"a\": \"1\", \"b\": \"2\"}"
+    }
+  ],
+  "starter_code": "def solve(base, overrides):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Copy base, then update with overrides. dict unpacking in that order does the same thing.",
+    "Keys only in overrides must survive.",
+    "Return a new dict."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n + m)",
+        "space": "O(n + m)"
+      },
+      "explanation": "Forwarding **options is a merge, not a filter."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "base": {
+          "host": "localhost",
+          "port": "80"
+        },
+        "overrides": {
+          "port": "443"
+        }
+      },
+      "expected": {
+        "host": "localhost",
+        "port": "443"
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "base": {
+          "a": "1"
+        },
+        "overrides": {
+          "b": "2"
+        }
+      },
+      "expected": {
+        "a": "1",
+        "b": "2"
+      }
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "base": {},
+        "overrides": {
+          "a": "1"
+        }
+      },
+      "expected": {
+        "a": "1"
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "base": {
+          "a": "1"
+        },
+        "overrides": {}
+      },
+      "expected": {
+        "a": "1"
+      }
+    }
+  ],
+  "editorial": "Forwarding **options is a merge, not a filter. The callee's explicit arguments should win over defaults, and unexpected keys are the caller's data unless the function is documented to reject them. This merge is last-write-wins with overrides last.",
+  "reference_solution": "def solve(base, overrides):\n    merged = dict(base)\n    merged.update(overrides)\n    return merged\n"
+}

@@ -157,6 +157,22 @@ const MODULE_TITLES: Record<string, string> = {
   "08-mlops": "MLOps",
   "09-sagemaker": "AWS SageMaker",
   "10-capstones": "Capstone Projects",
+  "02-syntax-and-types": "Syntax and Types",
+  "03-control-flow": "Control Flow",
+  "04-functions": "Functions",
+  "05-data-structures": "Data Structures",
+  "06-strings-files": "Strings and Files",
+  "07-errors-logging": "Errors and Logging",
+  "08-oop": "Object-Oriented Programming",
+  "09-modules-packages": "Modules and Packages",
+  "10-itertools-functools": "Itertools and Functools",
+  "11-typing": "Typing",
+  "12-concurrency": "Concurrency",
+  "13-testing": "Testing",
+  "14-performance": "Performance",
+  "15-web-apis": "Web APIs",
+  "16-databases": "Databases",
+  "17-packaging-quality": "Packaging and Quality",
 };
 
 export function getContentRoot(): string {

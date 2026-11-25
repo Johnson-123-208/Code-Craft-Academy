@@ -1,0 +1,91 @@
+{
+  "title": "Paise Add",
+  "slug": "python-ex-paise-add",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "money"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(a_rupee, a_paise, b_rupee, b_paise)`. Convert each rupee-paise pair to paise (100 paise in a rupee) and return the sum as an integer number of paise. Do not use binary floats. Inputs are integers and paise may be 100 or more.\n",
+  "constraints": [
+    "All four inputs are integers",
+    "Return total paise, not a rupee pair"
+  ],
+  "examples": [
+    {
+      "input": "a_rupee = 1, a_paise = 50, b_rupee = 2, b_paise = 50",
+      "output": "400"
+    },
+    {
+      "input": "a_rupee = 0, a_paise = 99, b_rupee = 0, b_paise = 2",
+      "output": "101"
+    }
+  ],
+  "starter_code": "def solve(a_rupee, a_paise, b_rupee, b_paise):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Multiply rupees by 100 and add the paise.",
+    "Do the same for both amounts, then add.",
+    "There is no carry step to write if the unit is already paise."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "Money in this course is an integer of minor units."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "a_rupee": 1,
+        "a_paise": 50,
+        "b_rupee": 2,
+        "b_paise": 50
+      },
+      "expected": 400
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "a_rupee": 0,
+        "a_paise": 99,
+        "b_rupee": 0,
+        "b_paise": 2
+      },
+      "expected": 101
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "a_rupee": 0,
+        "a_paise": 0,
+        "b_rupee": 0,
+        "b_paise": 0
+      },
+      "expected": 0
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "a_rupee": 3,
+        "a_paise": 150,
+        "b_rupee": 1,
+        "b_paise": 0
+      },
+      "expected": 550
+    }
+  ],
+  "editorial": "Money in this course is an integer of minor units. Adding rupees in float introduces binary dust. Converting both amounts to paise first makes the sum exact and makes a later carry, if you ever need a rupee display, a separate formatting step.",
+  "reference_solution": "def solve(a_rupee, a_paise, b_rupee, b_paise):\n    return (a_rupee * 100 + a_paise) + (b_rupee * 100 + b_paise)\n"
+}

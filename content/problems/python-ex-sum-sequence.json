@@ -1,0 +1,109 @@
+{
+  "title": "Read Only",
+  "slug": "python-ex-sum-sequence",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "typing"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(items)`. Return the sum of the integers and also return the input unchanged as `{\"total\": ..., \"items\": ...}`. Do not sort or clear the list you were given. Copy it into the result.\n",
+  "constraints": [
+    "The input order is preserved in the echo",
+    "An empty list sums to 0"
+  ],
+  "examples": [
+    {
+      "input": "items = [1, 2, 3]",
+      "output": "{\"total\": 6, \"items\": [1, 2, 3]}"
+    },
+    {
+      "input": "items = []",
+      "output": "{\"total\": 0, \"items\": []}"
+    }
+  ],
+  "starter_code": "def solve(items):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Sum the numbers.",
+    "Copy the list into the result.",
+    "Do not reverse it."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "A Sequence annotation is a promise not to mutate."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "items": [
+          1,
+          2,
+          3
+        ]
+      },
+      "expected": {
+        "total": 6,
+        "items": [
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "items": []
+      },
+      "expected": {
+        "total": 0,
+        "items": []
+      }
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "items": [
+          0,
+          -1
+        ]
+      },
+      "expected": {
+        "total": -1,
+        "items": [
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "items": [
+          4
+        ]
+      },
+      "expected": {
+        "total": 4,
+        "items": [
+          4
+        ]
+      }
+    }
+  ],
+  "editorial": "A Sequence annotation is a promise not to mutate. Summing does not need to. Echoing a copy of the input lets the test see that the order survived. In-place sort would change that echo and still return the right total, which is the bug.",
+  "reference_solution": "def solve(items):\n    return {\"total\": sum(items), \"items\": list(items)}\n"
+}

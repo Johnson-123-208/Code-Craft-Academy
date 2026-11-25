@@ -1,0 +1,79 @@
+{
+  "title": "Relative Ok",
+  "slug": "python-ex-relative-ok",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "packages"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(mode)`. `mode` is `module` when the file is loaded as part of a package, and `script` when it is executed as a file path. Return `ok` for module and `error` for script. Relative imports require package context.\n",
+  "constraints": [
+    "script mode cannot use relative imports",
+    "module mode can"
+  ],
+  "examples": [
+    {
+      "input": "mode = \"module\"",
+      "output": "\"ok\""
+    },
+    {
+      "input": "mode = \"script\"",
+      "output": "\"error\""
+    }
+  ],
+  "starter_code": "def solve(mode):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "module returns ok.",
+    "script returns error.",
+    "Anything else returns error."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "A relative import looks up the current package on the module."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "mode": "module"
+      },
+      "expected": "ok"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "mode": "script"
+      },
+      "expected": "error"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "mode": ""
+      },
+      "expected": "error"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "mode": "module"
+      },
+      "expected": "ok"
+    }
+  ],
+  "editorial": "A relative import looks up the current package on the module. Running a file as a script sets __package__ empty, so the relative import fails. Running python -m package.mod loads it as a module and the relative import works.",
+  "reference_solution": "def solve(mode):\n    return \"ok\" if mode == \"module\" else \"error\"\n"
+}

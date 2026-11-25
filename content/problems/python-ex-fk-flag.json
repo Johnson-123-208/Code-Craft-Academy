@@ -1,0 +1,83 @@
+{
+  "title": "Foreign Key Flag",
+  "slug": "python-ex-fk-flag",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "sqlite"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(pragma_on, bad_child)`. `pragma_on` is 1 when foreign keys were enabled. `bad_child` is 1 when the insert references a missing parent. Return `rejected` only when both are 1. Return `accepted` otherwise, including a bad child when the pragma is off.\n",
+  "constraints": [
+    "SQLite does not enforce foreign keys until the pragma",
+    "A good child is accepted"
+  ],
+  "examples": [
+    {
+      "input": "pragma_on = 1, bad_child = 1",
+      "output": "\"rejected\""
+    },
+    {
+      "input": "pragma_on = 0, bad_child = 1",
+      "output": "\"accepted\""
+    }
+  ],
+  "starter_code": "def solve(pragma_on, bad_child):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Both flags must be 1 to reject.",
+    "Any other combination accepts.",
+    "Do not reject a valid child."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "SQLite leaves foreign_keys off unless every connection runs the pragma."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "pragma_on": 1,
+        "bad_child": 1
+      },
+      "expected": "rejected"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "pragma_on": 0,
+        "bad_child": 1
+      },
+      "expected": "accepted"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "pragma_on": 1,
+        "bad_child": 0
+      },
+      "expected": "accepted"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "pragma_on": 0,
+        "bad_child": 0
+      },
+      "expected": "accepted"
+    }
+  ],
+  "editorial": "SQLite leaves foreign_keys off unless every connection runs the pragma. A bad child insert then succeeds and the schema looks stricter than it is. Turning the pragma on makes the same insert fail. The two flags are that matrix.",
+  "reference_solution": "def solve(pragma_on, bad_child):\n    if pragma_on and bad_child:\n        return \"rejected\"\n    return \"accepted\"\n"
+}

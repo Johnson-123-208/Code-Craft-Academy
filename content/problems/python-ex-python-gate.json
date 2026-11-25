@@ -1,0 +1,83 @@
+{
+  "title": "Python Gate",
+  "slug": "python-ex-python-gate",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "packaging"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(major, minor)`. Return `ok` when the version is at least 3.12, and `reject` otherwise. Compare the pair, not a float.\n",
+  "constraints": [
+    "3.12 is ok",
+    "3.11 is reject"
+  ],
+  "examples": [
+    {
+      "input": "major = 3, minor = 12",
+      "output": "\"ok\""
+    },
+    {
+      "input": "major = 3, minor = 11",
+      "output": "\"reject\""
+    }
+  ],
+  "starter_code": "def solve(major, minor):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Compare (major, minor) with (3, 12).",
+    "Greater or equal is ok.",
+    "Do not concatenate the numbers into 312."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "requires-python rejects an interpreter that is too old at install time."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "major": 3,
+        "minor": 12
+      },
+      "expected": "ok"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "major": 3,
+        "minor": 11
+      },
+      "expected": "reject"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "major": 3,
+        "minor": 13
+      },
+      "expected": "ok"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "major": 2,
+        "minor": 7
+      },
+      "expected": "reject"
+    }
+  ],
+  "editorial": "requires-python rejects an interpreter that is too old at install time. Comparing tuples avoids the trick where 3.9 would look larger than 3.12 if you compared strings poorly, and where 3.10 is not the float 3.1. The gate is the minimum the service is tested on.",
+  "reference_solution": "def solve(major, minor):\n    if (major, minor) >= (3, 12):\n        return \"ok\"\n    return \"reject\"\n"
+}

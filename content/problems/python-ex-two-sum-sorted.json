@@ -1,0 +1,114 @@
+{
+  "title": "Two Sum Sorted",
+  "slug": "python-ex-two-sum-sorted",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "two-pointers"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Microsoft"
+  ],
+  "statement": "Implement `solve(nums, target)`. `nums` is sorted ascending and contains distinct integers. Return `[i, j]` with `i < j` and `nums[i] + nums[j] == target`. If no pair exists, return `[-1, -1]`. Move the left index right when the sum is too small and the right index left when the sum is too large.\n",
+  "constraints": [
+    "nums is sorted ascending",
+    "At most one pair"
+  ],
+  "examples": [
+    {
+      "input": "nums = [1, 2, 4, 7], target = 6",
+      "output": "[1, 2]"
+    },
+    {
+      "input": "nums = [1, 2, 3], target = 7",
+      "output": "[-1, -1]"
+    }
+  ],
+  "starter_code": "def solve(nums, target):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Start indexes at the two ends.",
+    "Equal sum returns immediately.",
+    "A low sum moves the left index because the right value is already the largest available partner."
+  ],
+  "approaches": [
+    {
+      "name": "Two pointers",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "On a sorted array the ends are the smallest and largest remaining values."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "nums": [
+          1,
+          2,
+          4,
+          7
+        ],
+        "target": 6
+      },
+      "expected": [
+        1,
+        2
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "nums": [
+          1,
+          2,
+          3
+        ],
+        "target": 7
+      },
+      "expected": [
+        -1,
+        -1
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "nums": [
+          1,
+          2
+        ],
+        "target": 3
+      },
+      "expected": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "nums": [
+          -3,
+          -1,
+          0,
+          2,
+          4
+        ],
+        "target": 1
+      },
+      "expected": [
+        0,
+        4
+      ]
+    }
+  ],
+  "editorial": "On a sorted array the ends are the smallest and largest remaining values. If the sum is low, only a larger left value can help. If it is high, only a smaller right value can help. Each step discards an index, so the scan is linear and does not need a hash map.",
+  "reference_solution": "def solve(nums, target):\n    left, right = 0, len(nums) - 1\n    while left < right:\n        total = nums[left] + nums[right]\n        if total == target:\n            return [left, right]\n        if total < target:\n            left += 1\n        else:\n            right -= 1\n    return [-1, -1]\n"
+}

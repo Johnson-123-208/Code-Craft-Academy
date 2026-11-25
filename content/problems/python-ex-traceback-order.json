@@ -1,0 +1,101 @@
+{
+  "title": "Frame Labels",
+  "slug": "python-ex-traceback-order",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "tracebacks"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(names)`. `names` is the call stack from the oldest frame to the frame that raised, so the last name is where the exception started. A traceback prints the failing frame last in the usual text view only after it has walked from the top. Return the names in the order a reader sees if the list is printed bottom-of-traceback first: the raiser first, then its caller, ending with the oldest frame.\n",
+  "constraints": [
+    "Reverse the list",
+    "Do not drop the oldest frame"
+  ],
+  "examples": [
+    {
+      "input": "names = [\"main\", \"place\", \"charge\"]",
+      "output": "[\"charge\", \"place\", \"main\"]"
+    },
+    {
+      "input": "names = [\"only\"]",
+      "output": "[\"only\"]"
+    }
+  ],
+  "starter_code": "def solve(names):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "The last input name is the function that raised.",
+    "Return a new list. Reversing a copy is enough.",
+    "An empty stack returns an empty list."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Python tracebacks are stored on the exception as a linked list from the oldest frame toward the raise."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "names": [
+          "main",
+          "place",
+          "charge"
+        ]
+      },
+      "expected": [
+        "charge",
+        "place",
+        "main"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "names": [
+          "only"
+        ]
+      },
+      "expected": [
+        "only"
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "names": []
+      },
+      "expected": []
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "names": [
+          "a",
+          "b",
+          "c",
+          "d"
+        ]
+      },
+      "expected": [
+        "d",
+        "c",
+        "b",
+        "a"
+      ]
+    }
+  ],
+  "editorial": "Python tracebacks are stored on the exception as a linked list from the oldest frame toward the raise. Printing walks that chain, so the first line of code you read in the text is the outermost frame and the last line is the raise. This function returns the opposite order: the raise first, which is the order you get by reversing the oldest-to-newest list.",
+  "reference_solution": "def solve(names):\n    return list(reversed(names))\n"
+}

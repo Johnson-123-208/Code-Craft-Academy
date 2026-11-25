@@ -1,0 +1,79 @@
+{
+  "title": "Money String",
+  "slug": "python-ex-money-string",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "json"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(raw)`. `raw` is a string the caller claims is a money amount. If it is not a string, return `error`. This includes the case where you would have received a JSON number. The tests pass either a string or the token `float`. Accept a string of digits with an optional decimal point and exactly two decimal places when a point is present, or digits only. Return the normalized two-decimal string using Decimal. Reject a leading sign, spaces, and anything else with `error`.\n",
+  "constraints": [
+    "The token float means the input was a binary float and is rejected",
+    "No signs"
+  ],
+  "examples": [
+    {
+      "input": "raw = \"10.50\"",
+      "output": "\"10.50\""
+    },
+    {
+      "input": "raw = \"10\"",
+      "output": "\"10.00\""
+    }
+  ],
+  "starter_code": "def solve(raw):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "If raw is the string float, return error immediately.",
+    "Parse other strings with Decimal only when the text matches digits and an optional .dd.",
+    "Quantize to two places and return str."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "A JSON number is a binary float by the time many stacks hand it to you, and money cannot round-trip through that."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "raw": "10.50"
+      },
+      "expected": "10.50"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "raw": "10"
+      },
+      "expected": "10.00"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "raw": "float"
+      },
+      "expected": "error"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "raw": "-1.00"
+      },
+      "expected": "error"
+    }
+  ],
+  "editorial": "A JSON number is a binary float by the time many stacks hand it to you, and money cannot round-trip through that. Requiring a string keeps the exact digits. The pattern check rejects signs and extra dots before Decimal sees them.",
+  "reference_solution": "def solve(raw):\n    import re\n    from decimal import Decimal, InvalidOperation\n    if raw == \"float\":\n        return \"error\"\n    if not re.fullmatch(r\"\\d+(\\.\\d{2})?\", raw):\n        return \"error\"\n    try:\n        amount = Decimal(raw)\n    except InvalidOperation:\n        return \"error\"\n    return str(amount.quantize(Decimal(\"0.01\")))\n"
+}

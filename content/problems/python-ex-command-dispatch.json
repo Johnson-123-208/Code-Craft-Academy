@@ -1,0 +1,90 @@
+{
+  "title": "Command Dispatch",
+  "slug": "python-ex-command-dispatch",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "match"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(cmd)`. `cmd` is a list. `[\"ping\"]` returns `pong`. `[\"echo\", text]` returns `text`. `[\"add\", a, b]` returns the integer `a + b`. Any other first element returns the string `error`. Do not crash on an unknown command.\n",
+  "constraints": [
+    "echo's text is a string",
+    "add's operands are integers"
+  ],
+  "examples": [
+    {
+      "input": "cmd = [\"ping\"]",
+      "output": "\"pong\""
+    },
+    {
+      "input": "cmd = [\"echo\", \"hi\"]",
+      "output": "\"hi\""
+    }
+  ],
+  "starter_code": "def solve(cmd):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Branch on cmd[0].",
+    "echo returns the second element unchanged.",
+    "The default branch is the string error."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "A command list is a tiny match subject."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "cmd": [
+          "ping"
+        ]
+      },
+      "expected": "pong"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "cmd": [
+          "echo",
+          "hi"
+        ]
+      },
+      "expected": "hi"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "cmd": [
+          "add",
+          2,
+          3
+        ]
+      },
+      "expected": 5
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "cmd": [
+          "drop"
+        ]
+      },
+      "expected": "error"
+    }
+  ],
+  "editorial": "A command list is a tiny match subject. Unknown commands are a result, not an IndexError and not a fall-through into add. Each arm reads only the fields that arm needs.",
+  "reference_solution": "def solve(cmd):\n    name = cmd[0]\n    if name == \"ping\":\n        return \"pong\"\n    if name == \"echo\":\n        return cmd[1]\n    if name == \"add\":\n        return cmd[1] + cmd[2]\n    return \"error\"\n"
+}

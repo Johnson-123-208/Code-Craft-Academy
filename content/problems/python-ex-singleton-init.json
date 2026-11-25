@@ -1,0 +1,91 @@
+{
+  "title": "Singleton Init",
+  "slug": "python-ex-singleton-init",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "patterns"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(levels, guarded)`. `levels` is a list of integer levels passed to successive constructors. `guarded` is 1 when `__init__` runs only the first time the instance is created, and 0 when every constructor call runs `__init__` again on the same object. Return the level that remains. Unguarded, the last level wins. Guarded, the first level wins. An empty list returns `error`.\n",
+  "constraints": [
+    "guarded 1 keeps the first level",
+    "guarded 0 keeps the last level"
+  ],
+  "examples": [
+    {
+      "input": "levels = [1, 9], guarded = 1",
+      "output": "1"
+    },
+    {
+      "input": "levels = [1, 9], guarded = 0",
+      "output": "9"
+    }
+  ],
+  "starter_code": "def solve(levels, guarded):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "An empty list has no instance.",
+    "If guarded is 1, return levels[0].",
+    "Otherwise return levels[-1]."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "A __new__ singleton that always runs __init__ will reconfigure the shared object on the second constructor call."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "levels": [
+          1,
+          9
+        ],
+        "guarded": 1
+      },
+      "expected": 1
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "levels": [
+          1,
+          9
+        ],
+        "guarded": 0
+      },
+      "expected": 9
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "levels": [],
+        "guarded": 1
+      },
+      "expected": "error"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "levels": [
+          4
+        ],
+        "guarded": 0
+      },
+      "expected": 4
+    }
+  ],
+  "editorial": "A __new__ singleton that always runs __init__ will reconfigure the shared object on the second constructor call. Guarding init with a flag keeps the first configuration. That bug is why a module-level instance, created once, is easier to reason about than a hand-rolled singleton.",
+  "reference_solution": "def solve(levels, guarded):\n    if not levels:\n        return \"error\"\n    if guarded:\n        return levels[0]\n    return levels[-1]\n"
+}

@@ -1,0 +1,83 @@
+{
+  "title": "Mangle Names",
+  "slug": "python-ex-mangle-name",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "oop"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(class_name, attr)`. If `attr` starts with `__` and does not end with `__`, return the mangled name `_{class}__rest` where class is `class_name` with leading underscores removed. Otherwise return `attr` unchanged. `__init__` is not mangled. `__balance` on `Account` becomes `_Account__balance`.\n",
+  "constraints": [
+    "Dunder methods are not mangled",
+    "Leading underscores on the class name are stripped"
+  ],
+  "examples": [
+    {
+      "input": "class_name = \"Account\", attr = \"__balance\"",
+      "output": "\"_Account__balance\""
+    },
+    {
+      "input": "class_name = \"Account\", attr = \"__init__\"",
+      "output": "\"__init__\""
+    }
+  ],
+  "starter_code": "def solve(class_name, attr):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "The mangled form applies only when the name starts with two underscores and does not end with two.",
+    "Strip leading underscores from the class name.",
+    "Prefix one underscore, the class, then the original attribute including its underscores."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Name mangling is a textual transform the compiler applies to identifiers in the class body."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "class_name": "Account",
+        "attr": "__balance"
+      },
+      "expected": "_Account__balance"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "class_name": "Account",
+        "attr": "__init__"
+      },
+      "expected": "__init__"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "class_name": "_Hidden",
+        "attr": "__x"
+      },
+      "expected": "_Hidden__x"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "class_name": "Account",
+        "attr": "balance"
+      },
+      "expected": "balance"
+    }
+  ],
+  "editorial": "Name mangling is a textual transform the compiler applies to identifiers in the class body. It is not a security boundary. __balance becomes _Account__balance so a subclass does not overwrite it by accident. __init__ ends with double underscores and is left alone.",
+  "reference_solution": "def solve(class_name, attr):\n    if attr.startswith(\"__\") and not attr.endswith(\"__\"):\n        trimmed = class_name.lstrip(\"_\")\n        return \"_\" + trimmed + attr\n    return attr\n"
+}

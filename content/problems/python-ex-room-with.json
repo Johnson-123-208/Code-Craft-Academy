@@ -1,0 +1,92 @@
+{
+  "title": "Room With",
+  "slug": "python-ex-room-with",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "dunder"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(enters, raises)`. `enters` is how many times the context is entered. `raises` is 1 when the body raises, else 0. A context manager counts enters and does not swallow exceptions. Return `{\"enters\": enters, \"swallowed\": 0}`. If `raises` is 1, still return swallowed 0. The count is the enters argument when it is non-negative, otherwise `error`.\n",
+  "constraints": [
+    "Exceptions propagate",
+    "Negative enters is error"
+  ],
+  "examples": [
+    {
+      "input": "enters = 1, raises = 0",
+      "output": "{\"enters\": 1, \"swallowed\": 0}"
+    },
+    {
+      "input": "enters = 1, raises = 1",
+      "output": "{\"enters\": 1, \"swallowed\": 0}"
+    }
+  ],
+  "starter_code": "def solve(enters, raises):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Reject a negative enter count.",
+    "swallowed is always 0. The manager does not hide errors.",
+    "Echo the enter count."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "__exit__ returns false, or None, to propagate."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "enters": 1,
+        "raises": 0
+      },
+      "expected": {
+        "enters": 1,
+        "swallowed": 0
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "enters": 1,
+        "raises": 1
+      },
+      "expected": {
+        "enters": 1,
+        "swallowed": 0
+      }
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "enters": 0,
+        "raises": 0
+      },
+      "expected": {
+        "enters": 0,
+        "swallowed": 0
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "enters": -1,
+        "raises": 1
+      },
+      "expected": "error"
+    }
+  ],
+  "editorial": "__exit__ returns false, or None, to propagate. Returning true swallows the error and hides a failed body behind a successful with block. The enter count is how many times __enter__ ran. This result records both: the count you asked for, and a swallowed flag that stays 0.",
+  "reference_solution": "def solve(enters, raises):\n    del raises\n    if enters < 0:\n        return \"error\"\n    return {\"enters\": enters, \"swallowed\": 0}\n"
+}

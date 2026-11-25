@@ -1,0 +1,111 @@
+{
+  "title": "First Combinations",
+  "slug": "python-ex-first-combinations",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "itertools"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(items, k)`. Return the first `k` unordered pairs of distinct items, in the order combinations() would yield them: earlier items are chosen first, and the second index increases before the first moves. If `k` is larger than the number of pairs, return all pairs. `k` of 0 returns an empty list. Items are strings.\n",
+  "constraints": [
+    "Pairs are lists of two strings",
+    "Do not repeat a pair in reverse"
+  ],
+  "examples": [
+    {
+      "input": "items = [\"a\", \"b\", \"c\", \"d\"], k = 2",
+      "output": "[[\"a\", \"b\"], [\"a\", \"c\"]]"
+    },
+    {
+      "input": "items = [\"a\", \"b\"], k = 5",
+      "output": "[[\"a\", \"b\"]]"
+    }
+  ],
+  "starter_code": "def solve(items, k):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Generate combinations of length 2.",
+    "Take only k of them.",
+    "islice avoids building the rest when k is small. Slicing a full list is acceptable for these sizes."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(k)",
+        "space": "O(k)"
+      },
+      "explanation": "combinations yields each unordered pair once."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "items": [
+          "a",
+          "b",
+          "c",
+          "d"
+        ],
+        "k": 2
+      },
+      "expected": [
+        [
+          "a",
+          "b"
+        ],
+        [
+          "a",
+          "c"
+        ]
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "items": [
+          "a",
+          "b"
+        ],
+        "k": 5
+      },
+      "expected": [
+        [
+          "a",
+          "b"
+        ]
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "items": [
+          "a"
+        ],
+        "k": 3
+      },
+      "expected": []
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "items": [
+          "a",
+          "b",
+          "c"
+        ],
+        "k": 0
+      },
+      "expected": []
+    }
+  ],
+  "editorial": "combinations yields each unordered pair once. Generating every pair and then slicing is fine when the input is small. islice stops early when k is small and the input is large. The order is lexicographic on the positions, not on a sort of the values.",
+  "reference_solution": "def solve(items, k):\n    from itertools import combinations, islice\n    if k < 1:\n        return []\n    return [list(pair) for pair in islice(combinations(items, 2), k)]\n"
+}

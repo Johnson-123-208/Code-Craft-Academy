@@ -1,0 +1,99 @@
+{
+  "title": "Check Then Act",
+  "slug": "python-ex-cache-fill",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "threading"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(ops)`. `ops` is a list of keys. A cache get-or-set stores a key the first time and returns `hit` when it is already present. Return the list of `miss` or `hit` in order. Under a lock this is one decision per key. Do not record two misses for the same key.\n",
+  "constraints": [
+    "First time is miss",
+    "Later times are hit"
+  ],
+  "examples": [
+    {
+      "input": "ops = [\"a\", \"a\", \"b\"]",
+      "output": "[\"miss\", \"hit\", \"miss\"]"
+    },
+    {
+      "input": "ops = []",
+      "output": "[]"
+    }
+  ],
+  "starter_code": "def solve(ops):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Use a set of seen keys.",
+    "A new key appends miss and is added.",
+    "A known key appends hit."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(u)"
+      },
+      "explanation": "Check-then-act without a lock lets two threads both see a miss and both store."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "ops": [
+          "a",
+          "a",
+          "b"
+        ]
+      },
+      "expected": [
+        "miss",
+        "hit",
+        "miss"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "ops": []
+      },
+      "expected": []
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "ops": [
+          "a"
+        ]
+      },
+      "expected": [
+        "miss"
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "ops": [
+          "b",
+          "a",
+          "b"
+        ]
+      },
+      "expected": [
+        "miss",
+        "miss",
+        "hit"
+      ]
+    }
+  ],
+  "editorial": "Check-then-act without a lock lets two threads both see a miss and both store. The lock makes the check and the insert one critical section. The sequence of miss and hit is what a single-threaded locked run produces, which is the race-free result.",
+  "reference_solution": "def solve(ops):\n    seen = set()\n    out = []\n    for key in ops:\n        if key in seen:\n            out.append(\"hit\")\n        else:\n            seen.add(key)\n            out.append(\"miss\")\n    return out\n"
+}

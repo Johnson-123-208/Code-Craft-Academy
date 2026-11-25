@@ -1,0 +1,102 @@
+{
+  "title": "Inject Client",
+  "slug": "python-ex-inject-client",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "oop"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(rows, wanted)`. `rows` is a list of `[id, body]`. A service is constructed with a client that can get an id. Return the body for `wanted`, or the string `missing` when the id is absent. The service must not build the mapping itself from a global. It receives the rows.\n",
+  "constraints": [
+    "The client is injected",
+    "Missing ids return missing"
+  ],
+  "examples": [
+    {
+      "input": "rows = [[\"a\", \"alpha\"], [\"b\", \"beta\"]], wanted = \"b\"",
+      "output": "\"beta\""
+    },
+    {
+      "input": "rows = [[\"a\", \"alpha\"]], wanted = \"z\"",
+      "output": "\"missing\""
+    }
+  ],
+  "starter_code": "def solve(rows, wanted):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Put the rows into a dict inside a small client object.",
+    "Pass that object into the service constructor.",
+    "The service calls client.get and returns the body or missing."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "A service that constructs its own client cannot be tested without the network, and it hides the dependency."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "rows": [
+          [
+            "a",
+            "alpha"
+          ],
+          [
+            "b",
+            "beta"
+          ]
+        ],
+        "wanted": "b"
+      },
+      "expected": "beta"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "rows": [
+          [
+            "a",
+            "alpha"
+          ]
+        ],
+        "wanted": "z"
+      },
+      "expected": "missing"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "rows": [],
+        "wanted": "a"
+      },
+      "expected": "missing"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "rows": [
+          [
+            "a",
+            ""
+          ]
+        ],
+        "wanted": "a"
+      },
+      "expected": ""
+    }
+  ],
+  "editorial": "A service that constructs its own client cannot be tested without the network, and it hides the dependency. Passing the client in makes the get call obvious and lets the test supply a dict. The missing string is the client's answer for an unknown id, not an exception from the service.",
+  "reference_solution": "def solve(rows, wanted):\n    class Client:\n        def __init__(self, pairs):\n            self.bodies = {key: body for key, body in pairs}\n\n        def get(self, key):\n            return self.bodies.get(key, \"missing\")\n\n    class Service:\n        def __init__(self, client):\n            self.client = client\n\n        def fetch(self, key):\n            return self.client.get(key)\n\n    return Service(Client(rows)).fetch(wanted)\n"
+}

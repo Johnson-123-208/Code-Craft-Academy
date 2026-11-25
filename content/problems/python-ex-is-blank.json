@@ -1,0 +1,79 @@
+{
+  "title": "Blank Check",
+  "slug": "python-ex-is-blank",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "oop"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(text)`. Return 1 when the stripped text is empty, and 0 otherwise. This is a pure function of the string. It does not need an instance.\n",
+  "constraints": [
+    "Whitespace-only is blank",
+    "Return 0 or 1"
+  ],
+  "examples": [
+    {
+      "input": "text = \"  \"",
+      "output": "1"
+    },
+    {
+      "input": "text = \"\"",
+      "output": "1"
+    }
+  ],
+  "starter_code": "def solve(text):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Strip the string.",
+    "Empty means 1.",
+    "Do not require self."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "A static check of a string does not read instance state."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "text": "  "
+      },
+      "expected": 1
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "text": ""
+      },
+      "expected": 1
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "text": "a"
+      },
+      "expected": 0
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "text": " a "
+      },
+      "expected": 0
+    }
+  ],
+  "editorial": "A static check of a string does not read instance state. Making it a method that requires self forces the caller to build an object for a question about text. The function here is that check and nothing else.",
+  "reference_solution": "def solve(text):\n    return 1 if not text.strip() else 0\n"
+}

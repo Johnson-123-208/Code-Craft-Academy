@@ -1,0 +1,92 @@
+{
+  "title": "Deposit",
+  "slug": "python-ex-deposit",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "properties"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(start, amounts)`. Start from `start` paise. Each amount must be a positive int. Add them in order. If `start` is negative or any amount is not a positive int, return `error`. Otherwise return the final balance. Zero is not a positive deposit.\n",
+  "constraints": [
+    "start may be zero",
+    "Deposits are strictly positive"
+  ],
+  "examples": [
+    {
+      "input": "start = 100, amounts = [50, 25]",
+      "output": "175"
+    },
+    {
+      "input": "start = 0, amounts = [1]",
+      "output": "1"
+    }
+  ],
+  "starter_code": "def solve(start, amounts):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Reject a negative start.",
+    "Reject an amount whose type is not int or whose value is <= 0.",
+    "Add the accepted amounts."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Deposit is not a raw assignment of a new balance."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "start": 100,
+        "amounts": [
+          50,
+          25
+        ]
+      },
+      "expected": 175
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "start": 0,
+        "amounts": [
+          1
+        ]
+      },
+      "expected": 1
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "start": 10,
+        "amounts": [
+          0
+        ]
+      },
+      "expected": "error"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "start": -1,
+        "amounts": [
+          5
+        ]
+      },
+      "expected": "error"
+    }
+  ],
+  "editorial": "Deposit is not a raw assignment of a new balance. It adds a positive integer through the same validation a property would apply. A zero deposit is a no-op that looks like a bug, so it is rejected. The final integer is the ledger total.",
+  "reference_solution": "def solve(start, amounts):\n    if type(start) is not int or start < 0:\n        return \"error\"\n    balance = start\n    for amount in amounts:\n        if type(amount) is not int or amount <= 0:\n            return \"error\"\n        balance += amount\n    return balance\n"
+}

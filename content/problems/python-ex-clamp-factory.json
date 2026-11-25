@@ -1,0 +1,105 @@
+{
+  "title": "Clamp Factory",
+  "slug": "python-ex-clamp-factory",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "closures"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(low, high, values)`. The bounds are closed over by a clamp function. Return the clamped `values`. If `low` is greater than `high`, return the string `error` and do not clamp. Each value below `low` becomes `low`, each value above `high` becomes `high`, and interior values stay.\n",
+  "constraints": [
+    "Bounds are integers",
+    "values is a list of integers"
+  ],
+  "examples": [
+    {
+      "input": "low = 0, high = 10, values = [-1, 3, 20]",
+      "output": "[0, 3, 10]"
+    },
+    {
+      "input": "low = 5, high = 4, values = [1]",
+      "output": "\"error\""
+    }
+  ],
+  "starter_code": "def solve(low, high, values):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Check the bounds once, before the loop.",
+    "The inner function reads low and high from the enclosing scope.",
+    "Apply it to every value."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "A factory returns a function that already knows its bounds, which is what you want when the same clamp is applied to a stream."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "low": 0,
+        "high": 10,
+        "values": [
+          -1,
+          3,
+          20
+        ]
+      },
+      "expected": [
+        0,
+        3,
+        10
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "low": 5,
+        "high": 4,
+        "values": [
+          1
+        ]
+      },
+      "expected": "error"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "low": 1,
+        "high": 1,
+        "values": [
+          0,
+          1,
+          2
+        ]
+      },
+      "expected": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "low": 0,
+        "high": 2,
+        "values": []
+      },
+      "expected": []
+    }
+  ],
+  "editorial": "A factory returns a function that already knows its bounds, which is what you want when the same clamp is applied to a stream. Checking the bounds once avoids repeating a configuration error on every value. The map over values is the call list.",
+  "reference_solution": "def solve(low, high, values):\n    if low > high:\n        return \"error\"\n\n    def clamp(value):\n        if value < low:\n            return low\n        if value > high:\n            return high\n        return value\n\n    return [clamp(value) for value in values]\n"
+}

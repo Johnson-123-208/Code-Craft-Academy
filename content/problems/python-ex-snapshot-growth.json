@@ -1,0 +1,108 @@
+{
+  "title": "Snapshot Growth",
+  "slug": "python-ex-snapshot-growth",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "profiling"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(before, after)`. Both are dicts of line id to allocation count. Return the sorted list of line ids whose count grew. Lines that shrank or stayed equal are omitted. Lines only in `after` count as growth.\n",
+  "constraints": [
+    "Sort the ids",
+    "Equal counts are not growth"
+  ],
+  "examples": [
+    {
+      "input": "before = {\"a\": 1, \"b\": 2}, after = {\"a\": 1, \"b\": 3}",
+      "output": "[\"b\"]"
+    },
+    {
+      "input": "before = {}, after = {\"a\": 1}",
+      "output": "[\"a\"]"
+    }
+  ],
+  "starter_code": "def solve(before, after):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Consider the union of keys.",
+    "Keep a key when after's count is greater than before's, treating absence as 0.",
+    "Sort the kept ids."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n log n)",
+        "space": "O(n)"
+      },
+      "explanation": "A tracemalloc diff names the lines that allocated more between two snapshots."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "before": {
+          "a": 1,
+          "b": 2
+        },
+        "after": {
+          "a": 1,
+          "b": 3
+        }
+      },
+      "expected": [
+        "b"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "before": {},
+        "after": {
+          "a": 1
+        }
+      },
+      "expected": [
+        "a"
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "before": {
+          "a": 2
+        },
+        "after": {
+          "a": 1
+        }
+      },
+      "expected": []
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "before": {
+          "b": 1,
+          "a": 1
+        },
+        "after": {
+          "a": 2,
+          "b": 2
+        }
+      },
+      "expected": [
+        "a",
+        "b"
+      ]
+    }
+  ],
+  "editorial": "A tracemalloc diff names the lines that allocated more between two snapshots. Growth is the leak candidate. A line that stayed flat is not. Sorting the report makes the test stable and the ticket readable.",
+  "reference_solution": "def solve(before, after):\n    grown = []\n    for key in set(before) | set(after):\n        if after.get(key, 0) > before.get(key, 0):\n            grown.append(key)\n    return sorted(grown)\n"
+}

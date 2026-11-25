@@ -1,0 +1,95 @@
+{
+  "title": "Abstract Channel",
+  "slug": "python-ex-abstract-channel",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "abc"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(messages)`. Define an ABC with an abstract `send`. Define one concrete Email channel whose send returns `email:` plus the text. A broadcast helper calls send on that one channel for each message. Return the list of results. Do not instantiate the ABC.\n",
+  "constraints": [
+    "The ABC stays abstract",
+    "Email is the concrete class"
+  ],
+  "examples": [
+    {
+      "input": "messages = [\"a\", \"b\"]",
+      "output": "[\"email:a\", \"email:b\"]"
+    },
+    {
+      "input": "messages = []",
+      "output": "[]"
+    }
+  ],
+  "starter_code": "def solve(messages):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Use abc.ABC and abstractmethod.",
+    "Email implements send.",
+    "broadcast loops over messages and calls send."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "An abstract send forces a subclass to implement the method before it can be constructed."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "messages": [
+          "a",
+          "b"
+        ]
+      },
+      "expected": [
+        "email:a",
+        "email:b"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "messages": []
+      },
+      "expected": []
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "messages": [
+          "hi"
+        ]
+      },
+      "expected": [
+        "email:hi"
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "messages": [
+          "",
+          "x"
+        ]
+      },
+      "expected": [
+        "email:",
+        "email:x"
+      ]
+    }
+  ],
+  "editorial": "An abstract send forces a subclass to implement the method before it can be constructed. The broadcast function depends on that method, not on Email. Passing one concrete instance is enough to show the helper works without knowing the class.",
+  "reference_solution": "def solve(messages):\n    from abc import ABC, abstractmethod\n\n    class Channel(ABC):\n        @abstractmethod\n        def send(self, text):\n            raise NotImplementedError\n\n    class Email(Channel):\n        def send(self, text):\n            return \"email:\" + text\n\n    def broadcast(channel, items):\n        return [channel.send(item) for item in items]\n\n    return broadcast(Email(), messages)\n"
+}

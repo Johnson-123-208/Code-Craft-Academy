@@ -1,0 +1,83 @@
+{
+  "title": "Two Sizes",
+  "slug": "python-ex-growth-class",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "profiling"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(t1, t4)`. `t1` is the time at size n and `t4` is the time at size 4n, both positive integers. Return `linear` when t4 is less than or equal to 6 times t1. Return `super` when it is larger. A rough linear curve grows about 4 times. A quadratic curve grows about 16 times. The threshold 6 separates them.\n",
+  "constraints": [
+    "Times are positive",
+    "6 is the cutoff, inclusive on the linear side"
+  ],
+  "examples": [
+    {
+      "input": "t1 = 10, t4 = 40",
+      "output": "\"linear\""
+    },
+    {
+      "input": "t1 = 10, t4 = 160",
+      "output": "\"super\""
+    }
+  ],
+  "starter_code": "def solve(t1, t4):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "If t4 <= 6 * t1, return linear.",
+    "Otherwise return super.",
+    "Do not require an exact 4 times ratio."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "Two sizes distinguish a linear scan from a quadratic one without a formal fit."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "t1": 10,
+        "t4": 40
+      },
+      "expected": "linear"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "t1": 10,
+        "t4": 160
+      },
+      "expected": "super"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "t1": 10,
+        "t4": 60
+      },
+      "expected": "linear"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "t1": 5,
+        "t4": 31
+      },
+      "expected": "super"
+    }
+  ],
+  "editorial": "Two sizes distinguish a linear scan from a quadratic one without a formal fit. Noise means a linear function may land a bit above 4. A quadratic jump is far past 6. The cutoff is a decision rule for a profile, not a proof, and it is good enough to choose which function to read.",
+  "reference_solution": "def solve(t1, t4):\n    if t4 <= 6 * t1:\n        return \"linear\"\n    return \"super\"\n"
+}

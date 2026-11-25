@@ -1,0 +1,97 @@
+{
+  "title": "Clamp Table",
+  "slug": "python-ex-clamp-table",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "pytest"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(values)`. Clamp each integer to the inclusive range 0 through 10. Return the list of clamped values. Bounds are fixed. Values inside stay.\n",
+  "constraints": [
+    "0 and 10 are legal",
+    "Order is preserved"
+  ],
+  "examples": [
+    {
+      "input": "values = [-1, 3, 11]",
+      "output": "[0, 3, 10]"
+    },
+    {
+      "input": "values = [0, 10]",
+      "output": "[0, 10]"
+    }
+  ],
+  "starter_code": "def solve(values):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Below 0 becomes 0.",
+    "Above 10 becomes 10.",
+    "Map the list in order."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "A parametrized test is a table of inputs and expected outputs."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "values": [
+          -1,
+          3,
+          11
+        ]
+      },
+      "expected": [
+        0,
+        3,
+        10
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "values": [
+          0,
+          10
+        ]
+      },
+      "expected": [
+        0,
+        10
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "values": []
+      },
+      "expected": []
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "values": [
+          4
+        ]
+      },
+      "expected": [
+        4
+      ]
+    }
+  ],
+  "editorial": "A parametrized test is a table of inputs and expected outputs. This function is the body those rows call. One implementation serves every row. A branch per test name would mean the rows are not the same behavior.",
+  "reference_solution": "def solve(values):\n    out = []\n    for value in values:\n        if value < 0:\n            out.append(0)\n        elif value > 10:\n            out.append(10)\n        else:\n            out.append(value)\n    return out\n"
+}

@@ -1,0 +1,98 @@
+{
+  "title": "Unique Parents",
+  "slug": "python-ex-unique-parents",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "sqlalchemy"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(ids)`. `ids` is a list of parent ids repeated once per joined child. Return the unique ids in first-seen order.\n",
+  "constraints": [
+    "First-seen order",
+    "Duplicates from the join collapse"
+  ],
+  "examples": [
+    {
+      "input": "ids = [\"a\", \"a\", \"b\", \"a\"]",
+      "output": "[\"a\", \"b\"]"
+    },
+    {
+      "input": "ids = []",
+      "output": "[]"
+    }
+  ],
+  "starter_code": "def solve(ids):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "A seen set plus a result list.",
+    "Append only the first time.",
+    "Do not sort."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "joinedload of a collection repeats the parent row once per child in the raw result."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "ids": [
+          "a",
+          "a",
+          "b",
+          "a"
+        ]
+      },
+      "expected": [
+        "a",
+        "b"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "ids": []
+      },
+      "expected": []
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "ids": [
+          "a"
+        ]
+      },
+      "expected": [
+        "a"
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "ids": [
+          "b",
+          "a",
+          "b"
+        ]
+      },
+      "expected": [
+        "b",
+        "a"
+      ]
+    }
+  ],
+  "editorial": "joinedload of a collection repeats the parent row once per child in the raw result. unique() collapses those repeats. Forgetting it returns duplicate parents to the API. First-seen order matches the parent's order in the joined stream.",
+  "reference_solution": "def solve(ids):\n    seen = set()\n    out = []\n    for item in ids:\n        if item in seen:\n            continue\n        seen.add(item)\n        out.append(item)\n    return out\n"
+}

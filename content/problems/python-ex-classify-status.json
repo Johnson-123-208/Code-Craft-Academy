@@ -1,0 +1,79 @@
+{
+  "title": "Classify Status",
+  "slug": "python-ex-classify-status",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "exceptions"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(status)`. Map an HTTP status integer to a billing failure class. 404 returns `not-found`. 408, 429, and any 500 through 599 return `transient`. Every other code returns `billing-failure`. This is the exception class you would raise, named as a string.\n",
+  "constraints": [
+    "404 is not transient",
+    "500 through 599 are transient"
+  ],
+  "examples": [
+    {
+      "input": "status = 404",
+      "output": "\"not-found\""
+    },
+    {
+      "input": "status = 503",
+      "output": "\"transient\""
+    }
+  ],
+  "starter_code": "def solve(status):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Check 404 first.",
+    "Then 408, 429, and the 5xx range.",
+    "The default is billing-failure, including other 4xx codes such as 400."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "Not every failure should retry."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "status": 404
+      },
+      "expected": "not-found"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "status": 503
+      },
+      "expected": "transient"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "status": 400
+      },
+      "expected": "billing-failure"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "status": 429
+      },
+      "expected": "transient"
+    }
+  ],
+  "editorial": "Not every failure should retry. 404 is a missing invoice, and retrying it will not create the row. 408, 429, and 5xx are the transient set in this contract. A generic 400 is the caller's bug and stays a billing failure rather than a retry.",
+  "reference_solution": "def solve(status):\n    if status == 404:\n        return \"not-found\"\n    if status in (408, 429) or 500 <= status <= 599:\n        return \"transient\"\n    return \"billing-failure\"\n"
+}

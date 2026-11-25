@@ -1,0 +1,109 @@
+{
+  "title": "Index Prefix",
+  "slug": "python-ex-index-prefix",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "sql"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(columns, filters, order_by)`. `columns` is the composite index, left to right. `filters` is the list of equality columns in the query, in index order. `order_by` is a column name or an empty string. Return `yes` when `filters` is a prefix of `columns` and `order_by` is either empty or the next column in the index. Return `no` otherwise.\n",
+  "constraints": [
+    "Equality columns must be the leading prefix",
+    "The sort can use the next column"
+  ],
+  "examples": [
+    {
+      "input": "columns = [\"customer_id\", \"created_at\"], filters = [\"customer_id\"], order_by = \"created_at\"",
+      "output": "\"yes\""
+    },
+    {
+      "input": "columns = [\"customer_id\", \"created_at\"], filters = [\"created_at\"], order_by = \"\"",
+      "output": "\"no\""
+    }
+  ],
+  "starter_code": "def solve(columns, filters, order_by):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "filters must equal columns[:len(filters)].",
+    "Then the next column may match order_by.",
+    "A filter that skips a leading column is no."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "A composite index serves a leftmost prefix."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "columns": [
+          "customer_id",
+          "created_at"
+        ],
+        "filters": [
+          "customer_id"
+        ],
+        "order_by": "created_at"
+      },
+      "expected": "yes"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "columns": [
+          "customer_id",
+          "created_at"
+        ],
+        "filters": [
+          "created_at"
+        ],
+        "order_by": ""
+      },
+      "expected": "no"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "columns": [
+          "customer_id",
+          "created_at"
+        ],
+        "filters": [
+          "customer_id"
+        ],
+        "order_by": ""
+      },
+      "expected": "yes"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "columns": [
+          "a",
+          "b",
+          "c"
+        ],
+        "filters": [
+          "a",
+          "b"
+        ],
+        "order_by": "c"
+      },
+      "expected": "yes"
+    }
+  ],
+  "editorial": "A composite index serves a leftmost prefix. Equality on the leading columns, then a sort on the following column, can walk the index in order. Filtering only on a later column cannot. This function is that rule for one index and one query shape.",
+  "reference_solution": "def solve(columns, filters, order_by):\n    if columns[:len(filters)] != filters:\n        return \"no\"\n    if order_by == \"\":\n        return \"yes\"\n    nxt = len(filters)\n    if nxt < len(columns) and columns[nxt] == order_by:\n        return \"yes\"\n    return \"no\"\n"
+}

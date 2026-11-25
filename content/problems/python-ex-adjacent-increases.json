@@ -1,0 +1,90 @@
+{
+  "title": "Adjacent Increases",
+  "slug": "python-ex-adjacent-increases",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "itertools"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(items)`. Return how many adjacent pairs have a strictly greater second value. A list shorter than 2 returns 0.\n",
+  "constraints": [
+    "Pairs overlap",
+    "Equal neighbors do not count"
+  ],
+  "examples": [
+    {
+      "input": "items = [1, 2, 2, 3]",
+      "output": "2"
+    },
+    {
+      "input": "items = [3, 2, 1]",
+      "output": "0"
+    }
+  ],
+  "starter_code": "def solve(items):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Compare items[i+1] with items[i].",
+    "Count strict increases.",
+    "zip of the list with its tail is the pair view."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "pairwise, or zip(items, items[1:]), walks neighbors without a manual index."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "items": [
+          1,
+          2,
+          2,
+          3
+        ]
+      },
+      "expected": 2
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "items": [
+          3,
+          2,
+          1
+        ]
+      },
+      "expected": 0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "items": [
+          1
+        ]
+      },
+      "expected": 0
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "items": []
+      },
+      "expected": 0
+    }
+  ],
+  "editorial": "pairwise, or zip(items, items[1:]), walks neighbors without a manual index. The count is the number of rises. A non-strict comparison would count plateaus, which this series does not want.",
+  "reference_solution": "def solve(items):\n    return sum(1 for left, right in zip(items, items[1:]) if right > left)\n"
+}

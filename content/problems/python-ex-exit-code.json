@@ -1,0 +1,79 @@
+{
+  "title": "Exit Class",
+  "slug": "python-ex-exit-code",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "cli"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(outcome)`. Map `ok` to 0, `fail` to 1, and `usage` to 2. Any other word maps to 1. These are process exit codes: success, a handled failure, and a bad invocation.\n",
+  "constraints": [
+    "Return an integer",
+    "Unknown outcomes are failures"
+  ],
+  "examples": [
+    {
+      "input": "outcome = \"ok\"",
+      "output": "0"
+    },
+    {
+      "input": "outcome = \"usage\"",
+      "output": "2"
+    }
+  ],
+  "starter_code": "def solve(outcome):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Use a dict from the three known words to their codes.",
+    "Default the lookup to 1.",
+    "Do not return the word itself."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "Exit codes are a tiny protocol between your program and the shell."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "outcome": "ok"
+      },
+      "expected": 0
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "outcome": "usage"
+      },
+      "expected": 2
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "outcome": "fail"
+      },
+      "expected": 1
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "outcome": "timeout"
+      },
+      "expected": 1
+    }
+  ],
+  "editorial": "Exit codes are a tiny protocol between your program and the shell. 0 is success. 2 is reserved here for usage mistakes so a wrapper can tell a bad flag from a failed charge. Everything else is a generic failure.",
+  "reference_solution": "def solve(outcome):\n    return {\"ok\": 0, \"fail\": 1, \"usage\": 2}.get(outcome, 1)\n"
+}

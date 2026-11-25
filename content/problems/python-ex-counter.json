@@ -1,0 +1,111 @@
+{
+  "title": "Counter",
+  "slug": "python-ex-counter",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "closures"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(ops)`. `ops` is a list of `inc`, `reset`, or `read`. A closure starts at 0. `inc` adds 1. `reset` sets the value back to 0. `read` does not change it. Return the list of values after each operation, including reads.\n",
+  "constraints": [
+    "The counter starts at 0",
+    "Return one integer per operation"
+  ],
+  "examples": [
+    {
+      "input": "ops = [\"inc\", \"inc\", \"read\", \"reset\", \"read\"]",
+      "output": "[1, 2, 2, 0, 0]"
+    },
+    {
+      "input": "ops = [\"read\"]",
+      "output": "[0]"
+    }
+  ],
+  "starter_code": "def solve(ops):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Keep the integer in a variable the loop closes over. A list cell works if you want a mutable binding.",
+    "Apply each op, then append the current value.",
+    "reset goes to 0, not to the previous value."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "A closure counter is a function plus a cell it can write."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "ops": [
+          "inc",
+          "inc",
+          "read",
+          "reset",
+          "read"
+        ]
+      },
+      "expected": [
+        1,
+        2,
+        2,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "ops": [
+          "read"
+        ]
+      },
+      "expected": [
+        0
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "ops": [
+          "reset",
+          "inc"
+        ]
+      },
+      "expected": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "ops": [
+          "inc",
+          "reset",
+          "inc",
+          "inc"
+        ]
+      },
+      "expected": [
+        1,
+        0,
+        1,
+        2
+      ]
+    }
+  ],
+  "editorial": "A closure counter is a function plus a cell it can write. The operations are the calls. Recording the value after every call is what a test can see, since the function object itself is not a JSON result.",
+  "reference_solution": "def solve(ops):\n    value = 0\n    out = []\n    for op in ops:\n        if op == \"inc\":\n            value += 1\n        elif op == \"reset\":\n            value = 0\n        out.append(value)\n    return out\n"
+}

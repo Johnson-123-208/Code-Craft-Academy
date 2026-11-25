@@ -1,0 +1,91 @@
+{
+  "title": "CSV Fields",
+  "slug": "python-ex-csv-quoted",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "csv"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(text)`. `text` is one CSV line with header `name,note` already known. The line is a data row, not a header. Parse it with the csv module and return `[name, note]`. A quoted comma stays inside the note. Do not split on every comma yourself.\n",
+  "constraints": [
+    "Use the csv module",
+    "The row has two fields"
+  ],
+  "examples": [
+    {
+      "input": "text = \"ada,\\\"hello, world\\\"\"",
+      "output": "[\"ada\", \"hello, world\"]"
+    },
+    {
+      "input": "text = \"grace,plain\"",
+      "output": "[\"grace\", \"plain\"]"
+    }
+  ],
+  "starter_code": "def solve(text):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "csv.reader on an iterable of one line respects quotes.",
+    "Take the first row.",
+    "Return the two fields as a list."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "str."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "text": "ada,\"hello, world\""
+      },
+      "expected": [
+        "ada",
+        "hello, world"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "text": "grace,plain"
+      },
+      "expected": [
+        "grace",
+        "plain"
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "text": "\"a,b\",c"
+      },
+      "expected": [
+        "a,b",
+        "c"
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "text": "lin,\"x\""
+      },
+      "expected": [
+        "lin",
+        "x"
+      ]
+    }
+  ],
+  "editorial": "str.split on comma breaks a quoted field that contains a comma. The csv module implements those quotes. DictReader is the same parser with headers. This row is positional: the first field is the name and the second is the note.",
+  "reference_solution": "def solve(text):\n    import csv\n    import io\n    row = next(csv.reader(io.StringIO(text)))\n    return [row[0], row[1]]\n"
+}

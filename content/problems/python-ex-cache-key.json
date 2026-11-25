@@ -1,0 +1,83 @@
+{
+  "title": "Cache Key",
+  "slug": "python-ex-cache-key",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "functools"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(kind, pure)`. `kind` is `int`, `str`, or `list`. `pure` is 1 when the function has no side effects. Return `cache` only when pure is 1 and kind is `int` or `str`. Return `skip` for lists, for impure functions, and for any other kind.\n",
+  "constraints": [
+    "Lists are not hashable keys",
+    "Impure functions must not be cached"
+  ],
+  "examples": [
+    {
+      "input": "kind = \"int\", pure = 1",
+      "output": "\"cache\""
+    },
+    {
+      "input": "kind = \"list\", pure = 1",
+      "output": "\"skip\""
+    }
+  ],
+  "starter_code": "def solve(kind, pure):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "pure must be 1.",
+    "kind must be int or str.",
+    "Everything else skips."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "lru_cache keys arguments by hash."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "kind": "int",
+        "pure": 1
+      },
+      "expected": "cache"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "kind": "list",
+        "pure": 1
+      },
+      "expected": "skip"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "kind": "str",
+        "pure": 0
+      },
+      "expected": "skip"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "kind": "dict",
+        "pure": 1
+      },
+      "expected": "skip"
+    }
+  ],
+  "editorial": "lru_cache keys arguments by hash. A list is unhashable. A function that writes a counter or reads the clock is impure, so a cached return value is a stale lie. Both gates have to pass.",
+  "reference_solution": "def solve(kind, pure):\n    if pure and kind in (\"int\", \"str\"):\n        return \"cache\"\n    return \"skip\"\n"
+}

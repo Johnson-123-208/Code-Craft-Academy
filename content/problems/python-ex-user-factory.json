@@ -1,0 +1,79 @@
+{
+  "title": "From Row Factory",
+  "slug": "python-ex-user-factory",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "patterns"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(name)`. Strip the name. Return `error` if it is empty. Otherwise return `user:{name}`. Construction goes through that validating path, not through a raw constructor the caller can call with a blank.\n",
+  "constraints": [
+    "Whitespace-only is error",
+    "The prefix is user:"
+  ],
+  "examples": [
+    {
+      "input": "name = \" Ada \"",
+      "output": "\"user:Ada\""
+    },
+    {
+      "input": "name = \"  \"",
+      "output": "\"error\""
+    }
+  ],
+  "starter_code": "def solve(name):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Strip.",
+    "Reject empty.",
+    "Return the prefixed name."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "A factory is the supported constructor when the raw initializer would accept junk, or when you want one place that validates."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "name": " Ada "
+      },
+      "expected": "user:Ada"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "name": "  "
+      },
+      "expected": "error"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "name": "Grace"
+      },
+      "expected": "user:Grace"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "name": ""
+      },
+      "expected": "error"
+    }
+  ],
+  "editorial": "A factory is the supported constructor when the raw initializer would accept junk, or when you want one place that validates. Callers that bypass it are the bug. The result string is what the factory returns after a successful check.",
+  "reference_solution": "def solve(name):\n    cleaned = name.strip()\n    if not cleaned:\n        return \"error\"\n    return \"user:\" + cleaned\n"
+}

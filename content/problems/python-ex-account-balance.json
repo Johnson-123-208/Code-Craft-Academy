@@ -1,0 +1,91 @@
+{
+  "title": "Nonnegative Balance",
+  "slug": "python-ex-account-balance",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "properties"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(start, updates)`. `start` is the initial balance. `updates` is a list of integers to assign, in order. A balance must be an int greater than or equal to 0. bool is rejected. On the first illegal start or update, return `error`. Otherwise return the final balance. The constructor uses the same check as the later assignments.\n",
+  "constraints": [
+    "Zero is legal",
+    "A negative aborts"
+  ],
+  "examples": [
+    {
+      "input": "start = 10, updates = [0, 4]",
+      "output": "4"
+    },
+    {
+      "input": "start = -1, updates = [1]",
+      "output": "\"error\""
+    }
+  ],
+  "starter_code": "def solve(start, updates):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Validate start before applying updates.",
+    "Validate each update. Stop at the first failure.",
+    "type(value) is int and value >= 0 is the rule. True is a bool."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "A property setter is the one place that can reject a negative balance, but only if the constructor also goes through the setter or the same helper."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "start": 10,
+        "updates": [
+          0,
+          4
+        ]
+      },
+      "expected": 4
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "start": -1,
+        "updates": [
+          1
+        ]
+      },
+      "expected": "error"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "start": 1,
+        "updates": [
+          2,
+          -3
+        ]
+      },
+      "expected": "error"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "start": 0,
+        "updates": []
+      },
+      "expected": 0
+    }
+  ],
+  "editorial": "A property setter is the one place that can reject a negative balance, but only if the constructor also goes through the setter or the same helper. Assigning to self._balance in __init__ and validating only in the setter leaves a back door. One helper used by both closes it.",
+  "reference_solution": "def solve(start, updates):\n    def valid(value):\n        return type(value) is int and value >= 0\n\n    if not valid(start):\n        return \"error\"\n    balance = start\n    for value in updates:\n        if not valid(value):\n            return \"error\"\n        balance = value\n    return balance\n"
+}

@@ -1,0 +1,96 @@
+{
+  "title": "Allow Subset",
+  "slug": "python-ex-allow-subset",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "sets"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(allowed, requested)`. Both are lists of permission strings. Return 1 when every requested permission is in the allowed set, including when `requested` is empty. Return 0 when any request is missing.\n",
+  "constraints": [
+    "Empty requested is allowed",
+    "Duplicates do not matter"
+  ],
+  "examples": [
+    {
+      "input": "allowed = [\"read\", \"write\"], requested = [\"read\"]",
+      "output": "1"
+    },
+    {
+      "input": "allowed = [\"read\"], requested = [\"write\"]",
+      "output": "0"
+    }
+  ],
+  "starter_code": "def solve(allowed, requested):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Build a set of allowed permissions.",
+    "Every requested item must be in that set.",
+    "all() of an empty request list is the success case. Return 1."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n + m)",
+        "space": "O(n)"
+      },
+      "explanation": "Permission checks are a subset test."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "allowed": [
+          "read",
+          "write"
+        ],
+        "requested": [
+          "read"
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "allowed": [
+          "read"
+        ],
+        "requested": [
+          "write"
+        ]
+      },
+      "expected": 0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "allowed": [
+          "read"
+        ],
+        "requested": []
+      },
+      "expected": 1
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "allowed": [],
+        "requested": [
+          "read"
+        ]
+      },
+      "expected": 0
+    }
+  ],
+  "editorial": "Permission checks are a subset test. A list scan per permission is quadratic in a long policy. A set of the allowed names answers each check in expected constant time. An empty request asks for nothing and succeeds.",
+  "reference_solution": "def solve(allowed, requested):\n    have = set(allowed)\n    for name in requested:\n        if name not in have:\n            return 0\n    return 1\n"
+}

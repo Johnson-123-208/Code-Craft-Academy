@@ -1,0 +1,115 @@
+{
+  "title": "Recording Fake",
+  "slug": "python-ex-recording-client",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "testing"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(amounts)`. A fake client records every positive amount and returns `ok` for each. Non-positive amounts are not recorded and produce `reject` for that step. Return `{\"recorded\": [...], \"results\": [...]}`.\n",
+  "constraints": [
+    "Order matches the input",
+    "Rejects are not recorded"
+  ],
+  "examples": [
+    {
+      "input": "amounts = [100, 0, 50]",
+      "output": "{\"recorded\": [100, 50], \"results\": [\"ok\", \"reject\", \"ok\"]}"
+    },
+    {
+      "input": "amounts = []",
+      "output": "{\"recorded\": [], \"results\": []}"
+    }
+  ],
+  "starter_code": "def solve(amounts):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Walk the amounts.",
+    "A positive int is appended and results get ok.",
+    "Anything else appends reject and does not record the amount."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "A recording fake is a test double with a real method."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "amounts": [
+          100,
+          0,
+          50
+        ]
+      },
+      "expected": {
+        "recorded": [
+          100,
+          50
+        ],
+        "results": [
+          "ok",
+          "reject",
+          "ok"
+        ]
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "amounts": []
+      },
+      "expected": {
+        "recorded": [],
+        "results": []
+      }
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "amounts": [
+          -1
+        ]
+      },
+      "expected": {
+        "recorded": [],
+        "results": [
+          "reject"
+        ]
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "amounts": [
+          1,
+          2
+        ]
+      },
+      "expected": {
+        "recorded": [
+          1,
+          2
+        ],
+        "results": [
+          "ok",
+          "ok"
+        ]
+      }
+    }
+  ],
+  "editorial": "A recording fake is a test double with a real method. It stores the amounts the subject tried to charge. Assertions then look at the list, not at a mock's call history. Rejected amounts stay out of that list so a bug that charges zero is visible as a reject rather than as a stored zero.",
+  "reference_solution": "def solve(amounts):\n    recorded = []\n    results = []\n    for amount in amounts:\n        if type(amount) is int and amount > 0:\n            recorded.append(amount)\n            results.append(\"ok\")\n        else:\n            results.append(\"reject\")\n    return {\"recorded\": recorded, \"results\": results}\n"
+}

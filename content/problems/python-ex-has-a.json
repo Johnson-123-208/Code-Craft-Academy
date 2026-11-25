@@ -1,0 +1,93 @@
+{
+  "title": "Has A",
+  "slug": "python-ex-has-a",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "composition"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(sentences)`. Each sentence is `child is-a parent` or `whole has-a part`. Return a list of `is-a` or `has-a` in order. A sentence that matches neither returns `unknown` for that item.\n",
+  "constraints": [
+    "Look at the verb",
+    "Do not infer from the nouns"
+  ],
+  "examples": [
+    {
+      "input": "sentences = [\"Car has-a Engine\", \"ElectricCar is-a Car\"]",
+      "output": "[\"has-a\", \"is-a\"]"
+    },
+    {
+      "input": "sentences = [\"nope\"]",
+      "output": "[\"unknown\"]"
+    }
+  ],
+  "starter_code": "def solve(sentences):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Split on spaces. The tests use exactly three words.",
+    "The middle word is the relation.",
+    "Anything else is unknown."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "is-a is inheritance."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "sentences": [
+          "Car has-a Engine",
+          "ElectricCar is-a Car"
+        ]
+      },
+      "expected": [
+        "has-a",
+        "is-a"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "sentences": [
+          "nope"
+        ]
+      },
+      "expected": [
+        "unknown"
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "sentences": []
+      },
+      "expected": []
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "sentences": [
+          "A is-a B"
+        ]
+      },
+      "expected": [
+        "is-a"
+      ]
+    }
+  ],
+  "editorial": "is-a is inheritance. has-a is composition. The nouns do not decide it: a Car has an Engine, and an ElectricCar is a Car. Reading the verb is the classification. Guessing from the first noun is how a design discussion gets muddy.",
+  "reference_solution": "def solve(sentences):\n    out = []\n    for sentence in sentences:\n        parts = sentence.split()\n        if len(parts) == 3 and parts[1] in (\"is-a\", \"has-a\"):\n            out.append(parts[1])\n        else:\n            out.append(\"unknown\")\n    return out\n"
+}

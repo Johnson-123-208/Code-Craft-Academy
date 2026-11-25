@@ -1,0 +1,102 @@
+{
+  "title": "Optional Count",
+  "slug": "python-ex-optional-count",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "none"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(values)`. Each item is either an integer count or the string `none` for a missing observation. Return `{\"sum\": total, \"missing\": count}` where `sum` adds only the integers and `missing` is how many `none` tokens you saw. A missing observation is not a zero. Zero is a real count and adds nothing, and it is not missing.\n",
+  "constraints": [
+    "none is the only non-integer",
+    "Zero is present"
+  ],
+  "examples": [
+    {
+      "input": "values = [1, \"none\", 0, 2]",
+      "output": "{\"sum\": 3, \"missing\": 1}"
+    },
+    {
+      "input": "values = [\"none\", \"none\"]",
+      "output": "{\"sum\": 0, \"missing\": 2}"
+    }
+  ],
+  "starter_code": "def solve(values):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Branch on the string none versus an int.",
+    "Add ints into sum, including zeros.",
+    "Count the none tokens separately. Do not add them as zero."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Folding optional counts with `or 0` cannot tell a missing sample from a measured zero, but the return value here can."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "values": [
+          1,
+          "none",
+          0,
+          2
+        ]
+      },
+      "expected": {
+        "sum": 3,
+        "missing": 1
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "values": [
+          "none",
+          "none"
+        ]
+      },
+      "expected": {
+        "sum": 0,
+        "missing": 2
+      }
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "values": [
+          0,
+          0
+        ]
+      },
+      "expected": {
+        "sum": 0,
+        "missing": 0
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "values": []
+      },
+      "expected": {
+        "sum": 0,
+        "missing": 0
+      }
+    }
+  ],
+  "editorial": "Folding optional counts with `or 0` cannot tell a missing sample from a measured zero, but the return value here can. The sum is the measured total. The missing count is how much of the list never produced a measurement.",
+  "reference_solution": "def solve(values):\n    total = 0\n    missing = 0\n    for value in values:\n        if value == \"none\":\n            missing += 1\n        else:\n            total += value\n    return {\"sum\": total, \"missing\": missing}\n"
+}

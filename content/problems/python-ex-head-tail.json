@@ -1,0 +1,110 @@
+{
+  "title": "Head Tail",
+  "slug": "python-ex-head-tail",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "tuples"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(items)`. `items` is a non-empty list. Return `[head, tail]` where `head` is the first element and `tail` is the list of the rest. The rest may be empty. Do not mutate the input.\n",
+  "constraints": [
+    "The list is non-empty",
+    "tail is a list, not a leftover scalar"
+  ],
+  "examples": [
+    {
+      "input": "items = [1, 2, 3]",
+      "output": "[1, [2, 3]]"
+    },
+    {
+      "input": "items = [7]",
+      "output": "[7, []]"
+    }
+  ],
+  "starter_code": "def solve(items):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Bind head, *tail = items.",
+    "Return [head, tail].",
+    "A one-element list has an empty tail."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Starred unpacking splits a sequence into the first element and a new list of the remainder."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "items": [
+          1,
+          2,
+          3
+        ]
+      },
+      "expected": [
+        1,
+        [
+          2,
+          3
+        ]
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "items": [
+          7
+        ]
+      },
+      "expected": [
+        7,
+        []
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "items": [
+          "a",
+          "b"
+        ]
+      },
+      "expected": [
+        "a",
+        [
+          "b"
+        ]
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "items": [
+          0,
+          0
+        ]
+      },
+      "expected": [
+        0,
+        [
+          0
+        ]
+      ]
+    }
+  ],
+  "editorial": "Starred unpacking splits a sequence into the first element and a new list of the remainder. That is the head/tail recursion pattern without a slice you might forget is a copy. The tail is always a list so the caller can unpack again.",
+  "reference_solution": "def solve(items):\n    head, *tail = items\n    return [head, tail]\n"
+}

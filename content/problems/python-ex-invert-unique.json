@@ -1,0 +1,112 @@
+{
+  "title": "Invert Unique",
+  "slug": "python-ex-invert-unique",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "dicts"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(pairs)`. `pairs` is a list of `[key, value]` strings. Build a dict from value to key. If two pairs share a value, return the string `error` and do not return a partial dict. Otherwise return the inverted dict.\n",
+  "constraints": [
+    "Keys and values are strings",
+    "A repeated value is an error even if the keys differ"
+  ],
+  "examples": [
+    {
+      "input": "pairs = [[\"a\", \"1\"], [\"b\", \"2\"]]",
+      "output": "{\"1\": \"a\", \"2\": \"b\"}"
+    },
+    {
+      "input": "pairs = [[\"a\", \"1\"], [\"b\", \"1\"]]",
+      "output": "\"error\""
+    }
+  ],
+  "starter_code": "def solve(pairs):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Insert value to key one pair at a time.",
+    "If the value is already present, return error immediately.",
+    "The original key becomes the stored value."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Inverting a mapping is safe only when values are unique."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "pairs": [
+          [
+            "a",
+            "1"
+          ],
+          [
+            "b",
+            "2"
+          ]
+        ]
+      },
+      "expected": {
+        "1": "a",
+        "2": "b"
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "pairs": [
+          [
+            "a",
+            "1"
+          ],
+          [
+            "b",
+            "1"
+          ]
+        ]
+      },
+      "expected": "error"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "pairs": []
+      },
+      "expected": {}
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "pairs": [
+          [
+            "a",
+            "1"
+          ],
+          [
+            "a",
+            "2"
+          ]
+        ]
+      },
+      "expected": {
+        "1": "a",
+        "2": "a"
+      }
+    }
+  ],
+  "editorial": "Inverting a mapping is safe only when values are unique. A silent overwrite drops a key and the caller cannot tell. Checking membership before the insert turns that collision into an explicit error, which is the contract this function tests.",
+  "reference_solution": "def solve(pairs):\n    out = {}\n    for key, value in pairs:\n        if value in out:\n            return \"error\"\n        out[value] = key\n    return out\n"
+}

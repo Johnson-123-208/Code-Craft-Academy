@@ -1,0 +1,83 @@
+{
+  "title": "Query Count",
+  "slug": "python-ex-query-count",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "sqlalchemy"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(parents, strategy)`. `strategy` is `lazy`, `selectin`, or `join`. Lazy runs 1 plus `parents` statements. Selectin runs 2 when parents is positive and 1 when parents is 0. Join runs 1. Any other strategy returns `error`. Negative parents returns `error`.\n",
+  "constraints": [
+    "lazy grows with the page",
+    "selectin stays flat"
+  ],
+  "examples": [
+    {
+      "input": "parents = 50, strategy = \"lazy\"",
+      "output": "51"
+    },
+    {
+      "input": "parents = 50, strategy = \"selectin\"",
+      "output": "2"
+    }
+  ],
+  "starter_code": "def solve(parents, strategy):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Reject a negative page size.",
+    "Branch on the three strategies.",
+    "Unknown strategies are error."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "Lazy loading a collection inside a loop is the N+1 query."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "parents": 50,
+        "strategy": "lazy"
+      },
+      "expected": 51
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "parents": 50,
+        "strategy": "selectin"
+      },
+      "expected": 2
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "parents": 0,
+        "strategy": "selectin"
+      },
+      "expected": 1
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "parents": 3,
+        "strategy": "join"
+      },
+      "expected": 1
+    }
+  ],
+  "editorial": "Lazy loading a collection inside a loop is the N+1 query. selectinload issues one follow-up query for the page. joinedload folds the children into the parent query, which is one statement and a different LIMIT story. The count is what you assert in a test so a later edit cannot bring the loop back quietly.",
+  "reference_solution": "def solve(parents, strategy):\n    if parents < 0:\n        return \"error\"\n    if strategy == \"lazy\":\n        return 1 + parents\n    if strategy == \"selectin\":\n        return 2 if parents else 1\n    if strategy == \"join\":\n        return 1\n    return \"error\"\n"
+}

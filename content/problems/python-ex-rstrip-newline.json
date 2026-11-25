@@ -1,0 +1,79 @@
+{
+  "title": "Line Strip",
+  "slug": "python-ex-rstrip-newline",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "files"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(line)`. Remove a single trailing newline sequence if present: `\\r\\n`, or a final `\\n`, or a final `\\r`. Leave other trailing spaces in place. Do not strip the whole line.\n",
+  "constraints": [
+    "Only one trailing newline sequence",
+    "Spaces stay"
+  ],
+  "examples": [
+    {
+      "input": "line = \"ada\\n\"",
+      "output": "\"ada\""
+    },
+    {
+      "input": "line = \"ada\\r\\n\"",
+      "output": "\"ada\""
+    }
+  ],
+  "starter_code": "def solve(line):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Check endswith for the two-character sequence first.",
+    "Then check the single characters.",
+    "If none match, return the line unchanged."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "rstrip() would eat the trailing spaces a fixed-width field might need."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "line": "ada\n"
+      },
+      "expected": "ada"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "line": "ada\r\n"
+      },
+      "expected": "ada"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "line": "ada  "
+      },
+      "expected": "ada  "
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "line": "ada"
+      },
+      "expected": "ada"
+    }
+  ],
+  "editorial": "rstrip() would eat the trailing spaces a fixed-width field might need. A newline at the end of a readline result is the only thing to remove. Checking CRLF first avoids leaving a CR behind when you only strip LF.",
+  "reference_solution": "def solve(line):\n    if line.endswith(\"\\r\\n\"):\n        return line[:-2]\n    if line.endswith(\"\\n\") or line.endswith(\"\\r\"):\n        return line[:-1]\n    return line\n"
+}

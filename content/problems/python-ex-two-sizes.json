@@ -1,0 +1,83 @@
+{
+  "title": "Growth Class",
+  "slug": "python-ex-two-sizes",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "performance"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(t1, t4)`. Same rule as the profiling classifier: return `linear` when `t4` is at most 6 times `t1`, and `super` otherwise. Times are positive integers.\n",
+  "constraints": [
+    "Cutoff is 6 times, inclusive",
+    "super means the curve is steeper than linear noise"
+  ],
+  "examples": [
+    {
+      "input": "t1 = 8, t4 = 32",
+      "output": "\"linear\""
+    },
+    {
+      "input": "t1 = 8, t4 = 128",
+      "output": "\"super\""
+    }
+  ],
+  "starter_code": "def solve(t1, t4):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Compare t4 with 6 * t1.",
+    "Less or equal is linear.",
+    "Greater is super."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "n versus 4n is the cheap experiment after you change an algorithm."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "t1": 8,
+        "t4": 32
+      },
+      "expected": "linear"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "t1": 8,
+        "t4": 128
+      },
+      "expected": "super"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "t1": 8,
+        "t4": 48
+      },
+      "expected": "linear"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "t1": 2,
+        "t4": 13
+      },
+      "expected": "super"
+    }
+  ],
+  "editorial": "n versus 4n is the cheap experiment after you change an algorithm. Linear work scales near 4. Quadratic work scales near 16. The factor 6 is the fence between noise and a real exponent change.",
+  "reference_solution": "def solve(t1, t4):\n    if t4 <= 6 * t1:\n        return \"linear\"\n    return \"super\"\n"
+}

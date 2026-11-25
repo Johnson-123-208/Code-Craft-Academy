@@ -1,0 +1,94 @@
+{
+  "title": "Pipeline",
+  "slug": "python-ex-pipeline",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "generators"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(words)`. Normalize by stripping and lowercasing, then drop blanks. Return the remaining words in order. Do the work as two stages: a normalize stage and a drop-blank stage. The result is what the caller sees after composing them.\n",
+  "constraints": [
+    "words is a list of strings",
+    "Empty after strip is dropped"
+  ],
+  "examples": [
+    {
+      "input": "words = [\" Ada \", \" \", \"GRACE\"]",
+      "output": "[\"ada\", \"grace\"]"
+    },
+    {
+      "input": "words = []",
+      "output": "[]"
+    }
+  ],
+  "starter_code": "def solve(words):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "First stage: strip and lower each word, including ones that become empty.",
+    "Second stage: skip empty strings.",
+    "Do not drop before lowercasing. The case fold happens on the stripped text."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Two generators compose by iteration: the second pulls from the first."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "words": [
+          " Ada ",
+          " ",
+          "GRACE"
+        ]
+      },
+      "expected": [
+        "ada",
+        "grace"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "words": []
+      },
+      "expected": []
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "words": [
+          "  "
+        ]
+      },
+      "expected": []
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "words": [
+          "A",
+          "b"
+        ]
+      },
+      "expected": [
+        "a",
+        "b"
+      ]
+    }
+  ],
+  "editorial": "Two generators compose by iteration: the second pulls from the first. Mixing both decisions into one loop is shorter and harder to reuse. The tests check the composition, including a word that is only spaces and a word whose case changes.",
+  "reference_solution": "def solve(words):\n    def normalize(source):\n        for word in source:\n            yield word.strip().lower()\n\n    def drop_blank(source):\n        for word in source:\n            if word:\n                yield word\n\n    return list(drop_blank(normalize(words)))\n"
+}

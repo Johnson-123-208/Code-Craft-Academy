@@ -1,0 +1,91 @@
+{
+  "title": "Recursive Sum",
+  "slug": "python-ex-nested-sum",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "recursion"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(value)`. Sum every integer in a nested list. An integer returns itself. An empty list returns 0. Lists contain only integers and lists.\n",
+  "constraints": [
+    "Leaves are integers",
+    "Empty sums to 0"
+  ],
+  "examples": [
+    {
+      "input": "value = [1, [2, 3], 4]",
+      "output": "10"
+    },
+    {
+      "input": "value = []",
+      "output": "0"
+    }
+  ],
+  "starter_code": "def solve(value):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "The integer case returns the integer.",
+    "The list case returns the sum of the recursive results.",
+    "Do not use a global accumulator you forget to reset."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(d)"
+      },
+      "explanation": "The sum of a nested list is the sum of the sums of its children, and the sum of a number is the number."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "value": [
+          1,
+          [
+            2,
+            3
+          ],
+          4
+        ]
+      },
+      "expected": 10
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "value": []
+      },
+      "expected": 0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "value": 0
+      },
+      "expected": 0
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "value": [
+          [
+            1
+          ],
+          []
+        ]
+      },
+      "expected": 1
+    }
+  ],
+  "editorial": "The sum of a nested list is the sum of the sums of its children, and the sum of a number is the number. That recurrence does not need a flattened copy. A global accumulator also works and is easier to get wrong across calls.",
+  "reference_solution": "def solve(value):\n    if type(value) is int:\n        return value\n    return sum(solve(child) for child in value)\n"
+}

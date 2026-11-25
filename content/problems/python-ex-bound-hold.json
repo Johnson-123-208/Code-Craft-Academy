@@ -1,0 +1,83 @@
+{
+  "title": "Bound Leak",
+  "slug": "python-ex-bound-hold",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "oop"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(store_method, alive)`. Both are 0 or 1. `store_method` means a bound method was saved. `alive` means some other reference to the instance remains. Return `held` when the instance stays reachable, and `free` when it does not. A stored bound method keeps the instance alive even when `alive` is 0. If the method was not stored, the instance is held only when `alive` is 1.\n",
+  "constraints": [
+    "A bound method references self",
+    "Return held or free"
+  ],
+  "examples": [
+    {
+      "input": "store_method = 1, alive = 0",
+      "output": "\"held\""
+    },
+    {
+      "input": "store_method = 0, alive = 0",
+      "output": "\"free\""
+    }
+  ],
+  "starter_code": "def solve(store_method, alive):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "If store_method is 1, return held.",
+    "Else if alive is 1, return held.",
+    "Else return free."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "A bound method is a small object that points at the instance and the function."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "store_method": 1,
+        "alive": 0
+      },
+      "expected": "held"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "store_method": 0,
+        "alive": 0
+      },
+      "expected": "free"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "store_method": 0,
+        "alive": 1
+      },
+      "expected": "held"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "store_method": 1,
+        "alive": 1
+      },
+      "expected": "held"
+    }
+  ],
+  "editorial": "A bound method is a small object that points at the instance and the function. Saving it in a callback list keeps the instance reachable. Dropping every other reference is not enough. That is the leak when a UI or a registry stores methods and forgets the owner.",
+  "reference_solution": "def solve(store_method, alive):\n    if store_method or alive:\n        return \"held\"\n    return \"free\"\n"
+}

@@ -1,0 +1,101 @@
+{
+  "title": "Sort Key",
+  "slug": "python-ex-sort-key",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "sorting"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(words)`. Return the words sorted by length ascending, and by the word itself ascending when lengths tie. The sort must be the tuple key `(len(word), word)`.\n",
+  "constraints": [
+    "words is a list of strings",
+    "Sorting is stable, and the tuple makes the tie explicit"
+  ],
+  "examples": [
+    {
+      "input": "words = [\"bb\", \"a\", \"b\", \"aa\"]",
+      "output": "[\"a\", \"b\", \"aa\", \"bb\"]"
+    },
+    {
+      "input": "words = []",
+      "output": "[]"
+    }
+  ],
+  "starter_code": "def solve(words):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Use sorted with key=lambda word: (len(word), word).",
+    "Do not sort by length only and hope the original order matches the tests. The tests include ties whose alphabetical order differs from input order.",
+    "Return a new list."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n log n)",
+        "space": "O(n)"
+      },
+      "explanation": "A tuple key compares the first field and only then the second."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "words": [
+          "bb",
+          "a",
+          "b",
+          "aa"
+        ]
+      },
+      "expected": [
+        "a",
+        "b",
+        "aa",
+        "bb"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "words": []
+      },
+      "expected": []
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "words": [
+          "a"
+        ]
+      },
+      "expected": [
+        "a"
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "words": [
+          "ccc",
+          "a",
+          "bb"
+        ]
+      },
+      "expected": [
+        "a",
+        "bb",
+        "ccc"
+      ]
+    }
+  ],
+  "editorial": "A tuple key compares the first field and only then the second. That is length, then the string. Two sorts in the right order also work because sorted is stable, but the tuple is one comparison and does not depend on you remembering which sort runs last.",
+  "reference_solution": "def solve(words):\n    return sorted(words, key=lambda word: (len(word), word))\n"
+}

@@ -1,0 +1,95 @@
+{
+  "title": "Swap Fields",
+  "slug": "python-ex-swap-pair",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "tuples"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(left, right)`. Return `[right, left]`. This is the unpacking swap of a two-field record into a new pair. Do not use a temporary variable.\n",
+  "constraints": [
+    "Both values are strings",
+    "Return a two-element list"
+  ],
+  "examples": [
+    {
+      "input": "left = \"a\", right = \"b\"",
+      "output": "[\"b\", \"a\"]"
+    },
+    {
+      "input": "left = \"a\", right = \"a\"",
+      "output": "[\"a\", \"a\"]"
+    }
+  ],
+  "starter_code": "def solve(left, right):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "right, left = left, right is the swap. You can also return [right, left] directly.",
+    "The result is a new pair.",
+    "Equal inputs stay equal."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "Unpacking assignment swaps names without a temporary."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "left": "a",
+        "right": "b"
+      },
+      "expected": [
+        "b",
+        "a"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "left": "a",
+        "right": "a"
+      },
+      "expected": [
+        "a",
+        "a"
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "left": "",
+        "right": "z"
+      },
+      "expected": [
+        "z",
+        ""
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "left": "name",
+        "right": "team"
+      },
+      "expected": [
+        "team",
+        "name"
+      ]
+    }
+  ],
+  "editorial": "Unpacking assignment swaps names without a temporary. For a two-field record the new tuple is (right, left). The list form is what the judge stores. Nothing is mutated because strings and the new pair are new values.",
+  "reference_solution": "def solve(left, right):\n    left, right = right, left\n    return [left, right]\n"
+}

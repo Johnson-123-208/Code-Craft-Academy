@@ -1,0 +1,106 @@
+{
+  "title": "Split Models",
+  "slug": "python-ex-response-fields",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "pydantic"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(fields, secrets)`. `fields` is the list of field names on the write model, in order. `secrets` is the list of names that must not appear on the response. Return the response fields, in the original order, with secrets removed.\n",
+  "constraints": [
+    "Order follows fields",
+    "Secrets that were not present change nothing"
+  ],
+  "examples": [
+    {
+      "input": "fields = [\"id\", \"password\", \"name\"], secrets = [\"password\"]",
+      "output": "[\"id\", \"name\"]"
+    },
+    {
+      "input": "fields = [\"id\"], secrets = [\"password\"]",
+      "output": "[\"id\"]"
+    }
+  ],
+  "starter_code": "def solve(fields, secrets):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Walk fields.",
+    "Skip names in the secret set.",
+    "Do not sort."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "A response model is an allow-list."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "fields": [
+          "id",
+          "password",
+          "name"
+        ],
+        "secrets": [
+          "password"
+        ]
+      },
+      "expected": [
+        "id",
+        "name"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "fields": [
+          "id"
+        ],
+        "secrets": [
+          "password"
+        ]
+      },
+      "expected": [
+        "id"
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "fields": [],
+        "secrets": [
+          "password"
+        ]
+      },
+      "expected": []
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "fields": [
+          "a",
+          "b"
+        ],
+        "secrets": [
+          "a",
+          "b"
+        ]
+      },
+      "expected": []
+    }
+  ],
+  "editorial": "A response model is an allow-list. Building it by deleting secret names from the write model is the same filter when you start from the write fields and drop the secrets. A new secret field added only to the write model never appears in this list.",
+  "reference_solution": "def solve(fields, secrets):\n    hidden = set(secrets)\n    return [name for name in fields if name not in hidden]\n"
+}

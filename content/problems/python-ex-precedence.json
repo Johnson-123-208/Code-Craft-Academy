@@ -1,0 +1,87 @@
+{
+  "title": "Precedence Fix",
+  "slug": "python-ex-precedence",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "operators"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(price, percent, fee)`. `price` and `fee` are integer paise. `percent` is an integer percent. The discount is `price * percent // 100`, subtracted from the price, and then `fee` is added. Return that integer. Multiplication and floor division bind before addition and subtraction, so you do not need parentheses for the arithmetic, but the discount must be computed from the original price, not from `price + fee`.\n",
+  "constraints": [
+    "Use integer arithmetic",
+    "Fee is added after the discount"
+  ],
+  "examples": [
+    {
+      "input": "price = 1000, percent = 10, fee = 50",
+      "output": "950"
+    },
+    {
+      "input": "price = 199, percent = 10, fee = 0",
+      "output": "180"
+    }
+  ],
+  "starter_code": "def solve(price, percent, fee):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Compute the discount from price alone.",
+    "Subtract it from price, then add fee.",
+    "Floor division is the integer percent. Do not use float."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "The bug this function refuses is applying the percent to price plus fee, or adding the fee before the discount is taken."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "price": 1000,
+        "percent": 10,
+        "fee": 50
+      },
+      "expected": 950
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "price": 199,
+        "percent": 10,
+        "fee": 0
+      },
+      "expected": 180
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "price": 0,
+        "percent": 50,
+        "fee": 20
+      },
+      "expected": 20
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "price": 250,
+        "percent": 0,
+        "fee": 15
+      },
+      "expected": 265
+    }
+  ],
+  "editorial": "The bug this function refuses is applying the percent to price plus fee, or adding the fee before the discount is taken. Operator precedence already does the multiply before the subtract. The grouping that still needs a human is which quantity the percent applies to.",
+  "reference_solution": "def solve(price, percent, fee):\n    discount = price * percent // 100\n    return price - discount + fee\n"
+}

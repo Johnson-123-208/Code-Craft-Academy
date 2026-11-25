@@ -1,0 +1,79 @@
+{
+  "title": "UTF-8 Size",
+  "slug": "python-ex-utf8-size",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "unicode"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(text)`. Return the number of bytes in the UTF-8 encoding of `text`. Do not change the text. The string length in code points is not the answer when a character needs more than one byte.\n",
+  "constraints": [
+    "Encode as utf-8",
+    "Return an integer byte count"
+  ],
+  "examples": [
+    {
+      "input": "text = \"abc\"",
+      "output": "3"
+    },
+    {
+      "input": "text = \"\\u00e9\"",
+      "output": "2"
+    }
+  ],
+  "starter_code": "def solve(text):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "text.encode('utf-8') produces the bytes.",
+    "len of those bytes is the size.",
+    "An empty string is 0 bytes."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "len(text) counts code points."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "text": "abc"
+      },
+      "expected": 3
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "text": "\u00e9"
+      },
+      "expected": 2
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "text": ""
+      },
+      "expected": 0
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "text": "\u0939"
+      },
+      "expected": 3
+    }
+  ],
+  "editorial": "len(text) counts code points. UTF-8 uses one byte for ASCII and more for many other characters. The size on the wire or in a file is the encoded length. Encoding does not modify the str you still hold.",
+  "reference_solution": "def solve(text):\n    return len(text.encode(\"utf-8\"))\n"
+}

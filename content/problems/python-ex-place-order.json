@@ -1,0 +1,83 @@
+{
+  "title": "Place Order",
+  "slug": "python-ex-place-order",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "solid"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(amount, duplicate)`. If `amount` is not a positive int, return `error` and do not charge. If `duplicate` is 1, return `conflict`. Otherwise return `charged:{amount}`. Checkout calls a charger and a store. Those collaborators are implied by the result: a conflict happens before the charge string is returned.\n",
+  "constraints": [
+    "Non-positive amounts are error",
+    "duplicate 1 is conflict"
+  ],
+  "examples": [
+    {
+      "input": "amount = 500, duplicate = 0",
+      "output": "\"charged:500\""
+    },
+    {
+      "input": "amount = 0, duplicate = 0",
+      "output": "\"error\""
+    }
+  ],
+  "starter_code": "def solve(amount, duplicate):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Validate the amount first.",
+    "Then honor the duplicate flag.",
+    "Only the remaining path returns charged."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "One class that prices, charges, saves, and emails violates single responsibility, and it is hard to fail one step."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "amount": 500,
+        "duplicate": 0
+      },
+      "expected": "charged:500"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "amount": 0,
+        "duplicate": 0
+      },
+      "expected": "error"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "amount": 500,
+        "duplicate": 1
+      },
+      "expected": "conflict"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "amount": -1,
+        "duplicate": 1
+      },
+      "expected": "error"
+    }
+  ],
+  "editorial": "One class that prices, charges, saves, and emails violates single responsibility, and it is hard to fail one step. Splitting the charge and the save makes the order of checks explicit: bad amount, then conflict, then charge. The result string is the path that ran.",
+  "reference_solution": "def solve(amount, duplicate):\n    if type(amount) is not int or amount <= 0:\n        return \"error\"\n    if duplicate:\n        return \"conflict\"\n    return f\"charged:{amount}\"\n"
+}

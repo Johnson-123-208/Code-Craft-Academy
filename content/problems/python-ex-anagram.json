@@ -1,0 +1,83 @@
+{
+  "title": "Anagram",
+  "slug": "python-ex-anagram",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "strings"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Bloomberg"
+  ],
+  "statement": "Implement `solve(left, right)`. Return 1 when the two strings are anagrams after casefold and after removing spaces. Punctuation, if present, counts. Return 0 otherwise.\n",
+  "constraints": [
+    "Spaces are ignored",
+    "Case is ignored"
+  ],
+  "examples": [
+    {
+      "input": "left = \"Anagram\", right = \"Nag a ram\"",
+      "output": "1"
+    },
+    {
+      "input": "left = \"ab\", right = \"a\"",
+      "output": "0"
+    }
+  ],
+  "starter_code": "def solve(left, right):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "casefold and delete spaces on both sides.",
+    "Compare Counter values, or sorted strings.",
+    "Different lengths after cleaning cannot be anagrams."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n log n)",
+        "space": "O(n)"
+      },
+      "explanation": "An anagram is the same multiset of characters."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "left": "Anagram",
+        "right": "Nag a ram"
+      },
+      "expected": 1
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "left": "ab",
+        "right": "a"
+      },
+      "expected": 0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "left": "Aa",
+        "right": "aa"
+      },
+      "expected": 1
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "left": "a b",
+        "right": "ba"
+      },
+      "expected": 1
+    }
+  ],
+  "editorial": "An anagram is the same multiset of characters. Sorting both cleaned strings makes that equality obvious. Counter is the same test and is linear. Forgetting to remove spaces makes a phrase fail against its squashed form.",
+  "reference_solution": "def solve(left, right):\n    def clean(text):\n        return sorted(ch for ch in text.casefold() if ch != \" \")\n    return 1 if clean(left) == clean(right) else 0\n"
+}

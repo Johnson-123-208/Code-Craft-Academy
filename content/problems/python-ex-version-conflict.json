@@ -1,0 +1,93 @@
+{
+  "title": "Version Conflict",
+  "slug": "python-ex-version-conflict",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "rest"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(stored, client, new_value)`. If `client` equals `stored`, return `{\"version\": stored + 1, \"value\": new_value}`. Otherwise return `conflict`. The successful write bumps the version by 1.\n",
+  "constraints": [
+    "Stale clients conflict",
+    "A match increments"
+  ],
+  "examples": [
+    {
+      "input": "stored = 3, client = 3, new_value = \"b\"",
+      "output": "{\"version\": 4, \"value\": \"b\"}"
+    },
+    {
+      "input": "stored = 4, client = 3, new_value = \"b\"",
+      "output": "\"conflict\""
+    }
+  ],
+  "starter_code": "def solve(stored, client, new_value):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Compare client and stored.",
+    "On a match, add 1 to the version and keep the new value.",
+    "On a miss, return the string conflict."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "Two clients that read version 3 and both write will lose one update if the second overwrites the first."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "stored": 3,
+        "client": 3,
+        "new_value": "b"
+      },
+      "expected": {
+        "version": 4,
+        "value": "b"
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "stored": 4,
+        "client": 3,
+        "new_value": "b"
+      },
+      "expected": "conflict"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "stored": 0,
+        "client": 0,
+        "new_value": "a"
+      },
+      "expected": {
+        "version": 1,
+        "value": "a"
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "stored": 1,
+        "client": 2,
+        "new_value": "a"
+      },
+      "expected": "conflict"
+    }
+  ],
+  "editorial": "Two clients that read version 3 and both write will lose one update if the second overwrites the first. Comparing the version and updating only when it matches turns the second write into a 409. The client refetches. The stored version advances by one on success.",
+  "reference_solution": "def solve(stored, client, new_value):\n    if client != stored:\n        return \"conflict\"\n    return {\"version\": stored + 1, \"value\": new_value}\n"
+}

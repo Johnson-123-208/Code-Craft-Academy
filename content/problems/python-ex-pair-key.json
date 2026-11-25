@@ -1,0 +1,115 @@
+{
+  "title": "Pair Key",
+  "slug": "python-ex-pair-key",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "tuples"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(rows, user, day)`. `rows` is a list of `[user, day, score]`. Build a lookup keyed by the pair `(user, day)` and return the score for the requested pair. If the pair is absent, return the string `none`. Later rows overwrite the same pair.\n",
+  "constraints": [
+    "user and day are strings",
+    "score is an integer"
+  ],
+  "examples": [
+    {
+      "input": "rows = [[\"ada\", \"mon\", 1], [\"ada\", \"tue\", 2]], user = \"ada\", day = \"tue\"",
+      "output": "2"
+    },
+    {
+      "input": "rows = [[\"ada\", \"mon\", 1], [\"ada\", \"mon\", 4]], user = \"ada\", day = \"mon\"",
+      "output": "4"
+    }
+  ],
+  "starter_code": "def solve(rows, user, day):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Use a tuple (user, day) as the dict key. A list cannot be a key.",
+    "Insert rows from left to right so the last score wins.",
+    "A missing key returns the string none."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "A tuple of the two fields is hashable and distinguishes (a, b) from (b, a)."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "rows": [
+          [
+            "ada",
+            "mon",
+            1
+          ],
+          [
+            "ada",
+            "tue",
+            2
+          ]
+        ],
+        "user": "ada",
+        "day": "tue"
+      },
+      "expected": 2
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "rows": [
+          [
+            "ada",
+            "mon",
+            1
+          ],
+          [
+            "ada",
+            "mon",
+            4
+          ]
+        ],
+        "user": "ada",
+        "day": "mon"
+      },
+      "expected": 4
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "rows": [],
+        "user": "ada",
+        "day": "mon"
+      },
+      "expected": "none"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "rows": [
+          [
+            "grace",
+            "mon",
+            3
+          ]
+        ],
+        "user": "ada",
+        "day": "mon"
+      },
+      "expected": "none"
+    }
+  ],
+  "editorial": "A tuple of the two fields is hashable and distinguishes (a, b) from (b, a). A list is not a key. The lookup is then one dict get. Last write wins when the same user and day appear twice.",
+  "reference_solution": "def solve(rows, user, day):\n    table = {}\n    for row_user, row_day, score in rows:\n        table[(row_user, row_day)] = score\n    if (user, day) not in table:\n        return \"none\"\n    return table[(user, day)]\n"
+}

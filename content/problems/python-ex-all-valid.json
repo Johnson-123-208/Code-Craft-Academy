@@ -1,0 +1,89 @@
+{
+  "title": "All Valid",
+  "slug": "python-ex-all-valid",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "truthiness"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(flags)`. `flags` is a list of 0 and 1. Return 1 when every flag is 1. Return 0 when any flag is 0. An empty list returns 1, matching `all([])`, because there is no failing rule. Do not treat empty as a failure.\n",
+  "constraints": [
+    "flags contains only 0 and 1",
+    "Empty means vacuously valid"
+  ],
+  "examples": [
+    {
+      "input": "flags = [1, 1, 1]",
+      "output": "1"
+    },
+    {
+      "input": "flags = [1, 0, 1]",
+      "output": "0"
+    }
+  ],
+  "starter_code": "def solve(flags):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "If you find a 0, return 0.",
+    "If the loop finishes, return 1.",
+    "Do not special-case empty as 0. The loop already returns 1."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "all() of an empty iterable is true."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "flags": [
+          1,
+          1,
+          1
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "flags": [
+          1,
+          0,
+          1
+        ]
+      },
+      "expected": 0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "flags": []
+      },
+      "expected": 1
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "flags": [
+          0
+        ]
+      },
+      "expected": 0
+    }
+  ],
+  "editorial": "all() of an empty iterable is true. A rules engine that rejects an empty rule list surprises callers who meant \"no extra constraints.\" The scan is the same function: a single 0 fails the batch, and the absence of a 0 passes it.",
+  "reference_solution": "def solve(flags):\n    for flag in flags:\n        if flag == 0:\n            return 0\n    return 1\n"
+}

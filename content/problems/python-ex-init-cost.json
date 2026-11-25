@@ -1,0 +1,115 @@
+{
+  "title": "Init Cost",
+  "slug": "python-ex-init-cost",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "packages"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(graph, start)`. `graph` maps a module name to the list of modules it imports while loading. Return the names loaded, including `start`, in depth-first order, each name once. Cycles must not loop forever.\n",
+  "constraints": [
+    "Include start",
+    "First-seen DFS order"
+  ],
+  "examples": [
+    {
+      "input": "graph = {\"pkg\": [\"pkg.sub\"], \"pkg.sub\": []}, start = \"pkg.sub\"",
+      "output": "[\"pkg.sub\"]"
+    },
+    {
+      "input": "graph = {\"a\": [\"b\"], \"b\": [\"a\"]}, start = \"a\"",
+      "output": "[\"a\", \"b\"]"
+    }
+  ],
+  "starter_code": "def solve(graph, start):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Use an explicit stack or recursion with a seen set.",
+    "Append a name when you first enter it.",
+    "Skip names already seen so a cycle stops."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Importing a submodule executes the package __init__ and then the submodule, and each of those imports run once."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "graph": {
+          "pkg": [
+            "pkg.sub"
+          ],
+          "pkg.sub": []
+        },
+        "start": "pkg.sub"
+      },
+      "expected": [
+        "pkg.sub"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "graph": {
+          "a": [
+            "b"
+          ],
+          "b": [
+            "a"
+          ]
+        },
+        "start": "a"
+      },
+      "expected": [
+        "a",
+        "b"
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "graph": {
+          "a": []
+        },
+        "start": "a"
+      },
+      "expected": [
+        "a"
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "graph": {
+          "a": [
+            "b",
+            "c"
+          ],
+          "b": [],
+          "c": []
+        },
+        "start": "a"
+      },
+      "expected": [
+        "a",
+        "b",
+        "c"
+      ]
+    }
+  ],
+  "editorial": "Importing a submodule executes the package __init__ and then the submodule, and each of those imports run once. A seen set is sys.modules in miniature. Depth-first order matches a loader that finishes a dependency before continuing the current module's next import, if you record the name before walking its edges.",
+  "reference_solution": "def solve(graph, start):\n    seen = []\n    visiting = set()\n\n    def walk(name):\n        if name in visiting:\n            return\n        visiting.add(name)\n        seen.append(name)\n        for nxt in graph.get(name, []):\n            walk(nxt)\n\n    walk(start)\n    return seen\n"
+}

@@ -1,0 +1,95 @@
+{
+  "title": "Hot Local",
+  "slug": "python-ex-lookup-cost",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "cpython"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(n, binds_local)`. A loop body reads one name `n` times. `binds_local` is 1 when that name is a local variable and 0 when it is a global. Return a dict with keys `global` and `local`. The side that applies gets `n` and the other side gets 0. A local is one slot load. A global is one dictionary load. They do not both happen for the same read.\n",
+  "constraints": [
+    "n is a non-negative integer",
+    "binds_local is 0 or 1"
+  ],
+  "examples": [
+    {
+      "input": "n = 1000, binds_local = 1",
+      "output": "{\"global\": 0, \"local\": 1000}"
+    },
+    {
+      "input": "n = 1000, binds_local = 0",
+      "output": "{\"global\": 1000, \"local\": 0}"
+    }
+  ],
+  "starter_code": "def solve(n, binds_local):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "If binds_local is 1, local is n and global is 0.",
+    "If binds_local is 0, swap those counts.",
+    "Do not add extra lookups for the loop counter. Count only the named read."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "CPython loads a local by index into the frame's fast locals and loads a global by a dictionary lookup on the module."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "n": 1000,
+        "binds_local": 1
+      },
+      "expected": {
+        "global": 0,
+        "local": 1000
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "n": 1000,
+        "binds_local": 0
+      },
+      "expected": {
+        "global": 1000,
+        "local": 0
+      }
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "n": 0,
+        "binds_local": 1
+      },
+      "expected": {
+        "global": 0,
+        "local": 0
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "n": 3,
+        "binds_local": 0
+      },
+      "expected": {
+        "global": 3,
+        "local": 0
+      }
+    }
+  ],
+  "editorial": "CPython loads a local by index into the frame's fast locals and loads a global by a dictionary lookup on the module. In a tight loop the same read is one or the other for every iteration. The model charges n to exactly one of the two counters.",
+  "reference_solution": "def solve(n, binds_local):\n    if binds_local:\n        return {\"global\": 0, \"local\": n}\n    return {\"global\": n, \"local\": 0}\n"
+}

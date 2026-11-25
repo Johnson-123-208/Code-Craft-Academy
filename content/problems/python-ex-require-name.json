@@ -1,0 +1,98 @@
+{
+  "title": "Require Name",
+  "slug": "python-ex-require-name",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "typing"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(pairs, key)`. Same pairs as a name lookup. Return the name when the key exists. When it does not, return the string `missing`. This is the required-name path: absence is not a successful empty result.\n",
+  "constraints": [
+    "A present empty name is returned",
+    "Absence is missing"
+  ],
+  "examples": [
+    {
+      "input": "pairs = [[\"a\", \"ada\"]], key = \"a\"",
+      "output": "\"ada\""
+    },
+    {
+      "input": "pairs = [[\"a\", \"\"]], key = \"a\"",
+      "output": "\"\""
+    }
+  ],
+  "starter_code": "def solve(pairs, key):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Find the first match.",
+    "Do not treat an empty name as missing.",
+    "Return missing only when the key never appears."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "The caller that requires a name has already decided absence is a bug."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "pairs": [
+          [
+            "a",
+            "ada"
+          ]
+        ],
+        "key": "a"
+      },
+      "expected": "ada"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "pairs": [
+          [
+            "a",
+            ""
+          ]
+        ],
+        "key": "a"
+      },
+      "expected": ""
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "pairs": [],
+        "key": "a"
+      },
+      "expected": "missing"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "pairs": [
+          [
+            "b",
+            "grace"
+          ]
+        ],
+        "key": "a"
+      },
+      "expected": "missing"
+    }
+  ],
+  "editorial": "The caller that requires a name has already decided absence is a bug. Returning a distinct missing marker is the sandbox form of raising KeyError. Collapsing absence and an empty name hides a stored blank.",
+  "reference_solution": "def solve(pairs, key):\n    for have, name in pairs:\n        if have == key:\n            return name\n    return \"missing\"\n"
+}

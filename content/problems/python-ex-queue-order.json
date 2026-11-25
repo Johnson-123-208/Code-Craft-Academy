@@ -1,0 +1,123 @@
+{
+  "title": "Queue Cost",
+  "slug": "python-ex-queue-order",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "performance"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(ops)`. Ops are `[\"enq\", value]` or `[\"deq\"]`. Use a deque. Return the list of dequeued integers. A dequeue on an empty deque records nothing and is skipped. Values are integers.\n",
+  "constraints": [
+    "FIFO order",
+    "Empty dequeue is a no-op"
+  ],
+  "examples": [
+    {
+      "input": "ops = [[\"enq\", 1], [\"enq\", 2], [\"deq\"], [\"deq\"]]",
+      "output": "[1, 2]"
+    },
+    {
+      "input": "ops = [[\"deq\"], [\"enq\", 3], [\"deq\"]]",
+      "output": "[3]"
+    }
+  ],
+  "starter_code": "def solve(ops):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "append and popleft.",
+    "Skip empty pops.",
+    "Return only the popped values."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "list."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "ops": [
+          [
+            "enq",
+            1
+          ],
+          [
+            "enq",
+            2
+          ],
+          [
+            "deq"
+          ],
+          [
+            "deq"
+          ]
+        ]
+      },
+      "expected": [
+        1,
+        2
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "ops": [
+          [
+            "deq"
+          ],
+          [
+            "enq",
+            3
+          ],
+          [
+            "deq"
+          ]
+        ]
+      },
+      "expected": [
+        3
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "ops": []
+      },
+      "expected": []
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "ops": [
+          [
+            "enq",
+            1
+          ],
+          [
+            "deq"
+          ],
+          [
+            "deq"
+          ]
+        ]
+      },
+      "expected": [
+        1
+      ]
+    }
+  ],
+  "editorial": "list.pop(0) moves every later element. deque.popleft does not. The popped sequence is the FIFO order, which is what you assert while the structure choice is what makes the cost constant per operation.",
+  "reference_solution": "def solve(ops):\n    from collections import deque\n    queue = deque()\n    out = []\n    for op in ops:\n        if op[0] == \"enq\":\n            queue.append(op[1])\n        elif queue:\n            out.append(queue.popleft())\n    return out\n"
+}

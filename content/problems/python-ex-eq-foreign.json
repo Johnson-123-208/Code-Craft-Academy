@@ -1,0 +1,83 @@
+{
+  "title": "Not Implemented",
+  "slug": "python-ex-eq-foreign",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "dunder"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(left_type, right_type)`. Both are `point` or `other`. If both are `point`, return `compare`. If the right side is `other`, return `notimplemented` so Python can try the reflected equality. Do not return `false` for a foreign type. Returning false would claim the values are unequal without giving the other class a chance.\n",
+  "constraints": [
+    "Same types compare",
+    "A foreign right-hand side returns notimplemented"
+  ],
+  "examples": [
+    {
+      "input": "left_type = \"point\", right_type = \"point\"",
+      "output": "\"compare\""
+    },
+    {
+      "input": "left_type = \"point\", right_type = \"other\"",
+      "output": "\"notimplemented\""
+    }
+  ],
+  "starter_code": "def solve(left_type, right_type):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Both point means compare.",
+    "Any other combination in these tests returns notimplemented. The interesting case is point versus other.",
+    "Do not return the string false."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "Returning NotImplemented from __eq__ asks Python to try the other operand's __eq__."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "left_type": "point",
+        "right_type": "point"
+      },
+      "expected": "compare"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "left_type": "point",
+        "right_type": "other"
+      },
+      "expected": "notimplemented"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "left_type": "other",
+        "right_type": "point"
+      },
+      "expected": "notimplemented"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "left_type": "other",
+        "right_type": "other"
+      },
+      "expected": "notimplemented"
+    }
+  ],
+  "editorial": "Returning NotImplemented from __eq__ asks Python to try the other operand's __eq__. Returning False ends the comparison. A point compared to a tuple should not decide the tuple's side of the story. The string notimplemented is that sentinel.",
+  "reference_solution": "def solve(left_type, right_type):\n    if left_type == \"point\" and right_type == \"point\":\n        return \"compare\"\n    return \"notimplemented\"\n"
+}

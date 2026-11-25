@@ -1,0 +1,83 @@
+{
+  "title": "Repr Safe",
+  "slug": "python-ex-repr-safe",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "dunder"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(name, secret)`. Return a repr string `User(name={name!r})` that includes the name and does not include the secret. The secret is passed so a careless format would leak it. Leave it out.\n",
+  "constraints": [
+    "Use the name only",
+    "The result is a string"
+  ],
+  "examples": [
+    {
+      "input": "name = \"ada\", secret = \"hunter2\"",
+      "output": "\"User(name='ada')\""
+    },
+    {
+      "input": "name = \"\", secret = \"x\"",
+      "output": "\"User(name='')\""
+    }
+  ],
+  "starter_code": "def solve(name, secret):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Format the name with !r or repr so quotes are visible.",
+    "Do not interpolate secret.",
+    "A fixed prefix User(name= is enough."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "repr is for developers and still ends up in logs."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "name": "ada",
+        "secret": "hunter2"
+      },
+      "expected": "User(name='ada')"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "name": "",
+        "secret": "x"
+      },
+      "expected": "User(name='')"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "name": "a'b",
+        "secret": "tok"
+      },
+      "expected": "User(name=\"a'b\")"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "name": "grace",
+        "secret": "grace"
+      },
+      "expected": "User(name='grace')"
+    }
+  ],
+  "editorial": "repr is for developers and still ends up in logs. Including a token or a password hash because it was an attribute is a leak. The safe repr names the class and the public fields. The secret stays on the object and out of the string.",
+  "reference_solution": "def solve(name, secret):\n    del secret\n    return f\"User(name={name!r})\"\n"
+}

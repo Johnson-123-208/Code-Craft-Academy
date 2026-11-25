@@ -1,0 +1,83 @@
+{
+  "title": "Build Channel",
+  "slug": "python-ex-build-channel",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "patterns"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(kind, message)`. `kind` is `email` or `sms`. Return `email:message` or `sms:message`. Any other kind returns `error`. This is a factory function. The caller does not construct the classes.\n",
+  "constraints": [
+    "Unknown kinds are error",
+    "The message is included for known kinds"
+  ],
+  "examples": [
+    {
+      "input": "kind = \"email\", message = \"hi\"",
+      "output": "\"email:hi\""
+    },
+    {
+      "input": "kind = \"sms\", message = \"hi\"",
+      "output": "\"sms:hi\""
+    }
+  ],
+  "starter_code": "def solve(kind, message):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Map kind to a constructor in a dict.",
+    "A missing kind returns error.",
+    "Call send on the new instance."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "A factory hides the constructors behind a kind string the edge of the system already has, such as a config value."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "kind": "email",
+        "message": "hi"
+      },
+      "expected": "email:hi"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "kind": "sms",
+        "message": "hi"
+      },
+      "expected": "sms:hi"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "kind": "push",
+        "message": "hi"
+      },
+      "expected": "error"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "kind": "email",
+        "message": ""
+      },
+      "expected": "email:"
+    }
+  ],
+  "editorial": "A factory hides the constructors behind a kind string the edge of the system already has, such as a config value. The mapping is the only branch. Callers depend on the send method, not on the class statements.",
+  "reference_solution": "def solve(kind, message):\n    class Email:\n        def send(self, text):\n            return \"email:\" + text\n\n    class Sms:\n        def send(self, text):\n            return \"sms:\" + text\n\n    table = {\"email\": Email, \"sms\": Sms}\n    if kind not in table:\n        return \"error\"\n    return table[kind]().send(message)\n"
+}

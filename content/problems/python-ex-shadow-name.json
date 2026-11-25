@@ -1,0 +1,94 @@
+{
+  "title": "Shadowed Stdlib",
+  "slug": "python-ex-shadow-name",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "imports"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(name, path, stdlib_names)`. Return `shadow` when `name` is in `stdlib_names` and `path` starts with `proj/`. Otherwise return `ok`. A local file named like a standard library module is the shadow.\n",
+  "constraints": [
+    "proj/ is the project prefix",
+    "Only known stdlib names can be shadows"
+  ],
+  "examples": [
+    {
+      "input": "name = \"json\", path = \"proj/json.py\", stdlib_names = [\"json\", \"os\"]",
+      "output": "\"shadow\""
+    },
+    {
+      "input": "name = \"app\", path = \"proj/app.py\", stdlib_names = [\"json\"]",
+      "output": "\"ok\""
+    }
+  ],
+  "starter_code": "def solve(name, path, stdlib_names):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Check membership in stdlib_names.",
+    "Then check the path prefix.",
+    "Both must hold."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "A project file named json."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "name": "json",
+        "path": "proj/json.py",
+        "stdlib_names": [
+          "json",
+          "os"
+        ]
+      },
+      "expected": "shadow"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "name": "app",
+        "path": "proj/app.py",
+        "stdlib_names": [
+          "json"
+        ]
+      },
+      "expected": "ok"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "name": "json",
+        "path": "stdlib/json.py",
+        "stdlib_names": [
+          "json"
+        ]
+      },
+      "expected": "ok"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "name": "os",
+        "path": "proj/os.py",
+        "stdlib_names": []
+      },
+      "expected": "ok"
+    }
+  ],
+  "editorial": "A project file named json.py is imported instead of the standard library when the project directory is on sys.path first. The name alone is not enough: a project file called app.py is not a stdlib shadow. The path prefix says the file is yours.",
+  "reference_solution": "def solve(name, path, stdlib_names):\n    if name in stdlib_names and path.startswith(\"proj/\"):\n        return \"shadow\"\n    return \"ok\"\n"
+}

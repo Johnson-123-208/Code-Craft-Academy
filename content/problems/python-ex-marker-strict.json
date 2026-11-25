@@ -1,0 +1,90 @@
+{
+  "title": "Marker Strict",
+  "slug": "python-ex-marker-strict",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "quality"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(mark, known)`. `known` is the list of registered pytest marks. Return `ok` when `mark` is in the list. Return `unknown` when it is not. A typo should not silently do nothing.\n",
+  "constraints": [
+    "Exact match",
+    "Empty known list rejects every mark"
+  ],
+  "examples": [
+    {
+      "input": "mark = \"integration\", known = [\"integration\", \"slow\"]",
+      "output": "\"ok\""
+    },
+    {
+      "input": "mark = \"integation\", known = [\"integration\"]",
+      "output": "\"unknown\""
+    }
+  ],
+  "starter_code": "def solve(mark, known):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Membership test.",
+    "Return ok or unknown.",
+    "Do not prefix-match."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "pytest can warn or fail on an unregistered mark."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "mark": "integration",
+        "known": [
+          "integration",
+          "slow"
+        ]
+      },
+      "expected": "ok"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "mark": "integation",
+        "known": [
+          "integration"
+        ]
+      },
+      "expected": "unknown"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "mark": "slow",
+        "known": []
+      },
+      "expected": "unknown"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "mark": "slow",
+        "known": [
+          "slow"
+        ]
+      },
+      "expected": "ok"
+    }
+  ],
+  "editorial": "pytest can warn or fail on an unregistered mark. Strict markers turn a typo in a skip or an integration mark into a failed collection instead of a test that always runs. The known list is the registry in pyproject.",
+  "reference_solution": "def solve(mark, known):\n    return \"ok\" if mark in known else \"unknown\"\n"
+}

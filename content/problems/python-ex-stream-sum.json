@@ -1,0 +1,90 @@
+{
+  "title": "Stream Sum",
+  "slug": "python-ex-stream-sum",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "files"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(lines)`. Each item is one line of text. Skip lines that are empty after stripping. Interpret every other line as a base-10 integer and return the sum. The lines are already in memory. Do not require a file.\n",
+  "constraints": [
+    "Blanks and whitespace-only lines are skipped",
+    "Every other line is a valid integer"
+  ],
+  "examples": [
+    {
+      "input": "lines = [\"1\", \"\", \"2\", \"  3\"]",
+      "output": "6"
+    },
+    {
+      "input": "lines = [\"10\", \"  \"]",
+      "output": "10"
+    }
+  ],
+  "starter_code": "def solve(lines):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Strip each line. An empty result is a skip, not a zero you parsed.",
+    "int() parses the remaining text.",
+    "A running total does not need a second list."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "A stream of integers often has blank lines from the way a human wrapped the file."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "lines": [
+          "1",
+          "",
+          "2",
+          "  3"
+        ]
+      },
+      "expected": 6
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "lines": [
+          "10",
+          "  "
+        ]
+      },
+      "expected": 10
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "lines": []
+      },
+      "expected": 0
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "lines": [
+          "-2",
+          "5"
+        ]
+      },
+      "expected": 3
+    }
+  ],
+  "editorial": "A stream of integers often has blank lines from the way a human wrapped the file. Skipping blanks and adding the rest is a single pass. Building a list of the numbers first would work and would hold the data twice.",
+  "reference_solution": "def solve(lines):\n    total = 0\n    for line in lines:\n        text = line.strip()\n        if text:\n            total += int(text)\n    return total\n"
+}

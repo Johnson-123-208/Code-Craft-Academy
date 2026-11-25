@@ -1,0 +1,88 @@
+{
+  "title": "Import Winner",
+  "slug": "python-ex-import-winner",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "packaging"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(entries)`. `entries` is a list of path strings in sys.path order. Return the first entry that contains the substring `myapp`, or `missing` if none do. The first hit wins.\n",
+  "constraints": [
+    "Earlier paths shadow later ones",
+    "missing when the package is absent"
+  ],
+  "examples": [
+    {
+      "input": "entries = [\"/repo/src\", \"/venv/site-packages/myapp\"]",
+      "output": "\"/venv/site-packages/myapp\""
+    },
+    {
+      "input": "entries = [\"/usr\", \"/venv/myapp\"]",
+      "output": "\"/venv/myapp\""
+    }
+  ],
+  "starter_code": "def solve(entries):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Walk from the left.",
+    "Return the first path containing myapp.",
+    "If the loop ends, return missing."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "sys."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "entries": [
+          "/repo/src",
+          "/venv/site-packages/myapp"
+        ]
+      },
+      "expected": "/venv/site-packages/myapp"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "entries": [
+          "/usr",
+          "/venv/myapp"
+        ]
+      },
+      "expected": "/venv/myapp"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "entries": []
+      },
+      "expected": "missing"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "entries": [
+          "myapp",
+          "other"
+        ]
+      },
+      "expected": "myapp"
+    }
+  ],
+  "editorial": "sys.path is searched in order. A checkout directory earlier than site-packages imports the checkout, which is how a laptop and a container disagree. The winner is the first entry that can provide the package. Later copies are invisible.",
+  "reference_solution": "def solve(entries):\n    for entry in entries:\n        if \"myapp\" in entry:\n            return entry\n    return \"missing\"\n"
+}

@@ -1,0 +1,101 @@
+{
+  "title": "Resolve Cached",
+  "slug": "python-ex-import-cache",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "imports"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(cache, name)`. `cache` maps a module name to its path. If `name` is present, return `{\"loaded\": 1, \"path\": path}`. Otherwise return `{\"loaded\": 0, \"path\": \"\"}`.\n",
+  "constraints": [
+    "loaded is 0 or 1",
+    "A miss has an empty path"
+  ],
+  "examples": [
+    {
+      "input": "cache = {\"json\": \"stdlib\"}, name = \"json\"",
+      "output": "{\"loaded\": 1, \"path\": \"stdlib\"}"
+    },
+    {
+      "input": "cache = {}, name = \"json\"",
+      "output": "{\"loaded\": 0, \"path\": \"\"}"
+    }
+  ],
+  "starter_code": "def solve(cache, name):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Use name in cache.",
+    "Do not invent a path for a miss.",
+    "Return both fields."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "sys."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "cache": {
+          "json": "stdlib"
+        },
+        "name": "json"
+      },
+      "expected": {
+        "loaded": 1,
+        "path": "stdlib"
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "cache": {},
+        "name": "json"
+      },
+      "expected": {
+        "loaded": 0,
+        "path": ""
+      }
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "cache": {
+          "a": "src/a.py"
+        },
+        "name": "b"
+      },
+      "expected": {
+        "loaded": 0,
+        "path": ""
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "cache": {
+          "a": ""
+        },
+        "name": "a"
+      },
+      "expected": {
+        "loaded": 1,
+        "path": ""
+      }
+    }
+  ],
+  "editorial": "sys.modules is the import cache. A hit must not run the loader again. The path in the cache is the one the first import recorded. A miss is how you know a loader would run.",
+  "reference_solution": "def solve(cache, name):\n    if name in cache:\n        return {\"loaded\": 1, \"path\": cache[name]}\n    return {\"loaded\": 0, \"path\": \"\"}\n"
+}

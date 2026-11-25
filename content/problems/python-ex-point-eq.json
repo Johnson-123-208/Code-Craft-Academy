@@ -1,0 +1,137 @@
+{
+  "title": "Point Eq",
+  "slug": "python-ex-point-eq",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "dunder"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(points)`. `points` is a list of `[x, y]` integer pairs. Treat two pairs with the same coordinates as the same point. Return the number of distinct points, and the list of unique points in first-seen order as `{\"count\": n, \"points\": [...]}`. Equality and hashing must use both coordinates.\n",
+  "constraints": [
+    "(1, 2) and (2, 1) are different",
+    "First-seen order"
+  ],
+  "examples": [
+    {
+      "input": "points = [[1, 2], [2, 1], [1, 2]]",
+      "output": "{\"count\": 2, \"points\": [[1, 2], [2, 1]]}"
+    },
+    {
+      "input": "points = []",
+      "output": "{\"count\": 0, \"points\": []}"
+    }
+  ],
+  "starter_code": "def solve(points):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Use a tuple key (x, y), which already defines equality and hash.",
+    "Or write a small class with __eq__ and __hash__ from the two fields. A class with __eq__ and no __hash__ cannot go in a set.",
+    "Append a point only the first time its key appears."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(u)"
+      },
+      "explanation": "Values that compare equal must share a hash, or a set will store duplicates and miss lookups."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "points": [
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            1,
+            2
+          ]
+        ]
+      },
+      "expected": {
+        "count": 2,
+        "points": [
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "points": []
+      },
+      "expected": {
+        "count": 0,
+        "points": []
+      }
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "points": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "expected": {
+        "count": 1,
+        "points": [
+          [
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "points": [
+          [
+            1,
+            1
+          ]
+        ]
+      },
+      "expected": {
+        "count": 1,
+        "points": [
+          [
+            1,
+            1
+          ]
+        ]
+      }
+    }
+  ],
+  "editorial": "Values that compare equal must share a hash, or a set will store duplicates and miss lookups. A point's identity is its coordinates. Implementing eq without hash makes the class unhashable, which is Python refusing a broken contract. The tuple key is the compact form of that contract.",
+  "reference_solution": "def solve(points):\n    seen = set()\n    out = []\n    for x, y in points:\n        key = (x, y)\n        if key in seen:\n            continue\n        seen.add(key)\n        out.append([x, y])\n    return {\"count\": len(out), \"points\": out}\n"
+}

@@ -1,0 +1,95 @@
+{
+  "title": "Bind Snapshot",
+  "slug": "python-ex-from-import-bind",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "imports"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(first, second)`. A from-import captured `first`. The module later rebinds the name to `second`. Return `{\"local\": first, \"module\": second}`. The local name does not follow the rebind.\n",
+  "constraints": [
+    "local stays first",
+    "module becomes second"
+  ],
+  "examples": [
+    {
+      "input": "first = \"v1\", second = \"v2\"",
+      "output": "{\"local\": \"v1\", \"module\": \"v2\"}"
+    },
+    {
+      "input": "first = \"v1\", second = \"v1\"",
+      "output": "{\"local\": \"v1\", \"module\": \"v1\"}"
+    }
+  ],
+  "starter_code": "def solve(first, second):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Echo first as local.",
+    "Echo second as module.",
+    "Do not return second for both."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "from module import name binds the current object into the local namespace."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "first": "v1",
+        "second": "v2"
+      },
+      "expected": {
+        "local": "v1",
+        "module": "v2"
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "first": "v1",
+        "second": "v1"
+      },
+      "expected": {
+        "local": "v1",
+        "module": "v1"
+      }
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "first": "",
+        "second": "v2"
+      },
+      "expected": {
+        "local": "",
+        "module": "v2"
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "first": "a",
+        "second": "b"
+      },
+      "expected": {
+        "local": "a",
+        "module": "b"
+      }
+    }
+  ],
+  "editorial": "from module import name binds the current object into the local namespace. A later assignment in the module changes the module attribute and not the local name. That is why a patch must target the name in the module that uses it, and why a reloaded function does not update old from-imports.",
+  "reference_solution": "def solve(first, second):\n    return {\"local\": first, \"module\": second}\n"
+}

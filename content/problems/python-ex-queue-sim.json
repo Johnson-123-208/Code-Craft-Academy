@@ -1,0 +1,120 @@
+{
+  "title": "Queue Sim",
+  "slug": "python-ex-queue-sim",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "deque"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(ops)`. Each op is `[\"enq\", value]` or `[\"deq\"]`. Values are integers. Start with an empty deque. For an enqueue, append to the right and record the string `ok`. For a dequeue, record the removed integer, or the string `error` if the deque is empty. Return the list of those records. Do not use a list pop from the front.\n",
+  "constraints": [
+    "enq appends on the right",
+    "deq pops from the left"
+  ],
+  "examples": [
+    {
+      "input": "ops = [[\"enq\", 1], [\"enq\", 2], [\"deq\"], [\"deq\"]]",
+      "output": "[\"ok\", \"ok\", 1, 2]"
+    },
+    {
+      "input": "ops = [[\"deq\"]]",
+      "output": "[\"error\"]"
+    }
+  ],
+  "starter_code": "def solve(ops):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "collections.deque is the queue.",
+    "append for enqueue, popleft for dequeue.",
+    "Check emptiness before popleft."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "list."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "ops": [
+          [
+            "enq",
+            1
+          ],
+          [
+            "enq",
+            2
+          ],
+          [
+            "deq"
+          ],
+          [
+            "deq"
+          ]
+        ]
+      },
+      "expected": [
+        "ok",
+        "ok",
+        1,
+        2
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "ops": [
+          [
+            "deq"
+          ]
+        ]
+      },
+      "expected": [
+        "error"
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "ops": [
+          [
+            "enq",
+            5
+          ],
+          [
+            "deq"
+          ],
+          [
+            "deq"
+          ]
+        ]
+      },
+      "expected": [
+        "ok",
+        5,
+        "error"
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "ops": []
+      },
+      "expected": []
+    }
+  ],
+  "editorial": "list.pop(0) is linear because every later element shifts. deque.popleft is constant time. The simulation records both the successful values and the empty pop so a caller can see the error instead of an exception.",
+  "reference_solution": "def solve(ops):\n    from collections import deque\n    queue = deque()\n    out = []\n    for op in ops:\n        if op[0] == \"enq\":\n            queue.append(op[1])\n            out.append(\"ok\")\n        elif not queue:\n            out.append(\"error\")\n        else:\n            out.append(queue.popleft())\n    return out\n"
+}

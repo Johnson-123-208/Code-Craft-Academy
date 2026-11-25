@@ -1,0 +1,109 @@
+{
+  "title": "Fresh Fixture",
+  "slug": "python-ex-fresh-fixture",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "unittest"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(reset)`. Two tests each append 1. If `reset` is 1, each test starts from an empty list, so the second test sees `[1]`. If `reset` is 0, they share a list, so the second test sees `[1, 1]`. Return `{\"first\": [...], \"second\": [...]}`.\n",
+  "constraints": [
+    "reset 1 isolates",
+    "reset 0 leaks"
+  ],
+  "examples": [
+    {
+      "input": "reset = 1",
+      "output": "{\"first\": [1], \"second\": [1]}"
+    },
+    {
+      "input": "reset = 0",
+      "output": "{\"first\": [1], \"second\": [1, 1]}"
+    }
+  ],
+  "starter_code": "def solve(reset):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Shared mode uses one list for both appends.",
+    "Reset mode uses a new list for the second test.",
+    "Each test appends a single 1."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "A class-level list survives from test to test."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "reset": 1
+      },
+      "expected": {
+        "first": [
+          1
+        ],
+        "second": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "reset": 0
+      },
+      "expected": {
+        "first": [
+          1
+        ],
+        "second": [
+          1,
+          1
+        ]
+      }
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "reset": 1
+      },
+      "expected": {
+        "first": [
+          1
+        ],
+        "second": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "reset": 0
+      },
+      "expected": {
+        "first": [
+          1
+        ],
+        "second": [
+          1,
+          1
+        ]
+      }
+    }
+  ],
+  "editorial": "A class-level list survives from test to test. setUp that assigns a new list on self gives the second test an empty container. The two results are the leak and the fix, side by side.",
+  "reference_solution": "def solve(reset):\n    if reset:\n        return {\"first\": [1], \"second\": [1]}\n    shared = []\n    shared.append(1)\n    first = list(shared)\n    shared.append(1)\n    return {\"first\": first, \"second\": list(shared)}\n"
+}

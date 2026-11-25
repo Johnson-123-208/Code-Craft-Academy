@@ -1,0 +1,92 @@
+{
+  "title": "Sequential versus Gather",
+  "slug": "python-ex-wait-times",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "asyncio"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(a, b)`. Both are non-negative durations. Return `{\"sequential\": a+b, \"concurrent\": the max of a and b}`. Negative inputs return `error`.\n",
+  "constraints": [
+    "Concurrent time is the slower call",
+    "Sequential time adds"
+  ],
+  "examples": [
+    {
+      "input": "a = 2, b = 5",
+      "output": "{\"sequential\": 7, \"concurrent\": 5}"
+    },
+    {
+      "input": "a = 0, b = 0",
+      "output": "{\"sequential\": 0, \"concurrent\": 0}"
+    }
+  ],
+  "starter_code": "def solve(a, b):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Reject negatives.",
+    "Sum for sequential.",
+    "Max for concurrent."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "Awaiting two coroutines one after another adds their waits."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "a": 2,
+        "b": 5
+      },
+      "expected": {
+        "sequential": 7,
+        "concurrent": 5
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "a": 0,
+        "b": 0
+      },
+      "expected": {
+        "sequential": 0,
+        "concurrent": 0
+      }
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "a": -1,
+        "b": 2
+      },
+      "expected": "error"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "a": 3,
+        "b": 3
+      },
+      "expected": {
+        "sequential": 6,
+        "concurrent": 3
+      }
+    }
+  ],
+  "editorial": "Awaiting two coroutines one after another adds their waits. gather overlaps them, so the wall time is the slower one, plus a little scheduling you can ignore here. The two numbers are the reason to gather independent I/O.",
+  "reference_solution": "def solve(a, b):\n    if a < 0 or b < 0:\n        return \"error\"\n    return {\"sequential\": a + b, \"concurrent\": a if a > b else b}\n"
+}

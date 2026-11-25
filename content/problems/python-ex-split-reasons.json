@@ -1,0 +1,107 @@
+{
+  "title": "Split Reasons",
+  "slug": "python-ex-split-reasons",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "solid"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(duties)`. Each duty is `price` or `ship` or something else. Return `{\"pricing\": [...], \"delivery\": [...]}`. `price` goes to pricing. `ship` goes to delivery. Anything else is dropped. Order inside each list follows the input.\n",
+  "constraints": [
+    "Unknown duties are dropped",
+    "The two lists are independent"
+  ],
+  "examples": [
+    {
+      "input": "duties = [\"price\", \"ship\", \"price\", \"email\"]",
+      "output": "{\"pricing\": [\"price\", \"price\"], \"delivery\": [\"ship\"]}"
+    },
+    {
+      "input": "duties = []",
+      "output": "{\"pricing\": [], \"delivery\": []}"
+    }
+  ],
+  "starter_code": "def solve(duties):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Walk once.",
+    "Append price duties to pricing and ship duties to delivery.",
+    "Do not put a duty in both lists."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "A class that both prices and ships has two reasons to change."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "duties": [
+          "price",
+          "ship",
+          "price",
+          "email"
+        ]
+      },
+      "expected": {
+        "pricing": [
+          "price",
+          "price"
+        ],
+        "delivery": [
+          "ship"
+        ]
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "duties": []
+      },
+      "expected": {
+        "pricing": [],
+        "delivery": []
+      }
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "duties": [
+          "ship"
+        ]
+      },
+      "expected": {
+        "pricing": [],
+        "delivery": [
+          "ship"
+        ]
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "duties": [
+          "other"
+        ]
+      },
+      "expected": {
+        "pricing": [],
+        "delivery": []
+      }
+    }
+  ],
+  "editorial": "A class that both prices and ships has two reasons to change. Partitioning the duty list is the small version of that split. Dropping unknown words keeps a typo from landing in the wrong bucket silently. It is omitted, not guessed.",
+  "reference_solution": "def solve(duties):\n    pricing = []\n    delivery = []\n    for duty in duties:\n        if duty == \"price\":\n            pricing.append(duty)\n        elif duty == \"ship\":\n            delivery.append(duty)\n    return {\"pricing\": pricing, \"delivery\": delivery}\n"
+}

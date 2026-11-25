@@ -1,0 +1,115 @@
+{
+  "title": "JSON Lines",
+  "slug": "python-ex-json-lines",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "json"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(lines)`. Each non-blank line is a JSON value. Skip blank lines. Collect successful values in `values` and the 1-based line numbers of failures in `errors`. A line number counts every line, including blanks. Return `{\"values\": [...], \"errors\": [...]}`. Do not use eval.\n",
+  "constraints": [
+    "Blank lines are skipped and are not errors",
+    "Line numbers are 1-based"
+  ],
+  "examples": [
+    {
+      "input": "lines = [\"1\", \"\", \"{\\\"a\\\": 1}\", \"nope\"]",
+      "output": "{\"values\": [1, {\"a\": 1}], \"errors\": [4]}"
+    },
+    {
+      "input": "lines = []",
+      "output": "{\"values\": [], \"errors\": []}"
+    }
+  ],
+  "starter_code": "def solve(lines):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "enumerate from 1.",
+    "json.loads each non-blank line inside a try.",
+    "Append the value or the line number. A blank line does neither."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "JSON Lines is one JSON value per line."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "lines": [
+          "1",
+          "",
+          "{\"a\": 1}",
+          "nope"
+        ]
+      },
+      "expected": {
+        "values": [
+          1,
+          {
+            "a": 1
+          }
+        ],
+        "errors": [
+          4
+        ]
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "lines": []
+      },
+      "expected": {
+        "values": [],
+        "errors": []
+      }
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "lines": [
+          " ",
+          "2"
+        ]
+      },
+      "expected": {
+        "values": [
+          2
+        ],
+        "errors": []
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "lines": [
+          "[",
+          "3"
+        ]
+      },
+      "expected": {
+        "values": [
+          3
+        ],
+        "errors": [
+          1
+        ]
+      }
+    }
+  ],
+  "editorial": "JSON Lines is one JSON value per line. One bad line should not throw away the file. Recording the line number lets a caller fix the file. eval is the wrong parser because a line can be hostile text, and json.loads will not execute it.",
+  "reference_solution": "def solve(lines):\n    import json\n    values = []\n    errors = []\n    for number, line in enumerate(lines, start=1):\n        if not line.strip():\n            continue\n        try:\n            values.append(json.loads(line))\n        except json.JSONDecodeError:\n            errors.append(number)\n    return {\"values\": values, \"errors\": errors}\n"
+}

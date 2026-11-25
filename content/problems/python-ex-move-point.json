@@ -1,0 +1,103 @@
+{
+  "title": "Move Point",
+  "slug": "python-ex-move-point",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "tuples"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(x, y, dx, dy)`. A point is an immutable pair. Return `[x+dx, y+dy]`, a new point. The inputs are the old coordinates. There is nothing to mutate.\n",
+  "constraints": [
+    "All four inputs are integers",
+    "Return a two-element list"
+  ],
+  "examples": [
+    {
+      "input": "x = 1, y = 2, dx = 3, dy = -1",
+      "output": "[4, 1]"
+    },
+    {
+      "input": "x = 0, y = 0, dx = 0, dy = 0",
+      "output": "[0, 0]"
+    }
+  ],
+  "starter_code": "def solve(x, y, dx, dy):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Add the deltas to the coordinates.",
+    "Return a new list. Do not try to update a tuple in place.",
+    "Zero deltas return the same numbers."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "Tuples do not support item assignment."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "x": 1,
+        "y": 2,
+        "dx": 3,
+        "dy": -1
+      },
+      "expected": [
+        4,
+        1
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "x": 0,
+        "y": 0,
+        "dx": 0,
+        "dy": 0
+      },
+      "expected": [
+        0,
+        0
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "x": -2,
+        "y": 4,
+        "dx": 2,
+        "dy": 0
+      },
+      "expected": [
+        0,
+        4
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "x": 5,
+        "y": 5,
+        "dx": -5,
+        "dy": -5
+      },
+      "expected": [
+        0,
+        0
+      ]
+    }
+  ],
+  "editorial": "Tuples do not support item assignment. A moved point is a new pair. That is the whole model: coordinates in, new coordinates out, no hidden object to update.",
+  "reference_solution": "def solve(x, y, dx, dy):\n    return [x + dx, y + dy]\n"
+}

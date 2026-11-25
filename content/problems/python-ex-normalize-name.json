@@ -1,0 +1,79 @@
+{
+  "title": "Normalize Name",
+  "slug": "python-ex-normalize-name",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "unicode"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(text)`. Apply NFC, strip, casefold, and collapse internal whitespace to a single space. Return the resulting string. Empty after strip stays empty.\n",
+  "constraints": [
+    "Use unicodedata.normalize NFC before casefold",
+    "Whitespace runs become one space"
+  ],
+  "examples": [
+    {
+      "input": "text = \"  Ada   Lovelace \"",
+      "output": "\"ada lovelace\""
+    },
+    {
+      "input": "text = \"GRACE\"",
+      "output": "\"grace\""
+    }
+  ],
+  "starter_code": "def solve(text):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "unicodedata.normalize('NFC', text) first.",
+    "strip, then casefold.",
+    "Split on whitespace and join with a single space so tabs and repeated spaces collapse."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Name matching fails when one side is decomposed Unicode, the other is composed, or the spaces differ."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "text": "  Ada   Lovelace "
+      },
+      "expected": "ada lovelace"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "text": "GRACE"
+      },
+      "expected": "grace"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "text": "  "
+      },
+      "expected": ""
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "text": "Cafe\u0301"
+      },
+      "expected": "caf\u00e9"
+    }
+  ],
+  "editorial": "Name matching fails when one side is decomposed Unicode, the other is composed, or the spaces differ. NFC makes the code points comparable, casefold handles case, and splitting on whitespace collapses every run. Doing casefold before NFC is usually fine for these inputs. The specified order is NFC, strip, casefold, collapse.",
+  "reference_solution": "def solve(text):\n    import unicodedata\n    normalized = unicodedata.normalize(\"NFC\", text).strip().casefold()\n    return \" \".join(normalized.split())\n"
+}

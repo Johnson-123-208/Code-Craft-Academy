@@ -1,0 +1,97 @@
+{
+  "title": "Wire Root",
+  "slug": "python-ex-wire-root",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "solid"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(concrete)`. `concrete` is a list of class names from the outside dependency to the inner one, for example a client then a checkout. Return them reversed, which is the construction order: build the inside first. An empty list returns an empty list.\n",
+  "constraints": [
+    "Input is outside-in",
+    "Output is inside-out construction order"
+  ],
+  "examples": [
+    {
+      "input": "concrete = [\"Checkout\", \"Client\"]",
+      "output": "[\"Client\", \"Checkout\"]"
+    },
+    {
+      "input": "concrete = [\"App\", \"Service\", \"Repo\"]",
+      "output": "[\"Repo\", \"Service\", \"App\"]"
+    }
+  ],
+  "starter_code": "def solve(concrete):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Reverse the list.",
+    "Do not sort.",
+    "The last input name is constructed first."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Dependency inversion means the use case names an abstraction, and main passes a concrete object."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "concrete": [
+          "Checkout",
+          "Client"
+        ]
+      },
+      "expected": [
+        "Client",
+        "Checkout"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "concrete": [
+          "App",
+          "Service",
+          "Repo"
+        ]
+      },
+      "expected": [
+        "Repo",
+        "Service",
+        "App"
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "concrete": []
+      },
+      "expected": []
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "concrete": [
+          "Only"
+        ]
+      },
+      "expected": [
+        "Only"
+      ]
+    }
+  ],
+  "editorial": "Dependency inversion means the use case names an abstraction, and main passes a concrete object. You construct the leaf first because the outer object needs it in its constructor. Reversing the outside-in list is that order.",
+  "reference_solution": "def solve(concrete):\n    return list(reversed(concrete))\n"
+}

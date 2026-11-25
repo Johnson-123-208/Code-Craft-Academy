@@ -1,0 +1,119 @@
+{
+  "title": "Top Score",
+  "slug": "python-ex-top-score",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "sorting"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(rows)`. `rows` is a list of `[name, score]` pairs, scores integers, names strings. Return the name with the highest score. Break ties by the name that is smallest in dictionary order. The list is non-empty.\n",
+  "constraints": [
+    "At least one row",
+    "Higher score wins. Then smaller name."
+  ],
+  "examples": [
+    {
+      "input": "rows = [[\"ada\", 10], [\"grace\", 12], [\"lin\", 12]]",
+      "output": "\"grace\""
+    },
+    {
+      "input": "rows = [[\"zoe\", 1], [\"amy\", 1]]",
+      "output": "\"amy\""
+    }
+  ],
+  "starter_code": "def solve(rows):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "The sort key is (-score, name) if you sort ascending, so the first row is the winner.",
+    "Or track the best pair while you scan, replacing on a higher score or an equal score with a smaller name.",
+    "Return the name, not the row."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Negating the score turns a maximum into the first position of an ascending sort, and the name is the tie break in the same tuple."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "rows": [
+          [
+            "ada",
+            10
+          ],
+          [
+            "grace",
+            12
+          ],
+          [
+            "lin",
+            12
+          ]
+        ]
+      },
+      "expected": "grace"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "rows": [
+          [
+            "zoe",
+            1
+          ],
+          [
+            "amy",
+            1
+          ]
+        ]
+      },
+      "expected": "amy"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "rows": [
+          [
+            "only",
+            0
+          ]
+        ]
+      },
+      "expected": "only"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "rows": [
+          [
+            "b",
+            5
+          ],
+          [
+            "a",
+            4
+          ],
+          [
+            "c",
+            5
+          ]
+        ]
+      },
+      "expected": "b"
+    }
+  ],
+  "editorial": "Negating the score turns a maximum into the first position of an ascending sort, and the name is the tie break in the same tuple. A scan does the same comparison without allocating a sorted copy. Both are correct. The tie is the part a max() on score alone gets wrong.",
+  "reference_solution": "def solve(rows):\n    best_name, best_score = rows[0]\n    for name, score in rows[1:]:\n        if score > best_score or (score == best_score and name < best_name):\n            best_name, best_score = name, score\n    return best_name\n"
+}

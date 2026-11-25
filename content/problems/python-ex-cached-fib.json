@@ -1,0 +1,79 @@
+{
+  "title": "Cached Fib",
+  "slug": "python-ex-cached-fib",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "functools"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft"
+  ],
+  "statement": "Implement `solve(n)`. Return Fibonacci n with F(0)=0 and F(1)=1, in linear time. Negative n returns `error`.\n",
+  "constraints": [
+    "0 and 1 are base cases",
+    "No exponential recursion"
+  ],
+  "examples": [
+    {
+      "input": "n = 0",
+      "output": "0"
+    },
+    {
+      "input": "n = 1",
+      "output": "1"
+    }
+  ],
+  "starter_code": "def solve(n):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Reject negatives.",
+    "Roll two variables forward.",
+    "Do not call the function twice per step."
+  ],
+  "approaches": [
+    {
+      "name": "Linear loop",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "lru_cache on the naive recursion also makes Fibonacci linear, with a cache entry per n."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "n": 0
+      },
+      "expected": 0
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "n": 1
+      },
+      "expected": 1
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "n": 10
+      },
+      "expected": 55
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "n": -3
+      },
+      "expected": "error"
+    }
+  ],
+  "editorial": "lru_cache on the naive recursion also makes Fibonacci linear, with a cache entry per n. A loop uses constant memory. Both avoid the binary tree of calls. The negative check belongs before either approach.",
+  "reference_solution": "def solve(n):\n    if n < 0:\n        return \"error\"\n    if n < 2:\n        return n\n    prev, cur = 0, 1\n    for _ in range(2, n + 1):\n        prev, cur = cur, prev + cur\n    return cur\n"
+}

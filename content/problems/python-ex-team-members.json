@@ -1,0 +1,103 @@
+{
+  "title": "Team Members",
+  "slug": "python-ex-team-members",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "dataclasses"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(left_add, right_add)`. Two teams are created with default empty member lists that must not be shared. Append `left_add` to the first team if it is not the empty string. Append `right_add` to the second the same way. Return `{\"left\": [...], \"right\": [...]}`. An empty string means no append for that side.\n",
+  "constraints": [
+    "The default list is created per instance",
+    "The teams do not share members"
+  ],
+  "examples": [
+    {
+      "input": "left_add = \"ada\", right_add = \"grace\"",
+      "output": "{\"left\": [\"ada\"], \"right\": [\"grace\"]}"
+    },
+    {
+      "input": "left_add = \"\", right_add = \"grace\"",
+      "output": "{\"left\": [], \"right\": [\"grace\"]}"
+    }
+  ],
+  "starter_code": "def solve(left_add, right_add):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Use a fresh list for each team. default_factory is the dataclass tool. A function-local list() is the same idea.",
+    "Append only when the string is non-empty.",
+    "Return the two lists."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "A dataclass default of [] is shared by every instance, the same bug as a class attribute."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "left_add": "ada",
+        "right_add": "grace"
+      },
+      "expected": {
+        "left": [
+          "ada"
+        ],
+        "right": [
+          "grace"
+        ]
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "left_add": "",
+        "right_add": "grace"
+      },
+      "expected": {
+        "left": [],
+        "right": [
+          "grace"
+        ]
+      }
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "left_add": "",
+        "right_add": ""
+      },
+      "expected": {
+        "left": [],
+        "right": []
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "left_add": "ada",
+        "right_add": ""
+      },
+      "expected": {
+        "left": [
+          "ada"
+        ],
+        "right": []
+      }
+    }
+  ],
+  "editorial": "A dataclass default of [] is shared by every instance, the same bug as a class attribute. default_factory=list builds a new list per instance. After one append each, the two lists differ. A shared default would show both names on both teams.",
+  "reference_solution": "def solve(left_add, right_add):\n    def new_team():\n        return []\n\n    left, right = new_team(), new_team()\n    if left_add:\n        left.append(left_add)\n    if right_add:\n        right.append(right_add)\n    return {\"left\": left, \"right\": right}\n"
+}

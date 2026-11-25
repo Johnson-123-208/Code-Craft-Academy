@@ -1,0 +1,97 @@
+{
+  "title": "Retry Lines",
+  "slug": "python-ex-retry-lines",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "logging"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(results)`. `results` is a list of `fail` or `ok`, the attempts in order. Return a list of level names of the same length. A `fail` that is not the last item is `WARNING`. A final `fail` is `ERROR`. An `ok` is `INFO`, and it should be the last attempt when the caller stopped, but if an `ok` appears earlier the later items are still leveled the same way: a non-final fail is WARNING, a final fail is ERROR, and ok is INFO.\n",
+  "constraints": [
+    "The last index is special only for fail",
+    "ok is always INFO"
+  ],
+  "examples": [
+    {
+      "input": "results = [\"fail\", \"fail\", \"ok\"]",
+      "output": "[\"WARNING\", \"WARNING\", \"INFO\"]"
+    },
+    {
+      "input": "results = [\"fail\", \"fail\"]",
+      "output": "[\"WARNING\", \"ERROR\"]"
+    }
+  ],
+  "starter_code": "def solve(results):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "enumerate so you know the last index.",
+    "ok maps to INFO.",
+    "fail maps to ERROR only on the last position, otherwise WARNING."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "The attempt log should not shout ERROR for a failure you are about to retry."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "results": [
+          "fail",
+          "fail",
+          "ok"
+        ]
+      },
+      "expected": [
+        "WARNING",
+        "WARNING",
+        "INFO"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "results": [
+          "fail",
+          "fail"
+        ]
+      },
+      "expected": [
+        "WARNING",
+        "ERROR"
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "results": [
+          "ok"
+        ]
+      },
+      "expected": [
+        "INFO"
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "results": []
+      },
+      "expected": []
+    }
+  ],
+  "editorial": "The attempt log should not shout ERROR for a failure you are about to retry. WARNING is the intermediate. The final failure is the ERROR, because nothing will follow it. Success is INFO. The index is what distinguishes the two failure levels.",
+  "reference_solution": "def solve(results):\n    last = len(results) - 1\n    out = []\n    for index, result in enumerate(results):\n        if result == \"ok\":\n            out.append(\"INFO\")\n        elif index == last:\n            out.append(\"ERROR\")\n        else:\n            out.append(\"WARNING\")\n    return out\n"
+}

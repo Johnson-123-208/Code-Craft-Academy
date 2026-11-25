@@ -1,0 +1,83 @@
+{
+  "title": "From Row",
+  "slug": "python-ex-from-row",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "oop"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(kind, name)`. `kind` is `user` or `admin`. Build the object through a classmethod `from_row`. A blank stripped name returns `error`. Otherwise return `kind:name` using the stripped name. Admin is a subclass and must use its own class when the classmethod is inherited, so the prefix is `admin` and not `user`.\n",
+  "constraints": [
+    "Blank names are error",
+    "The classmethod must be inherited, not copied, in spirit: cls(...) selects the subclass"
+  ],
+  "examples": [
+    {
+      "input": "kind = \"user\", name = \" Ada \"",
+      "output": "\"user:Ada\""
+    },
+    {
+      "input": "kind = \"admin\", name = \"Grace\"",
+      "output": "\"admin:Grace\""
+    }
+  ],
+  "starter_code": "def solve(kind, name):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Put from_row on the base class and construct with cls(name).",
+    "Reject a blank name before construction.",
+    "Choose User or Admin based on kind, then call from_row."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "A classmethod receives the class it was called on."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "kind": "user",
+        "name": " Ada "
+      },
+      "expected": "user:Ada"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "kind": "admin",
+        "name": "Grace"
+      },
+      "expected": "admin:Grace"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "kind": "user",
+        "name": "  "
+      },
+      "expected": "error"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "kind": "admin",
+        "name": ""
+      },
+      "expected": "error"
+    }
+  ],
+  "editorial": "A classmethod receives the class it was called on. User.from_row builds a User. Admin.from_row, inherited unchanged, builds an Admin because cls is Admin. Hardcoding User(...) inside the classmethod would ignore the subclass. The returned prefix is the proof.",
+  "reference_solution": "def solve(kind, name):\n    class User:\n        def __init__(self, name):\n            self.name = name\n\n        @classmethod\n        def from_row(cls, raw):\n            cleaned = raw.strip()\n            if not cleaned:\n                return \"error\"\n            obj = cls(cleaned)\n            return type(obj).__name__.lower() + \":\" + obj.name\n\n    class Admin(User):\n        pass\n\n    cls = Admin if kind == \"admin\" else User\n    return cls.from_row(name)\n"
+}

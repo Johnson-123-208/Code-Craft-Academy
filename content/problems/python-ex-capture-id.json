@@ -1,0 +1,113 @@
+{
+  "title": "Capture Id",
+  "slug": "python-ex-capture-id",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "closures"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(ids, queries)`. `ids` is a list of strings. Build one predicate per id that matches only that id, capturing the id at creation time. `queries` is a list of strings. Return a list of 0/1 values, one per query, where the value is 1 when any captured predicate matches the query. Predicates must not all match only the last id.\n",
+  "constraints": [
+    "Matching is exact string equality",
+    "Return 0 or 1 per query"
+  ],
+  "examples": [
+    {
+      "input": "ids = [\"a\", \"b\"], queries = [\"a\", \"b\", \"c\"]",
+      "output": "[1, 1, 0]"
+    },
+    {
+      "input": "ids = [\"a\", \"a\"], queries = [\"a\", \"b\"]",
+      "output": "[1, 0]"
+    }
+  ],
+  "starter_code": "def solve(ids, queries):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Create each predicate with a default argument bound to the current id.",
+    "A query matches if any predicate returns true.",
+    "An id that never appears in ids matches nothing."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n + q)",
+        "space": "O(n)"
+      },
+      "explanation": "The late-binding bug makes every predicate close over the final loop variable, so only the last id matches."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "ids": [
+          "a",
+          "b"
+        ],
+        "queries": [
+          "a",
+          "b",
+          "c"
+        ]
+      },
+      "expected": [
+        1,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "ids": [
+          "a",
+          "a"
+        ],
+        "queries": [
+          "a",
+          "b"
+        ]
+      },
+      "expected": [
+        1,
+        0
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "ids": [],
+        "queries": [
+          "a"
+        ]
+      },
+      "expected": [
+        0
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "ids": [
+          "z"
+        ],
+        "queries": [
+          "z"
+        ]
+      },
+      "expected": [
+        1
+      ]
+    }
+  ],
+  "editorial": "The late-binding bug makes every predicate close over the final loop variable, so only the last id matches. Binding `id=id` on each function stores the string from that iteration. A query then asks the set of captured ids, which is also what a set would answer. The predicates are the point.",
+  "reference_solution": "def solve(ids, queries):\n    preds = []\n    for item in ids:\n        preds.append((lambda query, item=item: query == item))\n    out = []\n    for query in queries:\n        out.append(1 if any(pred(query) for pred in preds) else 0)\n    return out\n"
+}

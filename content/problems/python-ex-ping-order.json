@@ -1,0 +1,91 @@
+{
+  "title": "Ping Order",
+  "slug": "python-ex-ping-order",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "mro"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve()`. Using the same diamond D(B, C), B(A), C(A), each class defines ping that appends its own name and then calls super().ping(). Return the list of names recorded by D().ping().\n",
+  "constraints": [
+    "Every class calls super",
+    "The order is the MRO"
+  ],
+  "examples": [
+    {
+      "input": "",
+      "output": "[\"D\", \"B\", \"C\", \"A\"]"
+    },
+    {
+      "input": "",
+      "output": "[\"D\", \"B\", \"C\", \"A\"]"
+    }
+  ],
+  "starter_code": "def solve():\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Append the class name, then super().ping().",
+    "A's ping appends and does not need a further super if you stop at A. Include A.",
+    "Call ping on a D instance."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "super() follows the instance's MRO, not the class that wrote the method."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {},
+      "expected": [
+        "D",
+        "B",
+        "C",
+        "A"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {},
+      "expected": [
+        "D",
+        "B",
+        "C",
+        "A"
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {},
+      "expected": [
+        "D",
+        "B",
+        "C",
+        "A"
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {},
+      "expected": [
+        "D",
+        "B",
+        "C",
+        "A"
+      ]
+    }
+  ],
+  "editorial": "super() follows the instance's MRO, not the class that wrote the method. Cooperative ping on D therefore records D, B, C, A. Calling B.ping(self) directly from D skips C. The recorded names are the proof the chain was cooperative.",
+  "reference_solution": "def solve():\n    class A:\n        def ping(self, out):\n            out.append(\"A\")\n\n    class B(A):\n        def ping(self, out):\n            out.append(\"B\")\n            super().ping(out)\n\n    class C(A):\n        def ping(self, out):\n            out.append(\"C\")\n            super().ping(out)\n\n    class D(B, C):\n        def ping(self, out):\n            out.append(\"D\")\n            super().ping(out)\n\n    out = []\n    D().ping(out)\n    return out\n"
+}

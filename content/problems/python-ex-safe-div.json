@@ -1,0 +1,83 @@
+{
+  "title": "Safe Div",
+  "slug": "python-ex-safe-div",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "exceptions"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(a, b)`. Return the integer `a // b` when `b` is not 0. When `b` is 0, return the string `error`. Do not return 0 or None for division by zero.\n",
+  "constraints": [
+    "Use floor division",
+    "Zero divisor is error"
+  ],
+  "examples": [
+    {
+      "input": "a = 7, b = 2",
+      "output": "3"
+    },
+    {
+      "input": "a = 7, b = 0",
+      "output": "\"error\""
+    }
+  ],
+  "starter_code": "def solve(a, b):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Check b == 0 before dividing.",
+    "Otherwise return a // b.",
+    "The error result is the string error, which a caller cannot confuse with a quotient."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "Division by zero is a ValueError or ZeroDivisionError, not a missing result."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "a": 7,
+        "b": 2
+      },
+      "expected": 3
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "a": 7,
+        "b": 0
+      },
+      "expected": "error"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "a": -7,
+        "b": 2
+      },
+      "expected": -4
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "a": 0,
+        "b": 5
+      },
+      "expected": 0
+    }
+  ],
+  "editorial": "Division by zero is a ValueError or ZeroDivisionError, not a missing result. Returning a sentinel number collides with a real quotient. The string error is the explicit failure. Floor division matches Python when the divisor is non-zero, including negatives.",
+  "reference_solution": "def solve(a, b):\n    if b == 0:\n        return \"error\"\n    return a // b\n"
+}

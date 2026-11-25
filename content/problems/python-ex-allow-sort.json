@@ -1,0 +1,90 @@
+{
+  "title": "Allow Sort",
+  "slug": "python-ex-allow-sort",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "sqlite"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(choice, allowed)`. `allowed` maps a client sort key to a real column name. Return the column name when `choice` is a key. Return `error` when it is not. Do not return `choice` itself unless the mapping says so.\n",
+  "constraints": [
+    "Unknown keys are error",
+    "The mapped column is the SQL fragment"
+  ],
+  "examples": [
+    {
+      "input": "choice = \"new\", allowed = {\"new\": \"created_at\", \"name\": \"name\"}",
+      "output": "\"created_at\""
+    },
+    {
+      "input": "choice = \"drop\", allowed = {\"new\": \"created_at\"}",
+      "output": "\"error\""
+    }
+  ],
+  "starter_code": "def solve(choice, allowed):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Use the dict.",
+    "A miss is error.",
+    "A hit returns the column, which may differ from the key."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "ORDER BY cannot take a bound parameter for the column name."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "choice": "new",
+        "allowed": {
+          "new": "created_at",
+          "name": "name"
+        }
+      },
+      "expected": "created_at"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "choice": "drop",
+        "allowed": {
+          "new": "created_at"
+        }
+      },
+      "expected": "error"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "choice": "name",
+        "allowed": {
+          "name": "name"
+        }
+      },
+      "expected": "name"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "choice": "",
+        "allowed": {}
+      },
+      "expected": "error"
+    }
+  ],
+  "editorial": "ORDER BY cannot take a bound parameter for the column name. Interpolating the client's string is injection. An allow-list maps a public key to a column you wrote. Anything else is rejected. The mapped name is what you would splice in.",
+  "reference_solution": "def solve(choice, allowed):\n    if choice not in allowed:\n        return \"error\"\n    return allowed[choice]\n"
+}

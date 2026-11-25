@@ -1,0 +1,87 @@
+{
+  "title": "Create Status",
+  "slug": "python-ex-create-status",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "fastapi"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(found_user, duplicate, amount)`. `found_user` and `duplicate` are 0 or 1. Return 401 when the user was not found, 422 when `amount` is less than or equal to 0, 409 when duplicate is 1, and 201 otherwise. Check in that order.\n",
+  "constraints": [
+    "401 before the body rules",
+    "409 only for a valid amount"
+  ],
+  "examples": [
+    {
+      "input": "found_user = 1, duplicate = 0, amount = 500",
+      "output": "201"
+    },
+    {
+      "input": "found_user = 0, duplicate = 0, amount = 500",
+      "output": "401"
+    }
+  ],
+  "starter_code": "def solve(found_user, duplicate, amount):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Missing user is 401.",
+    "Non-positive amount is 422.",
+    "Then duplicate is 409, else 201."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "The status code is the contract."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "found_user": 1,
+        "duplicate": 0,
+        "amount": 500
+      },
+      "expected": 201
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "found_user": 0,
+        "duplicate": 0,
+        "amount": 500
+      },
+      "expected": 401
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "found_user": 1,
+        "duplicate": 1,
+        "amount": 500
+      },
+      "expected": 409
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "found_user": 1,
+        "duplicate": 0,
+        "amount": 0
+      },
+      "expected": 422
+    }
+  ],
+  "editorial": "The status code is the contract. A missing user is 401 from the auth dependency, before the service runs. A bad amount is a validation failure. A duplicate id is a conflict. Success is 201, not 200, because this route creates.",
+  "reference_solution": "def solve(found_user, duplicate, amount):\n    if not found_user:\n        return 401\n    if amount <= 0:\n        return 422\n    if duplicate:\n        return 409\n    return 201\n"
+}

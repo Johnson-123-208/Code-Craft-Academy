@@ -1,0 +1,79 @@
+{
+  "title": "Level Choice",
+  "slug": "python-ex-log-level",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "logging"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(outcome)`. Map `debug` to `DEBUG`, `started` to `INFO`, `retry` to `WARNING`, `handled` to `ERROR`, and `bug` to `ERROR`. Any other word returns `INFO`. These are level names, not numbers.\n",
+  "constraints": [
+    "retry is a warning, not an error, until the retries are exhausted",
+    "Unknown outcomes are INFO"
+  ],
+  "examples": [
+    {
+      "input": "outcome = \"retry\"",
+      "output": "\"WARNING\""
+    },
+    {
+      "input": "outcome = \"handled\"",
+      "output": "\"ERROR\""
+    }
+  ],
+  "starter_code": "def solve(outcome):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Use a dict for the known words.",
+    "Default to INFO.",
+    "Return the level name exactly."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "A retry that may still succeed is a warning."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "outcome": "retry"
+      },
+      "expected": "WARNING"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "outcome": "handled"
+      },
+      "expected": "ERROR"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "outcome": "started"
+      },
+      "expected": "INFO"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "outcome": "other"
+      },
+      "expected": "INFO"
+    }
+  ],
+  "editorial": "A retry that may still succeed is a warning. A handled failure the user sees is an error. A bug you did not expect is also an error, and the traceback belongs there. Logging every expected branch at ERROR trains people to ignore the channel. The default INFO keeps an unknown business event visible without paging anyone.",
+  "reference_solution": "def solve(outcome):\n    return {\n        \"debug\": \"DEBUG\",\n        \"started\": \"INFO\",\n        \"retry\": \"WARNING\",\n        \"handled\": \"ERROR\",\n        \"bug\": \"ERROR\",\n    }.get(outcome, \"INFO\")\n"
+}

@@ -1,0 +1,79 @@
+{
+  "title": "Session Scope",
+  "slug": "python-ex-session-scope",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "sqlalchemy"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(lifetime)`. `lifetime` is `request` or `process`. Return `fresh` for a session that lives one request, and `stale` for a session that lives for the process. Any other word returns `error`.\n",
+  "constraints": [
+    "A process-wide session can serve stale state",
+    "A request session is fresh"
+  ],
+  "examples": [
+    {
+      "input": "lifetime = \"request\"",
+      "output": "\"fresh\""
+    },
+    {
+      "input": "lifetime = \"process\"",
+      "output": "\"stale\""
+    }
+  ],
+  "starter_code": "def solve(lifetime):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "request returns fresh.",
+    "process returns stale.",
+    "Other values return error."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "The identity map returns the same instance for a primary key inside one session."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "lifetime": "request"
+      },
+      "expected": "fresh"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "lifetime": "process"
+      },
+      "expected": "stale"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "lifetime": "thread"
+      },
+      "expected": "error"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "lifetime": "request"
+      },
+      "expected": "fresh"
+    }
+  ],
+  "editorial": "The identity map returns the same instance for a primary key inside one session. A session that never closes keeps the object from an earlier request and can write it back over newer commits. Closing at the end of the request drops that cache. The process lifetime is the stale one.",
+  "reference_solution": "def solve(lifetime):\n    if lifetime == \"request\":\n        return \"fresh\"\n    if lifetime == \"process\":\n        return \"stale\"\n    return \"error\"\n"
+}

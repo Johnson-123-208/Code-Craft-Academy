@@ -1,0 +1,83 @@
+{
+  "title": "Subtype Check",
+  "slug": "python-ex-subtype-ok",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "solid"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(base_accepts, sub_accepts)`. Each flag is 1 or 0 for a particular input. Return `substitutable` when the subclass accepts every input the base accepts, which in this two-flag model means: if the base accepts, the subclass must accept. If the base rejects, the subclass may do either. Return `break` when the base accepts and the subclass rejects.\n",
+  "constraints": [
+    "A narrower subclass breaks substitution",
+    "A wider subclass is allowed here"
+  ],
+  "examples": [
+    {
+      "input": "base_accepts = 1, sub_accepts = 1",
+      "output": "\"substitutable\""
+    },
+    {
+      "input": "base_accepts = 1, sub_accepts = 0",
+      "output": "\"break\""
+    }
+  ],
+  "starter_code": "def solve(base_accepts, sub_accepts):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "The failure is base_accepts == 1 and sub_accepts == 0.",
+    "Every other combination returns substitutable.",
+    "Do not require the flags to be equal."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "Liskov substitution says a subclass must accept what callers already pass to the base."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "base_accepts": 1,
+        "sub_accepts": 1
+      },
+      "expected": "substitutable"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "base_accepts": 1,
+        "sub_accepts": 0
+      },
+      "expected": "break"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "base_accepts": 0,
+        "sub_accepts": 1
+      },
+      "expected": "substitutable"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "base_accepts": 0,
+        "sub_accepts": 0
+      },
+      "expected": "substitutable"
+    }
+  ],
+  "editorial": "Liskov substitution says a subclass must accept what callers already pass to the base. Rejecting a positive amount that the base charged is a break. Accepting an extra case the base rejected does not surprise those callers. The flag pair is that test for one input.",
+  "reference_solution": "def solve(base_accepts, sub_accepts):\n    if base_accepts and not sub_accepts:\n        return \"break\"\n    return \"substitutable\"\n"
+}

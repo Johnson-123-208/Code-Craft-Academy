@@ -1,0 +1,101 @@
+{
+  "title": "Adder",
+  "slug": "python-ex-adder",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "closures"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(offset, values)`. Return a list of `offset + value` for each integer in `values`. `offset` may be 0 or negative. This is a factory that captured `offset` and was then called on each value.\n",
+  "constraints": [
+    "offset is an integer",
+    "Keep input order"
+  ],
+  "examples": [
+    {
+      "input": "offset = 2, values = [1, 2, 3]",
+      "output": "[3, 4, 5]"
+    },
+    {
+      "input": "offset = 0, values = [5]",
+      "output": "[5]"
+    }
+  ],
+  "starter_code": "def solve(offset, values):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "The offset is fixed for the whole call.",
+    "Add it to each value. Do not multiply.",
+    "An empty values list returns an empty list."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "A closure factory returns a function that already knows its offset."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "offset": 2,
+        "values": [
+          1,
+          2,
+          3
+        ]
+      },
+      "expected": [
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "offset": 0,
+        "values": [
+          5
+        ]
+      },
+      "expected": [
+        5
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "offset": -1,
+        "values": [
+          1,
+          0
+        ]
+      },
+      "expected": [
+        0,
+        -1
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "offset": 3,
+        "values": []
+      },
+      "expected": []
+    }
+  ],
+  "editorial": "A closure factory returns a function that already knows its offset. Applying that function to each value is the list this problem returns. Zero is a meaningful offset: every result equals the input value, which is how you know the offset was added and not ignored.",
+  "reference_solution": "def solve(offset, values):\n    def add(value):\n        return offset + value\n    return [add(value) for value in values]\n"
+}

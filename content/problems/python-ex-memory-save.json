@@ -1,0 +1,79 @@
+{
+  "title": "Memory Save",
+  "slug": "python-ex-memory-save",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "testing"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(amount)`. Return `saved` when `amount` is a positive int. Return `error` otherwise. This is the fake repository's save rule.\n",
+  "constraints": [
+    "Zero is rejected",
+    "Positive ints are saved"
+  ],
+  "examples": [
+    {
+      "input": "amount = 500",
+      "output": "\"saved\""
+    },
+    {
+      "input": "amount = 0",
+      "output": "\"error\""
+    }
+  ],
+  "starter_code": "def solve(amount):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "type must be int.",
+    "The value must be > 0.",
+    "Otherwise error."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "A fake that accepts a zero amount is softer than the database constraint and will hide a bug."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "amount": 500
+      },
+      "expected": "saved"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "amount": 0
+      },
+      "expected": "error"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "amount": -1
+      },
+      "expected": "error"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "amount": 1
+      },
+      "expected": "saved"
+    }
+  ],
+  "editorial": "A fake that accepts a zero amount is softer than the database constraint and will hide a bug. The memory store rejects non-positive amounts the same way the real one does. The string is the outcome of that one save.",
+  "reference_solution": "def solve(amount):\n    if type(amount) is int and amount > 0:\n        return \"saved\"\n    return \"error\"\n"
+}

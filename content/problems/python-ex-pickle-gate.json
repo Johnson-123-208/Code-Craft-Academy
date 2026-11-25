@@ -1,0 +1,79 @@
+{
+  "title": "Pickle Gate",
+  "slug": "python-ex-pickle-gate",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "multiprocessing"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(kind)`. Return `ok` when `kind` is `int`, `str`, `list`, or `dict`. Return `no` when `kind` is `lambda`, `lock`, or `socket`. Those cannot cross a process boundary by pickling.\n",
+  "constraints": [
+    "Plain data is ok",
+    "Live resources are no"
+  ],
+  "examples": [
+    {
+      "input": "kind = \"list\"",
+      "output": "\"ok\""
+    },
+    {
+      "input": "kind = \"lambda\"",
+      "output": "\"no\""
+    }
+  ],
+  "starter_code": "def solve(kind):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Keep a set of ok kinds.",
+    "Everything else, including the three named resources, is no.",
+    "Do not try to pickle a real lock in the solution."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "multiprocessing uses pickle to send arguments to the spawned interpreter."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "kind": "list"
+      },
+      "expected": "ok"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "kind": "lambda"
+      },
+      "expected": "no"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "kind": "lock"
+      },
+      "expected": "no"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "kind": "int"
+      },
+      "expected": "ok"
+    }
+  ],
+  "editorial": "multiprocessing uses pickle to send arguments to the spawned interpreter. Lambdas, locks, and sockets do not pickle. Integers, strings, lists, and dicts of those do. The gate is the decision before you submit the task, not the traceback after the pool fails.",
+  "reference_solution": "def solve(kind):\n    if kind in (\"int\", \"str\", \"list\", \"dict\"):\n        return \"ok\"\n    return \"no\"\n"
+}

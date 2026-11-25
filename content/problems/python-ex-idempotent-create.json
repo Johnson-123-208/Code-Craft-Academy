@@ -1,0 +1,93 @@
+{
+  "title": "Idempotent Create",
+  "slug": "python-ex-idempotent-create",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "rest"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(seen, key, new_id)`. `seen` is a dict of idempotency key to the first id. If `key` is already there, return that stored id. Otherwise return `new_id`. Do not return `new_id` for a repeated key.\n",
+  "constraints": [
+    "The first id wins",
+    "seen is not mutated in the return value. Return only the id string."
+  ],
+  "examples": [
+    {
+      "input": "seen = {\"K\": \"i1\"}, key = \"K\", new_id = \"i2\"",
+      "output": "\"i1\""
+    },
+    {
+      "input": "seen = {}, key = \"K\", new_id = \"i1\"",
+      "output": "\"i1\""
+    }
+  ],
+  "starter_code": "def solve(seen, key, new_id):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Look up the key.",
+    "A hit returns the stored id.",
+    "A miss returns new_id."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "A retried POST with the same idempotency key must return the original resource, not create another."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "seen": {
+          "K": "i1"
+        },
+        "key": "K",
+        "new_id": "i2"
+      },
+      "expected": "i1"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "seen": {},
+        "key": "K",
+        "new_id": "i1"
+      },
+      "expected": "i1"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "seen": {
+          "A": "i1"
+        },
+        "key": "B",
+        "new_id": "i2"
+      },
+      "expected": "i2"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "seen": {
+          "K": "i1"
+        },
+        "key": "K",
+        "new_id": "i1"
+      },
+      "expected": "i1"
+    }
+  ],
+  "editorial": "A retried POST with the same idempotency key must return the original resource, not create another. The store lives in the same transaction as the insert. This function is the decision: known key keeps the first id.",
+  "reference_solution": "def solve(seen, key, new_id):\n    if key in seen:\n        return seen[key]\n    return new_id\n"
+}

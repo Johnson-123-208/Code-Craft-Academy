@@ -1,0 +1,97 @@
+{
+  "title": "Gather Names",
+  "slug": "python-ex-gather-names",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "asyncio"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(names)`. Return the names in the same order. A gather of fetches preserves the order of the awaitables, not the order they finish. This pure function returns that ordered list.\n",
+  "constraints": [
+    "Do not sort",
+    "Do not drop blanks"
+  ],
+  "examples": [
+    {
+      "input": "names = [\"a\", \"c\", \"b\"]",
+      "output": "[\"a\", \"c\", \"b\"]"
+    },
+    {
+      "input": "names = []",
+      "output": "[]"
+    }
+  ],
+  "starter_code": "def solve(names):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Copy the list.",
+    "Leave the order alone.",
+    "An empty list stays empty."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "asyncio."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "names": [
+          "a",
+          "c",
+          "b"
+        ]
+      },
+      "expected": [
+        "a",
+        "c",
+        "b"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "names": []
+      },
+      "expected": []
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "names": [
+          "a"
+        ]
+      },
+      "expected": [
+        "a"
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "names": [
+          "",
+          "b"
+        ]
+      },
+      "expected": [
+        "",
+        "b"
+      ]
+    }
+  ],
+  "editorial": "asyncio.gather returns results in the order of the tasks you passed, even if a later task finishes first. Sorting by completion would surprise the caller who zipped results with ids. The sandbox function returns the input order, which is the gather contract.",
+  "reference_solution": "def solve(names):\n    return list(names)\n"
+}

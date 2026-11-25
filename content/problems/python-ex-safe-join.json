@@ -1,0 +1,83 @@
+{
+  "title": "Safe Join",
+  "slug": "python-ex-safe-join",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "pathlib"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(base, name)`. `base` and `name` are POSIX-style paths using `/`. Join `name` onto `base` and return the normalized path only when it stays inside `base`. If `name` is absolute or the result escapes `base` with `..`, return the string `error`. Normalization uses lexical `.` and `..` only. Do not touch the filesystem.\n",
+  "constraints": [
+    "Paths use forward slashes",
+    "An escaping join is error"
+  ],
+  "examples": [
+    {
+      "input": "base = \"/var/app\", name = \"files/a.txt\"",
+      "output": "\"/var/app/files/a.txt\""
+    },
+    {
+      "input": "base = \"/var/app\", name = \"../secret\"",
+      "output": "\"error\""
+    }
+  ],
+  "starter_code": "def solve(base, name):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Reject a name that starts with /.",
+    "Split the joined path and apply . and .. lexically.",
+    "The result must equal base or have base plus a slash as a prefix of a segment boundary, not a string prefix of a sibling folder."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Path traversal is a join that leaves the root you intended."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "base": "/var/app",
+        "name": "files/a.txt"
+      },
+      "expected": "/var/app/files/a.txt"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "base": "/var/app",
+        "name": "../secret"
+      },
+      "expected": "error"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "base": "/var/app",
+        "name": "/etc/passwd"
+      },
+      "expected": "error"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "base": "/var/app",
+        "name": "files/../../app/ok"
+      },
+      "expected": "/var/app/ok"
+    }
+  ],
+  "editorial": "Path traversal is a join that leaves the root you intended. Lexical normalization resolves .. before you check the prefix. A string startswith is not enough if base is /var/app and the result is /var/apple. Compare path segments.",
+  "reference_solution": "def solve(base, name):\n    if name.startswith(\"/\"):\n        return \"error\"\n\n    def norm(path):\n        parts = []\n        for part in path.split(\"/\"):\n            if part in (\"\", \".\"):\n                continue\n            if part == \"..\":\n                if not parts:\n                    return \"error\"\n                parts.pop()\n            else:\n                parts.append(part)\n        return \"/\" + \"/\".join(parts)\n\n    base_n = norm(base)\n    if base_n == \"error\":\n        return \"error\"\n    joined = base.rstrip(\"/\") + \"/\" + name\n    full = norm(joined)\n    if full == \"error\":\n        return \"error\"\n    if full == base_n or full.startswith(base_n + \"/\"):\n        return full\n    return \"error\"\n"
+}

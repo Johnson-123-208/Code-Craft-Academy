@@ -1,0 +1,115 @@
+{
+  "title": "Top Function",
+  "slug": "python-ex-hottest-function",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "profiling"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(rows)`. `rows` is a list of `[name, time]` with integer times. Return the name with the largest time. Break ties by the name that is smaller. The list is non-empty.\n",
+  "constraints": [
+    "Higher time wins",
+    "Then the smaller name"
+  ],
+  "examples": [
+    {
+      "input": "rows = [[\"a\", 5], [\"b\", 9], [\"c\", 9]]",
+      "output": "\"b\""
+    },
+    {
+      "input": "rows = [[\"only\", 1]]",
+      "output": "\"only\""
+    }
+  ],
+  "starter_code": "def solve(rows):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Track the best pair.",
+    "Replace on a higher time or an equal time with a smaller name.",
+    "Return the name only."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Internal time in a profile is the column that names the function whose body burned CPU."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "rows": [
+          [
+            "a",
+            5
+          ],
+          [
+            "b",
+            9
+          ],
+          [
+            "c",
+            9
+          ]
+        ]
+      },
+      "expected": "b"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "rows": [
+          [
+            "only",
+            1
+          ]
+        ]
+      },
+      "expected": "only"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "rows": [
+          [
+            "b",
+            2
+          ],
+          [
+            "a",
+            2
+          ]
+        ]
+      },
+      "expected": "a"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "rows": [
+          [
+            "z",
+            0
+          ],
+          [
+            "a",
+            1
+          ]
+        ]
+      },
+      "expected": "a"
+    }
+  ],
+  "editorial": "Internal time in a profile is the column that names the function whose body burned CPU. The maximum is the first place you look. A tie should be stable so two equal rows do not flap between runs of a report.",
+  "reference_solution": "def solve(rows):\n    best_name, best_time = rows[0]\n    for name, time in rows[1:]:\n        if time > best_time or (time == best_time and name < best_name):\n            best_name, best_time = name, time\n    return best_name\n"
+}

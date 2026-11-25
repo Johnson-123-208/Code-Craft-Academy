@@ -1,0 +1,83 @@
+{
+  "title": "Percent Off",
+  "slug": "python-ex-percent-off",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "patterns"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(minor, percent)`. `minor` is a non-negative integer price in minor units. `percent` is an integer from 0 through 100. Return the discounted price using integer arithmetic: `minor - minor * percent // 100`. If `minor` is negative or `percent` is outside 0 through 100, return `error`.\n",
+  "constraints": [
+    "Integer math only",
+    "percent is inclusive of 0 and 100"
+  ],
+  "examples": [
+    {
+      "input": "minor = 1000, percent = 10",
+      "output": "900"
+    },
+    {
+      "input": "minor = 199, percent = 10",
+      "output": "180"
+    }
+  ],
+  "starter_code": "def solve(minor, percent):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Validate both inputs.",
+    "Compute the discount with floor division.",
+    "Subtract it from minor."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "A percent-off strategy is one function of money."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "minor": 1000,
+        "percent": 10
+      },
+      "expected": 900
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "minor": 199,
+        "percent": 10
+      },
+      "expected": 180
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "minor": 1000,
+        "percent": 0
+      },
+      "expected": 1000
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "minor": -1,
+        "percent": 10
+      },
+      "expected": "error"
+    }
+  ],
+  "editorial": "A percent-off strategy is one function of money. Float percents drift. Integer minor units and floor division keep the result exact and slightly in the customer's favor on the remainder, which you can document. The validation stops a 200 percent discount from producing a negative price.",
+  "reference_solution": "def solve(minor, percent):\n    if minor < 0 or percent < 0 or percent > 100:\n        return \"error\"\n    return minor - minor * percent // 100\n"
+}

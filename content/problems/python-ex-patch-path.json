@@ -1,0 +1,83 @@
+{
+  "title": "Patch Path",
+  "slug": "python-ex-patch-path",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "testing"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(importer, name)`. Module `importer` did `from billing import name`, so the name is used as `importer.name`. Return the dotted path `importer.name`, which is the path patch must replace. Do not return `billing.name`.\n",
+  "constraints": [
+    "Patch where the name is used",
+    "The defining module is not the answer"
+  ],
+  "examples": [
+    {
+      "input": "importer = \"orders\", name = \"charge\"",
+      "output": "\"orders.charge\""
+    },
+    {
+      "input": "importer = \"api\", name = \"Client\"",
+      "output": "\"api.Client\""
+    }
+  ],
+  "starter_code": "def solve(importer, name):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Join importer and name with a dot.",
+    "Ignore the defining module.",
+    "Both parts are non-empty in the tests."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "from billing import charge binds charge in the importer's namespace."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "importer": "orders",
+        "name": "charge"
+      },
+      "expected": "orders.charge"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "importer": "api",
+        "name": "Client"
+      },
+      "expected": "api.Client"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "importer": "a",
+        "name": "b"
+      },
+      "expected": "a.b"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "importer": "orders",
+        "name": "save"
+      },
+      "expected": "orders.save"
+    }
+  ],
+  "editorial": "from billing import charge binds charge in the importer's namespace. Patching billing.charge does not change the name the importer already holds. patch('orders.charge') replaces the name orders looks up. The returned path is that use site.",
+  "reference_solution": "def solve(importer, name):\n    return importer + \".\" + name\n"
+}

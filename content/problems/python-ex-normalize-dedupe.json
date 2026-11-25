@@ -1,0 +1,97 @@
+{
+  "title": "Normalize Dedupe",
+  "slug": "python-ex-normalize-dedupe",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "sets"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(tags)`. Strip and casefold each tag, drop empties, and return the first-seen unique values in order. `Py` and `py` are one tag. Do not sort.\n",
+  "constraints": [
+    "casefold, not just lower, is the case rule",
+    "First-seen order"
+  ],
+  "examples": [
+    {
+      "input": "tags = [\" Py \", \"py\", \"Go\"]",
+      "output": "[\"py\", \"go\"]"
+    },
+    {
+      "input": "tags = [\"  \", \"A\", \"a\"]",
+      "output": "[\"a\"]"
+    }
+  ],
+  "starter_code": "def solve(tags):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "casefold after strip.",
+    "Skip empty results and values already in the seen set.",
+    "Append to the output only on the first insert."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(u)"
+      },
+      "explanation": "casefold is the case-insensitive key for text, slightly broader than lower."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "tags": [
+          " Py ",
+          "py",
+          "Go"
+        ]
+      },
+      "expected": [
+        "py",
+        "go"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "tags": [
+          "  ",
+          "A",
+          "a"
+        ]
+      },
+      "expected": [
+        "a"
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "tags": []
+      },
+      "expected": []
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "tags": [
+          "\u00df",
+          "ss"
+        ]
+      },
+      "expected": [
+        "ss"
+      ]
+    }
+  ],
+  "editorial": "casefold is the case-insensitive key for text, slightly broader than lower. The seen set uses that key. The output list keeps the first key you inserted. Sorting would throw away the order the caller first used the tag.",
+  "reference_solution": "def solve(tags):\n    seen = set()\n    out = []\n    for tag in tags:\n        key = tag.strip().casefold()\n        if not key or key in seen:\n            continue\n        seen.add(key)\n        out.append(key)\n    return out\n"
+}

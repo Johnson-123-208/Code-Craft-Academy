@@ -1,0 +1,79 @@
+{
+  "title": "Parse Positive",
+  "slug": "python-ex-parse-positive",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "exceptions"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(text)`. `text` should be a base-10 integer greater than 0. Return the integer when it is. Return the string `error` when the text is not an integer or the integer is less than 1. A boolean is not part of the input. Do not accept a trailing word.\n",
+  "constraints": [
+    "1 is valid",
+    "0 and negatives are error"
+  ],
+  "examples": [
+    {
+      "input": "text = \"3\"",
+      "output": "3"
+    },
+    {
+      "input": "text = \"0\"",
+      "output": "\"error\""
+    }
+  ],
+  "starter_code": "def solve(text):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "int(text) inside try, and catch ValueError.",
+    "Reject values less than 1 after a successful parse.",
+    "Do not use a bare except."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "int() raises ValueError on a bad string."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "text": "3"
+      },
+      "expected": 3
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "text": "0"
+      },
+      "expected": "error"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "text": "nope"
+      },
+      "expected": "error"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "text": "-2"
+      },
+      "expected": "error"
+    }
+  ],
+  "editorial": "int() raises ValueError on a bad string. Catching that one type, then checking the range, keeps a programming bug from disappearing into the same error string only if you do not catch Exception. The function still returns error for both the parse failure and the range failure because the caller asked for one result channel.",
+  "reference_solution": "def solve(text):\n    try:\n        value = int(text)\n    except ValueError:\n        return \"error\"\n    if value < 1:\n        return \"error\"\n    return value\n"
+}

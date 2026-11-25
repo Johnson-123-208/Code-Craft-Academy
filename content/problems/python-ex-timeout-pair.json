@@ -1,0 +1,83 @@
+{
+  "title": "Timeout Pair",
+  "slug": "python-ex-timeout-pair",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "http"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(connect, read)`. Both are timeout budgets in seconds, as integers. Return `ok` when both are positive. Return `error` when either is less than 1.\n",
+  "constraints": [
+    "Zero is not a timeout",
+    "Both sides are required"
+  ],
+  "examples": [
+    {
+      "input": "connect = 2, read = 5",
+      "output": "\"ok\""
+    },
+    {
+      "input": "connect = 0, read = 5",
+      "output": "\"error\""
+    }
+  ],
+  "starter_code": "def solve(connect, read):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Check connect and read.",
+    "Both must be >= 1.",
+    "Otherwise error."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "A missing timeout waits forever."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "connect": 2,
+        "read": 5
+      },
+      "expected": "ok"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "connect": 0,
+        "read": 5
+      },
+      "expected": "error"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "connect": 2,
+        "read": 0
+      },
+      "expected": "error"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "connect": 1,
+        "read": 1
+      },
+      "expected": "ok"
+    }
+  ],
+  "editorial": "A missing timeout waits forever. A pair separates connect failure from a stall after the server accepts. Non-positive numbers are not budgets. The check belongs next to the client constructor so a call site cannot forget it.",
+  "reference_solution": "def solve(connect, read):\n    if connect >= 1 and read >= 1:\n        return \"ok\"\n    return \"error\"\n"
+}

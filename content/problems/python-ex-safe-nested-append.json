@@ -1,0 +1,153 @@
+{
+  "title": "Safe Nested Append",
+  "slug": "python-ex-safe-nested-append",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "copying"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(rows, extra)`. `rows` is a list of lists of integers. `extra` is one new row. Return `{\"before\": copy of rows, \"after\": rows plus the extra row}`. `before` must not contain the extra row. Copy every inner list so later mutation of the result cannot alias the snapshot.\n",
+  "constraints": [
+    "extra is a list of integers",
+    "before is independent of after"
+  ],
+  "examples": [
+    {
+      "input": "rows = [[1]], extra = [2, 3]",
+      "output": "{\"before\": [[1]], \"after\": [[1], [2, 3]]}"
+    },
+    {
+      "input": "rows = [], extra = [1]",
+      "output": "{\"before\": [], \"after\": [[1]]}"
+    }
+  ],
+  "starter_code": "def solve(rows, extra):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Snapshot rows by copying each inner list.",
+    "Build after from another copy, then append a copy of extra.",
+    "Do not append extra onto the same list you returned as before."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Returning an internal list lets the caller append into your snapshot."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "rows": [
+          [
+            1
+          ]
+        ],
+        "extra": [
+          2,
+          3
+        ]
+      },
+      "expected": {
+        "before": [
+          [
+            1
+          ]
+        ],
+        "after": [
+          [
+            1
+          ],
+          [
+            2,
+            3
+          ]
+        ]
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "rows": [],
+        "extra": [
+          1
+        ]
+      },
+      "expected": {
+        "before": [],
+        "after": [
+          [
+            1
+          ]
+        ]
+      }
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "rows": [
+          [
+            1
+          ],
+          [
+            2
+          ]
+        ],
+        "extra": []
+      },
+      "expected": {
+        "before": [
+          [
+            1
+          ],
+          [
+            2
+          ]
+        ],
+        "after": [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          []
+        ]
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "rows": [
+          []
+        ],
+        "extra": [
+          4
+        ]
+      },
+      "expected": {
+        "before": [
+          []
+        ],
+        "after": [
+          [],
+          [
+            4
+          ]
+        ]
+      }
+    }
+  ],
+  "editorial": "Returning an internal list lets the caller append into your snapshot. Copying at the boundary is the fix. The before and after lists in this result are two copies, so appending the extra row changes only after.",
+  "reference_solution": "def solve(rows, extra):\n    before = [list(row) for row in rows]\n    after = [list(row) for row in rows]\n    after.append(list(extra))\n    return {\"before\": before, \"after\": after}\n"
+}

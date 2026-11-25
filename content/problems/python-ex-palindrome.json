@@ -1,0 +1,79 @@
+{
+  "title": "Palindrome",
+  "slug": "python-ex-palindrome",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "strings"
+  ],
+  "company_tags": [
+    "Facebook",
+    "Microsoft"
+  ],
+  "statement": "Implement `solve(text)`. Return 1 when the letters and digits, casefolded, form a palindrome. Ignore every other character. An empty selection is a palindrome and returns 1.\n",
+  "constraints": [
+    "Only alphanumeric characters count",
+    "Case does not matter"
+  ],
+  "examples": [
+    {
+      "input": "text = \"A man, a plan, a canal: Panama\"",
+      "output": "1"
+    },
+    {
+      "input": "text = \"race a car\"",
+      "output": "0"
+    }
+  ],
+  "starter_code": "def solve(text):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Keep characters that are alphanumeric, and casefold them.",
+    "Compare the sequence to its reverse.",
+    "Return 1 or 0."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "The palindrome is on the filtered sequence, not on the raw string."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "text": "A man, a plan, a canal: Panama"
+      },
+      "expected": 1
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "text": "race a car"
+      },
+      "expected": 0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "text": ""
+      },
+      "expected": 1
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "text": "0P"
+      },
+      "expected": 0
+    }
+  ],
+  "editorial": "The palindrome is on the filtered sequence, not on the raw string. Spaces and punctuation would make a sentence fail even when the letters read the same backward. Two pointers on the filtered list, or a reverse compare, are both linear.",
+  "reference_solution": "def solve(text):\n    chars = [ch.casefold() for ch in text if ch.isalnum()]\n    return 1 if chars == chars[::-1] else 0\n"
+}

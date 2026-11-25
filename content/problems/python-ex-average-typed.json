@@ -1,0 +1,88 @@
+{
+  "title": "Average",
+  "slug": "python-ex-average-typed",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "typing"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(nums)`. Return the integer average of a non-empty list, using floor division by the length. An empty list returns `error`.\n",
+  "constraints": [
+    "Floor division",
+    "Empty is error"
+  ],
+  "examples": [
+    {
+      "input": "nums = [1, 2, 3]",
+      "output": "2"
+    },
+    {
+      "input": "nums = []",
+      "output": "\"error\""
+    }
+  ],
+  "starter_code": "def solve(nums):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Reject an empty list before dividing.",
+    "Sum and divide by the length.",
+    "Do not use a float."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "The average of an empty sample is undefined, not zero."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "nums": [
+          1,
+          2,
+          3
+        ]
+      },
+      "expected": 2
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "nums": []
+      },
+      "expected": "error"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "nums": [
+          1
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "nums": [
+          1,
+          2
+        ]
+      },
+      "expected": 1
+    }
+  ],
+  "editorial": "The average of an empty sample is undefined, not zero. Checking the length is the narrowing step a type checker cannot do for you if the list is merely list[int]. Floor division keeps the result an integer the judge can compare exactly.",
+  "reference_solution": "def solve(nums):\n    if not nums:\n        return \"error\"\n    return sum(nums) // len(nums)\n"
+}

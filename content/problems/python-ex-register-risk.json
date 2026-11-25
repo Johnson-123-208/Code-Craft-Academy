@@ -1,0 +1,79 @@
+{
+  "title": "Register Risk",
+  "slug": "python-ex-register-risk",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "abc"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(has_send)`. ABC.register can mark a class as a virtual subclass without checking methods. Return `risk` when `has_send` is 0, because the class would pass an isinstance check and fail when send is called. Return `ok` when `has_send` is 1.\n",
+  "constraints": [
+    "register does not prove the methods exist",
+    "ok only when send exists"
+  ],
+  "examples": [
+    {
+      "input": "has_send = 0",
+      "output": "\"risk\""
+    },
+    {
+      "input": "has_send = 1",
+      "output": "\"ok\""
+    }
+  ],
+  "starter_code": "def solve(has_send):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "The flag is the only evidence you have.",
+    "Missing send is risk.",
+    "Present send is ok, even though register itself did not check."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "register updates the abstract class's virtual subclass registry."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "has_send": 0
+      },
+      "expected": "risk"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "has_send": 1
+      },
+      "expected": "ok"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "has_send": 0
+      },
+      "expected": "risk"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "has_send": 1
+      },
+      "expected": "ok"
+    }
+  ],
+  "editorial": "register updates the abstract class's virtual subclass registry. isinstance becomes true. The call still fails if send is absent. That is the risk. A real subclass declaration runs the abstract-method check at construction. register skips it.",
+  "reference_solution": "def solve(has_send):\n    return \"ok\" if has_send else \"risk\"\n"
+}

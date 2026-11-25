@@ -1,0 +1,79 @@
+{
+  "title": "Env Bool",
+  "slug": "python-ex-env-bool",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "config"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(text)`. Interpret an environment-style string. After strip and casefold, `1`, `true`, `yes`, and `on` return 1. `0`, `false`, `no`, `off`, and the empty string return 0. Any other text returns the string `error`. The word `false` must not count as true just because the string is non-empty.\n",
+  "constraints": [
+    "Case does not matter",
+    "Surrounding spaces do not matter"
+  ],
+  "examples": [
+    {
+      "input": "text = \"false\"",
+      "output": "0"
+    },
+    {
+      "input": "text = \" YES \"",
+      "output": "1"
+    }
+  ],
+  "starter_code": "def solve(text):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Strip and casefold before the membership tests.",
+    "Check the true set and the false set separately.",
+    "A non-empty unrecognized word is error, not 1."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(k)",
+        "space": "O(1)"
+      },
+      "explanation": "bool(\"false\") is true in Python because the string is non-empty."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "text": "false"
+      },
+      "expected": 0
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "text": " YES "
+      },
+      "expected": 1
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "text": "maybe"
+      },
+      "expected": "error"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "text": ""
+      },
+      "expected": 0
+    }
+  ],
+  "editorial": "bool(\"false\") is true in Python because the string is non-empty. Environment flags are a different language. The recognized words are a closed set, and everything else is a configuration error rather than a silent true.",
+  "reference_solution": "def solve(text):\n    key = text.strip().casefold()\n    if key in (\"1\", \"true\", \"yes\", \"on\"):\n        return 1\n    if key in (\"0\", \"false\", \"no\", \"off\", \"\"):\n        return 0\n    return \"error\"\n"
+}

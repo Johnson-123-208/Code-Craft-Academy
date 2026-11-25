@@ -1,0 +1,79 @@
+{
+  "title": "Blocking Smell",
+  "slug": "python-ex-block-smell",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "asyncio"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(call)`. Return `unsafe` for `time.sleep`, `requests`, and `open`. Return `safe` for `asyncio.sleep` and `httpx-async`. Any other call returns `unknown`.\n",
+  "constraints": [
+    "Blocking calls are unsafe on the loop",
+    "Async sleeps are safe"
+  ],
+  "examples": [
+    {
+      "input": "call = \"requests\"",
+      "output": "\"unsafe\""
+    },
+    {
+      "input": "call = \"asyncio.sleep\"",
+      "output": "\"safe\""
+    }
+  ],
+  "starter_code": "def solve(call):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Map the known names.",
+    "Default to unknown.",
+    "Do not mark requests as safe."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "The event loop runs coroutines cooperatively."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "call": "requests"
+      },
+      "expected": "unsafe"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "call": "asyncio.sleep"
+      },
+      "expected": "safe"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "call": "open"
+      },
+      "expected": "unsafe"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "call": "print"
+      },
+      "expected": "unknown"
+    }
+  ],
+  "editorial": "The event loop runs coroutines cooperatively. time.sleep and a synchronous HTTP library hold the thread, so every other task waits. asyncio.sleep yields. An async HTTP client yields on I/O. The classification is the review comment.",
+  "reference_solution": "def solve(call):\n    unsafe = {\"time.sleep\", \"requests\", \"open\"}\n    safe = {\"asyncio.sleep\", \"httpx-async\"}\n    if call in unsafe:\n        return \"unsafe\"\n    if call in safe:\n        return \"safe\"\n    return \"unknown\"\n"
+}

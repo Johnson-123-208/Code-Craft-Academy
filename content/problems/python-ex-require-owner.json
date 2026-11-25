@@ -1,0 +1,79 @@
+{
+  "title": "Require Owner",
+  "slug": "python-ex-require-owner",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "oop"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(owner)`. Strip `owner`. If it is empty, return the string `error`. Otherwise return the stripped owner. This is the check an initializer should make before it stores the name.\n",
+  "constraints": [
+    "Blank and whitespace-only names are error",
+    "A real name is returned stripped"
+  ],
+  "examples": [
+    {
+      "input": "owner = \" Ada \"",
+      "output": "\"Ada\""
+    },
+    {
+      "input": "owner = \"   \"",
+      "output": "\"error\""
+    }
+  ],
+  "starter_code": "def solve(owner):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Strip first.",
+    "An empty result is error.",
+    "Otherwise return the stripped string."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "An initializer that stores a blank owner creates an object the rest of the system cannot address."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "owner": " Ada "
+      },
+      "expected": "Ada"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "owner": "   "
+      },
+      "expected": "error"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "owner": ""
+      },
+      "expected": "error"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "owner": "Grace"
+      },
+      "expected": "Grace"
+    }
+  ],
+  "editorial": "An initializer that stores a blank owner creates an object the rest of the system cannot address. Failing in __init__ beats a later AttributeError or a silent empty invoice. The stripped value is what you would assign to self.owner.",
+  "reference_solution": "def solve(owner):\n    cleaned = owner.strip()\n    if not cleaned:\n        return \"error\"\n    return cleaned\n"
+}

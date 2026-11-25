@@ -1,0 +1,97 @@
+{
+  "title": "Require Positive",
+  "slug": "python-ex-require-positive",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "decorators"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(values)`. A parameterized check rejects any integer that is less than or equal to 0 before the work runs. For each value, return `ok` if it is a positive integer and `reject` otherwise. Booleans are not in the input. Return the list of those words.\n",
+  "constraints": [
+    "values is a list of integers",
+    "Zero is not positive"
+  ],
+  "examples": [
+    {
+      "input": "values = [1, 0, -3, 4]",
+      "output": "[\"ok\", \"reject\", \"reject\", \"ok\"]"
+    },
+    {
+      "input": "values = [1]",
+      "output": "[\"ok\"]"
+    }
+  ],
+  "starter_code": "def solve(values):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "The check happens before you would call the wrapped function.",
+    "value > 0 is the accept condition.",
+    "Do not treat negative numbers as ok by taking abs."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "A parameterized decorator is a function that takes the bound, here the positive rule, and returns the real decorator."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "values": [
+          1,
+          0,
+          -3,
+          4
+        ]
+      },
+      "expected": [
+        "ok",
+        "reject",
+        "reject",
+        "ok"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "values": [
+          1
+        ]
+      },
+      "expected": [
+        "ok"
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "values": [
+          0
+        ]
+      },
+      "expected": [
+        "reject"
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "values": []
+      },
+      "expected": []
+    }
+  ],
+  "editorial": "A parameterized decorator is a function that takes the bound, here the positive rule, and returns the real decorator. The wrapper refuses the argument and never calls the inner function. The result list is the decision for each argument.",
+  "reference_solution": "def solve(values):\n    def accept(value):\n        if type(value) is int and value > 0:\n            return \"ok\"\n        return \"reject\"\n    return [accept(value) for value in values]\n"
+}

@@ -1,0 +1,127 @@
+{
+  "title": "Having Split",
+  "slug": "python-ex-having-split",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "sql"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(clauses)`. Each clause is `[text, kind]` where kind is `row` or `agg`. Return `{\"where\": [...], \"having\": [...]}` with the texts. Row filters go to where. Aggregate filters go to having. Order is preserved.\n",
+  "constraints": [
+    "kind decides the clause",
+    "Do not look at the text to guess"
+  ],
+  "examples": [
+    {
+      "input": "clauses = [[\"status = open\", \"row\"], [\"COUNT(*) > 2\", \"agg\"]]",
+      "output": "{\"where\": [\"status = open\"], \"having\": [\"COUNT(*) > 2\"]}"
+    },
+    {
+      "input": "clauses = []",
+      "output": "{\"where\": [], \"having\": []}"
+    }
+  ],
+  "starter_code": "def solve(clauses):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Append row texts to where.",
+    "Append agg texts to having.",
+    "Unknown kinds are dropped."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "WHERE runs before grouping and cannot see aggregates."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "clauses": [
+          [
+            "status = open",
+            "row"
+          ],
+          [
+            "COUNT(*) > 2",
+            "agg"
+          ]
+        ]
+      },
+      "expected": {
+        "where": [
+          "status = open"
+        ],
+        "having": [
+          "COUNT(*) > 2"
+        ]
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "clauses": []
+      },
+      "expected": {
+        "where": [],
+        "having": []
+      }
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "clauses": [
+          [
+            "a",
+            "row"
+          ],
+          [
+            "b",
+            "row"
+          ]
+        ]
+      },
+      "expected": {
+        "where": [
+          "a",
+          "b"
+        ],
+        "having": []
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "clauses": [
+          [
+            "nope",
+            "other"
+          ],
+          [
+            "c",
+            "agg"
+          ]
+        ]
+      },
+      "expected": {
+        "where": [],
+        "having": [
+          "c"
+        ]
+      }
+    }
+  ],
+  "editorial": "WHERE runs before grouping and cannot see aggregates. HAVING runs after. Putting a customer filter in HAVING is legal in some engines and wasteful. Putting COUNT in WHERE is an error. The kind flag is the writer's decision, and the split is where the SQL clauses go.",
+  "reference_solution": "def solve(clauses):\n    where = []\n    having = []\n    for text, kind in clauses:\n        if kind == \"row\":\n            where.append(text)\n        elif kind == \"agg\":\n            having.append(text)\n    return {\"where\": where, \"having\": having}\n"
+}

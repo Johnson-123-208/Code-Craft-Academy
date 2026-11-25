@@ -1,0 +1,91 @@
+{
+  "title": "Atomic Plan",
+  "slug": "python-ex-atomic-names",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "files"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(destination)`. Return `{\"tmp\": ..., \"final\": destination}`. `tmp` is the destination plus the suffix `.tmp` in the same directory. This is the plan for writing beside the target and then replacing it. Do not invent a different directory.\n",
+  "constraints": [
+    "final is the destination unchanged",
+    "tmp is destination plus .tmp"
+  ],
+  "examples": [
+    {
+      "input": "destination = \"/var/app/data.json\"",
+      "output": "{\"tmp\": \"/var/app/data.json.tmp\", \"final\": \"/var/app/data.json\"}"
+    },
+    {
+      "input": "destination = \"data.json\"",
+      "output": "{\"tmp\": \"data.json.tmp\", \"final\": \"data.json\"}"
+    }
+  ],
+  "starter_code": "def solve(destination):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Do not strip an existing suffix before adding .tmp. Add it at the end.",
+    "The directory stays whatever the destination already had.",
+    "Return both names."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "An atomic replace writes a complete temp file next to the target, then os."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "destination": "/var/app/data.json"
+      },
+      "expected": {
+        "tmp": "/var/app/data.json.tmp",
+        "final": "/var/app/data.json"
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "destination": "data.json"
+      },
+      "expected": {
+        "tmp": "data.json.tmp",
+        "final": "data.json"
+      }
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "destination": "/tmp/a"
+      },
+      "expected": {
+        "tmp": "/tmp/a.tmp",
+        "final": "/tmp/a"
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "destination": "dir/file.txt"
+      },
+      "expected": {
+        "tmp": "dir/file.txt.tmp",
+        "final": "dir/file.txt"
+      }
+    }
+  ],
+  "editorial": "An atomic replace writes a complete temp file next to the target, then os.replace swaps the name. The temp name has to be on the same filesystem, which a same-directory suffix guarantees in this lexical plan. A temp directory on another drive would make the replace a copy.",
+  "reference_solution": "def solve(destination):\n    return {\"tmp\": destination + \".tmp\", \"final\": destination}\n"
+}

@@ -1,0 +1,82 @@
+{
+  "title": "Script Entry",
+  "slug": "python-ex-script-entry",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "packaging"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(spec)`. `spec` is `module:function`. Return `[module, function]`. If there is not exactly one colon, or either side is empty, return `error`.\n",
+  "constraints": [
+    "Exactly one colon",
+    "Both sides non-empty"
+  ],
+  "examples": [
+    {
+      "input": "spec = \"myapp.cli:main\"",
+      "output": "[\"myapp.cli\", \"main\"]"
+    },
+    {
+      "input": "spec = \"myapp.cli\"",
+      "output": "\"error\""
+    }
+  ],
+  "starter_code": "def solve(spec):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Split on colon once and check the remainder has none... or count colons.",
+    "Reject empty sides.",
+    "Return the two strings."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "A console script entry point is module:function."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "spec": "myapp.cli:main"
+      },
+      "expected": [
+        "myapp.cli",
+        "main"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "spec": "myapp.cli"
+      },
+      "expected": "error"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "spec": ":main"
+      },
+      "expected": "error"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "spec": "a:b:c"
+      },
+      "expected": "error"
+    }
+  ],
+  "editorial": "A console script entry point is module:function. The installer builds a small launcher that imports the module and calls the function. A missing colon or an empty side is a broken pyproject table, and it should fail at packaging time rather than when a user runs the command.",
+  "reference_solution": "def solve(spec):\n    if spec.count(\":\") != 1:\n        return \"error\"\n    module, function = spec.split(\":\")\n    if not module or not function:\n        return \"error\"\n    return [module, function]\n"
+}

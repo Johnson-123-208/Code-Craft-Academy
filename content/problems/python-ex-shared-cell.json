@@ -1,0 +1,105 @@
+{
+  "title": "Shared Cell",
+  "slug": "python-ex-shared-cell",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "closures"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(ops)`. Two operations share one integer cell, starting at 0. `inc` adds 1. `read` leaves it unchanged. Return the list of cell values after each operation. An increment must be visible to a later read, which is the point of one cell rather than two copies.\n",
+  "constraints": [
+    "ops contains inc and read",
+    "The cell starts at 0"
+  ],
+  "examples": [
+    {
+      "input": "ops = [\"read\", \"inc\", \"inc\", \"read\"]",
+      "output": "[0, 1, 2, 2]"
+    },
+    {
+      "input": "ops = [\"inc\"]",
+      "output": "[1]"
+    }
+  ],
+  "starter_code": "def solve(ops):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "One variable is the cell. Both operations close over it.",
+    "inc changes it. read only reports it.",
+    "Append the value after every operation."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Two functions that close over the same variable see the same writes."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "ops": [
+          "read",
+          "inc",
+          "inc",
+          "read"
+        ]
+      },
+      "expected": [
+        0,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "ops": [
+          "inc"
+        ]
+      },
+      "expected": [
+        1
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "ops": [
+          "read"
+        ]
+      },
+      "expected": [
+        0
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "ops": [
+          "inc",
+          "read",
+          "inc"
+        ]
+      },
+      "expected": [
+        1,
+        1,
+        2
+      ]
+    }
+  ],
+  "editorial": "Two functions that close over the same variable see the same writes. If each call created a new integer, a read would stay at 0 after increments. The shared cell is what makes the sequence cumulative.",
+  "reference_solution": "def solve(ops):\n    cell = [0]\n\n    def inc():\n        cell[0] += 1\n\n    def read():\n        return cell[0]\n\n    out = []\n    for op in ops:\n        if op == \"inc\":\n            inc()\n        out.append(read())\n    return out\n"
+}

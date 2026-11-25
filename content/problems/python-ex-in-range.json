@@ -1,0 +1,87 @@
+{
+  "title": "In Range",
+  "slug": "python-ex-in-range",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "comparisons"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(value, low, high)`. Return 1 when `low <= value <= high`, and 0 otherwise. The range is inclusive. Use one chained comparison.\n",
+  "constraints": [
+    "All inputs are integers",
+    "Return 0 or 1"
+  ],
+  "examples": [
+    {
+      "input": "value = 5, low = 1, high = 5",
+      "output": "1"
+    },
+    {
+      "input": "value = 0, low = 1, high = 5",
+      "output": "0"
+    }
+  ],
+  "starter_code": "def solve(value, low, high):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Write low <= value <= high. Python chains it.",
+    "Map the condition to 1 and 0.",
+    "The endpoints belong inside the range."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "A chained comparison is two comparisons and a conjunction, evaluated without storing a temporary boolean you then forget to combine."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "value": 5,
+        "low": 1,
+        "high": 5
+      },
+      "expected": 1
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "value": 0,
+        "low": 1,
+        "high": 5
+      },
+      "expected": 0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "value": 1,
+        "low": 1,
+        "high": 1
+      },
+      "expected": 1
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "value": 6,
+        "low": 1,
+        "high": 5
+      },
+      "expected": 0
+    }
+  ],
+  "editorial": "A chained comparison is two comparisons and a conjunction, evaluated without storing a temporary boolean you then forget to combine. Inclusive ends are the usual contract for scores and indexes that name a closed interval.",
+  "reference_solution": "def solve(value, low, high):\n    if low <= value <= high:\n        return 1\n    return 0\n"
+}

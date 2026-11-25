@@ -1,0 +1,79 @@
+{
+  "title": "Checkout Place",
+  "slug": "python-ex-checkout-place",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "composition"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(amount)`. If `amount` is not a positive int, return `error`. Otherwise charge that amount through an injected client and return `ok:{amount}`. The checkout object does not choose a concrete URL. It calls the client it was given.\n",
+  "constraints": [
+    "Zero and negatives are error",
+    "A positive amount is charged"
+  ],
+  "examples": [
+    {
+      "input": "amount = 500",
+      "output": "\"ok:500\""
+    },
+    {
+      "input": "amount = 0",
+      "output": "\"error\""
+    }
+  ],
+  "starter_code": "def solve(amount):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Validate the amount first.",
+    "A tiny client records the amount and returns ok.",
+    "Checkout.place calls client.charge."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "Composition is Checkout holding a client, not subclassing a payment vendor."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "amount": 500
+      },
+      "expected": "ok:500"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "amount": 0
+      },
+      "expected": "error"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "amount": -1
+      },
+      "expected": "error"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "amount": 1
+      },
+      "expected": "ok:1"
+    }
+  ],
+  "editorial": "Composition is Checkout holding a client, not subclassing a payment vendor. The test double is the client. Validation stays in checkout so a fake client is not the only line of defense. The returned string is the charge the client saw.",
+  "reference_solution": "def solve(amount):\n    class Client:\n        def charge(self, minor):\n            return f\"ok:{minor}\"\n\n    class Checkout:\n        def __init__(self, client):\n            self.client = client\n\n        def place(self, minor):\n            if type(minor) is not int or minor <= 0:\n                return \"error\"\n            return self.client.charge(minor)\n\n    return Checkout(Client()).place(amount)\n"
+}

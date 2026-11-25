@@ -1,0 +1,79 @@
+{
+  "title": "Fib Rolling",
+  "slug": "python-ex-fib-rolling",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "recursion"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft"
+  ],
+  "statement": "Implement `solve(n)`. Return the `n`th Fibonacci number with `F(0) = 0` and `F(1) = 1`. If `n` is negative, return the string `error`. Use an iterative rolling pair or an equivalent linear loop. Do not use the exponential double recursion.\n",
+  "constraints": [
+    "n is an integer",
+    "Linear time, constant extra space"
+  ],
+  "examples": [
+    {
+      "input": "n = 0",
+      "output": "0"
+    },
+    {
+      "input": "n = 1",
+      "output": "1"
+    }
+  ],
+  "starter_code": "def solve(n):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Handle 0, 1, and negatives before the loop.",
+    "Keep the previous two numbers and advance n-1 times from 1.",
+    "The naive recursive fib recomputes overlapping calls. Do not write it."
+  ],
+  "approaches": [
+    {
+      "name": "Rolling pair",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "The recurrence needs only two predecessors."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "n": 0
+      },
+      "expected": 0
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "n": 1
+      },
+      "expected": 1
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "n": 10
+      },
+      "expected": 55
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "n": -1
+      },
+      "expected": "error"
+    }
+  ],
+  "editorial": "The recurrence needs only two predecessors. Rolling them forward is linear time and constant space. Memoized recursion is also linear and spends stack and a cache. The exponential tree is the version that times out for modest n.",
+  "reference_solution": "def solve(n):\n    if n < 0:\n        return \"error\"\n    if n < 2:\n        return n\n    prev, cur = 0, 1\n    for _ in range(2, n + 1):\n        prev, cur = cur, prev + cur\n    return cur\n"
+}

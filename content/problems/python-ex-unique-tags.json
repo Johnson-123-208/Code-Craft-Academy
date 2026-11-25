@@ -1,0 +1,103 @@
+{
+  "title": "Unique Tags",
+  "slug": "python-ex-unique-tags",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "sets"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Backend"
+  ],
+  "statement": "Implement `solve(tags)`. Strip each tag and lowercase it. Drop empty results. Return the first-seen unique tags in that normalized form, in the order they first appeared. A later duplicate, after normalization, does not move the first occurrence.\n",
+  "constraints": [
+    "Case and surrounding spaces do not make a new tag",
+    "Order is first seen"
+  ],
+  "examples": [
+    {
+      "input": "tags = [\" Py \", \"py\", \"Go\", \"\"]",
+      "output": "[\"py\", \"go\"]"
+    },
+    {
+      "input": "tags = [\"a\", \"b\", \"a\"]",
+      "output": "[\"a\", \"b\"]"
+    }
+  ],
+  "starter_code": "def solve(tags):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Normalize before you test membership.",
+    "A set gives the membership test. A list keeps the order. You need both.",
+    "Skip a tag whose normalized form is empty."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(u)"
+      },
+      "explanation": "A set alone loses order."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "tags": [
+          " Py ",
+          "py",
+          "Go",
+          ""
+        ]
+      },
+      "expected": [
+        "py",
+        "go"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "tags": [
+          "a",
+          "b",
+          "a"
+        ]
+      },
+      "expected": [
+        "a",
+        "b"
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "tags": [
+          "  ",
+          ""
+        ]
+      },
+      "expected": []
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "tags": [
+          "SQL",
+          "sql",
+          "Sql"
+        ]
+      },
+      "expected": [
+        "sql"
+      ]
+    }
+  ],
+  "editorial": "A set alone loses order. A list alone makes the membership test linear. The usual pattern is a set of seen keys plus a result list you append to only on the first insert. Normalizing first is what makes `Py` and `py` the same tag.",
+  "reference_solution": "def solve(tags):\n    seen = set()\n    out = []\n    for tag in tags:\n        key = tag.strip().lower()\n        if not key or key in seen:\n            continue\n        seen.add(key)\n        out.append(key)\n    return out\n"
+}

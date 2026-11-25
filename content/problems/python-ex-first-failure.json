@@ -1,0 +1,87 @@
+{
+  "title": "First Failure",
+  "slug": "python-ex-first-failure",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "quality"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(lint_ok, types_ok, tests_ok)`. Each flag is 0 or 1. Return `ruff` if lint failed, else `mypy` if types failed, else `pytest` if tests failed, else `pass`. The first failing stage is the one you report.\n",
+  "constraints": [
+    "Lint is checked first",
+    "pass requires all three"
+  ],
+  "examples": [
+    {
+      "input": "lint_ok = 0, types_ok = 1, tests_ok = 1",
+      "output": "\"ruff\""
+    },
+    {
+      "input": "lint_ok = 1, types_ok = 0, tests_ok = 1",
+      "output": "\"mypy\""
+    }
+  ],
+  "starter_code": "def solve(lint_ok, types_ok, tests_ok):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "A 0 lint flag returns ruff.",
+    "Then types.",
+    "Then tests. All ones return pass."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "The gate is ordered so the cheapest, most local failure is named first when you stop early."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "lint_ok": 0,
+        "types_ok": 1,
+        "tests_ok": 1
+      },
+      "expected": "ruff"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "lint_ok": 1,
+        "types_ok": 0,
+        "tests_ok": 1
+      },
+      "expected": "mypy"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "lint_ok": 1,
+        "types_ok": 1,
+        "tests_ok": 0
+      },
+      "expected": "pytest"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "lint_ok": 1,
+        "types_ok": 1,
+        "tests_ok": 1
+      },
+      "expected": "pass"
+    }
+  ],
+  "editorial": "The gate is ordered so the cheapest, most local failure is named first when you stop early. A pass is all three green. Reporting pytest when ruff already failed hides the formatting error the author should fix before reading a test log.",
+  "reference_solution": "def solve(lint_ok, types_ok, tests_ok):\n    if not lint_ok:\n        return \"ruff\"\n    if not types_ok:\n        return \"mypy\"\n    if not tests_ok:\n        return \"pytest\"\n    return \"pass\"\n"
+}

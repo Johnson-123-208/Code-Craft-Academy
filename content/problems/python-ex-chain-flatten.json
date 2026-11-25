@@ -1,0 +1,104 @@
+{
+  "title": "Flatten Chain",
+  "slug": "python-ex-chain-flatten",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "itertools"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(rows)`. Flatten one level of a list of lists of integers and return one list. Empty rows contribute nothing.\n",
+  "constraints": [
+    "One level",
+    "Keep order"
+  ],
+  "examples": [
+    {
+      "input": "rows = [[1, 2], [], [3]]",
+      "output": "[1, 2, 3]"
+    },
+    {
+      "input": "rows = []",
+      "output": "[]"
+    }
+  ],
+  "starter_code": "def solve(rows):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "chain.from_iterable walks each row.",
+    "list() materializes at the end.",
+    "Do not recurse."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "chain."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "rows": [
+          [
+            1,
+            2
+          ],
+          [],
+          [
+            3
+          ]
+        ]
+      },
+      "expected": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "rows": []
+      },
+      "expected": []
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "rows": [
+          []
+        ]
+      },
+      "expected": []
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "rows": [
+          [
+            1
+          ],
+          [
+            1
+          ]
+        ]
+      },
+      "expected": [
+        1,
+        1
+      ]
+    }
+  ],
+  "editorial": "chain.from_iterable is the lazy one-level flatten. Building the result list is the caller's materialization. A nested comprehension does the same work. The chain version does not need the inner lists to be concatenated by hand.",
+  "reference_solution": "def solve(rows):\n    from itertools import chain\n    return list(chain.from_iterable(rows))\n"
+}

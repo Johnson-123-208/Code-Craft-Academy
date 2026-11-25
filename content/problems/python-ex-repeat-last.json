@@ -1,0 +1,92 @@
+{
+  "title": "Repeat Last",
+  "slug": "python-ex-repeat-last",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "decorators"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(value, times)`. Call an inner function `times` times. The inner function returns `value` plus the zero-based call index, so the results are `value, value+1, ...`. Return the last result. If `times` is 0, return the string `error` because there is no last result. Also return the wrapper name as the second list element: the list is `[last, \"wrapped\"]`.\n",
+  "constraints": [
+    "times is a non-negative integer",
+    "The name is the string wrapped"
+  ],
+  "examples": [
+    {
+      "input": "value = 10, times = 3",
+      "output": "[12, \"wrapped\"]"
+    },
+    {
+      "input": "value = 10, times = 0",
+      "output": "\"error\""
+    }
+  ],
+  "starter_code": "def solve(value, times):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Reject times less than 1 with the string error. Return that string alone, not a list.",
+    "Otherwise keep only the latest return value while you loop.",
+    "The second element of a successful result is the wrapper's __name__, which you set to wrapped."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(times)",
+        "space": "O(1)"
+      },
+      "explanation": "A decorator that calls the inner function several times still has one return value: the last one, unless it is documented to collect them."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "value": 10,
+        "times": 3
+      },
+      "expected": [
+        12,
+        "wrapped"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "value": 10,
+        "times": 0
+      },
+      "expected": "error"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "value": 0,
+        "times": 1
+      },
+      "expected": [
+        0,
+        "wrapped"
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "value": -2,
+        "times": 2
+      },
+      "expected": [
+        -1,
+        "wrapped"
+      ]
+    }
+  ],
+  "editorial": "A decorator that calls the inner function several times still has one return value: the last one, unless it is documented to collect them. functools.wraps would preserve the inner name. This wrapper is named wrapped so the test can see that the name is part of the decorator's contract, not an accident.",
+  "reference_solution": "def solve(value, times):\n    def inner(index):\n        return value + index\n\n    def wrapped():\n        last = \"error\"\n        for index in range(times):\n            last = inner(index)\n        return last\n\n    wrapped.__name__ = \"wrapped\"\n    if times < 1:\n        return \"error\"\n    return [wrapped(), wrapped.__name__]\n"
+}

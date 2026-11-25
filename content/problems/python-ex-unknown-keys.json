@@ -1,0 +1,103 @@
+{
+  "title": "Reject Extra",
+  "slug": "python-ex-unknown-keys",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "json"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(payload, allowed)`. `payload` is a dict and `allowed` is a list of keys. Return the sorted list of keys present in the payload that are not allowed. An empty list means the payload has no extras.\n",
+  "constraints": [
+    "Return sorted keys",
+    "Allowed keys that are absent are fine"
+  ],
+  "examples": [
+    {
+      "input": "payload = {\"name\": \"ada\", \"role\": \"admin\"}, allowed = [\"name\"]",
+      "output": "[\"role\"]"
+    },
+    {
+      "input": "payload = {\"name\": \"ada\"}, allowed = [\"name\", \"age\"]",
+      "output": "[]"
+    }
+  ],
+  "starter_code": "def solve(payload, allowed):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Set of payload keys minus set of allowed keys.",
+    "Sort the difference.",
+    "Do not return the allowed keys."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n log n)",
+        "space": "O(n)"
+      },
+      "explanation": "An extra key is how a client smuggles a field your model should reject, or how you notice a typo."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "payload": {
+          "name": "ada",
+          "role": "admin"
+        },
+        "allowed": [
+          "name"
+        ]
+      },
+      "expected": [
+        "role"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "payload": {
+          "name": "ada"
+        },
+        "allowed": [
+          "name",
+          "age"
+        ]
+      },
+      "expected": []
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "payload": {},
+        "allowed": [
+          "name"
+        ]
+      },
+      "expected": []
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "payload": {
+          "b": 1,
+          "a": 2
+        },
+        "allowed": []
+      },
+      "expected": [
+        "a",
+        "b"
+      ]
+    }
+  ],
+  "editorial": "An extra key is how a client smuggles a field your model should reject, or how you notice a typo. The difference of the two sets is the unknown keys. Sorting makes the report stable.",
+  "reference_solution": "def solve(payload, allowed):\n    return sorted(set(payload) - set(allowed))\n"
+}

@@ -1,0 +1,101 @@
+{
+  "title": "Order Listeners",
+  "slug": "python-ex-order-listeners",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "patterns"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(listeners, event)`. `listeners` is a list of names. Notify a snapshot of that list with `event`. Return `[name:event, ...]` in the snapshot order. Take the snapshot before you notify, so the result length matches the input length even if a listener would have unsubscribed itself. You do not need to mutate the list. Just notify the copy.\n",
+  "constraints": [
+    "Snapshot first",
+    "Every current listener is notified once"
+  ],
+  "examples": [
+    {
+      "input": "listeners = [\"audit\", \"mail\"], event = \"placed\"",
+      "output": "[\"audit:placed\", \"mail:placed\"]"
+    },
+    {
+      "input": "listeners = [], event = \"placed\"",
+      "output": "[]"
+    }
+  ],
+  "starter_code": "def solve(listeners, event):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Copy the listener list.",
+    "Build name:event for each copied name.",
+    "Do not iterate the live list if you also delete from it. The copy is the point."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "An observer list mutated during notification skips or double-calls."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "listeners": [
+          "audit",
+          "mail"
+        ],
+        "event": "placed"
+      },
+      "expected": [
+        "audit:placed",
+        "mail:placed"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "listeners": [],
+        "event": "placed"
+      },
+      "expected": []
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "listeners": [
+          "audit"
+        ],
+        "event": ""
+      },
+      "expected": [
+        "audit:"
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "listeners": [
+          "a",
+          "b",
+          "a"
+        ],
+        "event": "x"
+      },
+      "expected": [
+        "a:x",
+        "b:x",
+        "a:x"
+      ]
+    }
+  ],
+  "editorial": "An observer list mutated during notification skips or double-calls. Iterating a copy, or iterating a snapshot of the names, freezes the set of recipients for this event. The result is that snapshot's messages, in order.",
+  "reference_solution": "def solve(listeners, event):\n    snapshot = list(listeners)\n    return [name + \":\" + event for name in snapshot]\n"
+}

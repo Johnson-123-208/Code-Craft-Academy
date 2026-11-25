@@ -1,0 +1,79 @@
+{
+  "title": "Status Pick",
+  "slug": "python-ex-status-pick",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "rest"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(situation)`. Map `fetched` to 200, `created` to 201, `deleted` to 204, `missing` to 404, and `conflict` to 409. Any other word returns 500.\n",
+  "constraints": [
+    "deleted is 204, not 200",
+    "Unknown is 500"
+  ],
+  "examples": [
+    {
+      "input": "situation = \"created\"",
+      "output": "201"
+    },
+    {
+      "input": "situation = \"deleted\"",
+      "output": "204"
+    }
+  ],
+  "starter_code": "def solve(situation):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Use a dict.",
+    "Default to 500.",
+    "Return an integer."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "Clients and monitors branch on status codes."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "situation": "created"
+      },
+      "expected": 201
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "situation": "deleted"
+      },
+      "expected": 204
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "situation": "missing"
+      },
+      "expected": 404
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "situation": "nope"
+      },
+      "expected": 500
+    }
+  ],
+  "editorial": "Clients and monitors branch on status codes. Using 200 for every outcome hides failures. The five situations here are the ones a small resource API actually returns. 500 is the leftover for a bug, not for a missing row.",
+  "reference_solution": "def solve(situation):\n    return {\"fetched\": 200, \"created\": 201, \"deleted\": 204, \"missing\": 404, \"conflict\": 409}.get(situation, 500)\n"
+}

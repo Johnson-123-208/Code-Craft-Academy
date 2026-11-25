@@ -1,0 +1,96 @@
+{
+  "title": "Shout Label",
+  "slug": "python-ex-shout-label",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "cli"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(label, times, shout)`. `shout` is 1 or 0. If it is 1, uppercase `label`. Repeat that text `times` times and return the list of lines. `times` may be 0, which returns an empty list. Do not print.\n",
+  "constraints": [
+    "shout is 0 or 1",
+    "times is a non-negative integer"
+  ],
+  "examples": [
+    {
+      "input": "label = \"ready\", times = 2, shout = 1",
+      "output": "[\"READY\", \"READY\"]"
+    },
+    {
+      "input": "label = \"ready\", times = 1, shout = 0",
+      "output": "[\"ready\"]"
+    }
+  ],
+  "starter_code": "def solve(label, times, shout):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Choose the text once, then repeat it.",
+    "str.upper is the shout. Do not change label when shout is 0.",
+    "Return a list of length times."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(times)",
+        "space": "O(times)"
+      },
+      "explanation": "A tiny CLI decides the text, then decides how many times to emit it."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "label": "ready",
+        "times": 2,
+        "shout": 1
+      },
+      "expected": [
+        "READY",
+        "READY"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "label": "ready",
+        "times": 1,
+        "shout": 0
+      },
+      "expected": [
+        "ready"
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "label": "Go",
+        "times": 0,
+        "shout": 1
+      },
+      "expected": []
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "label": "ok",
+        "times": 3,
+        "shout": 0
+      },
+      "expected": [
+        "ok",
+        "ok",
+        "ok"
+      ]
+    }
+  ],
+  "editorial": "A tiny CLI decides the text, then decides how many times to emit it. Doing the uppercase inside the loop is the same result and extra work. Returning the lines lets a test assert them without capturing stdout.",
+  "reference_solution": "def solve(label, times, shout):\n    text = label.upper() if shout else label\n    return [text for _ in range(times)]\n"
+}

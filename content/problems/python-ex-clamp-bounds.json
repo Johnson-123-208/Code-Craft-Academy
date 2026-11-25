@@ -1,0 +1,83 @@
+{
+  "title": "Raises Bounds",
+  "slug": "python-ex-clamp-bounds",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "pytest"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(low, high)`. Return `ok` when `low` is less than or equal to `high`. Return `error` when the bounds are inverted.\n",
+  "constraints": [
+    "Equal bounds are ok",
+    "Inverted bounds are error"
+  ],
+  "examples": [
+    {
+      "input": "low = 0, high = 10",
+      "output": "\"ok\""
+    },
+    {
+      "input": "low = 5, high = 4",
+      "output": "\"error\""
+    }
+  ],
+  "starter_code": "def solve(low, high):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Compare low and high.",
+    "Return ok or error.",
+    "Do not clamp a value here. This function only checks the bounds."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "The raising case does not belong in the same table as the numeric rows, because the result is not a number."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "low": 0,
+        "high": 10
+      },
+      "expected": "ok"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "low": 5,
+        "high": 4
+      },
+      "expected": "error"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "low": 1,
+        "high": 1
+      },
+      "expected": "ok"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "low": 2,
+        "high": 1
+      },
+      "expected": "error"
+    }
+  ],
+  "editorial": "The raising case does not belong in the same table as the numeric rows, because the result is not a number. A separate test calls the validator. Inverted bounds are the error. Equal bounds are a legal empty-width range.",
+  "reference_solution": "def solve(low, high):\n    if low > high:\n        return \"error\"\n    return \"ok\"\n"
+}

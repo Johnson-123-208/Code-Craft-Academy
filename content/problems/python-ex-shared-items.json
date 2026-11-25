@@ -1,0 +1,107 @@
+{
+  "title": "Shared Items",
+  "slug": "python-ex-shared-items",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "sets"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(left, right)`. Return the strings that appear in both lists, sorted ascending, each string once. Multiplicity does not matter.\n",
+  "constraints": [
+    "Return a sorted list",
+    "Intersection, not union"
+  ],
+  "examples": [
+    {
+      "input": "left = [\"a\", \"b\", \"a\"], right = [\"b\", \"c\"]",
+      "output": "[\"b\"]"
+    },
+    {
+      "input": "left = [\"a\"], right = []",
+      "output": "[]"
+    }
+  ],
+  "starter_code": "def solve(left, right):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Build a set from one side and intersect with the other.",
+    "Sort the result so the order is deterministic.",
+    "An empty side yields an empty list."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n + m log k)",
+        "space": "O(n + m)"
+      },
+      "explanation": "Membership in a set is expected constant time, so the intersection is linear in the two lengths."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "left": [
+          "a",
+          "b",
+          "a"
+        ],
+        "right": [
+          "b",
+          "c"
+        ]
+      },
+      "expected": [
+        "b"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "left": [
+          "a"
+        ],
+        "right": []
+      },
+      "expected": []
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "left": [
+          "b",
+          "a"
+        ],
+        "right": [
+          "a",
+          "b"
+        ]
+      },
+      "expected": [
+        "a",
+        "b"
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "left": [
+          "a"
+        ],
+        "right": [
+          "b"
+        ]
+      },
+      "expected": []
+    }
+  ],
+  "editorial": "Membership in a set is expected constant time, so the intersection is linear in the two lengths. Returning a set is not JSON-friendly and is unordered. A sorted list is the stable result the tests check.",
+  "reference_solution": "def solve(left, right):\n    return sorted(set(left) & set(right))\n"
+}

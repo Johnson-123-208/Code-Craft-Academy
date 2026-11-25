@@ -1,0 +1,119 @@
+{
+  "title": "Pairs",
+  "slug": "python-ex-pairs",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "loops"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(left, right)`. Return the cartesian product as a list of `[a, b]` pairs. `a` changes in the outer loop, so all pairs for the first left item come before the next left item. Either side empty returns an empty list.\n",
+  "constraints": [
+    "left and right are lists of strings",
+    "Outer loop is left"
+  ],
+  "examples": [
+    {
+      "input": "left = [\"a\", \"b\"], right = [\"1\", \"2\"]",
+      "output": "[[\"a\", \"1\"], [\"a\", \"2\"], [\"b\", \"1\"], [\"b\", \"2\"]]"
+    },
+    {
+      "input": "left = [], right = [\"1\"]",
+      "output": "[]"
+    }
+  ],
+  "starter_code": "def solve(left, right):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "For each a in left, for each b in right, emit [a, b].",
+    "Do not emit [b, a] unless the inputs happen to make that equal.",
+    "Empty on either side short-circuits to no pairs."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n*m)",
+        "space": "O(n*m)"
+      },
+      "explanation": "Nested loops are the product."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "left": [
+          "a",
+          "b"
+        ],
+        "right": [
+          "1",
+          "2"
+        ]
+      },
+      "expected": [
+        [
+          "a",
+          "1"
+        ],
+        [
+          "a",
+          "2"
+        ],
+        [
+          "b",
+          "1"
+        ],
+        [
+          "b",
+          "2"
+        ]
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "left": [],
+        "right": [
+          "1"
+        ]
+      },
+      "expected": []
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "left": [
+          "a"
+        ],
+        "right": []
+      },
+      "expected": []
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "left": [
+          "a"
+        ],
+        "right": [
+          "1"
+        ]
+      },
+      "expected": [
+        [
+          "a",
+          "1"
+        ]
+      ]
+    }
+  ],
+  "editorial": "Nested loops are the product. The outer choice fixes the order tests will check. Swapping the loops is a different sequence, not a sorting detail, because the problem asks for outer-left order.",
+  "reference_solution": "def solve(left, right):\n    return [[a, b] for a in left for b in right]\n"
+}

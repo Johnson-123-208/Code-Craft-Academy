@@ -1,0 +1,95 @@
+{
+  "title": "Place Saves",
+  "slug": "python-ex-place-saves",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "testing"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(order_id, amount)`. If the amount is not a positive int, return `{\"status\": \"error\", \"row\": \"none\"}`. Otherwise return `{\"status\": \"ok\", \"row\": \"order_id:amount\"}`. Checkout saves through the store. The row is what a test reads back.\n",
+  "constraints": [
+    "A rejected amount does not write a row",
+    "The row text includes both fields"
+  ],
+  "examples": [
+    {
+      "input": "order_id = \"o1\", amount = 500",
+      "output": "{\"status\": \"ok\", \"row\": \"o1:500\"}"
+    },
+    {
+      "input": "order_id = \"o1\", amount = 0",
+      "output": "{\"status\": \"error\", \"row\": \"none\"}"
+    }
+  ],
+  "starter_code": "def solve(order_id, amount):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Validate the amount.",
+    "On success, format the row.",
+    "On failure, the row is the string none."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "Asserting the saved row is stronger than asserting that a method was called."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "order_id": "o1",
+        "amount": 500
+      },
+      "expected": {
+        "status": "ok",
+        "row": "o1:500"
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "order_id": "o1",
+        "amount": 0
+      },
+      "expected": {
+        "status": "error",
+        "row": "none"
+      }
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "order_id": "o2",
+        "amount": 1
+      },
+      "expected": {
+        "status": "ok",
+        "row": "o2:1"
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "order_id": "",
+        "amount": 5
+      },
+      "expected": {
+        "status": "ok",
+        "row": ":5"
+      }
+    }
+  ],
+  "editorial": "Asserting the saved row is stronger than asserting that a method was called. The fake store's contents are the behavior. A charge that never landed fails this check even if a mock recorded a call with the right name.",
+  "reference_solution": "def solve(order_id, amount):\n    if type(amount) is not int or amount <= 0:\n        return {\"status\": \"error\", \"row\": \"none\"}\n    return {\"status\": \"ok\", \"row\": f\"{order_id}:{amount}\"}\n"
+}

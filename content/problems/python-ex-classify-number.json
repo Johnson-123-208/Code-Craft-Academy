@@ -1,0 +1,78 @@
+{
+  "title": "Classify Number",
+  "slug": "python-ex-classify-number",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "types"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(type_name)`. `type_name` is one of `none`, `bool`, `int`, `float`, or something else. Return that label for the four known names, and return `other` otherwise. A correct checker tests bool before int, because bool is a subclass of int. Your function receives the already-correct type name, and it must not collapse `bool` into `int`.\n",
+  "constraints": [
+    "Return one of none, bool, int, float, other"
+  ],
+  "examples": [
+    {
+      "input": "type_name = \"bool\"",
+      "output": "\"bool\""
+    },
+    {
+      "input": "type_name = \"int\"",
+      "output": "\"int\""
+    }
+  ],
+  "starter_code": "def solve(type_name):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Compare type_name to bool before you compare it to int.",
+    "none and float are their own labels.",
+    "Every unrecognized word is other."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "isinstance(True, int) is true."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "type_name": "bool"
+      },
+      "expected": "bool"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "type_name": "int"
+      },
+      "expected": "int"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "type_name": "none"
+      },
+      "expected": "none"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "type_name": "str"
+      },
+      "expected": "other"
+    }
+  ],
+  "editorial": "isinstance(True, int) is true. A classifier that asks about int first labels every boolean as an int and then never reaches the boolean branch. Ordering the checks bool, then int, then float, then none, is the rule. This function encodes the labels that order produces.",
+  "reference_solution": "def solve(type_name):\n    if type_name == \"bool\":\n        return \"bool\"\n    if type_name == \"int\":\n        return \"int\"\n    if type_name == \"float\":\n        return \"float\"\n    if type_name == \"none\":\n        return \"none\"\n    return \"other\"\n"
+}

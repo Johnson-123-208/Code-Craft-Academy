@@ -1,0 +1,95 @@
+{
+  "title": "Public All",
+  "slug": "python-ex-public-all",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "packages"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(names)`. Return the names that should appear in `__all__`: those that do not start with an underscore, in the original order.\n",
+  "constraints": [
+    "A single leading underscore is private",
+    "Keep order"
+  ],
+  "examples": [
+    {
+      "input": "names = [\"send\", \"_helper\", \"Client\"]",
+      "output": "[\"send\", \"Client\"]"
+    },
+    {
+      "input": "names = [\"_a\", \"_b\"]",
+      "output": "[]"
+    }
+  ],
+  "starter_code": "def solve(names):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Skip names that start with _.",
+    "Keep the others.",
+    "Do not sort."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "__all__ is the public export list."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "names": [
+          "send",
+          "_helper",
+          "Client"
+        ]
+      },
+      "expected": [
+        "send",
+        "Client"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "names": [
+          "_a",
+          "_b"
+        ]
+      },
+      "expected": []
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "names": []
+      },
+      "expected": []
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "names": [
+          "a",
+          "b"
+        ]
+      },
+      "expected": [
+        "a",
+        "b"
+      ]
+    }
+  ],
+  "editorial": "__all__ is the public export list. A leading underscore is the convention for a private name. Filtering that way matches what from package import * would keep if __all__ is set to this list.",
+  "reference_solution": "def solve(names):\n    return [name for name in names if not name.startswith(\"_\")]\n"
+}

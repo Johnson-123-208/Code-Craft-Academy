@@ -1,0 +1,120 @@
+{
+  "title": "Import Once",
+  "slug": "python-ex-import-once",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "imports"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(calls)`. `calls` is a list of module names looked up in order. A name is loaded only the first time it appears. Return a dict with `loads`, the list of names that actually loaded, and `cache`, a dict mapping each loaded name to the string `mod:` plus that name. Later lookups must not append another load.\n",
+  "constraints": [
+    "Order of first appearance matters",
+    "cache keys are the module names"
+  ],
+  "examples": [
+    {
+      "input": "calls = [\"a\", \"b\", \"a\"]",
+      "output": "{\"loads\": [\"a\", \"b\"], \"cache\": {\"a\": \"mod:a\", \"b\": \"mod:b\"}}"
+    },
+    {
+      "input": "calls = [\"a\", \"a\", \"a\"]",
+      "output": "{\"loads\": [\"a\"], \"cache\": {\"a\": \"mod:a\"}}"
+    }
+  ],
+  "starter_code": "def solve(calls):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Keep a dict from name to the built module string.",
+    "Append to loads only when the name is missing from that dict.",
+    "The module string is the prefix mod: plus the name. Do not number the loads."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(u)"
+      },
+      "explanation": "sys."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "calls": [
+          "a",
+          "b",
+          "a"
+        ]
+      },
+      "expected": {
+        "loads": [
+          "a",
+          "b"
+        ],
+        "cache": {
+          "a": "mod:a",
+          "b": "mod:b"
+        }
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "calls": [
+          "a",
+          "a",
+          "a"
+        ]
+      },
+      "expected": {
+        "loads": [
+          "a"
+        ],
+        "cache": {
+          "a": "mod:a"
+        }
+      }
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "calls": []
+      },
+      "expected": {
+        "loads": [],
+        "cache": {}
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "calls": [
+          "json",
+          "json",
+          "pathlib",
+          "json"
+        ]
+      },
+      "expected": {
+        "loads": [
+          "json",
+          "pathlib"
+        ],
+        "cache": {
+          "json": "mod:json",
+          "pathlib": "mod:pathlib"
+        }
+      }
+    }
+  ],
+  "editorial": "sys.modules is a cache keyed by module name. The first import calls the loader and stores the module. A second import returns the stored object and does not run the module body again. This function is that cache, with a visible list of the loads that really happened.",
+  "reference_solution": "def solve(calls):\n    cache = {}\n    loads = []\n    for name in calls:\n        if name not in cache:\n            cache[name] = \"mod:\" + name\n            loads.append(name)\n    return {\"loads\": loads, \"cache\": cache}\n"
+}

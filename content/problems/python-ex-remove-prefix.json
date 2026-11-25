@@ -1,0 +1,83 @@
+{
+  "title": "Remove Prefix",
+  "slug": "python-ex-remove-prefix",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "strings"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(text, prefix)`. If `text` starts with `prefix`, return the remainder. Otherwise return `text` unchanged. Remove the prefix only once. An empty prefix returns `text`.\n",
+  "constraints": [
+    "Use startswith or removeprefix",
+    "Do not remove a match in the middle"
+  ],
+  "examples": [
+    {
+      "input": "text = \"unittest\", prefix = \"unit\"",
+      "output": "\"test\""
+    },
+    {
+      "input": "text = \"test\", prefix = \"unit\"",
+      "output": "\"test\""
+    }
+  ],
+  "starter_code": "def solve(text, prefix):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "startswith is the test.",
+    "Slice off len(prefix) only when the test passes.",
+    "A prefix longer than the text fails the test and returns the text."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "removeprefix does this and leaves the string alone when the prefix is absent."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "text": "unittest",
+        "prefix": "unit"
+      },
+      "expected": "test"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "text": "test",
+        "prefix": "unit"
+      },
+      "expected": "test"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "text": "aaa",
+        "prefix": "a"
+      },
+      "expected": "aa"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "text": "abc",
+        "prefix": ""
+      },
+      "expected": "abc"
+    }
+  ],
+  "editorial": "removeprefix does this and leaves the string alone when the prefix is absent. A replace would also delete a later copy. The contract is one leading removal.",
+  "reference_solution": "def solve(text, prefix):\n    if text.startswith(prefix):\n        return text[len(prefix):]\n    return text\n"
+}

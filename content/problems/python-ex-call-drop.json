@@ -1,0 +1,83 @@
+{
+  "title": "Call Drop",
+  "slug": "python-ex-call-drop",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "profiling"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(before, after)`. Both are call counts for the same function. Return `hoisted` when `after` is strictly smaller than `before` and `after` is at least 1. Return `same` when they are equal. Return `worse` when after is greater. Return `gone` when after is 0.\n",
+  "constraints": [
+    "A drop to a positive count is hoisted",
+    "Zero means the call disappeared"
+  ],
+  "examples": [
+    {
+      "input": "before = 1000, after = 1",
+      "output": "\"hoisted\""
+    },
+    {
+      "input": "before = 10, after = 10",
+      "output": "\"same\""
+    }
+  ],
+  "starter_code": "def solve(before, after):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Compare the two integers.",
+    "Check zero before the strict less-than.",
+    "Equal is same."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "Hoisting a regex compile out of a loop drops ncalls from the row count to 1."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "before": 1000,
+        "after": 1
+      },
+      "expected": "hoisted"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "before": 10,
+        "after": 10
+      },
+      "expected": "same"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "before": 10,
+        "after": 0
+      },
+      "expected": "gone"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "before": 10,
+        "after": 12
+      },
+      "expected": "worse"
+    }
+  ],
+  "editorial": "Hoisting a regex compile out of a loop drops ncalls from the row count to 1. The profile proves it. A count that does not fall means the hoist did not land on the path you measured. Zero means you deleted the call, which is a different change and worth its own look.",
+  "reference_solution": "def solve(before, after):\n    if after == 0:\n        return \"gone\"\n    if after < before:\n        return \"hoisted\"\n    if after == before:\n        return \"same\"\n    return \"worse\"\n"
+}

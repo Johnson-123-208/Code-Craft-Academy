@@ -1,0 +1,102 @@
+{
+  "title": "Argv Sum",
+  "slug": "python-ex-argv-sum",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "cli"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(values)`. `values` is a list of integers that already came off the command line. If any value is negative, return `{\"status\": 1, \"total\": 0}` and do not add the others. Otherwise return `{\"status\": 0, \"total\": sum}`. An empty list is a successful total of 0.\n",
+  "constraints": [
+    "Negatives are a usage error, status 1",
+    "Do not skip negatives and sum the rest"
+  ],
+  "examples": [
+    {
+      "input": "values = [1, 2, 3]",
+      "output": "{\"status\": 0, \"total\": 6}"
+    },
+    {
+      "input": "values = [1, -1, 4]",
+      "output": "{\"status\": 1, \"total\": 0}"
+    }
+  ],
+  "starter_code": "def solve(values):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Scan for a negative before you trust the sum, or sum and reject if you saw one.",
+    "status 0 means the total is the real sum.",
+    "An empty list has nothing illegal in it."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "A CLI should refuse a partial answer when an argument is illegal."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "values": [
+          1,
+          2,
+          3
+        ]
+      },
+      "expected": {
+        "status": 0,
+        "total": 6
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "values": [
+          1,
+          -1,
+          4
+        ]
+      },
+      "expected": {
+        "status": 1,
+        "total": 0
+      }
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "values": []
+      },
+      "expected": {
+        "status": 0,
+        "total": 0
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "values": [
+          0,
+          0
+        ]
+      },
+      "expected": {
+        "status": 0,
+        "total": 0
+      }
+    }
+  ],
+  "editorial": "A CLI should refuse a partial answer when an argument is illegal. Summing the non-negative prefix hides the bad argument. The status is the exit-code idea: 0 is success, 1 is a bad argument, and the total is only meaningful on success.",
+  "reference_solution": "def solve(values):\n    if any(value < 0 for value in values):\n        return {\"status\": 1, \"total\": 0}\n    return {\"status\": 0, \"total\": sum(values)}\n"
+}

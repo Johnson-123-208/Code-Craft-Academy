@@ -1,0 +1,95 @@
+{
+  "title": "Freeze Tags",
+  "slug": "python-ex-freeze-tags",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "tuples"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(tags)`. Strip each tag and drop empties. Return the remaining tags as a list, which is the JSON form of the tuple you would store so a caller cannot append. Do not unique them. Order stays.\n",
+  "constraints": [
+    "Empty tags after strip are dropped",
+    "Duplicates stay"
+  ],
+  "examples": [
+    {
+      "input": "tags = [\" a \", \"b\", \" \"]",
+      "output": "[\"a\", \"b\"]"
+    },
+    {
+      "input": "tags = []",
+      "output": "[]"
+    }
+  ],
+  "starter_code": "def solve(tags):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Strip each tag.",
+    "Keep the non-empty ones in order.",
+    "Returning a list is the frozen sequence the judge can compare. Building a tuple first is the right Python, then list() it."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "A tuple of tags cannot be appended to."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "tags": [
+          " a ",
+          "b",
+          " "
+        ]
+      },
+      "expected": [
+        "a",
+        "b"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "tags": []
+      },
+      "expected": []
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "tags": [
+          "a",
+          "a"
+        ]
+      },
+      "expected": [
+        "a",
+        "a"
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "tags": [
+          "  ",
+          ""
+        ]
+      },
+      "expected": []
+    }
+  ],
+  "editorial": "A tuple of tags cannot be appended to. That is the freeze. The judge wants a list with the same items so the expected JSON is a list. Constructing the tuple and converting it makes the immutability step real without changing the values.",
+  "reference_solution": "def solve(tags):\n    frozen = tuple(tag.strip() for tag in tags if tag.strip())\n    return list(frozen)\n"
+}

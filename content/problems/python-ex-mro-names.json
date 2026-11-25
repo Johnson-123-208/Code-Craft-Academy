@@ -1,0 +1,91 @@
+{
+  "title": "MRO Names",
+  "slug": "python-ex-mro-names",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "mro"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve()`. Build a diamond: D(B, C), B(A), C(A), A(object). Return the MRO class names of D, excluding `object`. Use the real C3 order Python computes. Do not hardcode a guess you did not check. You may call the classes.\n",
+  "constraints": [
+    "Exclude object",
+    "Include D, B, C, and A"
+  ],
+  "examples": [
+    {
+      "input": "",
+      "output": "[\"D\", \"B\", \"C\", \"A\"]"
+    },
+    {
+      "input": "",
+      "output": "[\"D\", \"B\", \"C\", \"A\"]"
+    }
+  ],
+  "starter_code": "def solve():\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Define the classes, then read D.__mro__.",
+    "Drop the object entry.",
+    "Return the __name__ of each remaining class."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "C3 linearization of this diamond visits D, then B, then C, then A."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {},
+      "expected": [
+        "D",
+        "B",
+        "C",
+        "A"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {},
+      "expected": [
+        "D",
+        "B",
+        "C",
+        "A"
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {},
+      "expected": [
+        "D",
+        "B",
+        "C",
+        "A"
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {},
+      "expected": [
+        "D",
+        "B",
+        "C",
+        "A"
+      ]
+    }
+  ],
+  "editorial": "C3 linearization of this diamond visits D, then B, then C, then A. B comes before C because D lists B first, and C is not a subclass of B so it is not skipped. Reading __mro__ is the check. Writing the list from memory and getting C before B is the usual miss.",
+  "reference_solution": "def solve():\n    class A:\n        pass\n\n    class B(A):\n        pass\n\n    class C(A):\n        pass\n\n    class D(B, C):\n        pass\n\n    return [cls.__name__ for cls in D.__mro__ if cls is not object]\n"
+}

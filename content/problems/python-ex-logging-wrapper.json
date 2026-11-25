@@ -1,0 +1,99 @@
+{
+  "title": "Wrapper Return",
+  "slug": "python-ex-logging-wrapper",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "composition"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(amount)`. A logging wrapper forwards `charge` to an inner client and records the amount. The inner client returns `ok:{amount}` for a positive int and `reject` otherwise. The wrapper must return that same result, not None, and include the amount in `seen` only when it forwarded. Return `{\"result\": ..., \"seen\": [...]}`. Always forward, including rejects, and record every forwarded amount.\n",
+  "constraints": [
+    "The wrapper returns the inner result",
+    "seen contains the forwarded amount"
+  ],
+  "examples": [
+    {
+      "input": "amount = 500",
+      "output": "{\"result\": \"ok:500\", \"seen\": [500]}"
+    },
+    {
+      "input": "amount = 0",
+      "output": "{\"result\": \"reject\", \"seen\": [0]}"
+    }
+  ],
+  "starter_code": "def solve(amount):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Call the inner charge.",
+    "Append the amount to seen.",
+    "Return the inner result unchanged."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "A wrapper that logs and forgets to return the inner result turns a successful charge into None."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "amount": 500
+      },
+      "expected": {
+        "result": "ok:500",
+        "seen": [
+          500
+        ]
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "amount": 0
+      },
+      "expected": {
+        "result": "reject",
+        "seen": [
+          0
+        ]
+      }
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "amount": -2
+      },
+      "expected": {
+        "result": "reject",
+        "seen": [
+          -2
+        ]
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "amount": 1
+      },
+      "expected": {
+        "result": "ok:1",
+        "seen": [
+          1
+        ]
+      }
+    }
+  ],
+  "editorial": "A wrapper that logs and forgets to return the inner result turns a successful charge into None. The decorator-style object has one job besides the log line: pass the return value through. Recording the amount shows the forward happened.",
+  "reference_solution": "def solve(amount):\n    class Inner:\n        def charge(self, minor):\n            if type(minor) is int and minor > 0:\n                return f\"ok:{minor}\"\n            return \"reject\"\n\n    class Logging:\n        def __init__(self, inner):\n            self.inner = inner\n            self.seen = []\n\n        def charge(self, minor):\n            self.seen.append(minor)\n            return self.inner.charge(minor)\n\n    wrapper = Logging(Inner())\n    result = wrapper.charge(amount)\n    return {\"result\": result, \"seen\": wrapper.seen}\n"
+}

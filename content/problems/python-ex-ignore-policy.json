@@ -1,0 +1,97 @@
+{
+  "title": "Ignore Policy",
+  "slug": "python-ex-ignore-policy",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "mypy"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(escapes)`. Each escape is `fix`, `narrow`, or `ignore`. Return a list of decisions: `fix` stays `fix`, `narrow` stays `narrow`, and `ignore` becomes `reject`. A blanket ignore is not an allowed outcome.\n",
+  "constraints": [
+    "ignore is rejected",
+    "The other two pass through"
+  ],
+  "examples": [
+    {
+      "input": "escapes = [\"fix\", \"ignore\", \"narrow\"]",
+      "output": "[\"fix\", \"reject\", \"narrow\"]"
+    },
+    {
+      "input": "escapes = [\"ignore\"]",
+      "output": "[\"reject\"]"
+    }
+  ],
+  "starter_code": "def solve(escapes):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Map ignore to reject.",
+    "Leave fix and narrow.",
+    "Unknown words become reject too."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "A type-ignore comment that nobody owns becomes a permanent hole."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "escapes": [
+          "fix",
+          "ignore",
+          "narrow"
+        ]
+      },
+      "expected": [
+        "fix",
+        "reject",
+        "narrow"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "escapes": [
+          "ignore"
+        ]
+      },
+      "expected": [
+        "reject"
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "escapes": []
+      },
+      "expected": []
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "escapes": [
+          "narrow",
+          "nope"
+        ]
+      },
+      "expected": [
+        "narrow",
+        "reject"
+      ]
+    }
+  ],
+  "editorial": "A type-ignore comment that nobody owns becomes a permanent hole. The allowed responses to a checker error are to fix the code or to narrow the value so the error goes away. Ignoring is the choice this policy refuses.",
+  "reference_solution": "def solve(escapes):\n    out = []\n    for escape in escapes:\n        if escape in (\"fix\", \"narrow\"):\n            out.append(escape)\n        else:\n            out.append(\"reject\")\n    return out\n"
+}

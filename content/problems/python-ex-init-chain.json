@@ -1,0 +1,83 @@
+{
+  "title": "Init Chain",
+  "slug": "python-ex-init-chain",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "oop"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(name, team)`. A base class stores a stripped non-empty name. A subclass stores `team` and calls the base initializer. Return `name:team` using the stripped name. A blank name returns `error` and does not include the team.\n",
+  "constraints": [
+    "The subclass must keep the base name",
+    "Blank name is error"
+  ],
+  "examples": [
+    {
+      "input": "name = \" Ada \", team = \"eng\"",
+      "output": "\"Ada:eng\""
+    },
+    {
+      "input": "name = \"  \", team = \"eng\"",
+      "output": "\"error\""
+    }
+  ],
+  "starter_code": "def solve(name, team):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Validate and store the name on the base.",
+    "The subclass calls super().__init__(name) and then stores team.",
+    "Return the two fields joined by a colon."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "A subclass that forgets super()."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "name": " Ada ",
+        "team": "eng"
+      },
+      "expected": "Ada:eng"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "name": "  ",
+        "team": "eng"
+      },
+      "expected": "error"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "name": "Grace",
+        "team": "design"
+      },
+      "expected": "Grace:design"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "name": "",
+        "team": "eng"
+      },
+      "expected": "error"
+    }
+  ],
+  "editorial": "A subclass that forgets super().__init__ leaves the base attributes unset. The returned string needs both the base name and the subclass team, so a missing base call cannot be hidden. Validation stays on the base so every subclass shares it.",
+  "reference_solution": "def solve(name, team):\n    class Person:\n        def __init__(self, name):\n            cleaned = name.strip()\n            if not cleaned:\n                raise ValueError(\"blank\")\n            self.name = cleaned\n\n    class Member(Person):\n        def __init__(self, name, team):\n            super().__init__(name)\n            self.team = team\n\n    try:\n        member = Member(name, team)\n    except ValueError:\n        return \"error\"\n    return member.name + \":\" + member.team\n"
+}

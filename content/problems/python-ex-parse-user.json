@@ -1,0 +1,82 @@
+{
+  "title": "Parse Users",
+  "slug": "python-ex-parse-user",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "json"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(payload)`. `payload` is a JSON object string with `name` and `age`. Parse it with the json module. Return `{\"name\": ..., \"age\": ...}` when name is a non-empty string and age is an int that is not a bool and is >= 0. Otherwise return the string `error`. Do not use eval.\n",
+  "constraints": [
+    "json.loads only",
+    "bool is not an acceptable age"
+  ],
+  "examples": [
+    {
+      "input": "payload = \"{\\\"name\\\": \\\"ada\\\", \\\"age\\\": 36}\"",
+      "output": "{\"name\": \"ada\", \"age\": 36}"
+    },
+    {
+      "input": "payload = \"{\\\"name\\\": \\\"ada\\\", \\\"age\\\": true}\"",
+      "output": "\"error\""
+    }
+  ],
+  "starter_code": "def solve(payload):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "json.loads the string.",
+    "Reject a name that is not a non-empty string.",
+    "Reject an age whose type is not exactly int, and reject negatives. type(True) is bool."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "json."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "payload": "{\"name\": \"ada\", \"age\": 36}"
+      },
+      "expected": {
+        "name": "ada",
+        "age": 36
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "payload": "{\"name\": \"ada\", \"age\": true}"
+      },
+      "expected": "error"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "payload": "{\"name\": \"\", \"age\": 1}"
+      },
+      "expected": "error"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "payload": "{\"name\": \"ada\", \"age\": -1}"
+      },
+      "expected": "error"
+    }
+  ],
+  "editorial": "json.loads understands true as a bool, and bool is a subclass of int, so isinstance(age, int) accepts true. type(age) is int is the check that refuses it. eval would execute text. The parser is the json module.",
+  "reference_solution": "def solve(payload):\n    import json\n    try:\n        data = json.loads(payload)\n    except json.JSONDecodeError:\n        return \"error\"\n    name = data.get(\"name\")\n    age = data.get(\"age\")\n    if type(name) is not str or not name.strip():\n        return \"error\"\n    if type(age) is not int or age < 0:\n        return \"error\"\n    return {\"name\": name, \"age\": age}\n"
+}

@@ -1,0 +1,91 @@
+{
+  "title": "Even Squares",
+  "slug": "python-ex-even-squares",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "comprehensions"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(items)`. Return the sum of squares of the even integers in `items`. Do it in one pass without building a temporary list of the squares. Zero is even. An empty list or a list of odds returns 0.\n",
+  "constraints": [
+    "items is a list of integers",
+    "Return an integer"
+  ],
+  "examples": [
+    {
+      "input": "items = [1, 2, 3, 4]",
+      "output": "20"
+    },
+    {
+      "input": "items = [1, 3, 5]",
+      "output": "0"
+    }
+  ],
+  "starter_code": "def solve(items):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "A generator expression or a running total both avoid the temporary list.",
+    "n % 2 == 0 selects evens, including zero and negative evens.",
+    "Square by multiplying the number by itself."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "The sum does not need the squares to exist as a list."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "items": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "expected": 20
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "items": [
+          1,
+          3,
+          5
+        ]
+      },
+      "expected": 0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "items": []
+      },
+      "expected": 0
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "items": [
+          0,
+          -2
+        ]
+      },
+      "expected": 4
+    }
+  ],
+  "editorial": "The sum does not need the squares to exist as a list. A running total is linear time and constant extra memory. Materializing the squares is also correct and spends memory the caller never sees.",
+  "reference_solution": "def solve(items):\n    return sum(n * n for n in items if n % 2 == 0)\n"
+}

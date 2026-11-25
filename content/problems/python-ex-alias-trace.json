@@ -1,0 +1,142 @@
+{
+  "title": "Alias Trace",
+  "slug": "python-ex-alias-trace",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "mutability"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(ops)`. Two names, `a` and `b`, refer to the same list. `ops` is a list of `[\"append\", who, value]` steps. Apply each append to that shared list. Return `{\"a\": [...], \"b\": [...]}` with the final contents. Because the names alias one list, both results are equal and contain every append, no matter which name was used.\n",
+  "constraints": [
+    "who is the string a or b",
+    "value is an integer"
+  ],
+  "examples": [
+    {
+      "input": "ops = [[\"append\", \"a\", 1], [\"append\", \"b\", 2]]",
+      "output": "{\"a\": [1, 2], \"b\": [1, 2]}"
+    },
+    {
+      "input": "ops = [[\"append\", \"b\", 5]]",
+      "output": "{\"a\": [5], \"b\": [5]}"
+    }
+  ],
+  "starter_code": "def solve(ops):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Start from one list and point both names at it.",
+    "Append on the list the name refers to. Do not copy between steps.",
+    "When you build the result dict, copy the list twice so each side is a snapshot of the same contents."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Assignment never copies a list."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "ops": [
+          [
+            "append",
+            "a",
+            1
+          ],
+          [
+            "append",
+            "b",
+            2
+          ]
+        ]
+      },
+      "expected": {
+        "a": [
+          1,
+          2
+        ],
+        "b": [
+          1,
+          2
+        ]
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "ops": [
+          [
+            "append",
+            "b",
+            5
+          ]
+        ]
+      },
+      "expected": {
+        "a": [
+          5
+        ],
+        "b": [
+          5
+        ]
+      }
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "ops": []
+      },
+      "expected": {
+        "a": [],
+        "b": []
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "ops": [
+          [
+            "append",
+            "a",
+            1
+          ],
+          [
+            "append",
+            "a",
+            1
+          ],
+          [
+            "append",
+            "b",
+            3
+          ]
+        ]
+      },
+      "expected": {
+        "a": [
+          1,
+          1,
+          3
+        ],
+        "b": [
+          1,
+          1,
+          3
+        ]
+      }
+    }
+  ],
+  "editorial": "Assignment never copies a list. After b = a, an append through either name is visible through the other. The trace makes that concrete: the final contents depend on the shared object, not on which variable the source code mentioned.",
+  "reference_solution": "def solve(ops):\n    shared = []\n    names = {\"a\": shared, \"b\": shared}\n    for _op, who, value in ops:\n        names[who].append(value)\n    return {\"a\": list(shared), \"b\": list(shared)}\n"
+}

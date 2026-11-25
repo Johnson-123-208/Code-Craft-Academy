@@ -1,0 +1,119 @@
+{
+  "title": "No Type Switch",
+  "slug": "python-ex-collapse-switch",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "polymorphism"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(kinds)`. `kinds` is a list of `email` and `sms`. A type switch would test each kind. Collapse that to one `send` call per item. Return `{\"results\": [...], \"deleted_checks\": [\"email\", \"sms\"]}` where results are `kind:ok` in order. `deleted_checks` is always those two names, the branches you removed.\n",
+  "constraints": [
+    "The loop does not name the classes",
+    "deleted_checks is fixed"
+  ],
+  "examples": [
+    {
+      "input": "kinds = [\"email\", \"sms\"]",
+      "output": "{\"results\": [\"email:ok\", \"sms:ok\"], \"deleted_checks\": [\"email\", \"sms\"]}"
+    },
+    {
+      "input": "kinds = [\"sms\", \"sms\"]",
+      "output": "{\"results\": [\"sms:ok\", \"sms:ok\"], \"deleted_checks\": [\"email\", \"sms\"]}"
+    }
+  ],
+  "starter_code": "def solve(kinds):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Map kind to an object with send.",
+    "The loop is results.append(obj.send()).",
+    "The deleted checks are the two kind names, in that order."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "An isinstance ladder lists every type the author knew about."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "kinds": [
+          "email",
+          "sms"
+        ]
+      },
+      "expected": {
+        "results": [
+          "email:ok",
+          "sms:ok"
+        ],
+        "deleted_checks": [
+          "email",
+          "sms"
+        ]
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "kinds": [
+          "sms",
+          "sms"
+        ]
+      },
+      "expected": {
+        "results": [
+          "sms:ok",
+          "sms:ok"
+        ],
+        "deleted_checks": [
+          "email",
+          "sms"
+        ]
+      }
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "kinds": []
+      },
+      "expected": {
+        "results": [],
+        "deleted_checks": [
+          "email",
+          "sms"
+        ]
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "kinds": [
+          "email"
+        ]
+      },
+      "expected": {
+        "results": [
+          "email:ok"
+        ],
+        "deleted_checks": [
+          "email",
+          "sms"
+        ]
+      }
+    }
+  ],
+  "editorial": "An isinstance ladder lists every type the author knew about. Replacing each arm with a method leaves the loop with one call. The deleted_checks list is the documentation of what the ladder used to say. Adding a channel no longer edits the loop.",
+  "reference_solution": "def solve(kinds):\n    class Email:\n        def send(self):\n            return \"email:ok\"\n\n    class Sms:\n        def send(self):\n            return \"sms:ok\"\n\n    table = {\"email\": Email(), \"sms\": Sms()}\n    results = [table[kind].send() for kind in kinds]\n    return {\"results\": results, \"deleted_checks\": [\"email\", \"sms\"]}\n"
+}

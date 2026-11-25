@@ -1,0 +1,115 @@
+{
+  "title": "Dedup Sorted",
+  "slug": "python-ex-dedup-sorted",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "lists"
+  ],
+  "company_tags": [
+    "Microsoft",
+    "Amazon"
+  ],
+  "statement": "Implement `solve(items)`. `items` is sorted ascending. Remove adjacent duplicates. Return `[length, prefix]` where `prefix` holds the unique values in order. Non-adjacent logic is unnecessary because equals are already adjacent.\n",
+  "constraints": [
+    "The input is sorted",
+    "Keep the first copy of each run"
+  ],
+  "examples": [
+    {
+      "input": "items = [1, 1, 2, 2, 3]",
+      "output": "[3, [1, 2, 3]]"
+    },
+    {
+      "input": "items = [1, 2, 3]",
+      "output": "[3, [1, 2, 3]]"
+    }
+  ],
+  "starter_code": "def solve(items):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "The first element always stays, when the list is non-empty.",
+    "Copy an element only when it differs from the last kept value.",
+    "The length is the length of that prefix. An empty input returns [0, []]."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "On a sorted array, uniqueness is a comparison with the previous kept value."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "items": [
+          1,
+          1,
+          2,
+          2,
+          3
+        ]
+      },
+      "expected": [
+        3,
+        [
+          1,
+          2,
+          3
+        ]
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "items": [
+          1,
+          2,
+          3
+        ]
+      },
+      "expected": [
+        3,
+        [
+          1,
+          2,
+          3
+        ]
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "items": []
+      },
+      "expected": [
+        0,
+        []
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "items": [
+          5,
+          5,
+          5
+        ]
+      },
+      "expected": [
+        1,
+        [
+          5
+        ]
+      ]
+    }
+  ],
+  "editorial": "On a sorted array, uniqueness is a comparison with the previous kept value. A set would also work and would spend extra memory and lose the reason the input was sorted. The write index is the classic in-place form.",
+  "reference_solution": "def solve(items):\n    out = []\n    for item in items:\n        if not out or item != out[-1]:\n            out.append(item)\n    return [len(out), out]\n"
+}

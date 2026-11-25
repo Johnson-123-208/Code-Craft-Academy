@@ -1,0 +1,86 @@
+{
+  "title": "Guard Active",
+  "slug": "python-ex-guard-active",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "truthiness"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(user)`. `user` is either the string `none` or a dict with an integer `active` field that is 0 or 1. Return 1 only when the user is a dict and `active` is 1. Return 0 when the user is missing or inactive. Do not index a missing user.\n",
+  "constraints": [
+    "A missing user is the string none",
+    "active is 0 or 1 when the dict is present"
+  ],
+  "examples": [
+    {
+      "input": "user = \"none\"",
+      "output": "0"
+    },
+    {
+      "input": "user = {\"active\": 1}",
+      "output": "1"
+    }
+  ],
+  "starter_code": "def solve(user):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Return 0 immediately when user is the string none.",
+    "Then read the active field.",
+    "Only an active value of 1 returns 1."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "The expression user and user[\"active\"] is the guard, written without a crash: you never subscript the missing token."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "user": "none"
+      },
+      "expected": 0
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "user": {
+          "active": 1
+        }
+      },
+      "expected": 1
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "user": {
+          "active": 0
+        }
+      },
+      "expected": 0
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "user": {
+          "active": 1,
+          "name": "ada"
+        }
+      },
+      "expected": 1
+    }
+  ],
+  "editorial": "The expression user and user[\"active\"] is the guard, written without a crash: you never subscript the missing token. An inactive user is present and still not allowed through. Both failures return 0 so the caller has one check.",
+  "reference_solution": "def solve(user):\n    if user == \"none\":\n        return 0\n    if user.get(\"active\") == 1:\n        return 1\n    return 0\n"
+}

@@ -1,0 +1,83 @@
+{
+  "title": "Conditional Debit",
+  "slug": "python-ex-conditional-debit",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "sql"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(balance, amount)`. If `amount` is not a positive int, return `error`. If `balance` is less than `amount`, return `miss`. Otherwise return the new balance. Do not clamp a short balance to zero.\n",
+  "constraints": [
+    "A short balance is a miss",
+    "The new balance is balance - amount"
+  ],
+  "examples": [
+    {
+      "input": "balance = 100, amount = 40",
+      "output": "60"
+    },
+    {
+      "input": "balance = 30, amount = 40",
+      "output": "\"miss\""
+    }
+  ],
+  "starter_code": "def solve(balance, amount):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Reject a non-positive amount.",
+    "Compare balance with amount.",
+    "Subtract only when it covers."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "The SQL is an UPDATE that subtracts only when the balance covers the debit, and the row count tells you whether it happened."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "balance": 100,
+        "amount": 40
+      },
+      "expected": 60
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "balance": 30,
+        "amount": 40
+      },
+      "expected": "miss"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "balance": 40,
+        "amount": 40
+      },
+      "expected": 0
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "balance": 10,
+        "amount": 0
+      },
+      "expected": "error"
+    }
+  ],
+  "editorial": "The SQL is an UPDATE that subtracts only when the balance covers the debit, and the row count tells you whether it happened. Computing the new balance in Python from a stale read loses updates. This function is the predicate and the arithmetic of that one statement.",
+  "reference_solution": "def solve(balance, amount):\n    if type(amount) is not int or amount <= 0:\n        return \"error\"\n    if balance < amount:\n        return \"miss\"\n    return balance - amount\n"
+}

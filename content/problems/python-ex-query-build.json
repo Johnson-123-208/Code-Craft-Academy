@@ -1,0 +1,102 @@
+{
+  "title": "Query Build",
+  "slug": "python-ex-query-build",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "http"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(pairs, secret)`. `pairs` is a list of `[key, value]` strings to put in the query. `secret` must not be used as a key or a value. Return the query string `k=v&k=v` in order, with no leading question mark. If any key or value equals `secret`, return `error`. Do not URL-encode. The tests use simple tokens.\n",
+  "constraints": [
+    "Secret values are rejected",
+    "Order follows pairs"
+  ],
+  "examples": [
+    {
+      "input": "pairs = [[\"q\", \"ada\"], [\"page\", \"2\"]], secret = \"tok\"",
+      "output": "\"q=ada&page=2\""
+    },
+    {
+      "input": "pairs = [[\"token\", \"tok\"]], secret = \"tok\"",
+      "output": "\"error\""
+    }
+  ],
+  "starter_code": "def solve(pairs, secret):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Scan for the secret first.",
+    "Join key=value with &.",
+    "An empty pair list returns an empty string when the secret is unused."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Query strings land in access logs."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "pairs": [
+          [
+            "q",
+            "ada"
+          ],
+          [
+            "page",
+            "2"
+          ]
+        ],
+        "secret": "tok"
+      },
+      "expected": "q=ada&page=2"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "pairs": [
+          [
+            "token",
+            "tok"
+          ]
+        ],
+        "secret": "tok"
+      },
+      "expected": "error"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "pairs": [],
+        "secret": "tok"
+      },
+      "expected": ""
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "pairs": [
+          [
+            "q",
+            "a b"
+          ]
+        ],
+        "secret": "tok"
+      },
+      "expected": "q=a b"
+    }
+  ],
+  "editorial": "Query strings land in access logs. A token in the query is a leak. Building the query from an explicit list, and refusing the secret if it shows up, keeps the Authorization header as the only place the token should live.",
+  "reference_solution": "def solve(pairs, secret):\n    parts = []\n    for key, value in pairs:\n        if key == secret or value == secret:\n            return \"error\"\n        parts.append(key + \"=\" + value)\n    return \"&\".join(parts)\n"
+}

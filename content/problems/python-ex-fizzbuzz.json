@@ -1,0 +1,108 @@
+{
+  "title": "Fizz Buzz",
+  "slug": "python-ex-fizzbuzz",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "conditionals"
+  ],
+  "company_tags": [
+    "Microsoft",
+    "Amazon",
+    "Backend"
+  ],
+  "statement": "Implement `solve(n)`. Return a list of strings for the numbers 1 through `n` inclusive. A multiple of both 3 and 5 is `FizzBuzz`. A multiple of 3 only is `Fizz`. A multiple of 5 only is `Buzz`. Every other number is its decimal representation. Check the combined case before the single divisors.\n",
+  "constraints": [
+    "1 <= n <= 100 in the tests",
+    "The combined word is FizzBuzz"
+  ],
+  "examples": [
+    {
+      "input": "n = 5",
+      "output": "[\"1\", \"2\", \"Fizz\", \"4\", \"Buzz\"]"
+    },
+    {
+      "input": "n = 15",
+      "output": "[\"1\", \"2\", \"Fizz\", \"4\", \"Buzz\", \"Fizz\", \"7\", \"8\", \"Fizz\", \"Buzz\", \"11\", \"Fizz\", \"13\", \"14\", \"FizzBuzz\"]"
+    }
+  ],
+  "starter_code": "def solve(n):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Loop from 1 through n inclusive.",
+    "Test divisible by 15, or by 3 and by 5, before the single tests.",
+    "Convert the plain numbers with str."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "If the 3 test comes first, 15 becomes Fizz and the combined branch is dead."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "n": 5
+      },
+      "expected": [
+        "1",
+        "2",
+        "Fizz",
+        "4",
+        "Buzz"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "n": 15
+      },
+      "expected": [
+        "1",
+        "2",
+        "Fizz",
+        "4",
+        "Buzz",
+        "Fizz",
+        "7",
+        "8",
+        "Fizz",
+        "Buzz",
+        "11",
+        "Fizz",
+        "13",
+        "14",
+        "FizzBuzz"
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "n": 1
+      },
+      "expected": [
+        "1"
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "n": 3
+      },
+      "expected": [
+        "1",
+        "2",
+        "Fizz"
+      ]
+    }
+  ],
+  "editorial": "If the 3 test comes first, 15 becomes Fizz and the combined branch is dead. The order of the conditions is the algorithm. 15 is the least common multiple, so one modulo handles the intersection.",
+  "reference_solution": "def solve(n):\n    out = []\n    for i in range(1, n + 1):\n        if i % 15 == 0:\n            out.append(\"FizzBuzz\")\n        elif i % 3 == 0:\n            out.append(\"Fizz\")\n        elif i % 5 == 0:\n            out.append(\"Buzz\")\n        else:\n            out.append(str(i))\n    return out\n"
+}

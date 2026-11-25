@@ -1,0 +1,133 @@
+{
+  "title": "Negate Score",
+  "slug": "python-ex-score-name",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "sorting"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(rows)`. `rows` is a list of `[name, score]`. Return the rows sorted by score descending, then by name ascending. Use one tuple key. Do not sort twice unless the directions are both ascending after you transform the score.\n",
+  "constraints": [
+    "Higher score comes first",
+    "Names break ties ascending"
+  ],
+  "examples": [
+    {
+      "input": "rows = [[\"ada\", 10], [\"grace\", 12], [\"lin\", 12]]",
+      "output": "[[\"grace\", 12], [\"lin\", 12], [\"ada\", 10]]"
+    },
+    {
+      "input": "rows = [[\"b\", 1], [\"a\", 1]]",
+      "output": "[[\"a\", 1], [\"b\", 1]]"
+    }
+  ],
+  "starter_code": "def solve(rows):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "The key (-score, name) sorts ascending into the order you want.",
+    "Negating the score is what flips that field.",
+    "Return copies of the rows in the sorted order."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n log n)",
+        "space": "O(n)"
+      },
+      "explanation": "sorted is ascending."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "rows": [
+          [
+            "ada",
+            10
+          ],
+          [
+            "grace",
+            12
+          ],
+          [
+            "lin",
+            12
+          ]
+        ]
+      },
+      "expected": [
+        [
+          "grace",
+          12
+        ],
+        [
+          "lin",
+          12
+        ],
+        [
+          "ada",
+          10
+        ]
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "rows": [
+          [
+            "b",
+            1
+          ],
+          [
+            "a",
+            1
+          ]
+        ]
+      },
+      "expected": [
+        [
+          "a",
+          1
+        ],
+        [
+          "b",
+          1
+        ]
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "rows": [
+          [
+            "a",
+            0
+          ]
+        ]
+      },
+      "expected": [
+        [
+          "a",
+          0
+        ]
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "rows": []
+      },
+      "expected": []
+    }
+  ],
+  "editorial": "sorted is ascending. A descending score is an ascending negated score. The name stays unnegated so ties go from a to z. One key keeps the two directions from fighting across two sorts.",
+  "reference_solution": "def solve(rows):\n    ordered = sorted(rows, key=lambda row: (-row[1], row[0]))\n    return [list(row) for row in ordered]\n"
+}

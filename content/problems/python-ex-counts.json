@@ -1,0 +1,98 @@
+{
+  "title": "Counts",
+  "slug": "python-ex-counts",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "dicts"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(items)`. Return a dict mapping each string to how many times it appears. An empty list returns an empty dict.\n",
+  "constraints": [
+    "Keys are the strings",
+    "Counts are positive integers"
+  ],
+  "examples": [
+    {
+      "input": "items = [\"a\", \"b\", \"a\"]",
+      "output": "{\"a\": 2, \"b\": 1}"
+    },
+    {
+      "input": "items = []",
+      "output": "{}"
+    }
+  ],
+  "starter_code": "def solve(items):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Increment a dict, starting from 0 when the key is new. Counter does this.",
+    "Every occurrence adds 1, including duplicates in a row.",
+    "Do not sort the keys. The dict is the answer."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(u)"
+      },
+      "explanation": "A frequency map is one pass of increments."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "items": [
+          "a",
+          "b",
+          "a"
+        ]
+      },
+      "expected": {
+        "a": 2,
+        "b": 1
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "items": []
+      },
+      "expected": {}
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "items": [
+          "a",
+          "a",
+          "a"
+        ]
+      },
+      "expected": {
+        "a": 3
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "items": [
+          "b",
+          "a"
+        ]
+      },
+      "expected": {
+        "b": 1,
+        "a": 1
+      }
+    }
+  ],
+  "editorial": "A frequency map is one pass of increments. collections.Counter is that dict with a zero default. Building it by hand with setdefault or get is the same algorithm and is what you should be able to write if the import is the thing you are explaining.",
+  "reference_solution": "def solve(items):\n    counts = {}\n    for item in items:\n        counts[item] = counts.get(item, 0) + 1\n    return counts\n"
+}

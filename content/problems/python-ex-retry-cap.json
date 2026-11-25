@@ -1,0 +1,92 @@
+{
+  "title": "Retry Cap",
+  "slug": "python-ex-retry-cap",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "http"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(failures, cap)`. `failures` is how many times the call failed. `cap` is the maximum number of attempts, including the first. Return `{\"attempts\": used, \"stopped\": word}` where used is the minimum of failures+... You attempt min(failures, cap) if failures means failures before success? Define it as: you may try at most `cap` times. You needed `failures` failures and then would have stopped anyway. used = min(failures, cap). `stopped` is `cap` when failures is greater than or equal to cap, else `done`. `cap` less than 1 returns `error`.\n",
+  "constraints": [
+    "cap includes the first try",
+    "Exceeding the cap stops"
+  ],
+  "examples": [
+    {
+      "input": "failures = 2, cap = 5",
+      "output": "{\"attempts\": 2, \"stopped\": \"done\"}"
+    },
+    {
+      "input": "failures = 5, cap = 3",
+      "output": "{\"attempts\": 3, \"stopped\": \"cap\"}"
+    }
+  ],
+  "starter_code": "def solve(failures, cap):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Reject cap < 1.",
+    "used is the minimum of failures and cap.",
+    "stopped is cap when you hit the ceiling, else done."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "Unbounded retries turn a short outage into a stampede."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "failures": 2,
+        "cap": 5
+      },
+      "expected": {
+        "attempts": 2,
+        "stopped": "done"
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "failures": 5,
+        "cap": 3
+      },
+      "expected": {
+        "attempts": 3,
+        "stopped": "cap"
+      }
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "failures": 0,
+        "cap": 3
+      },
+      "expected": {
+        "attempts": 0,
+        "stopped": "done"
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "failures": 1,
+        "cap": 0
+      },
+      "expected": "error"
+    }
+  ],
+  "editorial": "Unbounded retries turn a short outage into a stampede. The cap is the number of attempts, not the number of extra tries after the first. Hitting the cap is a stop the caller can see. Finishing earlier is the done path.",
+  "reference_solution": "def solve(failures, cap):\n    if cap < 1:\n        return \"error\"\n    used = failures if failures < cap else cap\n    stopped = \"cap\" if failures >= cap else \"done\"\n    return {\"attempts\": used, \"stopped\": stopped}\n"
+}

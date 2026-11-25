@@ -1,0 +1,79 @@
+{
+  "title": "Locked Increment",
+  "slug": "python-ex-locked-increment",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "threading"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(n)`. Return `n`, the total after incrementing a counter `n` times by 1 from 0. `n` is non-negative. The point of the lock is that the total equals the number of increments. This single-threaded function is that correct total.\n",
+  "constraints": [
+    "Start at 0",
+    "Each step adds 1"
+  ],
+  "examples": [
+    {
+      "input": "n = 0",
+      "output": "0"
+    },
+    {
+      "input": "n = 1",
+      "output": "1"
+    }
+  ],
+  "starter_code": "def solve(n):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "A loop of n increments is enough here.",
+    "The locked version has the same result.",
+    "Return n."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Without a lock, two threads can read the same value and each write value+1, losing an increment."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "n": 0
+      },
+      "expected": 0
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "n": 1
+      },
+      "expected": 1
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "n": 5
+      },
+      "expected": 5
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "n": 100
+      },
+      "expected": 100
+    }
+  ],
+  "editorial": "Without a lock, two threads can read the same value and each write value+1, losing an increment. With a lock around the read-modify-write, n increments finish at n. This function returns that correct total. The lock does not change the arithmetic. It makes the arithmetic the one that happens.",
+  "reference_solution": "def solve(n):\n    total = 0\n    for _ in range(n):\n        total += 1\n    return total\n"
+}

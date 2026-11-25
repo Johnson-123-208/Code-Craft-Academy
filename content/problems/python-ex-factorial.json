@@ -1,0 +1,79 @@
+{
+  "title": "Factorial Loop",
+  "slug": "python-ex-factorial",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "recursion"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(n)`. Return `n!` for a non-negative integer, with `0! = 1`. If `n` is negative, return the string `error`. Use a loop, not recursion. The tests pass integers only.\n",
+  "constraints": [
+    "0! is 1",
+    "Negatives are error"
+  ],
+  "examples": [
+    {
+      "input": "n = 5",
+      "output": "120"
+    },
+    {
+      "input": "n = 0",
+      "output": "1"
+    }
+  ],
+  "starter_code": "def solve(n):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Reject n < 0.",
+    "Start the product at 1 and multiply 1 through n.",
+    "A loop of length n is enough. Do not call yourself."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Factorial of n is a product, and the product of no terms is 1, which is why 0! is 1."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "n": 5
+      },
+      "expected": 120
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "n": 0
+      },
+      "expected": 1
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "n": 1
+      },
+      "expected": 1
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "n": -1
+      },
+      "expected": "error"
+    }
+  ],
+  "editorial": "Factorial of n is a product, and the product of no terms is 1, which is why 0! is 1. A loop uses constant stack. Recursion here would spend a frame per factor and adds nothing once the recurrence is this simple. Negatives are not in the function's domain.",
+  "reference_solution": "def solve(n):\n    if n < 0:\n        return \"error\"\n    product = 1\n    for factor in range(2, n + 1):\n        product *= factor\n    return product\n"
+}

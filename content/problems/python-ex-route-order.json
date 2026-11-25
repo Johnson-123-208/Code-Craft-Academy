@@ -1,0 +1,94 @@
+{
+  "title": "Attempt Order",
+  "slug": "python-ex-route-order",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "fastapi"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(valid, authed)`. Both are 0 or 1. Return the list of stages that run. Validation always runs. Auth runs only when valid is 1. Service runs only when valid and authed are both 1. The names are `validation`, `auth`, and `service`.\n",
+  "constraints": [
+    "A bad body does not authenticate",
+    "A failed auth does not call the service"
+  ],
+  "examples": [
+    {
+      "input": "valid = 1, authed = 1",
+      "output": "[\"validation\", \"auth\", \"service\"]"
+    },
+    {
+      "input": "valid = 0, authed = 1",
+      "output": "[\"validation\"]"
+    }
+  ],
+  "starter_code": "def solve(valid, authed):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Start with validation.",
+    "Append auth only after a valid body.",
+    "Append service only after auth."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "The pipeline is validate, then dependencies, then the service."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "valid": 1,
+        "authed": 1
+      },
+      "expected": [
+        "validation",
+        "auth",
+        "service"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "valid": 0,
+        "authed": 1
+      },
+      "expected": [
+        "validation"
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "valid": 1,
+        "authed": 0
+      },
+      "expected": [
+        "validation",
+        "auth"
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "valid": 0,
+        "authed": 0
+      },
+      "expected": [
+        "validation"
+      ]
+    }
+  ],
+  "editorial": "The pipeline is validate, then dependencies, then the service. A 422 should not show up as a service call in a fake. A 401 should not either. The list is the stages a test asserts by watching which fakes were touched.",
+  "reference_solution": "def solve(valid, authed):\n    stages = [\"validation\"]\n    if valid:\n        stages.append(\"auth\")\n        if authed:\n            stages.append(\"service\")\n    return stages\n"
+}

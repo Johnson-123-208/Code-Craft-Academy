@@ -1,0 +1,83 @@
+{
+  "title": "Format Lazy",
+  "slug": "python-ex-lazy-log",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "logging"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(enabled, message)`. `enabled` is 1 when DEBUG is on and 0 otherwise. Return the message only when enabled is 1. Return an empty string when debugging is off. Building the message is the caller's cost. Your job is to drop it when the level is disabled.\n",
+  "constraints": [
+    "enabled is 0 or 1",
+    "A disabled logger returns an empty string"
+  ],
+  "examples": [
+    {
+      "input": "enabled = 0, message = \"huge\"",
+      "output": "\"\""
+    },
+    {
+      "input": "enabled = 1, message = \"huge\"",
+      "output": "\"huge\""
+    }
+  ],
+  "starter_code": "def solve(enabled, message):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "If enabled is 0, return an empty string without inventing a substitute.",
+    "If enabled is 1, return message.",
+    "Do not return the message in both cases."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "Logging debug with an f-string builds the string even when the logger will throw it away."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "enabled": 0,
+        "message": "huge"
+      },
+      "expected": ""
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "enabled": 1,
+        "message": "huge"
+      },
+      "expected": "huge"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "enabled": 0,
+        "message": ""
+      },
+      "expected": ""
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "enabled": 1,
+        "message": ""
+      },
+      "expected": ""
+    }
+  ],
+  "editorial": "Logging debug with an f-string builds the string even when the logger will throw it away. The guard is to ask the level first, or to pass a format and arguments the logger interpolates only if the record is emitted. This function is that guard: disabled means no message.",
+  "reference_solution": "def solve(enabled, message):\n    if enabled:\n        return message\n    return \"\"\n"
+}

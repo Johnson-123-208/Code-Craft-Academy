@@ -1,0 +1,103 @@
+{
+  "title": "Move Zeros",
+  "slug": "python-ex-move-zeros",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "lists"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Apple"
+  ],
+  "statement": "Implement `solve(items)`. Return a new list with the same integers, zeros moved to the end, and the relative order of non-zeros unchanged.\n",
+  "constraints": [
+    "Zero is the only value that moves",
+    "Keep non-zero order"
+  ],
+  "examples": [
+    {
+      "input": "items = [0, 1, 0, 3, 12]",
+      "output": "[1, 3, 12, 0, 0]"
+    },
+    {
+      "input": "items = [0, 0]",
+      "output": "[0, 0]"
+    }
+  ],
+  "starter_code": "def solve(items):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Collect non-zeros in one pass.",
+    "Append as many zeros as you skipped.",
+    "Do not sort. Sorting would reorder the non-zeros."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "A stable partition writes non-zeros first and fills the tail with zeros."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "items": [
+          0,
+          1,
+          0,
+          3,
+          12
+        ]
+      },
+      "expected": [
+        1,
+        3,
+        12,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "items": [
+          0,
+          0
+        ]
+      },
+      "expected": [
+        0,
+        0
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "items": [
+          1,
+          2
+        ]
+      },
+      "expected": [
+        1,
+        2
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "items": []
+      },
+      "expected": []
+    }
+  ],
+  "editorial": "A stable partition writes non-zeros first and fills the tail with zeros. Two pointers do this in place. Building a new list is the same partition and is easier to test. Sorting fails because 2, 1, 0 would become 0, 1, 2.",
+  "reference_solution": "def solve(items):\n    nonzero = [item for item in items if item != 0]\n    zeros = [0] * (len(items) - len(nonzero))\n    return nonzero + zeros\n"
+}

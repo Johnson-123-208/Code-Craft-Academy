@@ -1,0 +1,86 @@
+{
+  "title": "Parse User",
+  "slug": "python-ex-parse-user-model",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "pydantic"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(name, age)`. `name` must be a non-blank string after strip. `age` must be an int, not a bool, and must be >= 0. The tests pass age as an int, or the string `bool` when the payload used a JSON boolean. Return `{\"name\": stripped, \"age\": age}` or `error`.\n",
+  "constraints": [
+    "bool ages are error",
+    "Blank names are error"
+  ],
+  "examples": [
+    {
+      "input": "name = \" Ada \", age = 36",
+      "output": "{\"name\": \"Ada\", \"age\": 36}"
+    },
+    {
+      "input": "name = \"Ada\", age = \"bool\"",
+      "output": "\"error\""
+    }
+  ],
+  "starter_code": "def solve(name, age):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Reject the string bool before any numeric use.",
+    "Strip the name and reject empty.",
+    "Reject a negative int."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Pydantic will coerce some values and reject others depending on the model."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "name": " Ada ",
+        "age": 36
+      },
+      "expected": {
+        "name": "Ada",
+        "age": 36
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "name": "Ada",
+        "age": "bool"
+      },
+      "expected": "error"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "name": "  ",
+        "age": 1
+      },
+      "expected": "error"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "name": "Ada",
+        "age": -1
+      },
+      "expected": "error"
+    }
+  ],
+  "editorial": "Pydantic will coerce some values and reject others depending on the model. A bool accepted as an age is the subclass trap. This function is the validation you want even if you write it by hand: non-empty name, real int, non-negative.",
+  "reference_solution": "def solve(name, age):\n    if age == \"bool\" or type(age) is not int or age < 0:\n        return \"error\"\n    if type(name) is not str or not name.strip():\n        return \"error\"\n    return {\"name\": name.strip(), \"age\": age}\n"
+}

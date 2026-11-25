@@ -1,0 +1,88 @@
+{
+  "title": "Clamp",
+  "slug": "python-ex-clamp",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "comparisons"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft",
+    "Backend"
+  ],
+  "statement": "Implement `solve(value, low, high)`. If `low` is greater than `high`, return the string `value-error`. Otherwise return `value` limited to the inclusive range: `low` when `value` is below it, `high` when `value` is above it, and `value` when it is inside. Use comparisons. Do not call min or max if you want the comparison practice, though a correct min/max after the bounds check also passes.\n",
+  "constraints": [
+    "All three inputs are integers",
+    "The range is inclusive"
+  ],
+  "examples": [
+    {
+      "input": "value = 20, low = 0, high = 10",
+      "output": "10"
+    },
+    {
+      "input": "value = -2, low = 0, high = 10",
+      "output": "0"
+    }
+  ],
+  "starter_code": "def solve(value, low, high):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Reject inverted bounds before you clamp.",
+    "One comparison against low and one against high cover the three regions.",
+    "Return the number itself when it is already inside. Do not return a string on success."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "Clamp is the boundary pattern behind scores, pagination limits, and timeouts."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "value": 20,
+        "low": 0,
+        "high": 10
+      },
+      "expected": 10
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "value": -2,
+        "low": 0,
+        "high": 10
+      },
+      "expected": 0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "value": 3,
+        "low": 0,
+        "high": 10
+      },
+      "expected": 3
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "value": 1,
+        "low": 5,
+        "high": 4
+      },
+      "expected": "value-error"
+    }
+  ],
+  "editorial": "Clamp is the boundary pattern behind scores, pagination limits, and timeouts. The illegal case is low greater than high, which is a caller bug, not a value you can snap. Inclusive ends mean the endpoints are valid results.",
+  "reference_solution": "def solve(value, low, high):\n    if low > high:\n        return \"value-error\"\n    if value < low:\n        return low\n    if value > high:\n        return high\n    return value\n"
+}

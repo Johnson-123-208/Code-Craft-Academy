@@ -1,0 +1,97 @@
+{
+  "title": "Stack Wrappers",
+  "slug": "python-ex-wrapper-order",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "patterns"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(names)`. `names` is wrapper names from the outside in, the first name being the first one entered on a send. Return that same order. This is the call order, not the construction order. Construction wraps from the inside out, so the last constructed wrapper is the outside and runs first. The input is already outside-in. Return a copy.\n",
+  "constraints": [
+    "Do not reverse",
+    "The first name runs first"
+  ],
+  "examples": [
+    {
+      "input": "names = [\"retry\", \"log\", \"sender\"]",
+      "output": "[\"retry\", \"log\", \"sender\"]"
+    },
+    {
+      "input": "names = [\"sender\"]",
+      "output": "[\"sender\"]"
+    }
+  ],
+  "starter_code": "def solve(names):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "The problem states the input is already the call order.",
+    "Return a new list of the same names.",
+    "An empty stack returns an empty list."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Decorators and wrapper objects both nest."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "names": [
+          "retry",
+          "log",
+          "sender"
+        ]
+      },
+      "expected": [
+        "retry",
+        "log",
+        "sender"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "names": [
+          "sender"
+        ]
+      },
+      "expected": [
+        "sender"
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "names": []
+      },
+      "expected": []
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "names": [
+          "a",
+          "b"
+        ]
+      },
+      "expected": [
+        "a",
+        "b"
+      ]
+    }
+  ],
+  "editorial": "Decorators and wrapper objects both nest. The outside wrapper runs first on the way in and last on the way out. If you construct retry(logging(sender)), retry is outside and runs first. The list you return is that entry order, which the caller already arranged outside-in.",
+  "reference_solution": "def solve(names):\n    return list(names)\n"
+}

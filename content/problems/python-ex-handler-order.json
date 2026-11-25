@@ -1,0 +1,93 @@
+{
+  "title": "Handler Order",
+  "slug": "python-ex-handler-order",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "exceptions"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(raised, handlers)`. `handlers` is a list of exception names from the first except clause to the last. `raised` is the type that was raised. A handler matches when it equals `raised` or when it is a listed base of `raised`. The bases you must honor are: `FileNotFoundError` is a `OSError`, and `OSError` is an `Exception`. Return the first matching handler name. If none match, return `uncaught`.\n",
+  "constraints": [
+    "First match wins",
+    "Subclass before base is the useful order"
+  ],
+  "examples": [
+    {
+      "input": "raised = \"FileNotFoundError\", handlers = [\"OSError\", \"FileNotFoundError\"]",
+      "output": "\"OSError\""
+    },
+    {
+      "input": "raised = \"FileNotFoundError\", handlers = [\"FileNotFoundError\", \"OSError\"]",
+      "output": "\"FileNotFoundError\""
+    }
+  ],
+  "starter_code": "def solve(raised, handlers):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Walk handlers in order.",
+    "A handler matches the raised type or one of its bases from the chain above.",
+    "Return the first match. Do not prefer a more specific later handler."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(h)",
+        "space": "O(1)"
+      },
+      "explanation": "except clauses are tried in source order, and a base class earlier than a subclass makes the subclass clause dead."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "raised": "FileNotFoundError",
+        "handlers": [
+          "OSError",
+          "FileNotFoundError"
+        ]
+      },
+      "expected": "OSError"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "raised": "FileNotFoundError",
+        "handlers": [
+          "FileNotFoundError",
+          "OSError"
+        ]
+      },
+      "expected": "FileNotFoundError"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "raised": "ValueError",
+        "handlers": [
+          "OSError"
+        ]
+      },
+      "expected": "uncaught"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "raised": "OSError",
+        "handlers": [
+          "Exception"
+        ]
+      },
+      "expected": "Exception"
+    }
+  ],
+  "editorial": "except clauses are tried in source order, and a base class earlier than a subclass makes the subclass clause dead. This function is that scan. The inheritance you need is only the small chain in the statement, not a full MRO of the interpreter.",
+  "reference_solution": "def solve(raised, handlers):\n    chain = {\n        \"FileNotFoundError\": [\"FileNotFoundError\", \"OSError\", \"Exception\"],\n        \"OSError\": [\"OSError\", \"Exception\"],\n        \"Exception\": [\"Exception\"],\n        \"ValueError\": [\"ValueError\", \"Exception\"],\n    }\n    lineage = chain.get(raised, [raised])\n    for handler in handlers:\n        if handler in lineage:\n            return handler\n    return \"uncaught\"\n"
+}

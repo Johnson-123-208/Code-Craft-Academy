@@ -1,0 +1,109 @@
+{
+  "title": "Protocol Shape",
+  "slug": "python-ex-structural-send",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "protocols"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(classes)`. `classes` is a list of `{\"name\": ..., \"methods\": [...]}`. A class satisfies the send contract when `send` is in its methods. Return the names that satisfy it, in input order. Inheritance is not required.\n",
+  "constraints": [
+    "send is the only required method",
+    "Order is input order"
+  ],
+  "examples": [
+    {
+      "input": "classes = [{\"name\": \"Email\", \"methods\": [\"send\"]}, {\"name\": \"Log\", \"methods\": [\"write\"]}]",
+      "output": "[\"Email\"]"
+    },
+    {
+      "input": "classes = []",
+      "output": "[]"
+    }
+  ],
+  "starter_code": "def solve(classes):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Look at the methods list, not the class name.",
+    "Keep names where send is present.",
+    "A class named Email without send does not qualify."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "A Protocol checks structure."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "classes": [
+          {
+            "name": "Email",
+            "methods": [
+              "send"
+            ]
+          },
+          {
+            "name": "Log",
+            "methods": [
+              "write"
+            ]
+          }
+        ]
+      },
+      "expected": [
+        "Email"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "classes": []
+      },
+      "expected": []
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "classes": [
+          {
+            "name": "Sms",
+            "methods": [
+              "send",
+              "close"
+            ]
+          }
+        ]
+      },
+      "expected": [
+        "Sms"
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "classes": [
+          {
+            "name": "Broken",
+            "methods": []
+          }
+        ]
+      },
+      "expected": []
+    }
+  ],
+  "editorial": "A Protocol checks structure. Any object with send matches, whether or not it subclasses a channel base. Nominal inheritance without the method does not match. The filter is membership of the method name.",
+  "reference_solution": "def solve(classes):\n    return [item[\"name\"] for item in classes if \"send\" in item[\"methods\"]]\n"
+}

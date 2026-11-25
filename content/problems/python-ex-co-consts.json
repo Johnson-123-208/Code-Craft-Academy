@@ -1,0 +1,85 @@
+{
+  "title": "Constant Fold Peek",
+  "slug": "python-ex-co-consts",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "cpython"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(expression)`. Compile `expression` with `compile(..., \"eval\")` and return a list of the integer constants stored on the code object, in the order they appear in `co_consts`. Skip `None` and skip booleans. The list is whatever this interpreter folded. Do not evaluate the expression yourself and invent constants the compiler removed.\n",
+  "constraints": [
+    "Use compile with mode eval",
+    "bool is a subclass of int. Exclude it."
+  ],
+  "examples": [
+    {
+      "input": "expression = \"1+2\"",
+      "output": "[1]"
+    },
+    {
+      "input": "expression = \"3*4+5\"",
+      "output": "[3]"
+    }
+  ],
+  "starter_code": "def solve(expression):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "compile(expression, \"<expr>\", \"eval\") gives you a code object.",
+    "Walk co_consts. Keep values whose type is exactly int.",
+    "On modern CPython, 1+2 may already be the constant 3. Trust the code object."
+  ],
+  "approaches": [
+    {
+      "name": "Read co_consts",
+      "complexity": {
+        "time": "O(k)",
+        "space": "O(k)"
+      },
+      "explanation": "CPython folds literal arithmetic into co_consts at compile time."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "expression": "1+2"
+      },
+      "expected": [
+        1
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "expression": "3*4+5"
+      },
+      "expected": [
+        3
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "expression": "x"
+      },
+      "expected": []
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "expression": "10"
+      },
+      "expected": [
+        10
+      ]
+    }
+  ],
+  "editorial": "CPython folds literal arithmetic into co_consts at compile time. Reading that tuple is how you see the fold instead of guessing. Filtering with type(value) is int drops the None terminator and any boolean, which would otherwise look like the integers 0 and 1.",
+  "reference_solution": "def solve(expression):\n    code = compile(expression, \"<expr>\", \"eval\")\n    return [value for value in code.co_consts if type(value) is int]\n"
+}

@@ -1,0 +1,79 @@
+{
+  "title": "Label Score",
+  "slug": "python-ex-label-score",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "typing"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(score)`. `score` is an integer, or the string `none` for a missing score. Return `missing` when the score is none. Return `pass` when the integer is 60 or higher, and `fail` otherwise. Do not compare the missing token with 60.\n",
+  "constraints": [
+    "none is not a number",
+    "60 is a pass"
+  ],
+  "examples": [
+    {
+      "input": "score = \"none\"",
+      "output": "\"missing\""
+    },
+    {
+      "input": "score = 60",
+      "output": "\"pass\""
+    }
+  ],
+  "starter_code": "def solve(score):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Handle none first.",
+    "Then compare with 60.",
+    "Do not coerce none to 0."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "A score annotated as int or None must be narrowed before a numeric comparison."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "score": "none"
+      },
+      "expected": "missing"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "score": 60
+      },
+      "expected": "pass"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "score": 59
+      },
+      "expected": "fail"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "score": 100
+      },
+      "expected": "pass"
+    }
+  ],
+  "editorial": "A score annotated as int or None must be narrowed before a numeric comparison. The token none is that missing value. Treating it as 0 would label a missing exam as a fail, which is a different fact from a score of 0.",
+  "reference_solution": "def solve(score):\n    if score == \"none\":\n        return \"missing\"\n    if score >= 60:\n        return \"pass\"\n    return \"fail\"\n"
+}

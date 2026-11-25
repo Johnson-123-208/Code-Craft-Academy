@@ -1,0 +1,110 @@
+{
+  "title": "Batch Size",
+  "slug": "python-ex-batch-size",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "multiprocessing"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(items, size)`. Split `items` into contiguous chunks of length `size`. The last chunk may be shorter. `size` less than 1 returns `error`.\n",
+  "constraints": [
+    "Chunks keep order",
+    "A short tail is kept"
+  ],
+  "examples": [
+    {
+      "input": "items = [1, 2, 3, 4, 5], size = 2",
+      "output": "[[1, 2], [3, 4], [5]]"
+    },
+    {
+      "input": "items = [1], size = 3",
+      "output": "[[1]]"
+    }
+  ],
+  "starter_code": "def solve(items, size):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Reject a non-positive size.",
+    "Slice items[i:i+size] while i walks by size.",
+    "Do not drop a remainder."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Shipping one tiny task per row can cost more in pickle and scheduling than the work itself."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "items": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "size": 2
+      },
+      "expected": [
+        [
+          1,
+          2
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          5
+        ]
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "items": [
+          1
+        ],
+        "size": 3
+      },
+      "expected": [
+        [
+          1
+        ]
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "items": [],
+        "size": 2
+      },
+      "expected": []
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "items": [
+          1,
+          2
+        ],
+        "size": 0
+      },
+      "expected": "error"
+    }
+  ],
+  "editorial": "Shipping one tiny task per row can cost more in pickle and scheduling than the work itself. Batching into chunks of a chosen size cuts the number of tasks. The last batch is shorter rather than padded, so the worker sees real items only.",
+  "reference_solution": "def solve(items, size):\n    if size < 1:\n        return \"error\"\n    return [list(items[i:i + size]) for i in range(0, len(items), size)]\n"
+}

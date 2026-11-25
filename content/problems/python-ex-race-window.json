@@ -1,0 +1,95 @@
+{
+  "title": "Race Window",
+  "slug": "python-ex-race-window",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "threading"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(order)`. `order` is a list of `check-a`, `check-b`, `store-a`, `store-b`. The key starts absent. A check sees a miss only if no store of that same letter has happened yet... Simplify: return `twice` if both checks appear before either store. Return `once` otherwise. `twice` means both threads decided to load.\n",
+  "constraints": [
+    "Both checks before any store is the race",
+    "A store before the second check collapses it"
+  ],
+  "examples": [
+    {
+      "input": "order = [\"check-a\", \"check-b\", \"store-a\", \"store-b\"]",
+      "output": "\"twice\""
+    },
+    {
+      "input": "order = [\"check-a\", \"store-a\", \"check-b\"]",
+      "output": "\"once\""
+    }
+  ],
+  "starter_code": "def solve(order):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Find the indexes of the two checks and the first store.",
+    "If both checks are before the first store, return twice.",
+    "Otherwise return once. If there is no store, both checks still return twice."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "The race window is the gap between seeing a miss and storing the value."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "order": [
+          "check-a",
+          "check-b",
+          "store-a",
+          "store-b"
+        ]
+      },
+      "expected": "twice"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "order": [
+          "check-a",
+          "store-a",
+          "check-b"
+        ]
+      },
+      "expected": "once"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "order": [
+          "store-a",
+          "check-a",
+          "check-b"
+        ]
+      },
+      "expected": "once"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "order": [
+          "check-a",
+          "check-b"
+        ]
+      },
+      "expected": "twice"
+    }
+  ],
+  "editorial": "The race window is the gap between seeing a miss and storing the value. If both threads check inside that gap, the key is loaded twice. A store that happens before the second check closes the window. The interleaving is the input. You do not need threads to classify it.",
+  "reference_solution": "def solve(order):\n    first_store = None\n    checks = []\n    for index, event in enumerate(order):\n        if event.startswith(\"check\"):\n            checks.append(index)\n        elif event.startswith(\"store\") and first_store is None:\n            first_store = index\n    if len(checks) >= 2 and (first_store is None or checks[1] < first_store):\n        return \"twice\"\n    return \"once\"\n"
+}

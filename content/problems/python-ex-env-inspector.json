@@ -1,0 +1,131 @@
+{
+  "title": "Env Inspector",
+  "slug": "python-ex-env-inspector",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "venv"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(version, prefix, base_prefix)`. `version` is a list of three integers, the same shape as `sys.version_info[:3]`. Return a dict with key `version` (a copy of that list) and key `venv`. `venv` is 1 when `prefix` and `base_prefix` differ, and 0 when they are the same string. A virtual environment is active exactly when those two prefix strings differ.\n",
+  "constraints": [
+    "prefix and base_prefix are strings",
+    "Do not treat a version mismatch as a venv"
+  ],
+  "examples": [
+    {
+      "input": "version = [3, 12, 1], prefix = \"/app/.venv\", base_prefix = \"/usr\"",
+      "output": "{\"version\": [3, 12, 1], \"venv\": 1}"
+    },
+    {
+      "input": "version = [3, 11, 0], prefix = \"/usr\", base_prefix = \"/usr\"",
+      "output": "{\"version\": [3, 11, 0], \"venv\": 0}"
+    }
+  ],
+  "starter_code": "def solve(version, prefix, base_prefix):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Copy the version list so the caller can mutate it later without changing your result.",
+    "Compare prefix and base_prefix with equality. Do not look at the version triple for the venv flag.",
+    "Return the integers 0 and 1. The judge compares JSON numbers, not booleans."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "sys."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "version": [
+          3,
+          12,
+          1
+        ],
+        "prefix": "/app/.venv",
+        "base_prefix": "/usr"
+      },
+      "expected": {
+        "version": [
+          3,
+          12,
+          1
+        ],
+        "venv": 1
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "version": [
+          3,
+          11,
+          0
+        ],
+        "prefix": "/usr",
+        "base_prefix": "/usr"
+      },
+      "expected": {
+        "version": [
+          3,
+          11,
+          0
+        ],
+        "venv": 0
+      }
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "version": [
+          3,
+          12,
+          0
+        ],
+        "prefix": "D:/proj/.venv",
+        "base_prefix": "C:/Python312"
+      },
+      "expected": {
+        "version": [
+          3,
+          12,
+          0
+        ],
+        "venv": 1
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "version": [
+          3,
+          13,
+          2
+        ],
+        "prefix": "/opt/py",
+        "base_prefix": "/opt/py"
+      },
+      "expected": {
+        "version": [
+          3,
+          13,
+          2
+        ],
+        "venv": 0
+      }
+    }
+  ],
+  "editorial": "sys.prefix points at the environment prefix and sys.base_prefix points at the installation that created it. They differ inside a venv and match when you are on the base interpreter. The version is reported beside that fact so a diagnostic can show both.",
+  "reference_solution": "def solve(version, prefix, base_prefix):\n    return {\"version\": list(version), \"venv\": 0 if prefix == base_prefix else 1}\n"
+}

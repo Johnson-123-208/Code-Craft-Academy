@@ -1,0 +1,92 @@
+{
+  "title": "First Index",
+  "slug": "python-ex-first-index",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "loops"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(items, target)`. Return the smallest index `i` such that `items[i] == target`. If the target is absent, return -1. A later duplicate does not matter.\n",
+  "constraints": [
+    "items is a list of strings",
+    "Scan from the left"
+  ],
+  "examples": [
+    {
+      "input": "items = [\"a\", \"b\", \"a\"], target = \"a\"",
+      "output": "0"
+    },
+    {
+      "input": "items = [\"a\", \"b\"], target = \"c\"",
+      "output": "-1"
+    }
+  ],
+  "starter_code": "def solve(items, target):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "enumerate gives you the index.",
+    "Return as soon as you see the target.",
+    "After the loop, return -1."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Linear search returns the first hit."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "items": [
+          "a",
+          "b",
+          "a"
+        ],
+        "target": "a"
+      },
+      "expected": 0
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "items": [
+          "a",
+          "b"
+        ],
+        "target": "c"
+      },
+      "expected": -1
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "items": [],
+        "target": "a"
+      },
+      "expected": -1
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "items": [
+          "b"
+        ],
+        "target": "b"
+      },
+      "expected": 0
+    }
+  ],
+  "editorial": "Linear search returns the first hit. Continuing after a match would find the last index instead, which is a different function. -1 is the conventional missing index because 0 is a valid hit.",
+  "reference_solution": "def solve(items, target):\n    for index, item in enumerate(items):\n        if item == target:\n            return index\n    return -1\n"
+}

@@ -1,0 +1,91 @@
+{
+  "title": "Float Dust",
+  "slug": "python-ex-decimal-sum",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "decimal"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(values)`. `values` is a list of decimal strings such as `0.10`. Sum them with `decimal.Decimal`, quantize the total to two places with round-half-even (the default), and return the total as a string. Do not use binary float.\n",
+  "constraints": [
+    "Each string is a base-10 decimal",
+    "The result always has two decimal places"
+  ],
+  "examples": [
+    {
+      "input": "values = [\"0.10\", \"0.20\"]",
+      "output": "\"0.30\""
+    },
+    {
+      "input": "values = [\"0.1\", \"0.2\"]",
+      "output": "\"0.30\""
+    }
+  ],
+  "starter_code": "def solve(values):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Construct Decimal from each string, not from a float.",
+    "Sum from Decimal(0), then quantize to Decimal(0.01).",
+    "str() of that Decimal is the return value."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "0."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "values": [
+          "0.10",
+          "0.20"
+        ]
+      },
+      "expected": "0.30"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "values": [
+          "0.1",
+          "0.2"
+        ]
+      },
+      "expected": "0.30"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "values": [
+          "1.00"
+        ]
+      },
+      "expected": "1.00"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "values": [
+          "0.05",
+          "0.05",
+          "0.05"
+        ]
+      },
+      "expected": "0.15"
+    }
+  ],
+  "editorial": "0.1 plus 0.2 is not 0.3 in binary floating point. Decimal parses the base-10 string you actually meant. Quantizing to cents after the sum matches a money display and avoids a long expansion of a repeating internal value.",
+  "reference_solution": "def solve(values):\n    from decimal import Decimal\n    total = sum((Decimal(value) for value in values), Decimal(\"0\"))\n    return str(total.quantize(Decimal(\"0.01\")))\n"
+}

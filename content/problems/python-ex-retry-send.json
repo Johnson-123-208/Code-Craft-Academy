@@ -1,0 +1,91 @@
+{
+  "title": "Retry Send",
+  "slug": "python-ex-retry-send",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "patterns"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(attempts)`. `attempts` is a list of `ok` or `conn` in the order the sender would fail. Retry only `conn`, up to 3 attempts. Return the first `ok`, or `conn` if all consumed attempts were `conn`, or `error` if a non-conn failure appears... The only failure tag is `conn`. Stop at `ok`. If you consume 3 `conn` values without an ok, return `conn`. If the list ends earlier on `conn`, return `conn`. A first `ok` returns `ok`.\n",
+  "constraints": [
+    "Maximum 3 attempts",
+    "ok stops the loop"
+  ],
+  "examples": [
+    {
+      "input": "attempts = [\"conn\", \"ok\"]",
+      "output": "\"ok\""
+    },
+    {
+      "input": "attempts = [\"conn\", \"conn\", \"conn\", \"ok\"]",
+      "output": "\"conn\""
+    }
+  ],
+  "starter_code": "def solve(attempts):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Look at most at the first 3 attempts.",
+    "Return ok on the first ok.",
+    "If you never see ok, return conn."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "A retry wrapper around a sender is a decorator object, not an edit of the sender."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "attempts": [
+          "conn",
+          "ok"
+        ]
+      },
+      "expected": "ok"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "attempts": [
+          "conn",
+          "conn",
+          "conn",
+          "ok"
+        ]
+      },
+      "expected": "conn"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "attempts": [
+          "ok"
+        ]
+      },
+      "expected": "ok"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "attempts": [
+          "conn"
+        ]
+      },
+      "expected": "conn"
+    }
+  ],
+  "editorial": "A retry wrapper around a sender is a decorator object, not an edit of the sender. It retries one failure class. A validation error would not be in this list. The cap of 3 stops a dead host from pinning the request. The returned tag is what the caller observes.",
+  "reference_solution": "def solve(attempts):\n    for result in attempts[:3]:\n        if result == \"ok\":\n            return \"ok\"\n    return \"conn\"\n"
+}

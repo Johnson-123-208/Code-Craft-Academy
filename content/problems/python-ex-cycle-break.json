@@ -1,0 +1,79 @@
+{
+  "title": "Cycle Break",
+  "slug": "python-ex-cycle-break",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "imports"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(kind)`. `kind` is `delay` or `third`. `delay` means break the cycle by importing inside the function that needs it. `third` means move the shared object into a third module both sides import. Return `move-import` for delay and `new-module` for third. Any other kind returns `error`.\n",
+  "constraints": [
+    "Two legal fixes",
+    "Unknown kinds are error"
+  ],
+  "examples": [
+    {
+      "input": "kind = \"delay\"",
+      "output": "\"move-import\""
+    },
+    {
+      "input": "kind = \"third\"",
+      "output": "\"new-module\""
+    }
+  ],
+  "starter_code": "def solve(kind):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "delay maps to move-import.",
+    "third maps to new-module.",
+    "Do not return the input unchanged."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "A cycle between two modules often means each wants a name from the other at import time."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "kind": "delay"
+      },
+      "expected": "move-import"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "kind": "third"
+      },
+      "expected": "new-module"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "kind": "merge"
+      },
+      "expected": "error"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "kind": "delay"
+      },
+      "expected": "move-import"
+    }
+  ],
+  "editorial": "A cycle between two modules often means each wants a name from the other at import time. Moving one import into the function delays it until both modules have finished loading. Moving the shared type into a third module removes the edge. Those are the two structural fixes.",
+  "reference_solution": "def solve(kind):\n    return {\"delay\": \"move-import\", \"third\": \"new-module\"}.get(kind, \"error\")\n"
+}

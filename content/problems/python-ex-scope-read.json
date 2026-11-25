@@ -1,0 +1,83 @@
+{
+  "title": "Unbound Local",
+  "slug": "python-ex-scope-read",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "scope"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(assigns, read_before)`. Both strings are `yes` or `no`. `assigns` is `yes` when the function assigns to the name anywhere in its body. `read_before` is `yes` when the read happens before that assignment. Return `error` when the name is assigned anywhere and the read happens before the assignment (UnboundLocalError). Return `local` when the name is assigned and the read happens after the assignment. Return `global` when the function never assigns the name.\n",
+  "constraints": [
+    "Inputs are yes or no",
+    "Any assignment in the function makes the name local for the whole function"
+  ],
+  "examples": [
+    {
+      "input": "assigns = \"yes\", read_before = \"yes\"",
+      "output": "\"error\""
+    },
+    {
+      "input": "assigns = \"yes\", read_before = \"no\"",
+      "output": "\"local\""
+    }
+  ],
+  "starter_code": "def solve(assigns, read_before):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "If the function never assigns, the read is global.",
+    "If it assigns and the read is first, the result is error.",
+    "If it assigns and the read is after, the result is local."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "Python decides that a name is local if any assignment to it exists in the function, including an assignment that has not run yet."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "assigns": "yes",
+        "read_before": "yes"
+      },
+      "expected": "error"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "assigns": "yes",
+        "read_before": "no"
+      },
+      "expected": "local"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "assigns": "no",
+        "read_before": "yes"
+      },
+      "expected": "global"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "assigns": "no",
+        "read_before": "no"
+      },
+      "expected": "global"
+    }
+  ],
+  "editorial": "Python decides that a name is local if any assignment to it exists in the function, including an assignment that has not run yet. A read of that name before the assignment raises UnboundLocalError instead of falling through to the global. No assignment at all means the read uses the global.",
+  "reference_solution": "def solve(assigns, read_before):\n    if assigns == \"no\":\n        return \"global\"\n    if read_before == \"yes\":\n        return \"error\"\n    return \"local\"\n"
+}

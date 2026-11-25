@@ -1,0 +1,95 @@
+{
+  "title": "Floor Div",
+  "slug": "python-ex-floor-div",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "numbers"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(a, b)`. Return `[quotient, remainder]` for Python floor division of `a` by `b`. `b` is not 0. The identity `b * quotient + remainder == a` must hold, including when `a` or `b` is negative.\n",
+  "constraints": [
+    "Use floor division, not truncating division",
+    "Return a two-element list"
+  ],
+  "examples": [
+    {
+      "input": "a = 8, b = 3",
+      "output": "[2, 2]"
+    },
+    {
+      "input": "a = -8, b = 3",
+      "output": "[-3, 1]"
+    }
+  ],
+  "starter_code": "def solve(a, b):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "quotient is a // b and remainder is a % b.",
+    "Verify the identity on a negative dividend.",
+    "Do not take abs() and restore a sign by hand unless you also match the remainder's sign."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "The pair (a // b, a % b) is defined so the remainder has the divisor's sign and the quotient is rounded toward negative infinity."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "a": 8,
+        "b": 3
+      },
+      "expected": [
+        2,
+        2
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "a": -8,
+        "b": 3
+      },
+      "expected": [
+        -3,
+        1
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "a": -8,
+        "b": -3
+      },
+      "expected": [
+        2,
+        -2
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "a": 5,
+        "b": -2
+      },
+      "expected": [
+        -3,
+        -1
+      ]
+    }
+  ],
+  "editorial": "The pair (a // b, a % b) is defined so the remainder has the divisor's sign and the quotient is rounded toward negative infinity. That is the pair to return. Hand-rolled truncation matches C and fails the negative cases.",
+  "reference_solution": "def solve(a, b):\n    return [a // b, a % b]\n"
+}

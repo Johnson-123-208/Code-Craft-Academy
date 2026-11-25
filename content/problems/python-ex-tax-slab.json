@@ -1,0 +1,79 @@
+{
+  "title": "Tax Slab",
+  "slug": "python-ex-tax-slab",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "conditionals"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(income)`. Apply one slab to the whole income, in integer arithmetic. Income above 20000 is taxed at 20 percent (`income * 20 // 100`). Income above 10000 and up through 20000 is taxed at 10 percent. Income of 10000 or below is taxed 0. Do not add the 10 percent tax and the 20 percent tax together. The first matching slab, checked from the top, is the only one.\n",
+  "constraints": [
+    "income is a non-negative integer",
+    "Use floor division"
+  ],
+  "examples": [
+    {
+      "input": "income = 5000",
+      "output": "0"
+    },
+    {
+      "input": "income = 10000",
+      "output": "0"
+    }
+  ],
+  "starter_code": "def solve(income):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Test the highest threshold first and return immediately.",
+    "Then test the middle threshold.",
+    "The remainder is zero. Do not accumulate a tax from several branches."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "A slab table that adds every matching branch double-charges the top band."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "income": 5000
+      },
+      "expected": 0
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "income": 10000
+      },
+      "expected": 0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "income": 15000
+      },
+      "expected": 1500
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "income": 25000
+      },
+      "expected": 5000
+    }
+  ],
+  "editorial": "A slab table that adds every matching branch double-charges the top band. Returning on the first hit, with the highest band tested first, applies exactly one rate to the whole income. This is a flat band, not a progressive marginal calculation.",
+  "reference_solution": "def solve(income):\n    if income > 20000:\n        return income * 20 // 100\n    if income > 10000:\n        return income * 10 // 100\n    return 0\n"
+}

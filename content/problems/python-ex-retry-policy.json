@@ -1,0 +1,83 @@
+{
+  "title": "Retry Policy",
+  "slug": "python-ex-retry-policy",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "exceptions"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(kind, idempotent)`. `kind` is `timeout`, `value`, or `unavailable`. `idempotent` is 0 or 1. Return `retry` only for `timeout` or `unavailable` when `idempotent` is 1. Return `stop` for a `value` error always, and for a non-idempotent call even if the kind is transient.\n",
+  "constraints": [
+    "value errors never retry",
+    "A timeout on a non-idempotent call stops"
+  ],
+  "examples": [
+    {
+      "input": "kind = \"timeout\", idempotent = 1",
+      "output": "\"retry\""
+    },
+    {
+      "input": "kind = \"timeout\", idempotent = 0",
+      "output": "\"stop\""
+    }
+  ],
+  "starter_code": "def solve(kind, idempotent):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "If kind is value, return stop.",
+    "If idempotent is 0, return stop.",
+    "Otherwise timeout and unavailable retry. Any other kind stops."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "Retrying a timeout can repeat a charge when the first request landed."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "kind": "timeout",
+        "idempotent": 1
+      },
+      "expected": "retry"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "kind": "timeout",
+        "idempotent": 0
+      },
+      "expected": "stop"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "kind": "value",
+        "idempotent": 1
+      },
+      "expected": "stop"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "kind": "unavailable",
+        "idempotent": 1
+      },
+      "expected": "retry"
+    }
+  ],
+  "editorial": "Retrying a timeout can repeat a charge when the first request landed. The idempotent flag is the permission to try again. A value error is a bug in the request and will fail the same way. The policy is a conjunction, not a retry of every exception.",
+  "reference_solution": "def solve(kind, idempotent):\n    if kind == \"value\" or idempotent == 0:\n        return \"stop\"\n    if kind in (\"timeout\", \"unavailable\"):\n        return \"retry\"\n    return \"stop\"\n"
+}

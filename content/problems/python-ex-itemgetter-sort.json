@@ -1,0 +1,131 @@
+{
+  "title": "Item Getter Sort",
+  "slug": "python-ex-itemgetter-sort",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "functools"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(rows, index)`. Each row is a list of integers. Return the rows sorted by the value at `index`, ascending. If any row is too short, return `error`. Do not catch IndexError and skip the row.\n",
+  "constraints": [
+    "All rows must be long enough",
+    "Sort is ascending"
+  ],
+  "examples": [
+    {
+      "input": "rows = [[2, 1], [1, 9], [1, 0]], index = 0",
+      "output": "[[1, 9], [1, 0], [2, 1]]"
+    },
+    {
+      "input": "rows = [[1]], index = 1",
+      "output": "\"error\""
+    }
+  ],
+  "starter_code": "def solve(rows, index):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Check lengths first.",
+    "Then sorted with a key on that index.",
+    "Copy each row into the result."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n log n)",
+        "space": "O(n)"
+      },
+      "explanation": "operator."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "rows": [
+          [
+            2,
+            1
+          ],
+          [
+            1,
+            9
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "index": 0
+      },
+      "expected": [
+        [
+          1,
+          9
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ]
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "rows": [
+          [
+            1
+          ]
+        ],
+        "index": 1
+      },
+      "expected": "error"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "rows": [],
+        "index": 0
+      },
+      "expected": []
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "rows": [
+          [
+            3,
+            1
+          ],
+          [
+            2,
+            2
+          ]
+        ],
+        "index": 1
+      },
+      "expected": [
+        [
+          3,
+          1
+        ],
+        [
+          2,
+          2
+        ]
+      ]
+    }
+  ],
+  "editorial": "operator.itemgetter(index) is the key. It raises if a row is short, which is what you want: a missing column is a bad table, not a value to drop. Checking first returns a clean error string instead of a traceback.",
+  "reference_solution": "def solve(rows, index):\n    if index < 0 or any(len(row) <= index for row in rows):\n        return \"error\"\n    ordered = sorted(rows, key=lambda row: row[index])\n    return [list(row) for row in ordered]\n"
+}

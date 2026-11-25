@@ -1,0 +1,95 @@
+{
+  "title": "Polymorphic Build",
+  "slug": "python-ex-cls-build",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "oop"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(calls)`. `calls` is a list of class names, each `user` or `admin`. A classmethod on the base uses `cls` to construct. Return the list of constructed class names in order, lowercase. Calling the inherited method on Admin must append `admin`.\n",
+  "constraints": [
+    "Each call is independent",
+    "Admin does not override the constructor method"
+  ],
+  "examples": [
+    {
+      "input": "calls = [\"user\", \"admin\", \"user\"]",
+      "output": "[\"user\", \"admin\", \"user\"]"
+    },
+    {
+      "input": "calls = [\"admin\"]",
+      "output": "[\"admin\"]"
+    }
+  ],
+  "starter_code": "def solve(calls):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Implement from_row with cls().",
+    "Look up the class for each name and call the classmethod.",
+    "Record type(obj).__name__ lowercased."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "cls is the class the method was looked up on, not the class that defined the method."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "calls": [
+          "user",
+          "admin",
+          "user"
+        ]
+      },
+      "expected": [
+        "user",
+        "admin",
+        "user"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "calls": [
+          "admin"
+        ]
+      },
+      "expected": [
+        "admin"
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "calls": []
+      },
+      "expected": []
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "calls": [
+          "user"
+        ]
+      },
+      "expected": [
+        "user"
+      ]
+    }
+  ],
+  "editorial": "cls is the class the method was looked up on, not the class that defined the method. A loop of calls is the demonstration that each call binds its own cls. Hardcoding the base name would return user for every entry.",
+  "reference_solution": "def solve(calls):\n    class User:\n        @classmethod\n        def build(cls):\n            return cls()\n\n    class Admin(User):\n        pass\n\n    table = {\"user\": User, \"admin\": Admin}\n    out = []\n    for name in calls:\n        obj = table[name].build()\n        out.append(type(obj).__name__.lower())\n    return out\n"
+}

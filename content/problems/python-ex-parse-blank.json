@@ -1,0 +1,79 @@
+{
+  "title": "Raises",
+  "slug": "python-ex-parse-blank",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "unittest"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(text)`. A blank string after strip returns `error`. Any other string returns `ok`. This is the parser a test would wrap with assertRaises on the blank input. The sandbox uses the string instead of an exception.\n",
+  "constraints": [
+    "Whitespace-only is blank",
+    "Other text is ok"
+  ],
+  "examples": [
+    {
+      "input": "text = \"  \"",
+      "output": "\"error\""
+    },
+    {
+      "input": "text = \"ada\"",
+      "output": "\"ok\""
+    }
+  ],
+  "starter_code": "def solve(text):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Strip.",
+    "Empty means error.",
+    "Otherwise ok."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "assertRaises passes only when the call inside the block raises."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "text": "  "
+      },
+      "expected": "error"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "text": "ada"
+      },
+      "expected": "ok"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "text": ""
+      },
+      "expected": "error"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "text": " a "
+      },
+      "expected": "ok"
+    }
+  ],
+  "editorial": "assertRaises passes only when the call inside the block raises. A blank string is the input that should fail. Returning a distinct error string lets the judge see the rejection without depending on the harness to expect an exception.",
+  "reference_solution": "def solve(text):\n    if not text.strip():\n        return \"error\"\n    return \"ok\"\n"
+}

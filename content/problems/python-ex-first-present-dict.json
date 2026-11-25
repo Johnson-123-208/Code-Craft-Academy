@@ -1,0 +1,89 @@
+{
+  "title": "First Present",
+  "slug": "python-ex-first-present-dict",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "dicts"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(payload, key)`. `payload` is a dict of strings. Return the value for `key` when the key is present, including when the value is an empty string. Return the string `missing` when the key is absent. Do not use a truthiness test that treats an empty string as absent.\n",
+  "constraints": [
+    "An empty string is a present value",
+    "A missing key is the string missing"
+  ],
+  "examples": [
+    {
+      "input": "payload = {\"name\": \"\"}, key = \"name\"",
+      "output": "\"\""
+    },
+    {
+      "input": "payload = {}, key = \"name\"",
+      "output": "\"missing\""
+    }
+  ],
+  "starter_code": "def solve(payload, key):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Use key in payload, not payload.get(key) or default, if the default could collide. Or get a unique sentinel.",
+    "A present empty string is returned as empty.",
+    "Only a missing key returns missing."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "dict."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "payload": {
+          "name": ""
+        },
+        "key": "name"
+      },
+      "expected": ""
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "payload": {},
+        "key": "name"
+      },
+      "expected": "missing"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "payload": {
+          "name": "ada"
+        },
+        "key": "name"
+      },
+      "expected": "ada"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "payload": {
+          "name": "ada"
+        },
+        "key": "role"
+      },
+      "expected": "missing"
+    }
+  ],
+  "editorial": "dict.get returns the default for a missing key and also forces you to pick a default that is not a real value. The in test separates absence from a stored empty string. Truthiness collapses both, and also collapses a stored 0 if you ever store numbers. Here the values are strings, and empty is still real.",
+  "reference_solution": "def solve(payload, key):\n    if key in payload:\n        return payload[key]\n    return \"missing\"\n"
+}

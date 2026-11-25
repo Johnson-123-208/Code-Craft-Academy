@@ -1,0 +1,92 @@
+{
+  "title": "Max Depth",
+  "slug": "python-ex-max-depth",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "recursion"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(value)`. A non-list has depth 0. A list's depth is 1 plus the maximum depth of its children. An empty list has depth 1. Return that integer.\n",
+  "constraints": [
+    "Children are integers or lists",
+    "Empty list depth is 1"
+  ],
+  "examples": [
+    {
+      "input": "value = [1, [2, [3]]]",
+      "output": "3"
+    },
+    {
+      "input": "value = []",
+      "output": "1"
+    }
+  ],
+  "starter_code": "def solve(value):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "If the value is not a list, return 0.",
+    "If the list is empty, return 1.",
+    "Otherwise return 1 plus the max child depth."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(d)"
+      },
+      "explanation": "Depth counts list layers, not integers."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "value": [
+          1,
+          [
+            2,
+            [
+              3
+            ]
+          ]
+        ]
+      },
+      "expected": 3
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "value": []
+      },
+      "expected": 1
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "value": 4
+      },
+      "expected": 0
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "value": [
+          [],
+          [
+            1
+          ]
+        ]
+      },
+      "expected": 2
+    }
+  ],
+  "editorial": "Depth counts list layers, not integers. An integer is a leaf at depth 0, so a list of integers has depth 1. An empty list is still a list, so it has depth 1 and no children to take a max over. Forgetting the empty case and calling max() on no children throws.",
+  "reference_solution": "def solve(value):\n    if type(value) is not list:\n        return 0\n    if not value:\n        return 1\n    return 1 + max(solve(child) for child in value)\n"
+}

@@ -1,0 +1,99 @@
+{
+  "title": "Forbid Extra",
+  "slug": "python-ex-forbid-extra",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "pydantic"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(payload, allowed)`. Return `ok` when every payload key is allowed. Return `extra` when any key is not. Missing allowed keys are fine.\n",
+  "constraints": [
+    "Extras fail the payload",
+    "Missing optional keys do not"
+  ],
+  "examples": [
+    {
+      "input": "payload = {\"name\": \"a\"}, allowed = [\"name\"]",
+      "output": "\"ok\""
+    },
+    {
+      "input": "payload = {\"name\": \"a\", \"role\": \"x\"}, allowed = [\"name\"]",
+      "output": "\"extra\""
+    }
+  ],
+  "starter_code": "def solve(payload, allowed):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Subtract the allowed set from the payload keys.",
+    "A non-empty difference is extra.",
+    "An empty difference is ok."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "A model that forbids extra keys turns a typo into a 422 instead of a silently dropped field."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "payload": {
+          "name": "a"
+        },
+        "allowed": [
+          "name"
+        ]
+      },
+      "expected": "ok"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "payload": {
+          "name": "a",
+          "role": "x"
+        },
+        "allowed": [
+          "name"
+        ]
+      },
+      "expected": "extra"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "payload": {},
+        "allowed": [
+          "name"
+        ]
+      },
+      "expected": "ok"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "payload": {
+          "a": 1,
+          "b": 2
+        },
+        "allowed": [
+          "a"
+        ]
+      },
+      "expected": "extra"
+    }
+  ],
+  "editorial": "A model that forbids extra keys turns a typo into a 422 instead of a silently dropped field. The check is set difference. It does not require the payload to contain every allowed key, because those may be optional.",
+  "reference_solution": "def solve(payload, allowed):\n    if set(payload) - set(allowed):\n        return \"extra\"\n    return \"ok\"\n"
+}

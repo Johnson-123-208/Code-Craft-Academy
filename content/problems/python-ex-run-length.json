@@ -1,0 +1,118 @@
+{
+  "title": "Compress Run",
+  "slug": "python-ex-run-length",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "loops"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(items)`. `items` is a list of strings. Group consecutive equal values. Return a list of `[value, count]` pairs. A new group starts when the value changes. An empty list returns an empty list. Non-consecutive duplicates are separate groups.\n",
+  "constraints": [
+    "Only consecutive equals merge",
+    "Counts are positive integers"
+  ],
+  "examples": [
+    {
+      "input": "items = [\"a\", \"a\", \"b\", \"a\"]",
+      "output": "[[\"a\", 2], [\"b\", 1], [\"a\", 1]]"
+    },
+    {
+      "input": "items = []",
+      "output": "[]"
+    }
+  ],
+  "starter_code": "def solve(items):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "If the list is empty, return an empty list.",
+    "Track the current value and its count.",
+    "Flush the open group when the value changes, and flush once more at the end."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(g)"
+      },
+      "explanation": "Run-length encoding is one pass with a single open group."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "items": [
+          "a",
+          "a",
+          "b",
+          "a"
+        ]
+      },
+      "expected": [
+        [
+          "a",
+          2
+        ],
+        [
+          "b",
+          1
+        ],
+        [
+          "a",
+          1
+        ]
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "items": []
+      },
+      "expected": []
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "items": [
+          "x"
+        ]
+      },
+      "expected": [
+        [
+          "x",
+          1
+        ]
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "items": [
+          "a",
+          "b",
+          "b",
+          "b"
+        ]
+      },
+      "expected": [
+        [
+          "a",
+          1
+        ],
+        [
+          "b",
+          3
+        ]
+      ]
+    }
+  ],
+  "editorial": "Run-length encoding is one pass with a single open group. Comparing each element to the previous one avoids a nested scan. Values that match later, after a different value, start a new group. That is what consecutive means.",
+  "reference_solution": "def solve(items):\n    if not items:\n        return []\n    out = []\n    current = items[0]\n    count = 1\n    for item in items[1:]:\n        if item == current:\n            count += 1\n        else:\n            out.append([current, count])\n            current = item\n            count = 1\n    out.append([current, count])\n    return out\n"
+}

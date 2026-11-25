@@ -1,0 +1,83 @@
+{
+  "title": "Coalesce None",
+  "slug": "python-ex-coalesce-none",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "none"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(value, default)`. Both arguments are strings. Return `default` when `value` is the token `none`. Return `value` for every other string, including `0` and the empty string.\n",
+  "constraints": [
+    "none is the missing token",
+    "Falsy strings are kept"
+  ],
+  "examples": [
+    {
+      "input": "value = \"none\", default = \"n/a\"",
+      "output": "\"n/a\""
+    },
+    {
+      "input": "value = \"0\", default = \"n/a\"",
+      "output": "\"0\""
+    }
+  ],
+  "starter_code": "def solve(value, default):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Test equality with none. Do not test truthiness.",
+    "Return value unchanged in the other branch.",
+    "default is used only for the missing token."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "Coalescing is a missing-value operation, not a truthiness operation."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "value": "none",
+        "default": "n/a"
+      },
+      "expected": "n/a"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "value": "0",
+        "default": "n/a"
+      },
+      "expected": "0"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "value": "",
+        "default": "n/a"
+      },
+      "expected": ""
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "value": "ok",
+        "default": "n/a"
+      },
+      "expected": "ok"
+    }
+  ],
+  "editorial": "Coalescing is a missing-value operation, not a truthiness operation. The token none is the only input that should be replaced. Keeping zero-like strings is the behavior `or` gets wrong.",
+  "reference_solution": "def solve(value, default):\n    if value == \"none\":\n        return default\n    return value\n"
+}

@@ -1,0 +1,110 @@
+{
+  "title": "Flatten Yield",
+  "slug": "python-ex-flatten-yield",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "generators"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(rows)`. `rows` is a list of lists of integers. Yield every inner item once, in order, and return the list of yields. Do not flatten further. Empty inner lists contribute nothing.\n",
+  "constraints": [
+    "One level only",
+    "Keep order"
+  ],
+  "examples": [
+    {
+      "input": "rows = [[1, 2], [], [3]]",
+      "output": "[1, 2, 3]"
+    },
+    {
+      "input": "rows = []",
+      "output": "[]"
+    }
+  ],
+  "starter_code": "def solve(rows):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "For each inner list, yield from it or loop and yield each item.",
+    "Do not wrap items in another list.",
+    "Materialize at the end for the return value."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "yield from walks an inner iterable and yields its items one by one."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "rows": [
+          [
+            1,
+            2
+          ],
+          [],
+          [
+            3
+          ]
+        ]
+      },
+      "expected": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "rows": []
+      },
+      "expected": []
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "rows": [
+          [
+            4
+          ]
+        ]
+      },
+      "expected": [
+        4
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "rows": [
+          [
+            1
+          ],
+          [
+            2,
+            2
+          ]
+        ]
+      },
+      "expected": [
+        1,
+        2,
+        2
+      ]
+    }
+  ],
+  "editorial": "yield from walks an inner iterable and yields its items one by one. That is one-level flatten as a generator. Building the full list inside the producer throws away the reason to yield. The returned list is the caller's materialization.",
+  "reference_solution": "def solve(rows):\n    def flat(source):\n        for row in source:\n            yield from row\n    return list(flat(rows))\n"
+}

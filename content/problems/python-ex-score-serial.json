@@ -1,0 +1,96 @@
+{
+  "title": "Serial Baseline",
+  "slug": "python-ex-score-serial",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "multiprocessing"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(chunks)`. Each chunk is a list of integers. Return the sum of the per-chunk sums of squares, in order, as one integer. Do not start processes.\n",
+  "constraints": [
+    "Add the chunk scores",
+    "Empty input is 0"
+  ],
+  "examples": [
+    {
+      "input": "chunks = [[1, 2], [3]]",
+      "output": "14"
+    },
+    {
+      "input": "chunks = []",
+      "output": "0"
+    }
+  ],
+  "starter_code": "def solve(chunks):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Score a chunk as the sum of squares.",
+    "Add those scores.",
+    "Order does not matter for a sum, but compute every chunk."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "The serial baseline is what you compare a process pool against."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "chunks": [
+          [
+            1,
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      },
+      "expected": 14
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "chunks": []
+      },
+      "expected": 0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "chunks": [
+          []
+        ]
+      },
+      "expected": 0
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "chunks": [
+          [
+            -1
+          ],
+          [
+            1
+          ]
+        ]
+      },
+      "expected": 2
+    }
+  ],
+  "editorial": "The serial baseline is what you compare a process pool against. If the chunks are small, the serial sum can win. The number is the same either way when the work is a pure reduction. This function is that number.",
+  "reference_solution": "def solve(chunks):\n    return sum(n * n for chunk in chunks for n in chunk)\n"
+}

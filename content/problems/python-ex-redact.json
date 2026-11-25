@@ -1,0 +1,91 @@
+{
+  "title": "Redact",
+  "slug": "python-ex-redact",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "logging"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(fields)`. `fields` is a dict. Drop the keys `password`, `token`, and `secret` if present. Return the remaining dict. Do not modify values of other keys.\n",
+  "constraints": [
+    "Those three names are the secret keys",
+    "Other keys stay, including authorization if it is not in the list"
+  ],
+  "examples": [
+    {
+      "input": "fields = {\"user\": \"ada\", \"password\": \"x\"}",
+      "output": "{\"user\": \"ada\"}"
+    },
+    {
+      "input": "fields = {\"token\": \"t\", \"secret\": \"s\"}",
+      "output": "{}"
+    }
+  ],
+  "starter_code": "def solve(fields):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Copy the dict.",
+    "Delete the three names when they exist.",
+    "Return the copy."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "A log line of the request body will include a password if you log the dict you were given."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "fields": {
+          "user": "ada",
+          "password": "x"
+        }
+      },
+      "expected": {
+        "user": "ada"
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "fields": {
+          "token": "t",
+          "secret": "s"
+        }
+      },
+      "expected": {}
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "fields": {}
+      },
+      "expected": {}
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "fields": {
+          "note": "hi"
+        }
+      },
+      "expected": {
+        "note": "hi"
+      }
+    }
+  ],
+  "editorial": "A log line of the request body will include a password if you log the dict you were given. Deleting the known secret keys before formatting is the minimum redact. It is not a full DLP pass. The copy protects the caller's mapping.",
+  "reference_solution": "def solve(fields):\n    hidden = {\"password\", \"token\", \"secret\"}\n    return {key: value for key, value in fields.items() if key not in hidden}\n"
+}

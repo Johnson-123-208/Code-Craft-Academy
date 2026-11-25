@@ -1,0 +1,95 @@
+{
+  "title": "Guarded Transfer",
+  "slug": "python-ex-guarded-transfer",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "sqlite"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(balance, amount)`. Apply a debit only when `amount` is positive and `balance` covers it. Return `{\"balance\": new_or_old, \"ledger\": 1 or 0}`. On success the balance shrinks and ledger is 1. On failure the balance is unchanged and ledger is 0.\n",
+  "constraints": [
+    "A failed debit writes no ledger row",
+    "Success writes one"
+  ],
+  "examples": [
+    {
+      "input": "balance = 100, amount = 40",
+      "output": "{\"balance\": 60, \"ledger\": 1}"
+    },
+    {
+      "input": "balance = 30, amount = 40",
+      "output": "{\"balance\": 30, \"ledger\": 0}"
+    }
+  ],
+  "starter_code": "def solve(balance, amount):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Check the amount and the balance.",
+    "Subtract and set ledger to 1 only on success.",
+    "Otherwise echo the balance and ledger 0."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "The transfer and the ledger insert commit together or not at all."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "balance": 100,
+        "amount": 40
+      },
+      "expected": {
+        "balance": 60,
+        "ledger": 1
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "balance": 30,
+        "amount": 40
+      },
+      "expected": {
+        "balance": 30,
+        "ledger": 0
+      }
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "balance": 10,
+        "amount": 0
+      },
+      "expected": {
+        "balance": 10,
+        "ledger": 0
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "balance": 10,
+        "amount": 10
+      },
+      "expected": {
+        "balance": 0,
+        "ledger": 1
+      }
+    }
+  ],
+  "editorial": "The transfer and the ledger insert commit together or not at all. A guard that updates zero rows must not insert a ledger line. Returning both the balance and the flag is the pair of tables after the transaction.",
+  "reference_solution": "def solve(balance, amount):\n    if type(amount) is int and amount > 0 and balance >= amount:\n        return {\"balance\": balance - amount, \"ledger\": 1}\n    return {\"balance\": balance, \"ledger\": 0}\n"
+}

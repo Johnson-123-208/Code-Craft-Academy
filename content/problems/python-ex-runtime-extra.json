@@ -1,0 +1,106 @@
+{
+  "title": "Runtime Extra",
+  "slug": "python-ex-runtime-extra",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "packaging"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(deps, dev_only)`. `deps` is the full list of package names. `dev_only` is the list that must stay out of the runtime image. Return the runtime names in the original order.\n",
+  "constraints": [
+    "Order follows deps",
+    "Dev tools are removed"
+  ],
+  "examples": [
+    {
+      "input": "deps = [\"fastapi\", \"pytest\", \"ruff\"], dev_only = [\"pytest\", \"ruff\"]",
+      "output": "[\"fastapi\"]"
+    },
+    {
+      "input": "deps = [\"fastapi\"], dev_only = [\"pytest\"]",
+      "output": "[\"fastapi\"]"
+    }
+  ],
+  "starter_code": "def solve(deps, dev_only):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Build a set of the dev names.",
+    "Keep deps that are not in it.",
+    "Do not sort."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "The runtime image installs the project without the dev extra."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "deps": [
+          "fastapi",
+          "pytest",
+          "ruff"
+        ],
+        "dev_only": [
+          "pytest",
+          "ruff"
+        ]
+      },
+      "expected": [
+        "fastapi"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "deps": [
+          "fastapi"
+        ],
+        "dev_only": [
+          "pytest"
+        ]
+      },
+      "expected": [
+        "fastapi"
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "deps": [],
+        "dev_only": [
+          "pytest"
+        ]
+      },
+      "expected": []
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "deps": [
+          "a",
+          "b"
+        ],
+        "dev_only": []
+      },
+      "expected": [
+        "a",
+        "b"
+      ]
+    }
+  ],
+  "editorial": "The runtime image installs the project without the dev extra. pytest and ruff are not needed to serve traffic, and they widen the image. Filtering them out is the install line. The lockfile still pins them for CI.",
+  "reference_solution": "def solve(deps, dev_only):\n    skip = set(dev_only)\n    return [name for name in deps if name not in skip]\n"
+}

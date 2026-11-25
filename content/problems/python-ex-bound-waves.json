@@ -1,0 +1,83 @@
+{
+  "title": "Bound Waves",
+  "slug": "python-ex-bound-waves",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "asyncio"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(n, k)`. `n` jobs run with at most `k` in flight. Return how many waves that takes, which is the ceiling of n/k. `k` less than 1 or `n` less than 0 returns `error`. Zero jobs returns 0.\n",
+  "constraints": [
+    "Ceiling division",
+    "A partial last wave counts"
+  ],
+  "examples": [
+    {
+      "input": "n = 10, k = 4",
+      "output": "3"
+    },
+    {
+      "input": "n = 0, k = 4",
+      "output": "0"
+    }
+  ],
+  "starter_code": "def solve(n, k):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Reject a bad k or a negative n.",
+    "Zero jobs is 0.",
+    "Otherwise (n + k - 1) // k."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "A semaphore of k permits lets k tasks run."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "n": 10,
+        "k": 4
+      },
+      "expected": 3
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "n": 0,
+        "k": 4
+      },
+      "expected": 0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "n": 3,
+        "k": 0
+      },
+      "expected": "error"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "n": 4,
+        "k": 4
+      },
+      "expected": 1
+    }
+  ],
+  "editorial": "A semaphore of k permits lets k tasks run. The rest wait. The number of sequential waves, if you batched them, is the ceiling of n/k. That is the latency shape: k-wide, and a short tail still costs a wave.",
+  "reference_solution": "def solve(n, k):\n    if k < 1 or n < 0:\n        return \"error\"\n    if n == 0:\n        return 0\n    return (n + k - 1) // k\n"
+}

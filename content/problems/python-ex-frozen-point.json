@@ -1,0 +1,118 @@
+{
+  "title": "Hash Point",
+  "slug": "python-ex-frozen-point",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "dataclasses"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(points, query)`. `points` is a list of `[x, y]`. Insert them as keys with the value being the index of first insertion. Return the index for `query`, which is `[x, y]`, or the string `missing`. A later duplicate does not change the stored index.\n",
+  "constraints": [
+    "The key is the coordinate pair",
+    "First index wins"
+  ],
+  "examples": [
+    {
+      "input": "points = [[1, 2], [3, 4], [1, 2]], query = [1, 2]",
+      "output": "0"
+    },
+    {
+      "input": "points = [[1, 2]], query = [2, 1]",
+      "output": "\"missing\""
+    }
+  ],
+  "starter_code": "def solve(points, query):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Use a tuple key so it can live in a dict.",
+    "Store the index only when the key is new.",
+    "A missing query returns missing."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "A frozen dataclass with eq and frozen true gets a hash, so it can be a dict key."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "points": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        "query": [
+          1,
+          2
+        ]
+      },
+      "expected": 0
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "points": [
+          [
+            1,
+            2
+          ]
+        ],
+        "query": [
+          2,
+          1
+        ]
+      },
+      "expected": "missing"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "points": [],
+        "query": [
+          0,
+          0
+        ]
+      },
+      "expected": "missing"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "points": [
+          [
+            0,
+            0
+          ]
+        ],
+        "query": [
+          0,
+          0
+        ]
+      },
+      "expected": 0
+    }
+  ],
+  "editorial": "A frozen dataclass with eq and frozen true gets a hash, so it can be a dict key. A mutable point cannot. The tuple is the same contract: hash and equality from the coordinates. First insertion wins so a duplicate coordinate does not move the index.",
+  "reference_solution": "def solve(points, query):\n    table = {}\n    for index, (x, y) in enumerate(points):\n        table.setdefault((x, y), index)\n    key = (query[0], query[1])\n    if key not in table:\n        return \"missing\"\n    return table[key]\n"
+}

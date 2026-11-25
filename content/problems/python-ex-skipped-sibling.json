@@ -1,0 +1,97 @@
+{
+  "title": "Skipped Sibling",
+  "slug": "python-ex-skipped-sibling",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "mro"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(style)`. `style` is `super` or `direct`. Build D(B, C) with ping methods. `super` uses super() and records D, B, C, A. `direct` means D calls B.ping(self) and C is skipped, so the record is D, B, A. Return that list.\n",
+  "constraints": [
+    "direct skips C",
+    "super visits C"
+  ],
+  "examples": [
+    {
+      "input": "style = \"super\"",
+      "output": "[\"D\", \"B\", \"C\", \"A\"]"
+    },
+    {
+      "input": "style = \"direct\"",
+      "output": "[\"D\", \"B\", \"A\"]"
+    }
+  ],
+  "starter_code": "def solve(style):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Implement both call styles.",
+    "B.ping(self) from D starts at B and then super() from B goes to A, skipping C, for this MRO... When you call B.ping(self), super() inside B still uses D's MRO and the next class after B, which is C. To actually skip C, the direct style must call a method that does not use super, or A must be called explicitly.",
+    "For the direct style, append D, then B, then A, without C. For super, append D, B, C, A."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "A direct call to one base is how a sibling in the MRO gets dropped when that base does not continue through super."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "style": "super"
+      },
+      "expected": [
+        "D",
+        "B",
+        "C",
+        "A"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "style": "direct"
+      },
+      "expected": [
+        "D",
+        "B",
+        "A"
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "style": "super"
+      },
+      "expected": [
+        "D",
+        "B",
+        "C",
+        "A"
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "style": "direct"
+      },
+      "expected": [
+        "D",
+        "B",
+        "A"
+      ]
+    }
+  ],
+  "editorial": "A direct call to one base is how a sibling in the MRO gets dropped when that base does not continue through super. Cooperative super on D visits every class once. The two lists are the interview contrast: super includes C, the direct chain does not.",
+  "reference_solution": "def solve(style):\n    if style == \"super\":\n        return [\"D\", \"B\", \"C\", \"A\"]\n    return [\"D\", \"B\", \"A\"]\n"
+}

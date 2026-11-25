@@ -1,0 +1,87 @@
+{
+  "title": "Classify Status",
+  "slug": "python-ex-http-classify",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "http"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(status, method, idempotent)`. `method` is `GET` or `POST`. `idempotent` is 0 or 1. Return `backoff` for 429, `ok` for 200 through 299, `caller` for 400 through 499 except 429, `retry` for status >= 500 when the method is GET or idempotent is 1, and `unavailable` for other 5xx. Anything else returns `unknown`.\n",
+  "constraints": [
+    "429 is backoff even though it is a 4xx",
+    "POST without the flag does not retry a 500"
+  ],
+  "examples": [
+    {
+      "input": "status = 200, method = \"GET\", idempotent = 0",
+      "output": "\"ok\""
+    },
+    {
+      "input": "status = 503, method = \"POST\", idempotent = 0",
+      "output": "\"unavailable\""
+    }
+  ],
+  "starter_code": "def solve(status, method, idempotent):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Check 429 first.",
+    "Then the 2xx and 4xx ranges.",
+    "Then 5xx with the method and the flag."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "Retry policy depends on the status and on whether repeating the request can double a charge."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "status": 200,
+        "method": "GET",
+        "idempotent": 0
+      },
+      "expected": "ok"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "status": 503,
+        "method": "POST",
+        "idempotent": 0
+      },
+      "expected": "unavailable"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "status": 503,
+        "method": "POST",
+        "idempotent": 1
+      },
+      "expected": "retry"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "status": 404,
+        "method": "GET",
+        "idempotent": 0
+      },
+      "expected": "caller"
+    }
+  ],
+  "editorial": "Retry policy depends on the status and on whether repeating the request can double a charge. GET is safe to retry. POST is safe only with an idempotency key, which the flag represents. 429 means slow down, not immediately try again. 4xx other than 429 is the caller's bug.",
+  "reference_solution": "def solve(status, method, idempotent):\n    if status == 429:\n        return \"backoff\"\n    if 200 <= status < 300:\n        return \"ok\"\n    if 400 <= status < 500:\n        return \"caller\"\n    if status >= 500 and (method == \"GET\" or idempotent):\n        return \"retry\"\n    if status >= 500:\n        return \"unavailable\"\n    return \"unknown\"\n"
+}

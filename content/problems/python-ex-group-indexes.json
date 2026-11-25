@@ -1,0 +1,105 @@
+{
+  "title": "Group Indexes",
+  "slug": "python-ex-group-indexes",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "dicts"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(items)`. Return a dict mapping each string to the list of indexes where it appears, in increasing index order.\n",
+  "constraints": [
+    "Indexes start at 0",
+    "Every occurrence is recorded"
+  ],
+  "examples": [
+    {
+      "input": "items = [\"a\", \"b\", \"a\"]",
+      "output": "{\"a\": [0, 2], \"b\": [1]}"
+    },
+    {
+      "input": "items = []",
+      "output": "{}"
+    }
+  ],
+  "starter_code": "def solve(items):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "enumerate gives the index.",
+    "setdefault a list, or use defaultdict, and append the index.",
+    "Do not store only the last index."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Grouping indexes is the same shape as grouping values, with the payload being the index instead of the item."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "items": [
+          "a",
+          "b",
+          "a"
+        ]
+      },
+      "expected": {
+        "a": [
+          0,
+          2
+        ],
+        "b": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "items": []
+      },
+      "expected": {}
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "items": [
+          "a"
+        ]
+      },
+      "expected": {
+        "a": [
+          0
+        ]
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "items": [
+          "b",
+          "b"
+        ]
+      },
+      "expected": {
+        "b": [
+          0,
+          1
+        ]
+      }
+    }
+  ],
+  "editorial": "Grouping indexes is the same shape as grouping values, with the payload being the index instead of the item. Appending preserves left-to-right order. Overwriting the list would keep only the last index and fail the repeated-key case.",
+  "reference_solution": "def solve(items):\n    groups = {}\n    for index, item in enumerate(items):\n        groups.setdefault(item, []).append(index)\n    return groups\n"
+}

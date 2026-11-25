@@ -1,0 +1,104 @@
+{
+  "title": "Filter Set",
+  "slug": "python-ex-filter-set",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "performance"
+  ],
+  "company_tags": [
+    "Amazon"
+  ],
+  "statement": "Implement `solve(left, right)`. Return the items from `left` that appear in `right`, in `left`'s order. Duplicates in `left` are kept when the value is allowed. Build a set from `right` for the membership test.\n",
+  "constraints": [
+    "Order follows left",
+    "right is a membership set"
+  ],
+  "examples": [
+    {
+      "input": "left = [\"a\", \"b\", \"a\"], right = [\"a\"]",
+      "output": "[\"a\", \"a\"]"
+    },
+    {
+      "input": "left = [\"a\"], right = []",
+      "output": "[]"
+    }
+  ],
+  "starter_code": "def solve(left, right):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "set(right) once.",
+    "Walk left and keep hits.",
+    "Do not sort."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n + m)",
+        "space": "O(m)"
+      },
+      "explanation": "A nested scan is quadratic."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "left": [
+          "a",
+          "b",
+          "a"
+        ],
+        "right": [
+          "a"
+        ]
+      },
+      "expected": [
+        "a",
+        "a"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "left": [
+          "a"
+        ],
+        "right": []
+      },
+      "expected": []
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "left": [],
+        "right": [
+          "a"
+        ]
+      },
+      "expected": []
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "left": [
+          "b",
+          "a"
+        ],
+        "right": [
+          "a",
+          "b"
+        ]
+      },
+      "expected": [
+        "b",
+        "a"
+      ]
+    }
+  ],
+  "editorial": "A nested scan is quadratic. A set of the allowed values makes each membership expected constant time, and walking left preserves the order the caller already had. Building the set inside the loop would throw the gain away.",
+  "reference_solution": "def solve(left, right):\n    allowed = set(right)\n    return [item for item in left if item in allowed]\n"
+}

@@ -1,0 +1,102 @@
+{
+  "title": "Unique Key",
+  "slug": "python-ex-tag-key",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "tuples"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(tags)`. Build a canonical key for a bag of tags: strip, lowercase, drop empties, unique, then sort. Return that key as a list of strings. Two inputs that differ only by order, case, or duplicate tags must return the same list.\n",
+  "constraints": [
+    "tags is a list of strings",
+    "The result is sorted"
+  ],
+  "examples": [
+    {
+      "input": "tags = [\" Py \", \"py\", \"Go\"]",
+      "output": "[\"go\", \"py\"]"
+    },
+    {
+      "input": "tags = [\"go\", \"PY\"]",
+      "output": "[\"go\", \"py\"]"
+    }
+  ],
+  "starter_code": "def solve(tags):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Normalize each tag before you put it in a set.",
+    "Drop empty strings after strip.",
+    "Sort the unique values so the key does not depend on input order."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n log n)",
+        "space": "O(n)"
+      },
+      "explanation": "A set of tags is the right uniqueness structure and the wrong key, because set order is not part of the value."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "tags": [
+          " Py ",
+          "py",
+          "Go"
+        ]
+      },
+      "expected": [
+        "go",
+        "py"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "tags": [
+          "go",
+          "PY"
+        ]
+      },
+      "expected": [
+        "go",
+        "py"
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "tags": [
+          "  ",
+          ""
+        ]
+      },
+      "expected": []
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "tags": [
+          "b",
+          "a",
+          "a"
+        ]
+      },
+      "expected": [
+        "a",
+        "b"
+      ]
+    }
+  ],
+  "editorial": "A set of tags is the right uniqueness structure and the wrong key, because set order is not part of the value. Sorting the normalized unique tags makes a canonical list. Callers can compare those lists, or tuple them, and treat the bags as equal.",
+  "reference_solution": "def solve(tags):\n    cleaned = set()\n    for tag in tags:\n        key = tag.strip().lower()\n        if key:\n            cleaned.add(key)\n    return sorted(cleaned)\n"
+}

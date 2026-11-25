@@ -1,0 +1,124 @@
+{
+  "title": "Group Anagrams",
+  "slug": "python-ex-group-anagrams",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "dicts"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Microsoft"
+  ],
+  "statement": "Implement `solve(words)`. Group words that are anagrams of each other. The signature is the word's characters sorted. Return a list of groups. Groups follow the order of first appearance of each signature. Words inside a group keep their input order.\n",
+  "constraints": [
+    "words is a list of lowercase strings in the tests",
+    "Do not sort the groups by size"
+  ],
+  "examples": [
+    {
+      "input": "words = [\"eat\", \"tea\", \"tan\", \"ate\", \"nat\", \"bat\"]",
+      "output": "[[\"eat\", \"tea\", \"ate\"], [\"tan\", \"nat\"], [\"bat\"]]"
+    },
+    {
+      "input": "words = [\"\"]",
+      "output": "[[\"\"]]"
+    }
+  ],
+  "starter_code": "def solve(words):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "The key is ''.join(sorted(word)).",
+    "Remember the order in which keys first appear.",
+    "Append each word to that key's list."
+  ],
+  "approaches": [
+    {
+      "name": "Signature map",
+      "complexity": {
+        "time": "O(n * k log k)",
+        "space": "O(n * k)"
+      },
+      "explanation": "An anagram class is the multiset of characters, and the sorted string is a hashable picture of that multiset."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "words": [
+          "eat",
+          "tea",
+          "tan",
+          "ate",
+          "nat",
+          "bat"
+        ]
+      },
+      "expected": [
+        [
+          "eat",
+          "tea",
+          "ate"
+        ],
+        [
+          "tan",
+          "nat"
+        ],
+        [
+          "bat"
+        ]
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "words": [
+          ""
+        ]
+      },
+      "expected": [
+        [
+          ""
+        ]
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "words": [
+          "a"
+        ]
+      },
+      "expected": [
+        [
+          "a"
+        ]
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "words": [
+          "ab",
+          "ba",
+          "abc"
+        ]
+      },
+      "expected": [
+        [
+          "ab",
+          "ba"
+        ],
+        [
+          "abc"
+        ]
+      ]
+    }
+  ],
+  "editorial": "An anagram class is the multiset of characters, and the sorted string is a hashable picture of that multiset. A dict of lists groups the words. Tracking key order separately, or using a dict which preserves insertion order, returns groups in first-seen order rather than in hash order.",
+  "reference_solution": "def solve(words):\n    groups = {}\n    for word in words:\n        key = \"\".join(sorted(word))\n        groups.setdefault(key, []).append(word)\n    return list(groups.values())\n"
+}

@@ -1,0 +1,114 @@
+{
+  "title": "Cursor Page",
+  "slug": "python-ex-cursor-page",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "rest"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(ids, cursor, limit)`. Sort `ids` ascending. `cursor` is the empty string for the first page, or an id from the list. Return `{\"ids\": page, \"next\": last_id or \"\"}`. `next` is empty when the page is short or there is nothing after it. `limit` outside 1 through 100 returns `error`. An unknown cursor returns `error`.\n",
+  "constraints": [
+    "Sort before paging",
+    "next is empty when finished"
+  ],
+  "examples": [
+    {
+      "input": "ids = [\"b\", \"a\", \"c\", \"d\"], cursor = \"\", limit = 2",
+      "output": "{\"ids\": [\"a\", \"b\"], \"next\": \"b\"}"
+    },
+    {
+      "input": "ids = [\"b\", \"a\", \"c\", \"d\"], cursor = \"b\", limit = 2",
+      "output": "{\"ids\": [\"c\", \"d\"], \"next\": \"\"}"
+    }
+  ],
+  "starter_code": "def solve(ids, cursor, limit):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Validate limit.",
+    "Find the start just after the cursor, or 0 when the cursor is empty.",
+    "The page is the next limit ids. next is the last id only when more remain."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n log n)",
+        "space": "O(n)"
+      },
+      "explanation": "A cursor that means the last id you returned, plus a stable sort, does not skip or duplicate rows when new ids are inserted above the cursor."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "ids": [
+          "b",
+          "a",
+          "c",
+          "d"
+        ],
+        "cursor": "",
+        "limit": 2
+      },
+      "expected": {
+        "ids": [
+          "a",
+          "b"
+        ],
+        "next": "b"
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "ids": [
+          "b",
+          "a",
+          "c",
+          "d"
+        ],
+        "cursor": "b",
+        "limit": 2
+      },
+      "expected": {
+        "ids": [
+          "c",
+          "d"
+        ],
+        "next": ""
+      }
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "ids": [
+          "a"
+        ],
+        "cursor": "z",
+        "limit": 2
+      },
+      "expected": "error"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "ids": [
+          "a",
+          "b"
+        ],
+        "cursor": "",
+        "limit": 0
+      },
+      "expected": "error"
+    }
+  ],
+  "editorial": "A cursor that means the last id you returned, plus a stable sort, does not skip or duplicate rows when new ids are inserted above the cursor. Offset pages do. The empty next string tells the client to stop.",
+  "reference_solution": "def solve(ids, cursor, limit):\n    if limit < 1 or limit > 100:\n        return \"error\"\n    ordered = sorted(ids)\n    start = 0\n    if cursor:\n        if cursor not in ordered:\n            return \"error\"\n        start = ordered.index(cursor) + 1\n    chunk = ordered[start:start + limit]\n    nxt = \"\"\n    if len(chunk) == limit and start + limit < len(ordered):\n        nxt = chunk[-1]\n    return {\"ids\": chunk, \"next\": nxt}\n"
+}

@@ -1,0 +1,98 @@
+{
+  "title": "Unique Preserve",
+  "slug": "python-ex-unique-preserve",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "sets"
+  ],
+  "company_tags": [
+    "Amazon"
+  ],
+  "statement": "Implement `solve(items)`. Return the strings with duplicates removed, keeping the first-seen order. Do not sort. Comparison is exact. Case differences are different strings.\n",
+  "constraints": [
+    "Keep the first copy",
+    "Do not casefold"
+  ],
+  "examples": [
+    {
+      "input": "items = [\"a\", \"b\", \"a\", \"c\"]",
+      "output": "[\"a\", \"b\", \"c\"]"
+    },
+    {
+      "input": "items = [\"A\", \"a\"]",
+      "output": "[\"A\", \"a\"]"
+    }
+  ],
+  "starter_code": "def solve(items):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "A set records seen strings. A list records order.",
+    "Append only when the string is not in the set.",
+    "Add it to the set at the same time."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "set(items) drops order."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "items": [
+          "a",
+          "b",
+          "a",
+          "c"
+        ]
+      },
+      "expected": [
+        "a",
+        "b",
+        "c"
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "items": [
+          "A",
+          "a"
+        ]
+      },
+      "expected": [
+        "A",
+        "a"
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "items": []
+      },
+      "expected": []
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "items": [
+          "x",
+          "x"
+        ]
+      },
+      "expected": [
+        "x"
+      ]
+    }
+  ],
+  "editorial": "set(items) drops order. The order-preserving recipe is a seen set plus an output list. Sorting would make a different function. Case is significant because this problem does not say to normalize.",
+  "reference_solution": "def solve(items):\n    seen = set()\n    out = []\n    for item in items:\n        if item in seen:\n            continue\n        seen.add(item)\n        out.append(item)\n    return out\n"
+}

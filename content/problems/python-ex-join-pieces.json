@@ -1,0 +1,88 @@
+{
+  "title": "Join Pieces",
+  "slug": "python-ex-join-pieces",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "performance"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(parts)`. Join the strings with a comma. An empty list returns an empty string. Do not leave a trailing comma.\n",
+  "constraints": [
+    "Comma between parts only",
+    "Empty input is empty"
+  ],
+  "examples": [
+    {
+      "input": "parts = [\"a\", \"b\", \"c\"]",
+      "output": "\"a,b,c\""
+    },
+    {
+      "input": "parts = []",
+      "output": "\"\""
+    }
+  ],
+  "starter_code": "def solve(parts):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Use str.join.",
+    "Do not append commas in a loop and then strip one.",
+    "One separator rule."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Repeated concatenation copies a growing string."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "parts": [
+          "a",
+          "b",
+          "c"
+        ]
+      },
+      "expected": "a,b,c"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "parts": []
+      },
+      "expected": ""
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "parts": [
+          "a"
+        ]
+      },
+      "expected": "a"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "parts": [
+          "a",
+          ""
+        ]
+      },
+      "expected": "a,"
+    }
+  ],
+  "editorial": "Repeated concatenation copies a growing string. join allocates once and copies each piece once. The comma is the separator, not a terminator, so the empty list and a single piece have no comma.",
+  "reference_solution": "def solve(parts):\n    return \",\".join(parts)\n"
+}

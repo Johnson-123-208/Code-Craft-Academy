@@ -1,0 +1,95 @@
+{
+  "title": "Translate Error",
+  "slug": "python-ex-chain-error",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "exceptions"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(domain, cause)`. Return `{\"error\": domain, \"cause\": cause}`. Translating a low-level failure into a domain word must keep the original tag. Dropping `cause` is the bug this function refuses.\n",
+  "constraints": [
+    "Both inputs are strings",
+    "Both appear in the result"
+  ],
+  "examples": [
+    {
+      "input": "domain = \"BillingError\", cause = \"timeout\"",
+      "output": "{\"error\": \"BillingError\", \"cause\": \"timeout\"}"
+    },
+    {
+      "input": "domain = \"NotFound\", cause = \"FileNotFoundError\"",
+      "output": "{\"error\": \"NotFound\", \"cause\": \"FileNotFoundError\"}"
+    }
+  ],
+  "starter_code": "def solve(domain, cause):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Put the domain word under error.",
+    "Put the original tag under cause.",
+    "Do not return only the domain word."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "raise DomainError(."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "domain": "BillingError",
+        "cause": "timeout"
+      },
+      "expected": {
+        "error": "BillingError",
+        "cause": "timeout"
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "domain": "NotFound",
+        "cause": "FileNotFoundError"
+      },
+      "expected": {
+        "error": "NotFound",
+        "cause": "FileNotFoundError"
+      }
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "domain": "BillingError",
+        "cause": "db"
+      },
+      "expected": {
+        "error": "BillingError",
+        "cause": "db"
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "domain": "ConfigError",
+        "cause": "missing"
+      },
+      "expected": {
+        "error": "ConfigError",
+        "cause": "missing"
+      }
+    }
+  ],
+  "editorial": "raise DomainError(...) from exc attaches the original exception as the cause. Logs and handlers can still see the OS error. A translation that returns only the domain word forces the next person to guess why it failed. The dict is that pair.",
+  "reference_solution": "def solve(domain, cause):\n    return {\"error\": domain, \"cause\": cause}\n"
+}

@@ -1,0 +1,85 @@
+{
+  "title": "Countdown",
+  "slug": "python-ex-countdown",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "generators"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(n)`. Return a list of the integers a countdown generator would yield: `n, n-1, ..., 1`. If `n` is less than 1, return an empty list. Do not include 0.\n",
+  "constraints": [
+    "n is an integer",
+    "Descending order"
+  ],
+  "examples": [
+    {
+      "input": "n = 3",
+      "output": "[3, 2, 1]"
+    },
+    {
+      "input": "n = 1",
+      "output": "[1]"
+    }
+  ],
+  "starter_code": "def solve(n):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "range(n, 0, -1) is the sequence.",
+    "A non-positive n yields nothing.",
+    "Return a list so the judge can see the yields."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "A generator yields one integer at a time and stops before 0."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "n": 3
+      },
+      "expected": [
+        3,
+        2,
+        1
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "n": 1
+      },
+      "expected": [
+        1
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "n": 0
+      },
+      "expected": []
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "n": -2
+      },
+      "expected": []
+    }
+  ],
+  "editorial": "A generator yields one integer at a time and stops before 0. Materializing it with list() is the caller's choice. The producer itself should not prebuild the list if you write it as a generator. The values are the same either way.",
+  "reference_solution": "def solve(n):\n    def countdown(start):\n        while start >= 1:\n            yield start\n            start -= 1\n    return list(countdown(n))\n"
+}

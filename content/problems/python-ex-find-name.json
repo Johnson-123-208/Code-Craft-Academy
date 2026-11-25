@@ -1,0 +1,106 @@
+{
+  "title": "Find Name",
+  "slug": "python-ex-find-name",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "typing"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(pairs, key)`. `pairs` is a list of `[key, name]`. Return the name for `key`. If it is absent, return the string `none`. Do not raise.\n",
+  "constraints": [
+    "First match wins",
+    "Missing is the string none"
+  ],
+  "examples": [
+    {
+      "input": "pairs = [[\"a\", \"ada\"], [\"b\", \"grace\"]], key = \"b\"",
+      "output": "\"grace\""
+    },
+    {
+      "input": "pairs = [[\"a\", \"ada\"]], key = \"z\"",
+      "output": "\"none\""
+    }
+  ],
+  "starter_code": "def solve(pairs, key):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Scan the pairs.",
+    "Return the name on the first equal key.",
+    "After the loop, return none."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "An optional lookup returns a value or a missing marker."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "pairs": [
+          [
+            "a",
+            "ada"
+          ],
+          [
+            "b",
+            "grace"
+          ]
+        ],
+        "key": "b"
+      },
+      "expected": "grace"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "pairs": [
+          [
+            "a",
+            "ada"
+          ]
+        ],
+        "key": "z"
+      },
+      "expected": "none"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "pairs": [],
+        "key": "a"
+      },
+      "expected": "none"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "pairs": [
+          [
+            "a",
+            ""
+          ],
+          [
+            "a",
+            "ada"
+          ]
+        ],
+        "key": "a"
+      },
+      "expected": ""
+    }
+  ],
+  "editorial": "An optional lookup returns a value or a missing marker. Raising KeyError is the other function, written in the next problem. Callers that can handle absence should not pay for an exception. The string none stands in for None so the judge can see it.",
+  "reference_solution": "def solve(pairs, key):\n    for have, name in pairs:\n        if have == key:\n            return name\n    return \"none\"\n"
+}

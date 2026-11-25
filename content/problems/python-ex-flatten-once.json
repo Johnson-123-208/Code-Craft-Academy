@@ -1,0 +1,113 @@
+{
+  "title": "Flatten Once",
+  "slug": "python-ex-flatten-once",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "comprehensions"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(rows)`. `rows` is a list of lists of integers. Return one list with each inner list's items in order. Do not flatten any deeper: the inputs are exactly one level. An empty outer list or empty inner lists contribute nothing.\n",
+  "constraints": [
+    "Exactly one level",
+    "Keep order"
+  ],
+  "examples": [
+    {
+      "input": "rows = [[1, 2], [3], []]",
+      "output": "[1, 2, 3]"
+    },
+    {
+      "input": "rows = []",
+      "output": "[]"
+    }
+  ],
+  "starter_code": "def solve(rows):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "A double iteration, outer row then item, is the whole algorithm.",
+    "Do not recurse.",
+    "Empty rows add no items."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "One-level flatten is a nested loop, which a comprehension writes in one expression."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "rows": [
+          [
+            1,
+            2
+          ],
+          [
+            3
+          ],
+          []
+        ]
+      },
+      "expected": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "rows": []
+      },
+      "expected": []
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "rows": [
+          [],
+          [
+            4
+          ]
+        ]
+      },
+      "expected": [
+        4
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "rows": [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      },
+      "expected": [
+        1,
+        2,
+        3
+      ]
+    }
+  ],
+  "editorial": "One-level flatten is a nested loop, which a comprehension writes in one expression. Recursion would matter for irregular trees. These rows are rectangular in depth, so the extra machinery can only hide an off-by-one level.",
+  "reference_solution": "def solve(rows):\n    return [item for row in rows for item in row]\n"
+}

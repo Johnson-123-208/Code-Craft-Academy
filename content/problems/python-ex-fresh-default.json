@@ -1,0 +1,99 @@
+{
+  "title": "Once Default",
+  "slug": "python-ex-fresh-default",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "functions"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(captured, fresh)`. Both are integer timestamps. A default argument captured `captured` when the function was defined. A correct call reads `fresh` at call time. Return `{\"stale\": captured, \"live\": fresh, \"same\": 1 or 0}` where `same` is 1 when the two numbers are equal. The stale value is what a mutable or early-bound default would keep serving.\n",
+  "constraints": [
+    "Both inputs are integers",
+    "same is 0 or 1"
+  ],
+  "examples": [
+    {
+      "input": "captured = 10, fresh = 15",
+      "output": "{\"stale\": 10, \"live\": 15, \"same\": 0}"
+    },
+    {
+      "input": "captured = 10, fresh = 10",
+      "output": "{\"stale\": 10, \"live\": 10, \"same\": 1}"
+    }
+  ],
+  "starter_code": "def solve(captured, fresh):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Echo both numbers. Do not replace one with the other.",
+    "same is 1 only when they compare equal.",
+    "The point of the function is to show the captured value surviving a later fresh read."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "Default expressions run once, at function definition."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "captured": 10,
+        "fresh": 15
+      },
+      "expected": {
+        "stale": 10,
+        "live": 15,
+        "same": 0
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "captured": 10,
+        "fresh": 10
+      },
+      "expected": {
+        "stale": 10,
+        "live": 10,
+        "same": 1
+      }
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "captured": 0,
+        "fresh": 1
+      },
+      "expected": {
+        "stale": 0,
+        "live": 1,
+        "same": 0
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "captured": 4,
+        "fresh": 4
+      },
+      "expected": {
+        "stale": 4,
+        "live": 4,
+        "same": 1
+      }
+    }
+  ],
+  "editorial": "Default expressions run once, at function definition. A timestamp default therefore freezes the first value. Reading the clock inside the body gets the live value. Returning both makes the staleness visible instead of hiding it behind a single number.",
+  "reference_solution": "def solve(captured, fresh):\n    return {\"stale\": captured, \"live\": fresh, \"same\": 1 if captured == fresh else 0}\n"
+}

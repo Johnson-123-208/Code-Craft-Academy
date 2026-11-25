@@ -1,0 +1,133 @@
+{
+  "title": "Stable Names",
+  "slug": "python-ex-stable-dept",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "sorting"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(rows)`. `rows` is a list of `[name, dept]`. Return the rows sorted by department ascending, preserving the original order of rows that share a department. Python's sort is stable. Sort only by department.\n",
+  "constraints": [
+    "Do not sort by name inside a department",
+    "Return new row lists"
+  ],
+  "examples": [
+    {
+      "input": "rows = [[\"b\", \"eng\"], [\"a\", \"eng\"], [\"c\", \"design\"]]",
+      "output": "[[\"c\", \"design\"], [\"b\", \"eng\"], [\"a\", \"eng\"]]"
+    },
+    {
+      "input": "rows = [[\"a\", \"z\"], [\"b\", \"a\"]]",
+      "output": "[[\"b\", \"a\"], [\"a\", \"z\"]]"
+    }
+  ],
+  "starter_code": "def solve(rows):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "sorted(rows, key=lambda row: row[1]) is enough because the sort is stable.",
+    "Copy each row so the result lists are new.",
+    "A second key on name would break the original-order requirement."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n log n)",
+        "space": "O(n)"
+      },
+      "explanation": "Stability means equal keys keep the order they had in the input."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "rows": [
+          [
+            "b",
+            "eng"
+          ],
+          [
+            "a",
+            "eng"
+          ],
+          [
+            "c",
+            "design"
+          ]
+        ]
+      },
+      "expected": [
+        [
+          "c",
+          "design"
+        ],
+        [
+          "b",
+          "eng"
+        ],
+        [
+          "a",
+          "eng"
+        ]
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "rows": [
+          [
+            "a",
+            "z"
+          ],
+          [
+            "b",
+            "a"
+          ]
+        ]
+      },
+      "expected": [
+        [
+          "b",
+          "a"
+        ],
+        [
+          "a",
+          "z"
+        ]
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "rows": [
+          [
+            "only",
+            "eng"
+          ]
+        ]
+      },
+      "expected": [
+        [
+          "only",
+          "eng"
+        ]
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "rows": []
+      },
+      "expected": []
+    }
+  ],
+  "editorial": "Stability means equal keys keep the order they had in the input. Sorting only by department therefore keeps the original name order inside a department. Adding the name as a second key is a different spec and fails that test.",
+  "reference_solution": "def solve(rows):\n    ordered = sorted(rows, key=lambda row: row[1])\n    return [list(row) for row in ordered]\n"
+}

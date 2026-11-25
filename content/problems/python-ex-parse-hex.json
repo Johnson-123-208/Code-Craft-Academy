@@ -1,0 +1,79 @@
+{
+  "title": "Parse Hex",
+  "slug": "python-ex-parse-hex",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "functools"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(text)`. Parse `text` as base 16 and return the integer. A bad string returns `error`. An empty string is an error. The prefix 0x is not allowed. Use int(text, 16).\n",
+  "constraints": [
+    "Base 16 only",
+    "No 0x prefix"
+  ],
+  "examples": [
+    {
+      "input": "text = \"ff\"",
+      "output": "255"
+    },
+    {
+      "input": "text = \"0\"",
+      "output": "0"
+    }
+  ],
+  "starter_code": "def solve(text):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "int(text, 16) inside try.",
+    "Catch ValueError.",
+    "Return the integer on success."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "functools."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "text": "ff"
+      },
+      "expected": 255
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "text": "0"
+      },
+      "expected": 0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "text": "0x10"
+      },
+      "expected": 16
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "text": "zz"
+      },
+      "expected": "error"
+    }
+  ],
+  "editorial": "functools.partial(int, base=16) binds the base so the caller passes only the string. The bound base is the point of partial. ValueError is the garbage path, including the empty string.",
+  "reference_solution": "def solve(text):\n    try:\n        return int(text, 16)\n    except ValueError:\n        return \"error\"\n"
+}

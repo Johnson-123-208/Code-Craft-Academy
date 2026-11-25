@@ -1,0 +1,86 @@
+{
+  "title": "First Item",
+  "slug": "python-ex-first-item",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "typing"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(items)`. Return the first element of a non-empty list. If the list is empty, return the string `error`. Do not index an empty list.\n",
+  "constraints": [
+    "Empty is error",
+    "The first element keeps its type, int or string"
+  ],
+  "examples": [
+    {
+      "input": "items = [1, 2]",
+      "output": "1"
+    },
+    {
+      "input": "items = []",
+      "output": "\"error\""
+    }
+  ],
+  "starter_code": "def solve(items):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Check the length.",
+    "Return items[0] when it exists.",
+    "The error string is the empty case."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "A function annotated to return a value, not an optional, must refuse the empty sequence."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "items": [
+          1,
+          2
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "items": []
+      },
+      "expected": "error"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "items": [
+          "a"
+        ]
+      },
+      "expected": "a"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "items": [
+          0
+        ]
+      },
+      "expected": 0
+    }
+  ],
+  "editorial": "A function annotated to return a value, not an optional, must refuse the empty sequence. Indexing it raises IndexError. Checking first makes the failure the string the caller expects in this sandbox. The element itself is returned unchanged.",
+  "reference_solution": "def solve(items):\n    if not items:\n        return \"error\"\n    return items[0]\n"
+}

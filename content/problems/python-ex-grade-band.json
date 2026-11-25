@@ -1,0 +1,79 @@
+{
+  "title": "Grade Band",
+  "slug": "python-ex-grade-band",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "conditionals"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(score)`. Return `A` for 90 and above, `B` for 75 through 89, `C` for 60 through 74, and `F` below 60. `score` is an integer from 0 through 100. Test the thresholds from high to low so the first match wins.\n",
+  "constraints": [
+    "score is an integer from 0 to 100",
+    "Boundaries 90, 75, and 60 are inside the higher band"
+  ],
+  "examples": [
+    {
+      "input": "score = 90",
+      "output": "\"A\""
+    },
+    {
+      "input": "score = 75",
+      "output": "\"B\""
+    }
+  ],
+  "starter_code": "def solve(score):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Check >= 90, then >= 75, then >= 60.",
+    "The last return is F. You do not need a final comparison.",
+    "The boundary values belong to the band whose threshold they equal."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "Ordered thresholds are a chain of exclusive bands only if you return on the first hit."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "score": 90
+      },
+      "expected": "A"
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "score": 75
+      },
+      "expected": "B"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "score": 60
+      },
+      "expected": "C"
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "score": 59
+      },
+      "expected": "F"
+    }
+  ],
+  "editorial": "Ordered thresholds are a chain of exclusive bands only if you return on the first hit. Checking a lower band first and then adding a higher band is how a score becomes two letters. High to low, one return, is the whole structure.",
+  "reference_solution": "def solve(score):\n    if score >= 90:\n        return \"A\"\n    if score >= 75:\n        return \"B\"\n    if score >= 60:\n        return \"C\"\n    return \"F\"\n"
+}

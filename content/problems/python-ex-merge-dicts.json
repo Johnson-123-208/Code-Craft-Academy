@@ -1,0 +1,106 @@
+{
+  "title": "Shallow Merge",
+  "slug": "python-ex-merge-dicts",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "dicts"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(left, right)`. Return a new flat dict. Start from `left`. Keys in `right` overwrite the same keys. Nested values are not used. Do not mutate the inputs.\n",
+  "constraints": [
+    "Values are strings",
+    "right wins on conflict"
+  ],
+  "examples": [
+    {
+      "input": "left = {\"a\": \"1\", \"b\": \"2\"}, right = {\"b\": \"9\"}",
+      "output": "{\"a\": \"1\", \"b\": \"9\"}"
+    },
+    {
+      "input": "left = {}, right = {\"a\": \"1\"}",
+      "output": "{\"a\": \"1\"}"
+    }
+  ],
+  "starter_code": "def solve(left, right):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Copy left.",
+    "update with right.",
+    "Keys only in right are included."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n + m)",
+        "space": "O(n + m)"
+      },
+      "explanation": "A shallow merge is one update."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "left": {
+          "a": "1",
+          "b": "2"
+        },
+        "right": {
+          "b": "9"
+        }
+      },
+      "expected": {
+        "a": "1",
+        "b": "9"
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "left": {},
+        "right": {
+          "a": "1"
+        }
+      },
+      "expected": {
+        "a": "1"
+      }
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "left": {
+          "a": "1"
+        },
+        "right": {}
+      },
+      "expected": {
+        "a": "1"
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "left": {
+          "a": "1"
+        },
+        "right": {
+          "c": "3"
+        }
+      },
+      "expected": {
+        "a": "1",
+        "c": "3"
+      }
+    }
+  ],
+  "editorial": "A shallow merge is one update. It does not walk nested dicts, and it does not concatenate values. The second mapping wins because it is applied second. Copying first protects the caller's left dict.",
+  "reference_solution": "def solve(left, right):\n    merged = dict(left)\n    merged.update(right)\n    return merged\n"
+}

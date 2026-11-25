@@ -1,0 +1,100 @@
+{
+  "title": "Money Add",
+  "slug": "python-ex-money-add",
+  "difficulty": "medium",
+  "topics": [
+    "python",
+    "dataclasses"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(left_amount, left_ccy, right_amount, right_ccy)`. Amounts are integers. If the currencies differ, return `error`. Otherwise return `{\"amount\": sum, \"ccy\": currency}`. Adding returns a new value. It does not change a frozen record in place.\n",
+  "constraints": [
+    "Different currencies are error",
+    "Same currency sums the amounts"
+  ],
+  "examples": [
+    {
+      "input": "left_amount = 100, left_ccy = \"INR\", right_amount = 50, right_ccy = \"INR\"",
+      "output": "{\"amount\": 150, \"ccy\": \"INR\"}"
+    },
+    {
+      "input": "left_amount = 100, left_ccy = \"INR\", right_amount = 50, right_ccy = \"USD\"",
+      "output": "\"error\""
+    }
+  ],
+  "starter_code": "def solve(left_amount, left_ccy, right_amount, right_ccy):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Compare currencies first.",
+    "Sum the amounts only when they match.",
+    "Return a new dict. There is no input object to mutate."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "Frozen money cannot be incremented with += on a field."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "left_amount": 100,
+        "left_ccy": "INR",
+        "right_amount": 50,
+        "right_ccy": "INR"
+      },
+      "expected": {
+        "amount": 150,
+        "ccy": "INR"
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "left_amount": 100,
+        "left_ccy": "INR",
+        "right_amount": 50,
+        "right_ccy": "USD"
+      },
+      "expected": "error"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "left_amount": 0,
+        "left_ccy": "INR",
+        "right_amount": 0,
+        "right_ccy": "INR"
+      },
+      "expected": {
+        "amount": 0,
+        "ccy": "INR"
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "left_amount": -20,
+        "left_ccy": "EUR",
+        "right_amount": 5,
+        "right_ccy": "EUR"
+      },
+      "expected": {
+        "amount": -15,
+        "ccy": "EUR"
+      }
+    }
+  ],
+  "editorial": "Frozen money cannot be incremented with += on a field. Addition returns a new money value. A currency mismatch is a domain error, not a silent conversion. Integer amounts keep the sum exact.",
+  "reference_solution": "def solve(left_amount, left_ccy, right_amount, right_ccy):\n    if left_ccy != right_ccy:\n        return \"error\"\n    return {\"amount\": left_amount + right_amount, \"ccy\": left_ccy}\n"
+}

@@ -1,0 +1,112 @@
+{
+  "title": "Drop In Place",
+  "slug": "python-ex-drop-in-place",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "lists"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft"
+  ],
+  "statement": "Implement `solve(items)`. Compact the odd integers to the front of a copy, preserving their order. Return `[length, prefix]` where `prefix` is the kept odds. Zero and negative evens are dropped. Negative odds stay.\n",
+  "constraints": [
+    "Do not use a filter that forgets the length",
+    "Order of odds is stable"
+  ],
+  "examples": [
+    {
+      "input": "items = [1, 2, 3, 4, 5]",
+      "output": "[3, [1, 3, 5]]"
+    },
+    {
+      "input": "items = [2, 4]",
+      "output": "[0, []]"
+    }
+  ],
+  "starter_code": "def solve(items):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Walk with a write index. Copy an odd into the next write slot.",
+    "The write index at the end is the new length.",
+    "Return that length and the slice of kept values."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "The in-place pattern overwrites the front of the array and ignores the tail."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "items": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      "expected": [
+        3,
+        [
+          1,
+          3,
+          5
+        ]
+      ]
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "items": [
+          2,
+          4
+        ]
+      },
+      "expected": [
+        0,
+        []
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "items": []
+      },
+      "expected": [
+        0,
+        []
+      ]
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "items": [
+          0,
+          -3,
+          -2,
+          1
+        ]
+      },
+      "expected": [
+        2,
+        [
+          -3,
+          1
+        ]
+      ]
+    }
+  ],
+  "editorial": "The in-place pattern overwrites the front of the array and ignores the tail. Returning only the length would hide whether the prefix is correct, so the result includes the kept values. Evens, including zero, are not copied.",
+  "reference_solution": "def solve(items):\n    out = []\n    for item in items:\n        if item % 2:\n            out.append(item)\n    return [len(out), out]\n"
+}

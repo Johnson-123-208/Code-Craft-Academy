@@ -1,0 +1,109 @@
+{
+  "title": "Group By Length",
+  "slug": "python-ex-group-length",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "collections"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(words)`. Group words by length. Return a dict whose keys are decimal strings of the lengths, because JSON object keys are strings, and whose values are the words of that length in input order.\n",
+  "constraints": [
+    "Keys are strings of the integer length",
+    "Keep input order inside each bucket"
+  ],
+  "examples": [
+    {
+      "input": "words = [\"a\", \"bb\", \"c\", \"dd\"]",
+      "output": "{\"1\": [\"a\", \"c\"], \"2\": [\"bb\", \"dd\"]}"
+    },
+    {
+      "input": "words = []",
+      "output": "{}"
+    }
+  ],
+  "starter_code": "def solve(words):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "A defaultdict(list) or setdefault appends each word.",
+    "Convert the length to a string when you build the result dict.",
+    "Do not sort the words inside a bucket."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "defaultdict(list) removes the missing-key branch."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "words": [
+          "a",
+          "bb",
+          "c",
+          "dd"
+        ]
+      },
+      "expected": {
+        "1": [
+          "a",
+          "c"
+        ],
+        "2": [
+          "bb",
+          "dd"
+        ]
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "words": []
+      },
+      "expected": {}
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "words": [
+          "",
+          "a"
+        ]
+      },
+      "expected": {
+        "0": [
+          ""
+        ],
+        "1": [
+          "a"
+        ]
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "words": [
+          "abc"
+        ]
+      },
+      "expected": {
+        "3": [
+          "abc"
+        ]
+      }
+    }
+  ],
+  "editorial": "defaultdict(list) removes the missing-key branch. The buckets still have to be ordinary lists in insertion order. String keys are a serialization detail of this judge: JSON cannot use integer keys, and the decimal spelling is the contract.",
+  "reference_solution": "def solve(words):\n    from collections import defaultdict\n    groups = defaultdict(list)\n    for word in words:\n        groups[len(word)].append(word)\n    return {str(length): groups[length] for length in groups}\n"
+}

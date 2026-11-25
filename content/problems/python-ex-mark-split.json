@@ -1,0 +1,110 @@
+{
+  "title": "Waves Mark",
+  "slug": "python-ex-mark-split",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "pytest"
+  ],
+  "company_tags": [
+    "Backend",
+    "SDE"
+  ],
+  "statement": "Implement `solve(names)`. Each name is a test id. Names containing the substring `integration` go to the integration list. The rest go to fast. Return `{\"fast\": [...], \"integration\": [...]}` in input order.\n",
+  "constraints": [
+    "The marker word is integration",
+    "A name can land in only one list"
+  ],
+  "examples": [
+    {
+      "input": "names = [\"test_clamp\", \"test_db_integration\", \"test_add\"]",
+      "output": "{\"fast\": [\"test_clamp\", \"test_add\"], \"integration\": [\"test_db_integration\"]}"
+    },
+    {
+      "input": "names = []",
+      "output": "{\"fast\": [], \"integration\": []}"
+    }
+  ],
+  "starter_code": "def solve(names):\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Test the substring.",
+    "Append to the matching list.",
+    "Do not sort."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "A mark lets CI run the fast suite by default and the integration suite later."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "case-1",
+      "args": {
+        "names": [
+          "test_clamp",
+          "test_db_integration",
+          "test_add"
+        ]
+      },
+      "expected": {
+        "fast": [
+          "test_clamp",
+          "test_add"
+        ],
+        "integration": [
+          "test_db_integration"
+        ]
+      }
+    },
+    {
+      "name": "case-2",
+      "args": {
+        "names": []
+      },
+      "expected": {
+        "fast": [],
+        "integration": []
+      }
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "case-3",
+      "args": {
+        "names": [
+          "integration_only"
+        ]
+      },
+      "expected": {
+        "fast": [],
+        "integration": [
+          "integration_only"
+        ]
+      }
+    },
+    {
+      "name": "case-4",
+      "args": {
+        "names": [
+          "a",
+          "b"
+        ]
+      },
+      "expected": {
+        "fast": [
+          "a",
+          "b"
+        ],
+        "integration": []
+      }
+    }
+  ],
+  "editorial": "A mark lets CI run the fast suite by default and the integration suite later. The split is the selection the mark expresses. A test whose name includes the word is the stand-in for a mark in this sandbox.",
+  "reference_solution": "def solve(names):\n    fast = []\n    integration = []\n    for name in names:\n        if \"integration\" in name:\n            integration.append(name)\n        else:\n            fast.append(name)\n    return {\"fast\": fast, \"integration\": integration}\n"
+}
