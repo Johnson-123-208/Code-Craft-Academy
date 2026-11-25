@@ -1,0 +1,113 @@
+{
+  "title": "Softmax",
+  "slug": "ml-softmax",
+  "difficulty": "medium",
+  "topics": [
+    "machine-learning",
+    "deep-learning",
+    "python"
+  ],
+  "company_tags": [
+    "OpenAI",
+    "Anthropic"
+  ],
+  "statement": "Implement `softmax(logits)` for a non-empty list of finite logits. Subtract the max logit before exponentiating, then divide by the sum of exponentials. The outputs must be positive and sum to 1. This is the distribution a classifier or attention head predicts.",
+  "constraints": [
+    "1 <= len(logits) <= 10^4",
+    "Subtract the max for stability",
+    "Return a list of floats"
+  ],
+  "examples": [
+    {
+      "input": "{\"logits\": [1.0, 1.0, 1.0]}",
+      "output": "[0.3333333333333333, 0.3333333333333333, 0.3333333333333333]",
+      "explanation": "Matches the reference on this input."
+    },
+    {
+      "input": "{\"logits\": [1.0, 2.0, 3.0]}",
+      "output": "[0.09003057317038046, 0.24472847105479764, 0.6652409557748218]",
+      "explanation": "Matches the reference on this input."
+    }
+  ],
+  "starter_code": "def softmax(logits: list[float]) -> list[float]:\n    pass\n",
+  "function_name": "softmax",
+  "hints": [
+    "Subtract max(logits) before calling exp.",
+    "Equal logits must produce a uniform distribution.",
+    "Do not use a plain sum of exp on raw logits when one value is huge."
+  ],
+  "approaches": [
+    {
+      "name": "Max-shifted exp",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Softmax is shift-invariant. Subtracting the max keeps every exp argument \u2264 0."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "equal",
+      "args": {
+        "logits": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "expected": [
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333
+      ]
+    },
+    {
+      "name": "increasing",
+      "args": {
+        "logits": [
+          1.0,
+          2.0,
+          3.0
+        ]
+      },
+      "expected": [
+        0.09003057317038046,
+        0.24472847105479764,
+        0.6652409557748218
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "dominant",
+      "args": {
+        "logits": [
+          0.0,
+          0.0,
+          10.0
+        ]
+      },
+      "expected": [
+        4.5395807829510914e-05,
+        4.5395807829510914e-05,
+        0.9999092083843409
+      ]
+    },
+    {
+      "name": "pair",
+      "args": {
+        "logits": [
+          0.0,
+          0.0
+        ]
+      },
+      "expected": [
+        0.5,
+        0.5
+      ]
+    }
+  ],
+  "editorial": "Softmax turns logits z into probabilities p\u1d62 = e^(z\u1d62) / \u03a3\u2c7c e^(z\u2c7c). Adding a constant to every logit does not change p, so subtracting the maximum logit is exact, not an approximation, and it prevents overflow. The Jacobian of softmax is diag(p) \u2212 p p\u1d40, which combines with cross-entropy into the beautifully simple gradient p \u2212 y. Attention uses the same map on scaled dot products.",
+  "reference_solution": "import math\n\ndef softmax(logits: list[float]) -> list[float]:\n    m = max(logits)\n    exps = [math.exp(z - m) for z in logits]\n    s = sum(exps)\n    return [e / s for e in exps]\n"
+}

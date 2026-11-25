@@ -1,0 +1,131 @@
+{
+  "title": "Minimum Size Subarray Sum",
+  "slug": "minimum-size-subarray-sum",
+  "difficulty": "medium",
+  "topics": [
+    "arrays",
+    "sliding-window",
+    "prefix-sums"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Facebook",
+    "Bloomberg"
+  ],
+  "statement": "Return the minimal length of a contiguous subarray of `nums` whose sum is at least `target`. If no such subarray exists, return 0. Every element is positive.\n",
+  "constraints": [
+    "1 <= target <= 10^9",
+    "1 <= nums.length <= 10^5",
+    "1 <= nums[i] <= 10^4"
+  ],
+  "function_name": "min_subarray_len",
+  "hints": [
+    "Positive numbers mean the window sum grows as the right edge moves and shrinks as the left edge moves.",
+    "Expand until the sum is large enough, then shrink while it stays large enough.",
+    "Track the smallest window length seen during shrinking. Return 0 when the total sum is too small."
+  ],
+  "approaches": [
+    {
+      "name": "All subarrays",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(1)"
+      },
+      "explanation": "Extend each start until the sum reaches the target."
+    },
+    {
+      "name": "Positive sliding window",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Each index is added and removed at most once."
+    }
+  ],
+  "editorial": "This is the canonical variable-size window for a monotone condition. Add nums[right] into the sum. While the sum is at least target, update the best length and subtract nums[left]. Positivity is the invariant that lets you discard the left element forever.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef min_subarray_len(target: int, nums: list[int]) -> int:\n    left = total = 0\n    best = len(nums) + 1\n    for right, value in enumerate(nums):\n        total += value\n        while total >= target:\n            best = min(best, right - left + 1)\n            total -= nums[left]\n            left += 1\n    return 0 if best > len(nums) else best\n",
+  "starter_code": "from typing import List\n\ndef min_subarray_len(target: int, nums: List[int]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "target = 7, nums = [2, 3, 1, 2, 4, 3]",
+      "output": "2",
+      "explanation": "The subarray [4, 3] has length 2."
+    },
+    {
+      "input": "target = 11, nums = [1, 1, 1, 1]",
+      "output": "0",
+      "explanation": "The total is 4, so the answer is 0."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "target": 7,
+        "nums": [
+          2,
+          3,
+          1,
+          2,
+          4,
+          3
+        ]
+      },
+      "expected": 2
+    },
+    {
+      "name": "none",
+      "args": {
+        "target": 11,
+        "nums": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "expected": 0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "single",
+      "args": {
+        "target": 4,
+        "nums": [
+          1,
+          4,
+          4
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "name": "whole",
+      "args": {
+        "target": 15,
+        "nums": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      "expected": 5
+    },
+    {
+      "name": "exact",
+      "args": {
+        "target": 3,
+        "nums": [
+          1,
+          2,
+          3
+        ]
+      },
+      "expected": 1
+    }
+  ]
+}

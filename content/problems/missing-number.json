@@ -1,0 +1,121 @@
+{
+  "title": "Missing Number",
+  "slug": "missing-number",
+  "difficulty": "easy",
+  "topics": [
+    "arrays",
+    "bit-manipulation",
+    "math"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft",
+    "Adobe",
+    "Apple"
+  ],
+  "statement": "`nums` contains n distinct numbers from the range 0..n. Return the one number that is missing.\n",
+  "constraints": [
+    "1 <= n <= 10^4",
+    "0 <= nums[i] <= n",
+    "All values are unique"
+  ],
+  "function_name": "missing_number",
+  "hints": [
+    "The sum of 0..n is n * (n + 1) / 2. Subtract the array sum.",
+    "XOR of 0..n XOR every nums[i] leaves the missing number, because pairs cancel.",
+    "Cyclic placement also works: put value v at index v and look for the empty slot."
+  ],
+  "approaches": [
+    {
+      "name": "Sort and scan",
+      "complexity": {
+        "time": "O(n log n)",
+        "space": "O(1)"
+      },
+      "explanation": "The first index that does not match its value is the gap."
+    },
+    {
+      "name": "Gauss or XOR",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "A closed formula or a cancellation."
+    }
+  ],
+  "editorial": "The arithmetic solution is one subtraction. Use integer division, which is exact because n(n+1) is even. The XOR solution avoids overflow in fixed-width languages: XOR every index and every value, and XOR n at the end. Both are O(1) extra memory.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef missing_number(nums: list[int]) -> int:\n    n = len(nums)\n    return n * (n + 1) // 2 - sum(nums)\n",
+  "starter_code": "from typing import List\n\ndef missing_number(nums: List[int]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [3, 0, 1]",
+      "output": "2",
+      "explanation": "2 is missing from 0..3."
+    },
+    {
+      "input": "nums = [0, 1]",
+      "output": "2",
+      "explanation": "2 is missing."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "nums": [
+          3,
+          0,
+          1
+        ]
+      },
+      "expected": 2
+    },
+    {
+      "name": "end",
+      "args": {
+        "nums": [
+          0,
+          1
+        ]
+      },
+      "expected": 2
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "zero",
+      "args": {
+        "nums": [
+          1
+        ]
+      },
+      "expected": 0
+    },
+    {
+      "name": "middle",
+      "args": {
+        "nums": [
+          9,
+          6,
+          4,
+          2,
+          3,
+          5,
+          7,
+          0,
+          1
+        ]
+      },
+      "expected": 8
+    },
+    {
+      "name": "single-zero",
+      "args": {
+        "nums": [
+          0
+        ]
+      },
+      "expected": 1
+    }
+  ]
+}

@@ -1,0 +1,125 @@
+{
+  "title": "Subarray Sum Equals K",
+  "slug": "subarray-sum-equals-k",
+  "difficulty": "medium",
+  "topics": [
+    "arrays",
+    "prefix-sums",
+    "hashing"
+  ],
+  "company_tags": [
+    "Facebook",
+    "Amazon",
+    "Google",
+    "Microsoft"
+  ],
+  "statement": "Return the number of contiguous subarrays whose elements sum to `k`. Values may be negative.\n",
+  "constraints": [
+    "1 <= nums.length <= 2 * 10^4",
+    "-1000 <= nums[i] <= 1000",
+    "-10^7 <= k <= 10^7"
+  ],
+  "function_name": "subarray_sum",
+  "hints": [
+    "A sliding window fails once negatives appear, because growing the window does not grow the sum.",
+    "If prefix[j] - prefix[i] = k, the subarray (i, j] sums to k.",
+    "A hash map from prefix sum to how many times it has occurred answers the lookup in expected constant time."
+  ],
+  "approaches": [
+    {
+      "name": "All subarrays",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(1)"
+      },
+      "explanation": "Extend every start and add the running sum."
+    },
+    {
+      "name": "Prefix frequency map",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Count earlier prefixes equal to current prefix minus k."
+    }
+  ],
+  "editorial": "Seed the map with prefix 0 occurring once, which accounts for subarrays that start at index 0. Walk the array, add the current value into the prefix, and add map[prefix - k] to the answer before recording the new prefix. Order matters: count first, then increment, so an empty subarray is not counted unless k is zero and you intentionally allow it. Here the seed handles only real ranges.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef subarray_sum(nums: list[int], k: int) -> int:\n    seen = {0: 1}\n    prefix = answer = 0\n    for value in nums:\n        prefix += value\n        answer += seen.get(prefix - k, 0)\n        seen[prefix] = seen.get(prefix, 0) + 1\n    return answer\n",
+  "starter_code": "from typing import List\n\ndef subarray_sum(nums: List[int], k: int) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [1, 1, 1], k = 2",
+      "output": "2",
+      "explanation": "Two subarrays sum to 2."
+    },
+    {
+      "input": "nums = [1, 2, 3], k = 3",
+      "output": "2",
+      "explanation": "Both [1, 2] and [3] qualify."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "nums": [
+          1,
+          1,
+          1
+        ],
+        "k": 2
+      },
+      "expected": 2
+    },
+    {
+      "name": "mixed",
+      "args": {
+        "nums": [
+          1,
+          2,
+          3
+        ],
+        "k": 3
+      },
+      "expected": 2
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "negatives",
+      "args": {
+        "nums": [
+          1,
+          -1,
+          0
+        ],
+        "k": 0
+      },
+      "expected": 3
+    },
+    {
+      "name": "none",
+      "args": {
+        "nums": [
+          1,
+          2
+        ],
+        "k": 5
+      },
+      "expected": 0
+    },
+    {
+      "name": "whole",
+      "args": {
+        "nums": [
+          3,
+          4,
+          7,
+          -2
+        ],
+        "k": 12
+      },
+      "expected": 1
+    }
+  ]
+}

@@ -1,0 +1,130 @@
+{
+  "title": "Majority Element II",
+  "slug": "majority-element-ii",
+  "difficulty": "medium",
+  "topics": [
+    "arrays",
+    "boyer-moore"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Adobe",
+    "Microsoft"
+  ],
+  "statement": "Return every element that appears more than n / 3 times, sorted. There are at most two such elements.\n",
+  "constraints": [
+    "1 <= nums.length <= 5 * 10^4"
+  ],
+  "function_name": "majority_element_ii",
+  "hints": [
+    "A hash map is the direct count.",
+    "Boyer-Moore generalizes to two candidates, because more than two values cannot each exceed n / 3.",
+    "A second pass verifies the candidates. The vote can name a value that does not actually qualify."
+  ],
+  "approaches": [
+    {
+      "name": "Count",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Filter values whose count exceeds n / 3."
+    },
+    {
+      "name": "Two-candidate voting",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Pair cancellations, then verify."
+    }
+  ],
+  "editorial": "Keep two candidates and two counts. A match increments. An empty slot takes the value. Otherwise both counts decrement, which cancels one of each. After the vote, count the candidates for real and keep those above n / 3. Sort the result.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef majority_element_ii(nums: list[int]) -> list[int]:\n    cand1 = cand2 = None\n    count1 = count2 = 0\n    for value in nums:\n        if value == cand1:\n            count1 += 1\n        elif value == cand2:\n            count2 += 1\n        elif count1 == 0:\n            cand1, count1 = value, 1\n        elif count2 == 0:\n            cand2, count2 = value, 1\n        else:\n            count1 -= 1\n            count2 -= 1\n    threshold = len(nums) // 3\n    return sorted(value for value in (cand1, cand2) if value is not None and nums.count(value) > threshold)\n",
+  "starter_code": "from typing import List\n\ndef majority_element_ii(nums: List[int]) -> List[int]:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [3, 2, 3]",
+      "output": "[3]",
+      "explanation": "3 appears more than n/3 times."
+    },
+    {
+      "input": "nums = [1, 1, 1, 3, 3, 2, 2, 2]",
+      "output": "[1, 2]",
+      "explanation": "1 and 2 both qualify."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "two",
+      "args": {
+        "nums": [
+          3,
+          2,
+          3
+        ]
+      },
+      "expected": [
+        3
+      ]
+    },
+    {
+      "name": "both",
+      "args": {
+        "nums": [
+          1,
+          1,
+          1,
+          3,
+          3,
+          2,
+          2,
+          2
+        ]
+      },
+      "expected": [
+        1,
+        2
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "none",
+      "args": {
+        "nums": [
+          1,
+          2,
+          3
+        ]
+      },
+      "expected": []
+    },
+    {
+      "name": "one",
+      "args": {
+        "nums": [
+          1
+        ]
+      },
+      "expected": [
+        1
+      ]
+    },
+    {
+      "name": "all",
+      "args": {
+        "nums": [
+          2,
+          2,
+          2,
+          2
+        ]
+      },
+      "expected": [
+        2
+      ]
+    }
+  ]
+}

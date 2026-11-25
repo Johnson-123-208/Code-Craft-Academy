@@ -1,0 +1,142 @@
+{
+  "title": "Squares of a Sorted Array",
+  "slug": "squares-of-a-sorted-array",
+  "difficulty": "easy",
+  "topics": [
+    "arrays",
+    "two-pointers"
+  ],
+  "company_tags": [
+    "Facebook",
+    "Amazon",
+    "Google",
+    "Adobe"
+  ],
+  "statement": "Given a nondecreasing array `nums`, return an array of the squares of each value, also sorted nondecreasing.\n",
+  "constraints": [
+    "1 <= nums.length <= 10^4",
+    "-10^4 <= nums[i] <= 10^4"
+  ],
+  "function_name": "sorted_squares",
+  "hints": [
+    "Squaring destroys sorted order when negatives are present, because a large negative becomes a large positive.",
+    "The largest square is at one of the two ends.",
+    "Fill the answer from the back, always taking the end whose absolute value is larger."
+  ],
+  "approaches": [
+    {
+      "name": "Square and sort",
+      "complexity": {
+        "time": "O(n log n)",
+        "space": "O(n)"
+      },
+      "explanation": "Simple and correct."
+    },
+    {
+      "name": "Two pointers",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Merge the two increasing rays of absolute values."
+    }
+  ],
+  "editorial": "On a sorted array the absolute values form a valley. Two pointers at the ends walk up both slopes, and the larger absolute value is written next into the result from right to left.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef sorted_squares(nums: list[int]) -> list[int]:\n    left, right = 0, len(nums) - 1\n    out = [0] * len(nums)\n    for pos in range(len(nums) - 1, -1, -1):\n        if abs(nums[left]) > abs(nums[right]):\n            out[pos] = nums[left] * nums[left]\n            left += 1\n        else:\n            out[pos] = nums[right] * nums[right]\n            right -= 1\n    return out\n",
+  "starter_code": "from typing import List\n\ndef sorted_squares(nums: List[int]) -> List[int]:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [-4, -1, 0, 3, 10]",
+      "output": "[0, 1, 9, 16, 100]",
+      "explanation": "Squares sorted are 0, 1, 9, 16, 100."
+    },
+    {
+      "input": "nums = [-7, -3, 2, 3, 11]",
+      "output": "[4, 9, 9, 49, 121]",
+      "explanation": "49 and 121 land at the ends."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "nums": [
+          -4,
+          -1,
+          0,
+          3,
+          10
+        ]
+      },
+      "expected": [
+        0,
+        1,
+        9,
+        16,
+        100
+      ]
+    },
+    {
+      "name": "negatives",
+      "args": {
+        "nums": [
+          -7,
+          -3,
+          2,
+          3,
+          11
+        ]
+      },
+      "expected": [
+        4,
+        9,
+        9,
+        49,
+        121
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "positive",
+      "args": {
+        "nums": [
+          1,
+          2,
+          3
+        ]
+      },
+      "expected": [
+        1,
+        4,
+        9
+      ]
+    },
+    {
+      "name": "single",
+      "args": {
+        "nums": [
+          -5
+        ]
+      },
+      "expected": [
+        25
+      ]
+    },
+    {
+      "name": "zeros",
+      "args": {
+        "nums": [
+          -2,
+          -2,
+          0
+        ]
+      },
+      "expected": [
+        0,
+        4,
+        4
+      ]
+    }
+  ]
+}

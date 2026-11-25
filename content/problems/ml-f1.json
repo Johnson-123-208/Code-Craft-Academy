@@ -1,0 +1,123 @@
+{
+  "title": "Binary F1 Score",
+  "slug": "ml-f1",
+  "difficulty": "medium",
+  "topics": [
+    "machine-learning",
+    "metrics",
+    "python"
+  ],
+  "company_tags": [
+    "Stripe",
+    "Amazon"
+  ],
+  "statement": "Implement `f1_score(y_true, y_pred)` for binary labels where 1 is the positive class. Compute precision and recall from true positives, false positives, and false negatives. Return the harmonic mean 2PR / (P + R). If there are no true positives, return 0.0.",
+  "constraints": [
+    "Labels are 0 or 1",
+    "1 <= n <= 10^5",
+    "Zero true positives yields 0.0, not an exception"
+  ],
+  "examples": [
+    {
+      "input": "{\"y_true\": [1, 0, 1, 1], \"y_pred\": [1, 0, 0, 1]}",
+      "output": "0.8",
+      "explanation": "Matches the reference on this input."
+    },
+    {
+      "input": "{\"y_true\": [1, 0, 1], \"y_pred\": [0, 0, 0]}",
+      "output": "0.0",
+      "explanation": "Matches the reference on this input."
+    }
+  ],
+  "starter_code": "def f1_score(y_true: list[int], y_pred: list[int]) -> float:\n    pass\n",
+  "function_name": "f1_score",
+  "hints": [
+    "Count tp, fp, and fn in one pass.",
+    "Precision = tp / (tp + fp) and recall = tp / (tp + fn).",
+    "If tp is 0, skip the divisions and return 0."
+  ],
+  "approaches": [
+    {
+      "name": "Confusion counts",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "F1 is the harmonic mean, so both precision and recall must be high."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "mixed",
+      "args": {
+        "y_true": [
+          1,
+          0,
+          1,
+          1
+        ],
+        "y_pred": [
+          1,
+          0,
+          0,
+          1
+        ]
+      },
+      "expected": 0.8
+    },
+    {
+      "name": "no-positive-pred",
+      "args": {
+        "y_true": [
+          1,
+          0,
+          1
+        ],
+        "y_pred": [
+          0,
+          0,
+          0
+        ]
+      },
+      "expected": 0.0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "perfect",
+      "args": {
+        "y_true": [
+          1,
+          0,
+          1,
+          0
+        ],
+        "y_pred": [
+          1,
+          0,
+          1,
+          0
+        ]
+      },
+      "expected": 1.0
+    },
+    {
+      "name": "false-alarms",
+      "args": {
+        "y_true": [
+          0,
+          0,
+          0
+        ],
+        "y_pred": [
+          1,
+          0,
+          1
+        ]
+      },
+      "expected": 0.0
+    }
+  ],
+  "editorial": "Precision asks how many predicted positives were real. Recall asks how many real positives were found. F1 = 2PR / (P + R) is high only when both are high, which is why it is the default on imbalanced classification. When tp is 0, precision or recall hits a zero denominator; the conventional score is 0. This implementation is binary and treats label 1 as positive. Multiclass F1 needs an averaging policy (macro, micro, or weighted) that you should state before coding.",
+  "reference_solution": "def f1_score(y_true: list[int], y_pred: list[int]) -> float:\n    tp = fp = fn = 0\n    for a, b in zip(y_true, y_pred):\n        if a == 1 and b == 1:\n            tp += 1\n        elif a == 0 and b == 1:\n            fp += 1\n        elif a == 1 and b == 0:\n            fn += 1\n    if tp == 0:\n        return 0.0\n    prec = tp / (tp + fp)\n    rec = tp / (tp + fn)\n    return float(2 * prec * rec / (prec + rec))\n"
+}

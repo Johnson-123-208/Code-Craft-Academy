@@ -1,0 +1,116 @@
+{
+  "title": "Generate Parentheses",
+  "slug": "generate-parentheses",
+  "difficulty": "medium",
+  "topics": [
+    "backtracking",
+    "strings"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "Uber"
+  ],
+  "statement": "Return every string of `n` pairs of well-formed parentheses, sorted.\n",
+  "constraints": [
+    "1 <= n <= 8"
+  ],
+  "function_name": "generate_parenthesis",
+  "hints": [
+    "You may place an opening parenthesis when fewer than n have been placed.",
+    "You may place a closing parenthesis only when it would not exceed the number of opens.",
+    "A string of length 2n built under those rules is always valid, and every valid string is built."
+  ],
+  "approaches": [
+    {
+      "name": "Filter all strings",
+      "complexity": {
+        "time": "O(2^(2n) * n)",
+        "space": "O(n)"
+      },
+      "explanation": "Generate every string of length 2n and keep the valid ones."
+    },
+    {
+      "name": "Constrained backtracking",
+      "complexity": {
+        "time": "O(4^n / sqrt(n))",
+        "space": "O(n)"
+      },
+      "explanation": "The Catalan-number number of leaves, with pruned branches."
+    }
+  ],
+  "editorial": "Track how many opens and closes have been used. The close count may never exceed the open count, and the open count may never exceed n. Those two inequalities are necessary and sufficient for a prefix of a parentheses string, so the search emits exactly the Catalan structures.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef generate_parenthesis(n: int) -> list[str]:\n    out: list[str] = []\n    path: list[str] = []\n\n    def dfs(opened: int, closed: int) -> None:\n        if len(path) == 2 * n:\n            out.append(\"\".join(path))\n            return\n        if opened < n:\n            path.append(\"(\")\n            dfs(opened + 1, closed)\n            path.pop()\n        if closed < opened:\n            path.append(\")\")\n            dfs(opened, closed + 1)\n            path.pop()\n\n    dfs(0, 0)\n    return sorted(out)\n",
+  "starter_code": "from typing import List\n\ndef generate_parenthesis(n: int) -> List[str]:\n    pass\n",
+  "examples": [
+    {
+      "input": "n = 1",
+      "output": "[\"()\"]",
+      "explanation": "Only ()."
+    },
+    {
+      "input": "n = 2",
+      "output": "[\"(())\", \"()()\"]",
+      "explanation": "Two shapes: (()) and ()()."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "one",
+      "args": {
+        "n": 1
+      },
+      "expected": [
+        "()"
+      ]
+    },
+    {
+      "name": "two",
+      "args": {
+        "n": 2
+      },
+      "expected": [
+        "(())",
+        "()()"
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "three",
+      "args": {
+        "n": 3
+      },
+      "expected": [
+        "((()))",
+        "(()())",
+        "(())()",
+        "()(())",
+        "()()()"
+      ]
+    },
+    {
+      "name": "four",
+      "args": {
+        "n": 4
+      },
+      "expected": [
+        "(((())))",
+        "((()()))",
+        "((())())",
+        "((()))()",
+        "(()(()))",
+        "(()()())",
+        "(()())()",
+        "(())(())",
+        "(())()()",
+        "()((()))",
+        "()(()())",
+        "()(())()",
+        "()()(())",
+        "()()()()"
+      ]
+    }
+  ]
+}

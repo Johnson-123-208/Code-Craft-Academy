@@ -1,0 +1,148 @@
+{
+  "title": "Rotate Array",
+  "slug": "rotate-array",
+  "difficulty": "medium",
+  "topics": [
+    "arrays"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft",
+    "Adobe",
+    "Apple"
+  ],
+  "statement": "Rotate `nums` to the right by `k` steps and return the rotated array. k may be larger than the length.\n",
+  "constraints": [
+    "1 <= nums.length <= 10^5",
+    "0 <= k <= 10^5"
+  ],
+  "function_name": "rotate",
+  "hints": [
+    "k modulo n is the effective rotation.",
+    "The last k elements become the new prefix.",
+    "Three reversals do it in place: reverse the whole array, reverse the first k, reverse the rest."
+  ],
+  "approaches": [
+    {
+      "name": "Extra array",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Write each element to (i + k) mod n."
+    },
+    {
+      "name": "Three reversals",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "In-place, no extra buffer beyond a few indices."
+    }
+  ],
+  "editorial": "Reduce k modulo n. Reverse the entire array, then reverse the first k elements, then reverse the suffix. The first reversal puts the old suffix at the front in reverse. The next two reversals restore order inside each piece.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef rotate(nums: list[int], k: int) -> list[int]:\n    n = len(nums)\n    k %= n\n    nums.reverse()\n    nums[:k] = reversed(nums[:k])\n    nums[k:] = reversed(nums[k:])\n    return nums\n",
+  "starter_code": "from typing import List\n\ndef rotate(nums: List[int], k: int) -> List[int]:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [1, 2, 3, 4, 5, 6, 7], k = 3",
+      "output": "[5, 6, 7, 1, 2, 3, 4]",
+      "explanation": "The array becomes 5, 6, 7, 1, 2, 3, 4."
+    },
+    {
+      "input": "nums = [-1, -100, 3, 99], k = 2",
+      "output": "[3, 99, -1, -100]",
+      "explanation": "Two steps."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "nums": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "k": 3
+      },
+      "expected": [
+        5,
+        6,
+        7,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "name": "wrap",
+      "args": {
+        "nums": [
+          -1,
+          -100,
+          3,
+          99
+        ],
+        "k": 2
+      },
+      "expected": [
+        3,
+        99,
+        -1,
+        -100
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "zero",
+      "args": {
+        "nums": [
+          1,
+          2
+        ],
+        "k": 0
+      },
+      "expected": [
+        1,
+        2
+      ]
+    },
+    {
+      "name": "full",
+      "args": {
+        "nums": [
+          1,
+          2,
+          3
+        ],
+        "k": 3
+      },
+      "expected": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "over",
+      "args": {
+        "nums": [
+          1,
+          2
+        ],
+        "k": 5
+      },
+      "expected": [
+        2,
+        1
+      ]
+    }
+  ]
+}

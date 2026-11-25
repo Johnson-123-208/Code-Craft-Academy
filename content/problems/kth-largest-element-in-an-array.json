@@ -1,0 +1,139 @@
+{
+  "title": "Kth Largest Element in an Array",
+  "slug": "kth-largest-element-in-an-array",
+  "difficulty": "medium",
+  "topics": [
+    "heaps",
+    "quickselect",
+    "sorting"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Facebook",
+    "Microsoft",
+    "Adobe"
+  ],
+  "statement": "Return the kth largest element in `nums`. It is the kth element in sorted order, not the kth distinct element.\n",
+  "constraints": [
+    "1 <= k <= nums.length <= 10^5",
+    "-10^4 <= nums[i] <= 10^4"
+  ],
+  "function_name": "find_kth_largest",
+  "hints": [
+    "Sorting and indexing at n - k is correct and costs n log n.",
+    "A min-heap of size k keeps the k largest elements. The root is the kth largest.",
+    "Quickselect finds the element at index n - k in expected linear time by partitioning like quicksort and recurring into one side."
+  ],
+  "approaches": [
+    {
+      "name": "Sort",
+      "complexity": {
+        "time": "O(n log n)",
+        "space": "O(n)"
+      },
+      "explanation": "Return the element at index n - k after sorting ascending."
+    },
+    {
+      "name": "Heap of size k",
+      "complexity": {
+        "time": "O(n log k)",
+        "space": "O(k)"
+      },
+      "explanation": "Push every element and pop when the heap exceeds k."
+    },
+    {
+      "name": "Quickselect",
+      "complexity": {
+        "time": "O(n) average",
+        "space": "O(1)"
+      },
+      "explanation": "Partition until the pivot lands on n - k."
+    }
+  ],
+  "editorial": "The heap solution is the one to reach for when k is small and the stream might be online. Maintain a min-heap. After processing the array its size is k and its smallest element is the kth largest in the whole array. Quickselect is faster on average but has a quadratic worst case unless the pivot is chosen carefully.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef find_kth_largest(nums: list[int], k: int) -> int:\n    heap: list[int] = []\n    for value in nums:\n        heapq.heappush(heap, value)\n        if len(heap) > k:\n            heapq.heappop(heap)\n    return heap[0]\n",
+  "starter_code": "from typing import List\n\ndef find_kth_largest(nums: List[int], k: int) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [3, 2, 1, 5, 6, 4], k = 2",
+      "output": "5",
+      "explanation": "The second largest is 5."
+    },
+    {
+      "input": "nums = [3, 2, 3, 1, 2, 4, 5, 5, 6], k = 4",
+      "output": "4",
+      "explanation": "Duplicates count separately. The 4th largest is 4."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "nums": [
+          3,
+          2,
+          1,
+          5,
+          6,
+          4
+        ],
+        "k": 2
+      },
+      "expected": 5
+    },
+    {
+      "name": "dups",
+      "args": {
+        "nums": [
+          3,
+          2,
+          3,
+          1,
+          2,
+          4,
+          5,
+          5,
+          6
+        ],
+        "k": 4
+      },
+      "expected": 4
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "one",
+      "args": {
+        "nums": [
+          1
+        ],
+        "k": 1
+      },
+      "expected": 1
+    },
+    {
+      "name": "last",
+      "args": {
+        "nums": [
+          7,
+          1,
+          2
+        ],
+        "k": 3
+      },
+      "expected": 1
+    },
+    {
+      "name": "neg",
+      "args": {
+        "nums": [
+          -1,
+          -2,
+          0
+        ],
+        "k": 1
+      },
+      "expected": 0
+    }
+  ]
+}

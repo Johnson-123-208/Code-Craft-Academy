@@ -1,0 +1,118 @@
+{
+  "title": "Maximum Sum Circular Subarray",
+  "slug": "maximum-sum-circular-subarray",
+  "difficulty": "medium",
+  "topics": [
+    "arrays",
+    "kadane"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "Adobe"
+  ],
+  "statement": "Return the maximum possible sum of a non-empty subarray of `nums`, where the array is circular. A circular subarray may wrap from the end back to the start. A one-interval ordinary subarray is also allowed.\n",
+  "constraints": [
+    "1 <= nums.length <= 3 * 10^4",
+    "-3 * 10^4 <= nums[i] <= 3 * 10^4"
+  ],
+  "function_name": "max_subarray_sum_circular",
+  "hints": [
+    "The answer is either a normal Kadane maximum or the total sum minus a minimum subarray in the middle.",
+    "The wrap-around case is invalid when the minimum subarray is the entire array, which happens when every element is negative.",
+    "Run max-Kadane and min-Kadane in one pass, then take max(best_max, total - best_min) unless best_max is negative."
+  ],
+  "approaches": [
+    {
+      "name": "Duplicate the array",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(n)"
+      },
+      "explanation": "Search every start and a length up to n on nums + nums."
+    },
+    {
+      "name": "Kadane plus inverted Kadane",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Max subarray, or total minus min subarray."
+    }
+  ],
+  "editorial": "A maximum circular subarray either does not wrap, which is ordinary Kadane, or it wraps. The wrapping case is the total sum minus the minimum non-wrapping subarray that was excluded from the middle. If the maximum element is negative, that exclusion would be the whole array and the wrap sum would be 0, so return the ordinary maximum instead.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef max_subarray_sum_circular(nums: list[int]) -> int:\n    total = best_max = cur_max = best_min = cur_min = nums[0]\n    for value in nums[1:]:\n        total += value\n        cur_max = max(value, cur_max + value)\n        best_max = max(best_max, cur_max)\n        cur_min = min(value, cur_min + value)\n        best_min = min(best_min, cur_min)\n    if best_max < 0:\n        return best_max\n    return max(best_max, total - best_min)\n",
+  "starter_code": "from typing import List\n\ndef max_subarray_sum_circular(nums: List[int]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [5, -3, 5]",
+      "output": "10",
+      "explanation": "The wrap [5, 5] sums to 10."
+    },
+    {
+      "input": "nums = [1, -2, 3, -2]",
+      "output": "3",
+      "explanation": "The subarray [3] sums to 3."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "wrap",
+      "args": {
+        "nums": [
+          5,
+          -3,
+          5
+        ]
+      },
+      "expected": 10
+    },
+    {
+      "name": "normal",
+      "args": {
+        "nums": [
+          1,
+          -2,
+          3,
+          -2
+        ]
+      },
+      "expected": 3
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "all-negative",
+      "args": {
+        "nums": [
+          -3,
+          -2,
+          -3
+        ]
+      },
+      "expected": -2
+    },
+    {
+      "name": "single",
+      "args": {
+        "nums": [
+          8
+        ]
+      },
+      "expected": 8
+    },
+    {
+      "name": "mixed",
+      "args": {
+        "nums": [
+          3,
+          -1,
+          2,
+          -1
+        ]
+      },
+      "expected": 4
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "title": "Bitwise AND of Numbers Range",
+  "slug": "bitwise-and-of-numbers-range",
+  "difficulty": "medium",
+  "topics": [
+    "bit-manipulation"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Adobe",
+    "Microsoft"
+  ],
+  "statement": "Return the bitwise AND of every integer in the inclusive range [left, right].\n",
+  "constraints": [
+    "0 <= left <= right <= 2^31 - 1"
+  ],
+  "function_name": "range_bitwise_and",
+  "hints": [
+    "A bit that flips anywhere inside the range becomes 0 in the AND.",
+    "The common binary prefix of left and right is exactly the bits that stay constant.",
+    "Shift both numbers right until they are equal, counting the shifts, then shift the common prefix back."
+  ],
+  "approaches": [
+    {
+      "name": "Loop the range",
+      "complexity": {
+        "time": "O(right - left)",
+        "space": "O(1)"
+      },
+      "explanation": "Too slow when the range is a billion wide."
+    },
+    {
+      "name": "Common prefix",
+      "complexity": {
+        "time": "O(log right)",
+        "space": "O(1)"
+      },
+      "explanation": "Shift until left equals right."
+    }
+  ],
+  "editorial": "While left and right differ, their low bits are not shared by the whole range, so clear them by shifting both right. When they meet, that value is the common prefix. Shift it left by the number of cleared bits. If left equals right at the start, the range is a single number and the answer is that number.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef range_bitwise_and(left: int, right: int) -> int:\n    shift = 0\n    while left < right:\n        left >>= 1\n        right >>= 1\n        shift += 1\n    return left << shift\n",
+  "starter_code": "def range_bitwise_and(left: int, right: int) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "left = 5, right = 7",
+      "output": "4",
+      "explanation": "5 & 6 & 7 = 4."
+    },
+    {
+      "input": "left = 0, right = 0",
+      "output": "0",
+      "explanation": "A single zero."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "left": 5,
+        "right": 7
+      },
+      "expected": 4
+    },
+    {
+      "name": "zero",
+      "args": {
+        "left": 0,
+        "right": 0
+      },
+      "expected": 0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "wide",
+      "args": {
+        "left": 1,
+        "right": 15
+      },
+      "expected": 0
+    },
+    {
+      "name": "equal",
+      "args": {
+        "left": 9,
+        "right": 9
+      },
+      "expected": 9
+    },
+    {
+      "name": "span",
+      "args": {
+        "left": 12,
+        "right": 15
+      },
+      "expected": 12
+    }
+  ]
+}

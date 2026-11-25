@@ -1,0 +1,129 @@
+{
+  "title": "Split Array Largest Sum",
+  "slug": "split-array-largest-sum",
+  "difficulty": "hard",
+  "topics": [
+    "binary-search",
+    "dynamic-programming"
+  ],
+  "company_tags": [
+    "Google",
+    "Amazon",
+    "Facebook",
+    "Microsoft"
+  ],
+  "statement": "Split `nums` into `k` non-empty contiguous parts. Return the minimum possible largest sum among the parts.\n",
+  "constraints": [
+    "1 <= nums.length <= 1000",
+    "1 <= k <= min(50, nums.length)",
+    "0 <= nums[i] <= 10^6"
+  ],
+  "function_name": "split_array",
+  "hints": [
+    "The answer lies between the largest element and the total sum.",
+    "A candidate maximum sum is feasible when a greedy scan can cover the array in at most k parts without exceeding it.",
+    "Binary search the candidate. Feasibility is monotone."
+  ],
+  "approaches": [
+    {
+      "name": "DP",
+      "complexity": {
+        "time": "O(n^2 * k)",
+        "space": "O(n * k)"
+      },
+      "explanation": "dp[parts][index] is the best largest sum."
+    },
+    {
+      "name": "Binary search on the sum",
+      "complexity": {
+        "time": "O(n log sum)",
+        "space": "O(1)"
+      },
+      "explanation": "The same pattern as shipping packages."
+    }
+  ],
+  "editorial": "If a maximum part sum M is feasible, every larger M is feasible. Greedily fill a part until the next element would exceed M, then start a new part. If the number of parts is at most k, search lower. The lowest feasible M is the answer, and it is at least the heaviest element.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef split_array(nums: list[int], k: int) -> int:\n    def feasible(limit: int) -> bool:\n        parts = 1\n        total = 0\n        for value in nums:\n            if total + value > limit:\n                parts += 1\n                total = 0\n            total += value\n        return parts <= k\n\n    lo, hi = max(nums), sum(nums)\n    while lo < hi:\n        mid = (lo + hi) // 2\n        if feasible(mid):\n            hi = mid\n        else:\n            lo = mid + 1\n    return lo\n",
+  "starter_code": "from typing import List\n\ndef split_array(nums: List[int], k: int) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [7, 2, 5, 10, 8], k = 2",
+      "output": "18",
+      "explanation": "The best largest sum is 18."
+    },
+    {
+      "input": "nums = [1, 2, 3, 4, 5], k = 2",
+      "output": "9",
+      "explanation": "The split 1+2+3 and 4+5 has largest sum 9."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "nums": [
+          7,
+          2,
+          5,
+          10,
+          8
+        ],
+        "k": 2
+      },
+      "expected": 18
+    },
+    {
+      "name": "three",
+      "args": {
+        "nums": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "k": 2
+      },
+      "expected": 9
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "one-part",
+      "args": {
+        "nums": [
+          1,
+          4,
+          4
+        ],
+        "k": 1
+      },
+      "expected": 9
+    },
+    {
+      "name": "each",
+      "args": {
+        "nums": [
+          1,
+          4,
+          4
+        ],
+        "k": 3
+      },
+      "expected": 4
+    },
+    {
+      "name": "equal",
+      "args": {
+        "nums": [
+          2,
+          2,
+          2,
+          2
+        ],
+        "k": 2
+      },
+      "expected": 4
+    }
+  ]
+}

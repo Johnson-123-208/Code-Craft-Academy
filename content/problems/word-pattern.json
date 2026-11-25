@@ -1,0 +1,103 @@
+{
+  "title": "Word Pattern",
+  "slug": "word-pattern",
+  "difficulty": "easy",
+  "topics": [
+    "strings",
+    "hashing"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Uber",
+    "Dropbox",
+    "Microsoft"
+  ],
+  "statement": "Return true when `s` follows the pattern `pattern` with a bijection between pattern letters and words. `s` is a space-separated list of words.\n",
+  "constraints": [
+    "1 <= pattern.length <= 300",
+    "s has at most 3000 characters"
+  ],
+  "function_name": "word_pattern",
+  "hints": [
+    "Split s on spaces. The number of words must equal the number of pattern characters.",
+    "This is isomorphism between the pattern and the word list.",
+    "Use two maps, or compare the first-seen index signatures of both sequences."
+  ],
+  "approaches": [
+    {
+      "name": "Two maps",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Letter to word and word to letter."
+    },
+    {
+      "name": "Index signature",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Both sequences must produce the same pattern of first indices."
+    }
+  ],
+  "editorial": "After checking lengths, enforce a bijection. A letter that already maps must map to the current word, and a word that already maps must map back to the current letter. The classic counterexample is pattern 'abba' with words 'dog dog dog dog', where one word is claimed by two letters.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef word_pattern(pattern: str, s: str) -> bool:\n    words = s.split(\" \")\n    if len(words) != len(pattern):\n        return False\n    pw: dict[str, str] = {}\n    wp: dict[str, str] = {}\n    for letter, word in zip(pattern, words):\n        if letter in pw and pw[letter] != word:\n            return False\n        if word in wp and wp[word] != letter:\n            return False\n        pw[letter] = word\n        wp[word] = letter\n    return True\n",
+  "starter_code": "def word_pattern(pattern: str, s: str) -> bool:\n    pass\n",
+  "examples": [
+    {
+      "input": "pattern = 'abba', s = 'dog cat cat dog'",
+      "output": "true",
+      "explanation": "a is dog and b is cat."
+    },
+    {
+      "input": "pattern = 'abba', s = 'dog cat cat fish'",
+      "output": "false",
+      "explanation": "a would map to both dog and fish."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "yes",
+      "args": {
+        "pattern": "abba",
+        "s": "dog cat cat dog"
+      },
+      "expected": true
+    },
+    {
+      "name": "no",
+      "args": {
+        "pattern": "abba",
+        "s": "dog cat cat fish"
+      },
+      "expected": false
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "collision",
+      "args": {
+        "pattern": "abba",
+        "s": "dog dog dog dog"
+      },
+      "expected": false
+    },
+    {
+      "name": "length",
+      "args": {
+        "pattern": "abc",
+        "s": "a b"
+      },
+      "expected": false
+    },
+    {
+      "name": "same",
+      "args": {
+        "pattern": "abc",
+        "s": "a b c"
+      },
+      "expected": true
+    }
+  ]
+}

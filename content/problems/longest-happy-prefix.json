@@ -1,0 +1,97 @@
+{
+  "title": "Longest Happy Prefix",
+  "slug": "longest-happy-prefix",
+  "difficulty": "hard",
+  "topics": [
+    "strings",
+    "kmp"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "Adobe"
+  ],
+  "statement": "A happy prefix is a proper prefix that is also a suffix. Return the longest happy prefix of `s`, or an empty string if none exists.\n",
+  "constraints": [
+    "1 <= s.length <= 10^5"
+  ],
+  "function_name": "longest_prefix",
+  "hints": [
+    "This is the last entry of the KMP longest-prefix-suffix table.",
+    "lps[i] is the longest proper prefix of s[:i+1] that is also a suffix.",
+    "The answer is s[:lps[-1]]. If that length is 0, return an empty string."
+  ],
+  "approaches": [
+    {
+      "name": "Check every border",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(n)"
+      },
+      "explanation": "Test prefixes from long to short."
+    },
+    {
+      "name": "KMP prefix table",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "One linear construction."
+    }
+  ],
+  "editorial": "Build the LPS array exactly as in string search. The value at the last index is the longest border of the whole string. Slice that many characters from the front. The border is proper because the LPS construction never lets a border equal the whole string.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef longest_prefix(s: str) -> str:\n    lps = [0] * len(s)\n    length = 0\n    i = 1\n    while i < len(s):\n        if s[i] == s[length]:\n            length += 1\n            lps[i] = length\n            i += 1\n        elif length:\n            length = lps[length - 1]\n        else:\n            i += 1\n    return s[: lps[-1]]\n",
+  "starter_code": "def longest_prefix(s: str) -> str:\n    pass\n",
+  "examples": [
+    {
+      "input": "s = 'level'",
+      "output": "\"l\"",
+      "explanation": "l is the longest happy prefix."
+    },
+    {
+      "input": "s = 'ababab'",
+      "output": "\"abab\"",
+      "explanation": "abab is both a prefix and a suffix."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "level",
+      "args": {
+        "s": "level"
+      },
+      "expected": "l"
+    },
+    {
+      "name": "ababab",
+      "args": {
+        "s": "ababab"
+      },
+      "expected": "abab"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "single",
+      "args": {
+        "s": "a"
+      },
+      "expected": ""
+    },
+    {
+      "name": "none",
+      "args": {
+        "s": "abc"
+      },
+      "expected": ""
+    },
+    {
+      "name": "aaaa",
+      "args": {
+        "s": "aaaa"
+      },
+      "expected": "aaa"
+    }
+  ]
+}

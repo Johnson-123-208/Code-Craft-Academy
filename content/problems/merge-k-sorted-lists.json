@@ -1,0 +1,154 @@
+{
+  "title": "Merge K Sorted Lists",
+  "slug": "merge-k-sorted-lists",
+  "difficulty": "hard",
+  "topics": [
+    "heaps",
+    "linked-lists",
+    "divide-and-conquer"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Facebook",
+    "Microsoft"
+  ],
+  "statement": "Merge `lists`, a list of sorted integer arrays, into one sorted array. Empty lists are allowed.\n",
+  "constraints": [
+    "0 <= k <= 10^4",
+    "0 <= list length <= 500",
+    "-10^4 <= values <= 10^4"
+  ],
+  "function_name": "merge_k_lists",
+  "hints": [
+    "Concatenating and sorting is correct and ignores the sorted inputs.",
+    "A min-heap of size k stores the current head of each list. Pop the smallest and push that list's next value.",
+    "Divide and conquer merges the lists like merge sort, pairing them until one list remains."
+  ],
+  "approaches": [
+    {
+      "name": "Concat and sort",
+      "complexity": {
+        "time": "O(N log N)",
+        "space": "O(N)"
+      },
+      "explanation": "N is the total number of elements."
+    },
+    {
+      "name": "Heap",
+      "complexity": {
+        "time": "O(N log k)",
+        "space": "O(k)"
+      },
+      "explanation": "Each element is pushed and popped once."
+    }
+  ],
+  "editorial": "Push (value, list index, element index) for every nonempty list. Pop the smallest triple, append the value, and if that list has another element, push it. The list index breaks ties so the heap never compares two equal values by falling through to a later incomparable object. Here the element index is an int, so the triple stays ordered.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef merge_k_lists(lists: list[list[int]]) -> list[int]:\n    heap: list[tuple[int, int, int]] = []\n    for i, row in enumerate(lists):\n        if row:\n            heap.append((row[0], i, 0))\n    heapq.heapify(heap)\n    out: list[int] = []\n    while heap:\n        value, i, j = heapq.heappop(heap)\n        out.append(value)\n        if j + 1 < len(lists[i]):\n            heapq.heappush(heap, (lists[i][j + 1], i, j + 1))\n    return out\n",
+  "starter_code": "from typing import List\n\ndef merge_k_lists(lists: List[List[int]]) -> List[int]:\n    pass\n",
+  "examples": [
+    {
+      "input": "lists = [[1, 4, 5], [1, 3, 4], [2, 6]]",
+      "output": "[1, 1, 2, 3, 4, 4, 5, 6]",
+      "explanation": "The merged list is sorted."
+    },
+    {
+      "input": "lists = []",
+      "output": "[]",
+      "explanation": "Nothing to merge."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "lists": [
+          [
+            1,
+            4,
+            5
+          ],
+          [
+            1,
+            3,
+            4
+          ],
+          [
+            2,
+            6
+          ]
+        ]
+      },
+      "expected": [
+        1,
+        1,
+        2,
+        3,
+        4,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "name": "empty",
+      "args": {
+        "lists": []
+      },
+      "expected": []
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "blanks",
+      "args": {
+        "lists": [
+          [],
+          [
+            1
+          ]
+        ]
+      },
+      "expected": [
+        1
+      ]
+    },
+    {
+      "name": "one",
+      "args": {
+        "lists": [
+          [
+            1,
+            2,
+            3
+          ]
+        ]
+      },
+      "expected": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "neg",
+      "args": {
+        "lists": [
+          [
+            -2,
+            0
+          ],
+          [
+            -1
+          ],
+          []
+        ]
+      },
+      "expected": [
+        -2,
+        -1,
+        0
+      ]
+    }
+  ]
+}

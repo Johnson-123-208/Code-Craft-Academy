@@ -1,0 +1,163 @@
+{
+  "title": "Minimum Number of Arrows to Burst Balloons",
+  "slug": "minimum-number-of-arrows-to-burst-balloons",
+  "difficulty": "medium",
+  "topics": [
+    "intervals",
+    "greedy"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "Adobe"
+  ],
+  "statement": "Balloons are horizontal intervals. An arrow shot at x bursts every balloon whose interval contains x. Return the minimum number of arrows required. Endpoints are inclusive.\n",
+  "constraints": [
+    "1 <= points.length <= 10^5",
+    "-2^31 <= start <= end <= 2^31 - 1"
+  ],
+  "function_name": "find_min_arrow_shots",
+  "hints": [
+    "Sort by end coordinate. The first balloon to finish must be burst by then.",
+    "Shoot at its end. Every later balloon that starts at or before that x is burst for free.",
+    "The next balloon that starts after x needs a new arrow. This is activity selection in disguise."
+  ],
+  "approaches": [
+    {
+      "name": "Sort by start and merge overlaps",
+      "complexity": {
+        "time": "O(n log n)",
+        "space": "O(n)"
+      },
+      "explanation": "The number of merged groups is not the answer when one arrow can cross a chain that does not share one common point."
+    },
+    {
+      "name": "Greedy earliest end",
+      "complexity": {
+        "time": "O(n log n)",
+        "space": "O(1)"
+      },
+      "explanation": "Each arrow is placed at the current group's earliest end."
+    }
+  ],
+  "editorial": "Sorting by finish time and shooting at that finish bursts the current balloon and every balloon that overlaps that point. A balloon that starts after the shot is the start of a new group. The number of groups is the number of arrows. Inclusive endpoints mean a balloon that starts exactly at the shot is burst.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef find_min_arrow_shots(points: list[list[int]]) -> int:\n    ordered = sorted(points, key=lambda item: item[1])\n    arrows = 1\n    end = ordered[0][1]\n    for start, finish in ordered[1:]:\n        if start > end:\n            arrows += 1\n            end = finish\n    return arrows\n",
+  "starter_code": "from typing import List\n\ndef find_min_arrow_shots(points: List[List[int]]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "points = [[10, 16], [2, 8], [1, 6], [7, 12]]",
+      "output": "2",
+      "explanation": "Two arrows are enough."
+    },
+    {
+      "input": "points = [[1, 2], [2, 3], [3, 4], [4, 5]]",
+      "output": "2",
+      "explanation": "Touching endpoints share an arrow, so two arrows burst four balloons."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "points": [
+          [
+            10,
+            16
+          ],
+          [
+            2,
+            8
+          ],
+          [
+            1,
+            6
+          ],
+          [
+            7,
+            12
+          ]
+        ]
+      },
+      "expected": 2
+    },
+    {
+      "name": "overlap-point",
+      "args": {
+        "points": [
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            4,
+            5
+          ]
+        ]
+      },
+      "expected": 2
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "one",
+      "args": {
+        "points": [
+          [
+            1,
+            2
+          ]
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "name": "same",
+      "args": {
+        "points": [
+          [
+            1,
+            5
+          ],
+          [
+            2,
+            4
+          ],
+          [
+            3,
+            6
+          ]
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "name": "disjoint",
+      "args": {
+        "points": [
+          [
+            1,
+            2
+          ],
+          [
+            4,
+            5
+          ],
+          [
+            8,
+            9
+          ]
+        ]
+      },
+      "expected": 3
+    }
+  ]
+}

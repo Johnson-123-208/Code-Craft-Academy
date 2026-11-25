@@ -1,0 +1,145 @@
+{
+  "title": "Intersection of Two Arrays",
+  "slug": "intersection-of-two-arrays",
+  "difficulty": "easy",
+  "topics": [
+    "arrays",
+    "hashing"
+  ],
+  "company_tags": [
+    "Facebook",
+    "Amazon",
+    "Adobe",
+    "Google"
+  ],
+  "statement": "Return the unique values that appear in both `nums1` and `nums2`, sorted in increasing order.\n",
+  "constraints": [
+    "1 <= nums1.length, nums2.length <= 1000",
+    "0 <= nums[i] <= 1000"
+  ],
+  "function_name": "intersection",
+  "hints": [
+    "A set removes duplicates inside each array.",
+    "The intersection of two sets is the answer.",
+    "Sort the result so the output is deterministic."
+  ],
+  "approaches": [
+    {
+      "name": "Sort and two pointers",
+      "complexity": {
+        "time": "O(n log n)",
+        "space": "O(n)"
+      },
+      "explanation": "Skip duplicates while merging."
+    },
+    {
+      "name": "Hash sets",
+      "complexity": {
+        "time": "O(n + m)",
+        "space": "O(n + m)"
+      },
+      "explanation": "Membership of the smaller set."
+    }
+  ],
+  "editorial": "Build a set from the first array and emit values from the second array that the set contains, recording them once. Sorting the emitted values gives a canonical answer. Two pointers after sorting are the comparison-based alternative.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef intersection(nums1: list[int], nums2: list[int]) -> list[int]:\n    return sorted(set(nums1) & set(nums2))\n",
+  "starter_code": "from typing import List\n\ndef intersection(nums1: List[int], nums2: List[int]) -> List[int]:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums1 = [1, 2, 2, 1], nums2 = [2, 2]",
+      "output": "[2]",
+      "explanation": "Only 2 is shared."
+    },
+    {
+      "input": "nums1 = [4, 9, 5], nums2 = [9, 4, 9, 8, 4]",
+      "output": "[4, 9]",
+      "explanation": "4 and 9, sorted."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "nums1": [
+          1,
+          2,
+          2,
+          1
+        ],
+        "nums2": [
+          2,
+          2
+        ]
+      },
+      "expected": [
+        2
+      ]
+    },
+    {
+      "name": "two",
+      "args": {
+        "nums1": [
+          4,
+          9,
+          5
+        ],
+        "nums2": [
+          9,
+          4,
+          9,
+          8,
+          4
+        ]
+      },
+      "expected": [
+        4,
+        9
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "none",
+      "args": {
+        "nums1": [
+          1,
+          2
+        ],
+        "nums2": [
+          3
+        ]
+      },
+      "expected": []
+    },
+    {
+      "name": "same",
+      "args": {
+        "nums1": [
+          1,
+          1
+        ],
+        "nums2": [
+          1
+        ]
+      },
+      "expected": [
+        1
+      ]
+    },
+    {
+      "name": "single",
+      "args": {
+        "nums1": [
+          7
+        ],
+        "nums2": [
+          7,
+          7
+        ]
+      },
+      "expected": [
+        7
+      ]
+    }
+  ]
+}

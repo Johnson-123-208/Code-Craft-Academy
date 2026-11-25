@@ -1,0 +1,251 @@
+{
+  "title": "LRU Cache",
+  "slug": "lru-cache",
+  "difficulty": "medium",
+  "topics": [
+    "hashing",
+    "linked-lists",
+    "design"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft",
+    "Google",
+    "Bloomberg"
+  ],
+  "statement": "Simulate an LRU cache of the given capacity. `operations` is a list of 'get' and 'put'. `arguments[i]` is `[key]` for get and `[key, value]` for put. Return a list of results. get returns the value or -1. put returns null. Capacity is positive. Evict the least recently used key when the cache is full.\n",
+  "constraints": [
+    "1 <= capacity <= 3000",
+    "0 <= key, value <= 10^4",
+    "At most 2 * 10^5 calls on the full problem"
+  ],
+  "function_name": "lru_cache_ops",
+  "hints": [
+    "A hash map gives O(1) lookup. It does not remember recency by itself.",
+    "A doubly linked list ordered from least recent to most recent supports O(1) splice moves.",
+    "Python's ordered dict moves a key to the end on access. The first key is then the eviction victim."
+  ],
+  "approaches": [
+    {
+      "name": "List of pairs",
+      "complexity": {
+        "time": "O(n) per call",
+        "space": "O(capacity)"
+      },
+      "explanation": "Scan to find and move the key."
+    },
+    {
+      "name": "Hash map plus ordered list",
+      "complexity": {
+        "time": "O(1) per call",
+        "space": "O(capacity)"
+      },
+      "explanation": "Map for lookup, order for eviction."
+    }
+  ],
+  "editorial": "The interview implementation is a hash map from key to a node in a doubly linked list, with sentinel head and tail. get and put unlink the node and insert it next to the most-recent sentinel. When size exceeds capacity, evict the node next to the least-recent sentinel and delete its key. The ordered-dictionary version is the same policy with the language's insertion-ordered map doing the splice.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef lru_cache_ops(capacity: int, operations: list[str], arguments: list[list[int]]) -> list[int | None]:\n    data: dict[int, int] = {}\n    out: list[int | None] = []\n    for op, arg in zip(operations, arguments):\n        if op == \"get\":\n            key = arg[0]\n            if key not in data:\n                out.append(-1)\n            else:\n                value = data.pop(key)\n                data[key] = value\n                out.append(value)\n        else:\n            key, value = arg\n            if key in data:\n                data.pop(key)\n            data[key] = value\n            if len(data) > capacity:\n                oldest = next(iter(data))\n                data.pop(oldest)\n            out.append(None)\n    return out\n",
+  "starter_code": "from typing import List, Optional\n\ndef lru_cache_ops(capacity: int, operations: List[str], arguments: List[List[int]]) -> List[Optional[int]]:\n    pass\n",
+  "examples": [
+    {
+      "input": "capacity = 2, operations = ['put', 'put', 'get', 'put', 'get', 'put', 'get', 'get', 'get'], arguments = [[1, 1], [2, 2], [1], [3, 3], [2], [4, 4], [1], [3], [4]]",
+      "output": "[null, null, 1, null, -1, null, -1, 3, 4]",
+      "explanation": "get 2 misses after 3 evicts it. get 1 misses after 4 evicts it."
+    },
+    {
+      "input": "capacity = 1, operations = ['put', 'put', 'get'], arguments = [[1, 1], [1, 2], [1]]",
+      "output": "[null, null, 2]",
+      "explanation": "The second put updates the only key."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "capacity": 2,
+        "operations": [
+          "put",
+          "put",
+          "get",
+          "put",
+          "get",
+          "put",
+          "get",
+          "get",
+          "get"
+        ],
+        "arguments": [
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            1
+          ],
+          [
+            3,
+            3
+          ],
+          [
+            2
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            1
+          ],
+          [
+            3
+          ],
+          [
+            4
+          ]
+        ]
+      },
+      "expected": [
+        null,
+        null,
+        1,
+        null,
+        -1,
+        null,
+        -1,
+        3,
+        4
+      ]
+    },
+    {
+      "name": "update",
+      "args": {
+        "capacity": 1,
+        "operations": [
+          "put",
+          "put",
+          "get"
+        ],
+        "arguments": [
+          [
+            1,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1
+          ]
+        ]
+      },
+      "expected": [
+        null,
+        null,
+        2
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "miss",
+      "args": {
+        "capacity": 2,
+        "operations": [
+          "get"
+        ],
+        "arguments": [
+          [
+            1
+          ]
+        ]
+      },
+      "expected": [
+        -1
+      ]
+    },
+    {
+      "name": "evict-oldest",
+      "args": {
+        "capacity": 2,
+        "operations": [
+          "put",
+          "put",
+          "get",
+          "put",
+          "get",
+          "get"
+        ],
+        "arguments": [
+          [
+            2,
+            1
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            2
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            2
+          ],
+          [
+            1
+          ]
+        ]
+      },
+      "expected": [
+        null,
+        null,
+        2,
+        null,
+        2,
+        1
+      ]
+    },
+    {
+      "name": "capacity-one",
+      "args": {
+        "capacity": 1,
+        "operations": [
+          "put",
+          "put",
+          "get",
+          "get"
+        ],
+        "arguments": [
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ]
+        ]
+      },
+      "expected": [
+        null,
+        null,
+        -1,
+        2
+      ]
+    }
+  ]
+}

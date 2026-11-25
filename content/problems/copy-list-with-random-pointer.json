@@ -1,0 +1,194 @@
+{
+  "title": "Copy List with Random Pointer",
+  "slug": "copy-list-with-random-pointer",
+  "difficulty": "medium",
+  "topics": [
+    "linked-lists",
+    "hashing"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft",
+    "Facebook",
+    "Bloomberg"
+  ],
+  "statement": "Each node is [value, random_index]. random_index is -1 when the random pointer is null, otherwise the index of the target node. Deep-copy the list, including random pointers, and return [value, random_value] for each node in order. random_value is null when the pointer is null. Values in the tests are unique, so the random value identifies the target.\n",
+  "constraints": [
+    "0 <= n <= 1000",
+    "-10000 <= value <= 10000"
+  ],
+  "function_name": "copy_random_list",
+  "hints": [
+    "The hashmap solution clones every node, then assigns next and random by looking up the originals.",
+    "The constant-extra-space solution weaves each clone immediately after its original.",
+    "After the weave, original.random.next is the clone of the random target. Then unweave the two lists."
+  ],
+  "approaches": [
+    {
+      "name": "Hash map from original to clone",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Two passes."
+    },
+    {
+      "name": "Interleaved clones",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1) extra"
+      },
+      "explanation": "Weave, assign random, unweave."
+    }
+  ],
+  "editorial": "Build the original list, then insert a clone after every node. The clone's random pointer is the next node of the original's random pointer, which is that target's clone. A final pass separates the two lists. The returned pairs read the clone values and the clone random values.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef copy_random_list(nodes: list[list[int]]) -> list[list[int | None]]:\n    class Node:\n        def __init__(self, value: int, nxt=None):\n            self.value = value\n            self.nxt = nxt\n            self.rnd = None\n\n    if not nodes:\n        return []\n    built: list[Node] = []\n    prev = None\n    for value, _random_index in nodes:\n        node = Node(value)\n        built.append(node)\n        if prev:\n            prev.nxt = node\n        prev = node\n    for index, node in enumerate(built):\n        target = nodes[index][1]\n        if target >= 0:\n            node.rnd = built[target]\n    for node in built:\n        clone = Node(node.value, node.nxt)\n        node.nxt = clone\n    for node in built:\n        if node.rnd:\n            node.nxt.rnd = node.rnd.nxt\n    out: list[list[int | None]] = []\n    for node in built:\n        clone = node.nxt\n        node.nxt = clone.nxt\n        if clone.nxt:\n            clone.nxt = clone.nxt.nxt\n        out.append([clone.value, clone.rnd.value if clone.rnd else None])\n    return out\n",
+  "starter_code": "from typing import List, Optional\n\ndef copy_random_list(nodes: List[List[int]]) -> List[List[Optional[int]]]:\n    pass\n",
+  "examples": [
+    {
+      "input": "nodes = [[7, -1], [13, 0], [11, 4], [10, 2], [1, 0]]",
+      "output": "[[7, null], [13, 7], [11, 1], [10, 11], [1, 7]]",
+      "explanation": "Random targets become the values of those nodes."
+    },
+    {
+      "input": "nodes = [[1, 1], [2, 1]]",
+      "output": "[[1, 2], [2, 2]]",
+      "explanation": "The second node points at itself."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "nodes": [
+          [
+            7,
+            -1
+          ],
+          [
+            13,
+            0
+          ],
+          [
+            11,
+            4
+          ],
+          [
+            10,
+            2
+          ],
+          [
+            1,
+            0
+          ]
+        ]
+      },
+      "expected": [
+        [
+          7,
+          null
+        ],
+        [
+          13,
+          7
+        ],
+        [
+          11,
+          1
+        ],
+        [
+          10,
+          11
+        ],
+        [
+          1,
+          7
+        ]
+      ]
+    },
+    {
+      "name": "self",
+      "args": {
+        "nodes": [
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            1
+          ]
+        ]
+      },
+      "expected": [
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          2
+        ]
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "empty",
+      "args": {
+        "nodes": []
+      },
+      "expected": []
+    },
+    {
+      "name": "nulls",
+      "args": {
+        "nodes": [
+          [
+            3,
+            -1
+          ],
+          [
+            4,
+            -1
+          ]
+        ]
+      },
+      "expected": [
+        [
+          3,
+          null
+        ],
+        [
+          4,
+          null
+        ]
+      ]
+    },
+    {
+      "name": "cycle-random",
+      "args": {
+        "nodes": [
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            0
+          ]
+        ]
+      },
+      "expected": [
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          1
+        ]
+      ]
+    }
+  ]
+}

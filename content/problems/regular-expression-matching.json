@@ -1,0 +1,104 @@
+{
+  "title": "Regular Expression Matching",
+  "slug": "regular-expression-matching",
+  "difficulty": "hard",
+  "topics": [
+    "dynamic-programming",
+    "strings"
+  ],
+  "company_tags": [
+    "Google",
+    "Facebook",
+    "Uber",
+    "Amazon"
+  ],
+  "statement": "Implement matching where '.' matches any single character and '*' matches zero or more of the preceding element. The match must cover the entire string. Return true when `s` matches the pattern `p`.\n",
+  "constraints": [
+    "0 <= s.length <= 20",
+    "0 <= p.length <= 30",
+    "p is a valid pattern"
+  ],
+  "function_name": "is_match",
+  "hints": [
+    "A star applies to the character before it, and it is a choice: use none of them, or use one and keep the star available.",
+    "dp[i][j] means s[:i] matches p[:j].",
+    "If p[j-1] is a star, the cell is true when the star matches empty (dp[i][j-2]) or when the current character matches the starred element and dp[i-1][j] is true."
+  ],
+  "approaches": [
+    {
+      "name": "Backtracking",
+      "complexity": {
+        "time": "exponential",
+        "space": "O(n + m)"
+      },
+      "explanation": "Try both branches of every star."
+    },
+    {
+      "name": "Boolean DP",
+      "complexity": {
+        "time": "O(n * m)",
+        "space": "O(n * m)"
+      },
+      "explanation": "Each pair of prefixes is decided once."
+    }
+  ],
+  "editorial": "The empty pattern matches only the empty string. A pattern that begins with a star-capable pair can match empty text when the star consumes nothing, which fills the first row. Every other cell either consumes one character, or handles a star by choosing empty or one-or-more. The bottom-right cell is the full match.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef is_match(s: str, p: str) -> bool:\n    rows, cols = len(s) + 1, len(p) + 1\n    dp = [[False] * cols for _ in range(rows)]\n    dp[0][0] = True\n    for j in range(2, cols):\n        if p[j - 1] == \"*\":\n            dp[0][j] = dp[0][j - 2]\n    for i in range(1, rows):\n        for j in range(1, cols):\n            if p[j - 1] == \"*\":\n                dp[i][j] = dp[i][j - 2] or (\n                    dp[i - 1][j] and p[j - 2] in {s[i - 1], \".\"}\n                )\n            elif p[j - 1] in {s[i - 1], \".\"}:\n                dp[i][j] = dp[i - 1][j - 1]\n    return dp[-1][-1]\n",
+  "starter_code": "def is_match(s: str, p: str) -> bool:\n    pass\n",
+  "examples": [
+    {
+      "input": "s = 'aa', p = 'a*'",
+      "output": "true",
+      "explanation": "The star consumes both a's."
+    },
+    {
+      "input": "s = 'ab', p = '.*'",
+      "output": "true",
+      "explanation": "Dot-star consumes any string."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "star",
+      "args": {
+        "s": "aa",
+        "p": "a*"
+      },
+      "expected": true
+    },
+    {
+      "name": "dot-star",
+      "args": {
+        "s": "ab",
+        "p": ".*"
+      },
+      "expected": true
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "mixed",
+      "args": {
+        "s": "aab",
+        "p": "c*a*b"
+      },
+      "expected": true
+    },
+    {
+      "name": "miss",
+      "args": {
+        "s": "mississippi",
+        "p": "mis*is*p*."
+      },
+      "expected": false
+    },
+    {
+      "name": "empty",
+      "args": {
+        "s": "",
+        "p": "a*"
+      },
+      "expected": true
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "title": "Cosine Similarity",
+  "slug": "ml-cosine",
+  "difficulty": "easy",
+  "topics": [
+    "machine-learning",
+    "linear-algebra",
+    "retrieval"
+  ],
+  "company_tags": [
+    "Spotify",
+    "Google"
+  ],
+  "statement": "Implement `cosine(a, b)` for two equal-length, non-zero vectors. Return the dot product divided by the product of Euclidean norms. The result lies between -1 and 1 and ignores magnitude, which is why embedding search uses it.",
+  "constraints": [
+    "Vectors are non-zero and equal length",
+    "1 <= n <= 10^5",
+    "Return a Python float"
+  ],
+  "examples": [
+    {
+      "input": "{\"a\": [1.0, 0.0], \"b\": [0.6, 0.8]}",
+      "output": "0.6",
+      "explanation": "Matches the reference on this input."
+    },
+    {
+      "input": "{\"a\": [1.0, 1.0], \"b\": [2.0, 2.0]}",
+      "output": "0.9999999999999998",
+      "explanation": "Matches the reference on this input."
+    }
+  ],
+  "starter_code": "def cosine(a: list[float], b: list[float]) -> float:\n    pass\n",
+  "function_name": "cosine",
+  "hints": [
+    "Reuse the dot product for the numerator and for each squared norm.",
+    "The norm is the square root of the self-dot.",
+    "Identical direction yields 1 even if magnitudes differ."
+  ],
+  "approaches": [
+    {
+      "name": "Normalized dot",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "cos \u03b8 = (a \u00b7 b) / (\u2016a\u2016 \u2016b\u2016). Pre-normalized embeddings reduce this to a dot product."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "unit-angle",
+      "args": {
+        "a": [
+          1.0,
+          0.0
+        ],
+        "b": [
+          0.6,
+          0.8
+        ]
+      },
+      "expected": 0.6
+    },
+    {
+      "name": "same-direction",
+      "args": {
+        "a": [
+          1.0,
+          1.0
+        ],
+        "b": [
+          2.0,
+          2.0
+        ]
+      },
+      "expected": 0.9999999999999998
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "opposite",
+      "args": {
+        "a": [
+          1.0,
+          0.0
+        ],
+        "b": [
+          -2.0,
+          0.0
+        ]
+      },
+      "expected": -1.0
+    },
+    {
+      "name": "orthogonal",
+      "args": {
+        "a": [
+          3.0,
+          0.0
+        ],
+        "b": [
+          0.0,
+          4.0
+        ]
+      },
+      "expected": 0.0
+    }
+  ],
+  "editorial": "Cosine similarity is the dot product of two L2-normalized vectors. It answers 'do these point the same way?' and ignores length, so a long document and a short query can still match in bag-of-words space. If either vector is the zero vector the denominator vanishes; production retrieval stacks should drop or specially handle those rows. Numerically, compute norms from the sum of squares and take one square root each.",
+  "reference_solution": "import math\n\ndef cosine(a: list[float], b: list[float]) -> float:\n    dot = sum(x * y for x, y in zip(a, b))\n    na = math.sqrt(sum(x * x for x in a))\n    nb = math.sqrt(sum(y * y for y in b))\n    return float(dot / (na * nb))\n"
+}

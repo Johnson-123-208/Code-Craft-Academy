@@ -1,0 +1,127 @@
+{
+  "title": "Contains Duplicate II",
+  "slug": "contains-duplicate-ii",
+  "difficulty": "easy",
+  "topics": [
+    "arrays",
+    "hashing",
+    "sliding-window"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Adobe",
+    "Palantir",
+    "Microsoft"
+  ],
+  "statement": "Return true when two distinct indices i and j exist with nums[i] == nums[j] and abs(i - j) <= k.\n",
+  "constraints": [
+    "1 <= nums.length <= 10^5",
+    "-10^9 <= nums[i] <= 10^9",
+    "0 <= k <= 10^5"
+  ],
+  "function_name": "contains_nearby_duplicate",
+  "hints": [
+    "Store the last index of each value.",
+    "When the value repeats, compare the distance with k.",
+    "A sliding set of the last k elements also works: the window never needs to remember older indices."
+  ],
+  "approaches": [
+    {
+      "name": "All pairs",
+      "complexity": {
+        "time": "O(n * k)",
+        "space": "O(1)"
+      },
+      "explanation": "For each index look back k steps."
+    },
+    {
+      "name": "Last index map",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Compare the current index with the previous index of the same value."
+    }
+  ],
+  "editorial": "A dictionary from value to the latest index answers the distance test in expected constant time. Update the index after the test so the next duplicate sees the closest previous occurrence. If k is 0, no distinct pair can satisfy the distance, and the map still returns false.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef contains_nearby_duplicate(nums: list[int], k: int) -> bool:\n    last: dict[int, int] = {}\n    for i, value in enumerate(nums):\n        if value in last and i - last[value] <= k:\n            return True\n        last[value] = i\n    return False\n",
+  "starter_code": "from typing import List\n\ndef contains_nearby_duplicate(nums: List[int], k: int) -> bool:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [1, 2, 3, 1], k = 3",
+      "output": "true",
+      "explanation": "The two 1s are distance 3 apart."
+    },
+    {
+      "input": "nums = [1, 0, 1, 1], k = 1",
+      "output": "true",
+      "explanation": "The last two 1s are adjacent."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "yes",
+      "args": {
+        "nums": [
+          1,
+          2,
+          3,
+          1
+        ],
+        "k": 3
+      },
+      "expected": true
+    },
+    {
+      "name": "no",
+      "args": {
+        "nums": [
+          1,
+          0,
+          1,
+          1
+        ],
+        "k": 1
+      },
+      "expected": true
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "far",
+      "args": {
+        "nums": [
+          1,
+          2,
+          3,
+          1,
+          2,
+          3
+        ],
+        "k": 2
+      },
+      "expected": false
+    },
+    {
+      "name": "zero-k",
+      "args": {
+        "nums": [
+          1,
+          1
+        ],
+        "k": 0
+      },
+      "expected": false
+    },
+    {
+      "name": "single",
+      "args": {
+        "nums": [
+          4
+        ],
+        "k": 2
+      },
+      "expected": false
+    }
+  ]
+}

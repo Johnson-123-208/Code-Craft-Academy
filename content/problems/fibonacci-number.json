@@ -1,0 +1,97 @@
+{
+  "title": "Fibonacci Number",
+  "slug": "fibonacci-number",
+  "difficulty": "easy",
+  "topics": [
+    "dynamic-programming",
+    "math"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Adobe",
+    "Apple",
+    "Microsoft"
+  ],
+  "statement": "Return F(n) where F(0) = 0, F(1) = 1, and F(n) = F(n - 1) + F(n - 2).\n",
+  "constraints": [
+    "0 <= n <= 30"
+  ],
+  "function_name": "fib",
+  "hints": [
+    "The naive recursion recomputes the same F(k) exponentially often.",
+    "Bottom-up iteration keeps only the previous two values.",
+    "Matrix exponentiation or the closed form are the advanced follow-ups. Iteration is the expected answer."
+  ],
+  "approaches": [
+    {
+      "name": "Recursion",
+      "complexity": {
+        "time": "O(phi^n)",
+        "space": "O(n)"
+      },
+      "explanation": "The call tree."
+    },
+    {
+      "name": "Iteration",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Two rolling variables."
+    }
+  ],
+  "editorial": "Initialize a = 0 and b = 1. Repeat n times, replacing the pair with (b, a + b). After n steps a holds F(n). The loop body is the recurrence with the call stack erased.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef fib(n: int) -> int:\n    a, b = 0, 1\n    for _ in range(n):\n        a, b = b, a + b\n    return a\n",
+  "starter_code": "def fib(n: int) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "n = 2",
+      "output": "1",
+      "explanation": "F(2) = 1."
+    },
+    {
+      "input": "n = 4",
+      "output": "3",
+      "explanation": "F(4) = 3."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "two",
+      "args": {
+        "n": 2
+      },
+      "expected": 1
+    },
+    {
+      "name": "four",
+      "args": {
+        "n": 4
+      },
+      "expected": 3
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "zero",
+      "args": {
+        "n": 0
+      },
+      "expected": 0
+    },
+    {
+      "name": "one",
+      "args": {
+        "n": 1
+      },
+      "expected": 1
+    },
+    {
+      "name": "ten",
+      "args": {
+        "n": 10
+      },
+      "expected": 55
+    }
+  ]
+}

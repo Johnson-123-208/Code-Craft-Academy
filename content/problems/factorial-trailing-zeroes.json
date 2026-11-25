@@ -1,0 +1,96 @@
+{
+  "title": "Factorial Trailing Zeroes",
+  "slug": "factorial-trailing-zeroes",
+  "difficulty": "medium",
+  "topics": [
+    "math"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Bloomberg",
+    "Microsoft",
+    "Adobe"
+  ],
+  "statement": "Return the number of trailing zeroes in n!. Do not compute n!.\n",
+  "constraints": [
+    "0 <= n <= 10^4"
+  ],
+  "function_name": "trailing_zeroes",
+  "hints": [
+    "A trailing zero is a factor of 10, which is 2 * 5.",
+    "Factorials contain more twos than fives, so the number of fives is the answer.",
+    "Count floor(n/5) + floor(n/25) + floor(n/125) + ... because multiples of 25 contribute extra fives."
+  ],
+  "approaches": [
+    {
+      "name": "Compute n!",
+      "complexity": {
+        "time": "O(n) big integers",
+        "space": "O(n)"
+      },
+      "explanation": "Possible in Python and the wrong lesson."
+    },
+    {
+      "name": "Count factors of 5",
+      "complexity": {
+        "time": "O(log n)",
+        "space": "O(1)"
+      },
+      "explanation": "The closed counting argument."
+    }
+  ],
+  "editorial": "Every pair of a factor 2 and a factor 5 makes a trailing zero, and the fives are rarer. floor(n/5) counts multiples of 5, but 25 contributes two fives and was only counted once, so add floor(n/25), then floor(n/125), and so on. The loop divides n by 5 until it becomes zero.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef trailing_zeroes(n: int) -> int:\n    zeros = 0\n    while n:\n        n //= 5\n        zeros += n\n    return zeros\n",
+  "starter_code": "def trailing_zeroes(n: int) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "n = 3",
+      "output": "0",
+      "explanation": "6 has no trailing zero."
+    },
+    {
+      "input": "n = 5",
+      "output": "1",
+      "explanation": "120 has one trailing zero."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "three",
+      "args": {
+        "n": 3
+      },
+      "expected": 0
+    },
+    {
+      "name": "five",
+      "args": {
+        "n": 5
+      },
+      "expected": 1
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "zero",
+      "args": {
+        "n": 0
+      },
+      "expected": 0
+    },
+    {
+      "name": "twenty-five",
+      "args": {
+        "n": 25
+      },
+      "expected": 6
+    },
+    {
+      "name": "ten",
+      "args": {
+        "n": 10
+      },
+      "expected": 2
+    }
+  ]
+}

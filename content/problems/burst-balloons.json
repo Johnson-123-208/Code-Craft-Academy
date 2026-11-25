@@ -1,0 +1,115 @@
+{
+  "title": "Burst Balloons",
+  "slug": "burst-balloons",
+  "difficulty": "hard",
+  "topics": [
+    "dynamic-programming",
+    "divide-and-conquer"
+  ],
+  "company_tags": [
+    "Google",
+    "Amazon",
+    "Snap",
+    "Microsoft"
+  ],
+  "statement": "Balloons are numbered by `nums`. Bursting balloon i earns nums[left] * nums[i] * nums[right], where left and right are the nearest balloons that have not been burst. Add a balloon of value 1 at each end. Return the maximum coins you can collect.\n",
+  "constraints": [
+    "1 <= nums.length <= 300",
+    "0 <= nums[i] <= 100"
+  ],
+  "function_name": "max_coins",
+  "hints": [
+    "Choosing the first balloon to burst is awkward because the neighbors change. Choose the last balloon to burst in an interval instead.",
+    "If k is the last balloon burst between left and right, the coins are nums[left] * nums[k] * nums[right] plus the two subintervals.",
+    "Add the boundary ones, then fill intervals by increasing length."
+  ],
+  "approaches": [
+    {
+      "name": "Try every burst order",
+      "complexity": {
+        "time": "O(n!)",
+        "space": "O(n)"
+      },
+      "explanation": "Only for tiny n."
+    },
+    {
+      "name": "Interval DP",
+      "complexity": {
+        "time": "O(n^3)",
+        "space": "O(n^2)"
+      },
+      "explanation": "The last-burst choice."
+    }
+  ],
+  "editorial": "Pad the array with ones. dp[left][right] is the best score for bursting every balloon strictly between those bounds. The last balloon k between them sees the two bounds as neighbors, so its score does not depend on the order inside the subintervals. Those subintervals are shorter and already solved. The answer is dp[0][len-1].",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef max_coins(nums: list[int]) -> int:\n    arr = [1, *nums, 1]\n    n = len(arr)\n    dp = [[0] * n for _ in range(n)]\n    for span in range(2, n):\n        for left in range(n - span):\n            right = left + span\n            for k in range(left + 1, right):\n                coins = arr[left] * arr[k] * arr[right] + dp[left][k] + dp[k][right]\n                dp[left][right] = max(dp[left][right], coins)\n    return dp[0][n - 1]\n",
+  "starter_code": "from typing import List\n\ndef max_coins(nums: List[int]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [3, 1, 5, 8]",
+      "output": "167",
+      "explanation": "The best order collects 167 coins."
+    },
+    {
+      "input": "nums = [5]",
+      "output": "5",
+      "explanation": "The only balloon is worth 1 * 5 * 1."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "nums": [
+          3,
+          1,
+          5,
+          8
+        ]
+      },
+      "expected": 167
+    },
+    {
+      "name": "one",
+      "args": {
+        "nums": [
+          5
+        ]
+      },
+      "expected": 5
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "two",
+      "args": {
+        "nums": [
+          1,
+          5
+        ]
+      },
+      "expected": 10
+    },
+    {
+      "name": "zeros",
+      "args": {
+        "nums": [
+          0,
+          0
+        ]
+      },
+      "expected": 0
+    },
+    {
+      "name": "three",
+      "args": {
+        "nums": [
+          2,
+          3,
+          4
+        ]
+      },
+      "expected": 36
+    }
+  ]
+}

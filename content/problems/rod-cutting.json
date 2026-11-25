@@ -1,0 +1,120 @@
+{
+  "title": "Rod Cutting",
+  "slug": "rod-cutting",
+  "difficulty": "medium",
+  "topics": [
+    "dynamic-programming"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft",
+    "Google",
+    "Adobe"
+  ],
+  "statement": "`prices[i]` is the price of a rod piece of length i + 1. Return the maximum revenue from cutting a rod of length `n` into pieces. Not cutting is allowed. n equals len(prices).\n",
+  "constraints": [
+    "1 <= n <= 100",
+    "1 <= prices[i] <= 1000"
+  ],
+  "function_name": "rod_cutting",
+  "hints": [
+    "This is unbounded knapsack. A length can be used many times.",
+    "dp[L] is the best revenue for a rod of length L.",
+    "dp[L] = max over piece length p <= L of prices[p - 1] + dp[L - p]."
+  ],
+  "approaches": [
+    {
+      "name": "Recursion",
+      "complexity": {
+        "time": "exponential",
+        "space": "O(n)"
+      },
+      "explanation": "Try the first cut."
+    },
+    {
+      "name": "Unbounded DP",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(n)"
+      },
+      "explanation": "Fill lengths from 1 to n."
+    }
+  ],
+  "editorial": "The first piece has some length p. The remainder is an independent smaller rod. Trying every p and taking the max, with smaller lengths already solved, is the optimal substructure. dp[0] is 0. The answer is dp[n].",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef rod_cutting(prices: list[int]) -> int:\n    n = len(prices)\n    dp = [0] * (n + 1)\n    for length in range(1, n + 1):\n        for piece in range(1, length + 1):\n            dp[length] = max(dp[length], prices[piece - 1] + dp[length - piece])\n    return dp[n]\n",
+  "starter_code": "from typing import List\n\ndef rod_cutting(prices: List[int]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "prices = [1, 5, 8, 9, 10, 17, 17, 20]",
+      "output": "22",
+      "explanation": "A rod of length 8 is best cut for 22."
+    },
+    {
+      "input": "prices = [3]",
+      "output": "3",
+      "explanation": "Do not cut."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "prices": [
+          1,
+          5,
+          8,
+          9,
+          10,
+          17,
+          17,
+          20
+        ]
+      },
+      "expected": 22
+    },
+    {
+      "name": "one",
+      "args": {
+        "prices": [
+          3
+        ]
+      },
+      "expected": 3
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "two",
+      "args": {
+        "prices": [
+          1,
+          5
+        ]
+      },
+      "expected": 5
+    },
+    {
+      "name": "prefer-pieces",
+      "args": {
+        "prices": [
+          2,
+          5,
+          7
+        ]
+      },
+      "expected": 7
+    },
+    {
+      "name": "flat",
+      "args": {
+        "prices": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "expected": 4
+    }
+  ]
+}

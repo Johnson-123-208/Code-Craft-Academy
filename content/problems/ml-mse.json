@@ -1,0 +1,111 @@
+{
+  "title": "Mean Squared Error",
+  "slug": "ml-mse",
+  "difficulty": "easy",
+  "topics": [
+    "machine-learning",
+    "metrics",
+    "python"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Meta"
+  ],
+  "statement": "Implement `mse(y_true, y_pred)`, the mean squared error between two equal-length sequences. Average the squared residuals. Do not take a square root; that is RMSE.",
+  "constraints": [
+    "1 <= n <= 10^5",
+    "Sequences have equal length",
+    "Return a Python float"
+  ],
+  "examples": [
+    {
+      "input": "{\"y_true\": [1.0, 2.0, 3.0], \"y_pred\": [1.0, 2.0, 4.0]}",
+      "output": "0.3333333333333333",
+      "explanation": "Matches the reference on this input."
+    },
+    {
+      "input": "{\"y_true\": [2.0, 2.0], \"y_pred\": [2.0, 2.0]}",
+      "output": "0.0",
+      "explanation": "Matches the reference on this input."
+    }
+  ],
+  "starter_code": "def mse(y_true: list[float], y_pred: list[float]) -> float:\n    pass\n",
+  "function_name": "mse",
+  "hints": [
+    "Square the residual before averaging.",
+    "Divide by n, not n - 1.",
+    "A perfect prediction has MSE 0."
+  ],
+  "approaches": [
+    {
+      "name": "Direct average",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "MSE is the empirical risk for squared loss. The factor 1/n makes the number comparable across batch sizes."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "one-miss",
+      "args": {
+        "y_true": [
+          1.0,
+          2.0,
+          3.0
+        ],
+        "y_pred": [
+          1.0,
+          2.0,
+          4.0
+        ]
+      },
+      "expected": 0.3333333333333333
+    },
+    {
+      "name": "perfect",
+      "args": {
+        "y_true": [
+          2.0,
+          2.0
+        ],
+        "y_pred": [
+          2.0,
+          2.0
+        ]
+      },
+      "expected": 0.0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "signed",
+      "args": {
+        "y_true": [
+          0.0,
+          0.0
+        ],
+        "y_pred": [
+          1.0,
+          -1.0
+        ]
+      },
+      "expected": 1.0
+    },
+    {
+      "name": "single",
+      "args": {
+        "y_true": [
+          5.0
+        ],
+        "y_pred": [
+          2.0
+        ]
+      },
+      "expected": 9.0
+    }
+  ],
+  "editorial": "MSE = (1/n) \u03a3 (y\u1d62 \u2212 \u0177\u1d62)\u00b2. Squaring penalizes large misses more than absolute error and gives a smooth gradient 2(\u0177 \u2212 y)/n with respect to the prediction. Divide by n so a longer test set does not inflate the metric. RMSE is the square root of this value and lives in the original units of y.",
+  "reference_solution": "def mse(y_true: list[float], y_pred: list[float]) -> float:\n    return float(sum((a - b) ** 2 for a, b in zip(y_true, y_pred)) / len(y_true))\n"
+}

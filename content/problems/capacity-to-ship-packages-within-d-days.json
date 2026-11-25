@@ -1,0 +1,134 @@
+{
+  "title": "Capacity To Ship Packages Within D Days",
+  "slug": "capacity-to-ship-packages-within-d-days",
+  "difficulty": "medium",
+  "topics": [
+    "binary-search"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Uber",
+    "Microsoft"
+  ],
+  "statement": "Packages must ship in order. A ship of capacity `cap` loads packages until the next one would exceed cap, then the day ends. Return the minimum capacity that ships every package within `days` days.\n",
+  "constraints": [
+    "1 <= weights.length <= 5 * 10^4",
+    "1 <= days <= weights.length"
+  ],
+  "function_name": "ship_within_days",
+  "hints": [
+    "Capacity must be at least the heaviest package, and at most the sum of the weights.",
+    "Given a capacity, a linear scan counts how many days that capacity needs.",
+    "Binary search the smallest capacity whose day count is at most days."
+  ],
+  "approaches": [
+    {
+      "name": "Try every capacity",
+      "complexity": {
+        "time": "O(sum * n)",
+        "space": "O(1)"
+      },
+      "explanation": "Feasible only for tiny sums."
+    },
+    {
+      "name": "Binary search on capacity",
+      "complexity": {
+        "time": "O(n log sum)",
+        "space": "O(1)"
+      },
+      "explanation": "Monotone feasibility."
+    }
+  ],
+  "editorial": "The lower bound is max(weights) because a package cannot be split. The upper bound is sum(weights), which finishes in one day. The day-count predicate decreases as capacity grows, so binary search finds the first feasible capacity. The greedy loader is optimal for a fixed capacity: delaying a package that fits cannot reduce the number of days.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef ship_within_days(weights: list[int], days: int) -> int:\n    def needed(cap: int) -> int:\n        used = 1\n        load = 0\n        for weight in weights:\n            if load + weight > cap:\n                used += 1\n                load = 0\n            load += weight\n        return used\n\n    lo, hi = max(weights), sum(weights)\n    while lo < hi:\n        mid = (lo + hi) // 2\n        if needed(mid) <= days:\n            hi = mid\n        else:\n            lo = mid + 1\n    return lo\n",
+  "starter_code": "from typing import List\n\ndef ship_within_days(weights: List[int], days: int) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "weights = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], days = 5",
+      "output": "15",
+      "explanation": "The minimum capacity is 15."
+    },
+    {
+      "input": "weights = [3, 2, 2, 4, 1, 4], days = 1",
+      "output": "16",
+      "explanation": "The capacity is the total weight."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "weights": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "days": 5
+      },
+      "expected": 15
+    },
+    {
+      "name": "one-day",
+      "args": {
+        "weights": [
+          3,
+          2,
+          2,
+          4,
+          1,
+          4
+        ],
+        "days": 1
+      },
+      "expected": 16
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "per-package",
+      "args": {
+        "weights": [
+          1,
+          2,
+          3,
+          1,
+          1
+        ],
+        "days": 4
+      },
+      "expected": 3
+    },
+    {
+      "name": "two",
+      "args": {
+        "weights": [
+          5,
+          5,
+          5
+        ],
+        "days": 2
+      },
+      "expected": 10
+    },
+    {
+      "name": "equal",
+      "args": {
+        "weights": [
+          2,
+          2,
+          2
+        ],
+        "days": 3
+      },
+      "expected": 2
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "title": "Compare Version Numbers",
+  "slug": "compare-version-numbers",
+  "difficulty": "medium",
+  "topics": [
+    "strings"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft",
+    "Apple",
+    "Adobe"
+  ],
+  "statement": "Compare two version strings of dot-separated revisions. Missing revisions compare as 0. Leading zeros do not change the integer value. Return -1, 0, or 1 when version1 is less than, equal to, or greater than version2.\n",
+  "constraints": [
+    "1 <= length <= 500",
+    "Revisions fit in a 32-bit integer"
+  ],
+  "function_name": "compare_version",
+  "hints": [
+    "Split on dots and parse each piece as an integer.",
+    "Walk the longer list. A missing piece is 0.",
+    "Return as soon as two revisions differ."
+  ],
+  "approaches": [
+    {
+      "name": "Pad and compare",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Zip the integer lists with zeros."
+    },
+    {
+      "name": "Two pointers",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Parse the next integer without storing every revision."
+    }
+  ],
+  "editorial": "Split both strings and convert revisions with int, which drops leading zeros. Compare index by index up to the longer length, using 0 when a version has ended. The first unequal pair decides the sign. If every pair matches, the versions are equal.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef compare_version(version1: str, version2: str) -> int:\n    a = [int(part) for part in version1.split(\".\")]\n    b = [int(part) for part in version2.split(\".\")]\n    for i in range(max(len(a), len(b))):\n        left = a[i] if i < len(a) else 0\n        right = b[i] if i < len(b) else 0\n        if left < right:\n            return -1\n        if left > right:\n            return 1\n    return 0\n",
+  "starter_code": "def compare_version(version1: str, version2: str) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "version1 = '1.2', version2 = '1.10'",
+      "output": "-1",
+      "explanation": "2 is less than 10, so version1 is smaller. Wait: 1.2 < 1.10, so -1."
+    },
+    {
+      "input": "version1 = '1.01', version2 = '1.001'",
+      "output": "0",
+      "explanation": "Leading zeros do not count. They are equal."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "greater",
+      "args": {
+        "version1": "1.2",
+        "version2": "1.10"
+      },
+      "expected": -1
+    },
+    {
+      "name": "equal",
+      "args": {
+        "version1": "1.01",
+        "version2": "1.001"
+      },
+      "expected": 0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "zero-tail",
+      "args": {
+        "version1": "1.0",
+        "version2": "1.0.0"
+      },
+      "expected": 0
+    },
+    {
+      "name": "less",
+      "args": {
+        "version1": "0.1",
+        "version2": "1.1"
+      },
+      "expected": -1
+    },
+    {
+      "name": "same",
+      "args": {
+        "version1": "1",
+        "version2": "1"
+      },
+      "expected": 0
+    }
+  ]
+}

@@ -1,0 +1,120 @@
+{
+  "title": "Find Pivot Index",
+  "slug": "find-pivot-index",
+  "difficulty": "easy",
+  "topics": [
+    "arrays",
+    "prefix-sums"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Facebook",
+    "Google",
+    "Microsoft"
+  ],
+  "statement": "The pivot index is the index where the sum of the numbers strictly to the left equals the sum of the numbers strictly to the right. Return the leftmost pivot index, or -1 if none exists. An empty side sums to 0.\n",
+  "constraints": [
+    "1 <= nums.length <= 10^4",
+    "-1000 <= nums[i] <= 1000"
+  ],
+  "function_name": "pivot_index",
+  "hints": [
+    "The total sum is fixed. At index i the right sum is total minus left sum minus nums[i].",
+    "Walk once, adding nums[i] into the left sum after the comparison.",
+    "Return the first index that balances. Do not restart the scan."
+  ],
+  "approaches": [
+    {
+      "name": "Recompute both sides",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(1)"
+      },
+      "explanation": "Sum left and right at every index."
+    },
+    {
+      "name": "One running left sum",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Right sum is derived from the total."
+    }
+  ],
+  "editorial": "Let total be the sum of the array. Initialize left to 0. At index i, the right sum is total - left - nums[i]. If left equals that value, return i. Otherwise add nums[i] into left. The empty-side case falls out when i is 0 or n - 1.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef pivot_index(nums: list[int]) -> int:\n    total = sum(nums)\n    left = 0\n    for i, value in enumerate(nums):\n        if left == total - left - value:\n            return i\n        left += value\n    return -1\n",
+  "starter_code": "from typing import List\n\ndef pivot_index(nums: List[int]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [1, 7, 3, 6, 5, 6]",
+      "output": "3",
+      "explanation": "Index 3 balances both sides at 11."
+    },
+    {
+      "input": "nums = [1, 2, 3]",
+      "output": "-1",
+      "explanation": "No index balances."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "nums": [
+          1,
+          7,
+          3,
+          6,
+          5,
+          6
+        ]
+      },
+      "expected": 3
+    },
+    {
+      "name": "none",
+      "args": {
+        "nums": [
+          1,
+          2,
+          3
+        ]
+      },
+      "expected": -1
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "left-empty",
+      "args": {
+        "nums": [
+          2,
+          1,
+          -1
+        ]
+      },
+      "expected": 0
+    },
+    {
+      "name": "zeros",
+      "args": {
+        "nums": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "expected": 0
+    },
+    {
+      "name": "single",
+      "args": {
+        "nums": [
+          5
+        ]
+      },
+      "expected": 0
+    }
+  ]
+}

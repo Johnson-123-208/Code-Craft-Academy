@@ -1,0 +1,159 @@
+{
+  "title": "Graph Valid Tree",
+  "slug": "graph-valid-tree",
+  "difficulty": "medium",
+  "topics": [
+    "graphs",
+    "union-find"
+  ],
+  "company_tags": [
+    "Google",
+    "Amazon",
+    "Facebook",
+    "LinkedIn"
+  ],
+  "statement": "You have `n` nodes labeled 0..n-1 and an undirected edge list. Return true when the edges form a tree: they connect every node and contain no cycle.\n",
+  "constraints": [
+    "1 <= n <= 2000",
+    "0 <= edges.length <= 5000"
+  ],
+  "function_name": "valid_tree",
+  "hints": [
+    "A tree on n nodes has exactly n - 1 edges. Any other count is immediately false.",
+    "With exactly n - 1 edges, the graph is a tree exactly when it is connected, or exactly when it has no cycle. Either extra check is enough.",
+    "Union-find detects a cycle when an edge joins two nodes already in the same component. After n - 1 successful unions there is one component."
+  ],
+  "approaches": [
+    {
+      "name": "DFS connectivity plus edge count",
+      "complexity": {
+        "time": "O(n + edges)",
+        "space": "O(n + edges)"
+      },
+      "explanation": "Visit every node from 0 and reject a back edge to a non-parent."
+    },
+    {
+      "name": "Disjoint set",
+      "complexity": {
+        "time": "O(n + edges)",
+        "space": "O(n)"
+      },
+      "explanation": "Reject early cycles and require n - 1 edges."
+    }
+  ],
+  "editorial": "Check the edge count first. Then union the endpoints of every edge. If find already agrees, the edge closes a cycle. With n - 1 successful unions the components collapse to one, which is a tree.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef valid_tree(n: int, edges: list[list[int]]) -> bool:\n    if len(edges) != n - 1:\n        return False\n    parent = list(range(n))\n\n    def find(x: int) -> int:\n        while parent[x] != x:\n            parent[x] = parent[parent[x]]\n            x = parent[x]\n        return x\n\n    for u, v in edges:\n        ru, rv = find(u), find(v)\n        if ru == rv:\n            return False\n        parent[ru] = rv\n    return True\n",
+  "starter_code": "from typing import List\n\ndef valid_tree(n: int, edges: List[List[int]]) -> bool:\n    pass\n",
+  "examples": [
+    {
+      "input": "n = 5, edges = [[0, 1], [0, 2], [0, 3], [1, 4]]",
+      "output": "true",
+      "explanation": "Five nodes and four edges, connected, no cycle."
+    },
+    {
+      "input": "n = 5, edges = [[0, 1], [1, 2], [2, 3], [1, 3], [1, 4]]",
+      "output": "false",
+      "explanation": "Five edges on five nodes cannot be a tree."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "yes",
+      "args": {
+        "n": 5,
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            4
+          ]
+        ]
+      },
+      "expected": true
+    },
+    {
+      "name": "cycle",
+      "args": {
+        "n": 5,
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            1,
+            4
+          ]
+        ]
+      },
+      "expected": false
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "one",
+      "args": {
+        "n": 1,
+        "edges": []
+      },
+      "expected": true
+    },
+    {
+      "name": "disconnected",
+      "args": {
+        "n": 4,
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ]
+        ]
+      },
+      "expected": false
+    },
+    {
+      "name": "line",
+      "args": {
+        "n": 3,
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ]
+        ]
+      },
+      "expected": true
+    }
+  ]
+}

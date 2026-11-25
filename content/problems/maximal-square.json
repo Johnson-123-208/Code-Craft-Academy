@@ -1,0 +1,112 @@
+{
+  "title": "Maximal Square",
+  "slug": "maximal-square",
+  "difficulty": "medium",
+  "topics": [
+    "dynamic-programming",
+    "matrix"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "Facebook"
+  ],
+  "statement": "Given a binary matrix of characters '0' and '1', return the area of the largest square of '1's.\n",
+  "constraints": [
+    "1 <= m, n <= 300",
+    "matrix[i][j] is '0' or '1'"
+  ],
+  "function_name": "maximal_square",
+  "hints": [
+    "Let dp[r][c] be the side length of the largest square whose bottom-right corner is (r, c).",
+    "If the cell is '1', the side is 1 plus the minimum of the left, upper, and upper-left sides.",
+    "The answer is the square of the largest side."
+  ],
+  "approaches": [
+    {
+      "name": "Enumerate squares",
+      "complexity": {
+        "time": "O(mn * min(m, n)^2)",
+        "space": "O(1)"
+      },
+      "explanation": "Try every top-left and side."
+    },
+    {
+      "name": "DP side lengths",
+      "complexity": {
+        "time": "O(mn)",
+        "space": "O(n)"
+      },
+      "explanation": "One row of side lengths."
+    }
+  ],
+  "editorial": "A square of side k ending at (r, c) exists only when the three neighboring squares of side k - 1 exist and the cell itself is 1. The min of those three neighbors is exactly the largest such k - 1. Track the maximum side and square it at the end.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef maximal_square(matrix: list[str]) -> int:\n    rows, cols = len(matrix), len(matrix[0])\n    prev = [0] * (cols + 1)\n    best = 0\n    for r in range(rows):\n        cur = [0] * (cols + 1)\n        for c in range(cols):\n            if matrix[r][c] == \"1\":\n                cur[c + 1] = 1 + min(prev[c + 1], cur[c], prev[c])\n                best = max(best, cur[c + 1])\n        prev = cur\n    return best * best\n",
+  "starter_code": "from typing import List\n\ndef maximal_square(matrix: List[str]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "matrix = ['10100', '10111', '11111', '10010']",
+      "output": "4",
+      "explanation": "The largest square has area 4."
+    },
+    {
+      "input": "matrix = ['0']",
+      "output": "0",
+      "explanation": "No square of ones."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "matrix": [
+          "10100",
+          "10111",
+          "11111",
+          "10010"
+        ]
+      },
+      "expected": 4
+    },
+    {
+      "name": "zero",
+      "args": {
+        "matrix": [
+          "0"
+        ]
+      },
+      "expected": 0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "one",
+      "args": {
+        "matrix": [
+          "1"
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "name": "row",
+      "args": {
+        "matrix": [
+          "111"
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "name": "full",
+      "args": {
+        "matrix": [
+          "11",
+          "11"
+        ]
+      },
+      "expected": 4
+    }
+  ]
+}

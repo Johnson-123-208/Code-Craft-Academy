@@ -1,0 +1,143 @@
+{
+  "title": "Lowest Common Ancestor of a Binary Tree",
+  "slug": "lowest-common-ancestor-of-a-binary-tree",
+  "difficulty": "medium",
+  "topics": [
+    "trees"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Facebook",
+    "Microsoft",
+    "LinkedIn"
+  ],
+  "statement": "Values in the tree are unique. `p` and `q` are values that exist in the tree. Return the value of their lowest common ancestor. A node may be an ancestor of itself.\n",
+  "constraints": [
+    "2 <= number of nodes <= 10^5",
+    "All values are unique"
+  ],
+  "function_name": "lowest_common_ancestor",
+  "hints": [
+    "If the current node is p or q, it is a candidate even before you look at the children.",
+    "Ask both subtrees. If both return a node, the current node is the LCA.",
+    "If only one side returns a node, that node is the LCA of the pair, or the pair lives entirely on that side."
+  ],
+  "approaches": [
+    {
+      "name": "Parent map plus ancestor set",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Walk from p to the root and see where q's path hits that set."
+    },
+    {
+      "name": "Single DFS",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(h)"
+      },
+      "explanation": "The three-way return described above."
+    }
+  ],
+  "editorial": "The DFS returns the LCA if both targets are in the subtree, the target itself if exactly one is in the subtree, and null otherwise. When left and right are both non-null, the current node is the first place the two targets meet. When the current node is a target, returning it immediately is correct because the other target is either here or below, and a node is an ancestor of itself.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef lowest_common_ancestor(root: list, p: int, q: int) -> int:\n    def walk(node):\n        if node is None or node.value in (p, q):\n            return node\n        left = walk(node.left)\n        right = walk(node.right)\n        if left and right:\n            return node\n        return left or right\n\n    return walk(_build(root)).value\n",
+  "starter_code": "from typing import List, Optional\n\ndef lowest_common_ancestor(root: List[Optional[int]], p: int, q: int) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "root = [3, 5, 1, 6, 2, 0, 8, None, None, 7, 4], p = 5, q = 1",
+      "output": "3",
+      "explanation": "The LCA is the root, 3."
+    },
+    {
+      "input": "root = [3, 5, 1, 6, 2, 0, 8, None, None, 7, 4], p = 5, q = 4",
+      "output": "5",
+      "explanation": "5 is an ancestor of 4."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "root": [
+          3,
+          5,
+          1,
+          6,
+          2,
+          0,
+          8,
+          null,
+          null,
+          7,
+          4
+        ],
+        "p": 5,
+        "q": 1
+      },
+      "expected": 3
+    },
+    {
+      "name": "deeper",
+      "args": {
+        "root": [
+          3,
+          5,
+          1,
+          6,
+          2,
+          0,
+          8,
+          null,
+          null,
+          7,
+          4
+        ],
+        "p": 5,
+        "q": 4
+      },
+      "expected": 5
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "leaves",
+      "args": {
+        "root": [
+          1,
+          2,
+          3
+        ],
+        "p": 2,
+        "q": 3
+      },
+      "expected": 1
+    },
+    {
+      "name": "self",
+      "args": {
+        "root": [
+          1,
+          2
+        ],
+        "p": 2,
+        "q": 2
+      },
+      "expected": 2
+    },
+    {
+      "name": "chain",
+      "args": {
+        "root": [
+          1,
+          2,
+          null,
+          3
+        ],
+        "p": 3,
+        "q": 2
+      },
+      "expected": 2
+    }
+  ]
+}

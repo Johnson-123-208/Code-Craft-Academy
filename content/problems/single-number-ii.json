@@ -1,0 +1,125 @@
+{
+  "title": "Single Number II",
+  "slug": "single-number-ii",
+  "difficulty": "medium",
+  "topics": [
+    "bit-manipulation"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Adobe",
+    "Microsoft"
+  ],
+  "statement": "Every element appears three times except one element, which appears once. Return the single element. The values in these tests are non-negative.\n",
+  "constraints": [
+    "1 <= nums.length <= 3 * 10^4",
+    "0 <= nums[i] <= 2^31 - 1"
+  ],
+  "function_name": "single_number_ii",
+  "hints": [
+    "Count each bit modulo 3. The bits whose count is not divisible by 3 belong to the single number.",
+    "Two variables, ones and twos, are a finite-state machine for the count of each bit.",
+    "ones holds bits seen 1 mod 3. twos holds bits seen 2 mod 3. Seeing a bit the third time clears both."
+  ],
+  "approaches": [
+    {
+      "name": "Hash count",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Return the key whose count is 1."
+    },
+    {
+      "name": "Bit state machine",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Constant memory, one pass."
+    }
+  ],
+  "editorial": "For every number, XOR it into ones and then clear any bit that is also in twos. Then XOR it into twos and clear any bit that is also in ones. The order matters: a bit moves from ones to twos to gone. After the whole array, ones holds the unique value.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef single_number_ii(nums: list[int]) -> int:\n    ones = twos = 0\n    for value in nums:\n        ones = (ones ^ value) & ~twos\n        twos = (twos ^ value) & ~ones\n    return ones\n",
+  "starter_code": "from typing import List\n\ndef single_number_ii(nums: List[int]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [2, 2, 3, 2]",
+      "output": "3",
+      "explanation": "3 appears once."
+    },
+    {
+      "input": "nums = [0, 1, 0, 1, 0, 1, 99]",
+      "output": "99",
+      "explanation": "99 appears once."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "nums": [
+          2,
+          2,
+          3,
+          2
+        ]
+      },
+      "expected": 3
+    },
+    {
+      "name": "zero",
+      "args": {
+        "nums": [
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          99
+        ]
+      },
+      "expected": 99
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "single",
+      "args": {
+        "nums": [
+          7
+        ]
+      },
+      "expected": 7
+    },
+    {
+      "name": "high",
+      "args": {
+        "nums": [
+          4,
+          4,
+          4,
+          8
+        ]
+      },
+      "expected": 8
+    },
+    {
+      "name": "mixed",
+      "args": {
+        "nums": [
+          5,
+          6,
+          5,
+          6,
+          5,
+          6,
+          1
+        ]
+      },
+      "expected": 1
+    }
+  ]
+}

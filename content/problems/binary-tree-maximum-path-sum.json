@@ -1,0 +1,123 @@
+{
+  "title": "Binary Tree Maximum Path Sum",
+  "slug": "binary-tree-maximum-path-sum",
+  "difficulty": "hard",
+  "topics": [
+    "trees",
+    "dynamic-programming"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Facebook",
+    "Microsoft"
+  ],
+  "statement": "A path is any sequence of nodes connected by edges, with no repeated node. It does not have to pass through the root or end at a leaf. Return the maximum path sum. Node values may be negative.\n",
+  "constraints": [
+    "1 <= number of nodes <= 3 * 10^4",
+    "-1000 <= Node.val <= 1000"
+  ],
+  "function_name": "max_path_sum",
+  "hints": [
+    "Split the path at its highest node. That node has a left gain and a right gain.",
+    "A gain is max(0, value + best child gain). A negative gain is discarded.",
+    "The answer at that node is value + left gain + right gain. The value returned to the parent is value + the better single gain, because a parent path cannot use both children."
+  ],
+  "approaches": [
+    {
+      "name": "All pairs of nodes",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(n)"
+      },
+      "explanation": "Compute the unique path between every pair."
+    },
+    {
+      "name": "Tree DP gain",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(h)"
+      },
+      "explanation": "One postorder computes both the gain and the global best."
+    }
+  ],
+  "editorial": "The function returns the best downward gain starting at this node. Before returning, it considers the path that bends through the node, which is the only place both children can be used. Initialize the global best to the root value, not zero, so an all-negative tree returns the largest value.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef max_path_sum(root: list) -> int:\n    best = [float(\"-inf\")]\n\n    def gain(node) -> int:\n        if node is None:\n            return 0\n        left = max(0, gain(node.left))\n        right = max(0, gain(node.right))\n        best[0] = max(best[0], node.value + left + right)\n        return node.value + max(left, right)\n\n    gain(_build(root))\n    return int(best[0])\n",
+  "starter_code": "from typing import List, Optional\n\ndef max_path_sum(root: List[Optional[int]]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "root = [1, 2, 3]",
+      "output": "6",
+      "explanation": "The path 2-1-3 sums to 6."
+    },
+    {
+      "input": "root = [-10, 9, 20, None, None, 15, 7]",
+      "output": "42",
+      "explanation": "The path 15-20-7 sums to 42."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "root": [
+          1,
+          2,
+          3
+        ]
+      },
+      "expected": 6
+    },
+    {
+      "name": "negative",
+      "args": {
+        "root": [
+          -10,
+          9,
+          20,
+          null,
+          null,
+          15,
+          7
+        ]
+      },
+      "expected": 42
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "single",
+      "args": {
+        "root": [
+          -3
+        ]
+      },
+      "expected": -3
+    },
+    {
+      "name": "line",
+      "args": {
+        "root": [
+          2,
+          -1
+        ]
+      },
+      "expected": 2
+    },
+    {
+      "name": "mixed",
+      "args": {
+        "root": [
+          5,
+          4,
+          8,
+          11,
+          null,
+          13,
+          4
+        ]
+      },
+      "expected": 41
+    }
+  ]
+}

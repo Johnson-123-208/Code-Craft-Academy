@@ -1,0 +1,119 @@
+{
+  "title": "Jump Game II",
+  "slug": "jump-game-ii",
+  "difficulty": "medium",
+  "topics": [
+    "greedy",
+    "dynamic-programming"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "Apple"
+  ],
+  "statement": "You start at index 0. `nums[i]` is the maximum jump length from i. Return the minimum number of jumps to reach the last index. A solution always exists.\n",
+  "constraints": [
+    "1 <= nums.length <= 10^4",
+    "0 <= nums[i] <= 1000"
+  ],
+  "function_name": "jump",
+  "hints": [
+    "BFS layers on the index line: from the current jump's range, the next range is the farthest you can reach.",
+    "You do not need the actual indices, only the end of the current jump window and the farthest index seen inside it.",
+    "When the scan index hits the end of the window, you must jump, so increment the count and extend the window to the farthest index."
+  ],
+  "approaches": [
+    {
+      "name": "DP",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(n)"
+      },
+      "explanation": "dp[i] is the minimum jumps to reach i."
+    },
+    {
+      "name": "Greedy window",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Implicit BFS layers."
+    }
+  ],
+  "editorial": "The linear scan is BFS on a line. current_end is the farthest index reachable with the jumps already committed. farthest is the farthest index reachable with one more jump. When i equals current_end and i is not the last index, commit one jump and set current_end to farthest.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef jump(nums: list[int]) -> int:\n    jumps = current_end = farthest = 0\n    for i in range(len(nums) - 1):\n        farthest = max(farthest, i + nums[i])\n        if i == current_end:\n            jumps += 1\n            current_end = farthest\n    return jumps\n",
+  "starter_code": "from typing import List\n\ndef jump(nums: List[int]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [2, 3, 1, 1, 4]",
+      "output": "2",
+      "explanation": "Two jumps: index 0 to 1, then to the end."
+    },
+    {
+      "input": "nums = [2, 1]",
+      "output": "1",
+      "explanation": "One jump."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "nums": [
+          2,
+          3,
+          1,
+          1,
+          4
+        ]
+      },
+      "expected": 2
+    },
+    {
+      "name": "one",
+      "args": {
+        "nums": [
+          2,
+          1
+        ]
+      },
+      "expected": 1
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "single",
+      "args": {
+        "nums": [
+          0
+        ]
+      },
+      "expected": 0
+    },
+    {
+      "name": "long",
+      "args": {
+        "nums": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "expected": 3
+    },
+    {
+      "name": "skip",
+      "args": {
+        "nums": [
+          3,
+          1,
+          1,
+          1
+        ]
+      },
+      "expected": 1
+    }
+  ]
+}

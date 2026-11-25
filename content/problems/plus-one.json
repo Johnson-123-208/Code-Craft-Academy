@@ -1,0 +1,130 @@
+{
+  "title": "Plus One",
+  "slug": "plus-one",
+  "difficulty": "easy",
+  "topics": [
+    "arrays",
+    "math"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Adobe",
+    "Microsoft"
+  ],
+  "statement": "`digits` represents a non-negative integer, most significant digit first, with no leading zeros except the number 0. Return the digits of that integer plus one.\n",
+  "constraints": [
+    "1 <= digits.length <= 100",
+    "0 <= digits[i] <= 9"
+  ],
+  "function_name": "plus_one",
+  "hints": [
+    "Add one to the last digit. If it is less than 10, you are done.",
+    "A 9 becomes 0 and the carry moves left.",
+    "If the carry survives the first digit, the result is 1 followed by zeros."
+  ],
+  "approaches": [
+    {
+      "name": "Convert to an integer",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Easy in Python, and it hides the carry."
+    },
+    {
+      "name": "In-place carry",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1) extra"
+      },
+      "explanation": "One walk from the end."
+    }
+  ],
+  "editorial": "Walk from the least significant digit. A digit below 9 increments and returns. A 9 becomes 0 and the walk continues. If every digit was 9, insert a leading 1.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef plus_one(digits: list[int]) -> list[int]:\n    for i in range(len(digits) - 1, -1, -1):\n        if digits[i] < 9:\n            digits[i] += 1\n            return digits\n        digits[i] = 0\n    return [1] + digits\n",
+  "starter_code": "from typing import List\n\ndef plus_one(digits: List[int]) -> List[int]:\n    pass\n",
+  "examples": [
+    {
+      "input": "digits = [1, 2, 3]",
+      "output": "[1, 2, 4]",
+      "explanation": "124."
+    },
+    {
+      "input": "digits = [9, 9]",
+      "output": "[1, 0, 0]",
+      "explanation": "100."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "simple",
+      "args": {
+        "digits": [
+          1,
+          2,
+          3
+        ]
+      },
+      "expected": [
+        1,
+        2,
+        4
+      ]
+    },
+    {
+      "name": "nines",
+      "args": {
+        "digits": [
+          9,
+          9
+        ]
+      },
+      "expected": [
+        1,
+        0,
+        0
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "zero",
+      "args": {
+        "digits": [
+          0
+        ]
+      },
+      "expected": [
+        1
+      ]
+    },
+    {
+      "name": "nine",
+      "args": {
+        "digits": [
+          9
+        ]
+      },
+      "expected": [
+        1,
+        0
+      ]
+    },
+    {
+      "name": "mid",
+      "args": {
+        "digits": [
+          1,
+          9,
+          9
+        ]
+      },
+      "expected": [
+        2,
+        0,
+        0
+      ]
+    }
+  ]
+}

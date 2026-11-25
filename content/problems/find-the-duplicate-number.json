@@ -1,0 +1,129 @@
+{
+  "title": "Find the Duplicate Number",
+  "slug": "find-the-duplicate-number",
+  "difficulty": "medium",
+  "topics": [
+    "arrays",
+    "binary-search",
+    "two-pointers"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft",
+    "Google",
+    "Adobe"
+  ],
+  "statement": "`nums` contains n + 1 integers, each in 1..n, and exactly one value is repeated. Return the repeated value. The array is treated as a linked list of indexes: the next node after i is nums[i]. Floyd's cycle finding locates the duplicate without modifying the array.\n",
+  "constraints": [
+    "1 <= n <= 10^5",
+    "nums.length == n + 1",
+    "1 <= nums[i] <= n",
+    "Exactly one duplicate"
+  ],
+  "function_name": "find_duplicate",
+  "hints": [
+    "Because every value is in 1..n and there are n + 1 entries, following nums[i] as a next pointer must cycle.",
+    "The duplicate is the entrance of the cycle. Floyd's tortoise and hare finds a meeting point inside the cycle.",
+    "Reset one pointer to nums[0] and move both one step at a time. They meet at the cycle entrance."
+  ],
+  "approaches": [
+    {
+      "name": "Sort or count",
+      "complexity": {
+        "time": "O(n log n) or O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Easy, and it uses extra memory or mutates the array."
+    },
+    {
+      "name": "Floyd cycle detection",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "The index-linked-list interpretation."
+    }
+  ],
+  "editorial": "The values are legal indexes into the array, except that index 0 is only a starting point. A repeated value means two indexes point at the same next node, which is the cycle entrance. The first loop finds any point on the cycle. The second loop walks from the start and from that meeting point at the same speed, and the first repeated node is the duplicate.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef find_duplicate(nums: list[int]) -> int:\n    slow = fast = nums[0]\n    while True:\n        slow = nums[slow]\n        fast = nums[nums[fast]]\n        if slow == fast:\n            break\n    slow = nums[0]\n    while slow != fast:\n        slow = nums[slow]\n        fast = nums[fast]\n    return slow\n",
+  "starter_code": "from typing import List\n\ndef find_duplicate(nums: List[int]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [1, 3, 4, 2, 2]",
+      "output": "2",
+      "explanation": "2 is the repeated value."
+    },
+    {
+      "input": "nums = [3, 1, 3, 4, 2]",
+      "output": "3",
+      "explanation": "3 is repeated."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "nums": [
+          1,
+          3,
+          4,
+          2,
+          2
+        ]
+      },
+      "expected": 2
+    },
+    {
+      "name": "three",
+      "args": {
+        "nums": [
+          3,
+          1,
+          3,
+          4,
+          2
+        ]
+      },
+      "expected": 3
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "pair",
+      "args": {
+        "nums": [
+          1,
+          1
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "name": "end",
+      "args": {
+        "nums": [
+          2,
+          5,
+          1,
+          1,
+          4,
+          3
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "name": "high",
+      "args": {
+        "nums": [
+          4,
+          3,
+          1,
+          4,
+          2
+        ]
+      },
+      "expected": 4
+    }
+  ]
+}

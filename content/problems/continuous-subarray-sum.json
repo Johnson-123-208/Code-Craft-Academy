@@ -1,0 +1,126 @@
+{
+  "title": "Continuous Subarray Sum",
+  "slug": "continuous-subarray-sum",
+  "difficulty": "medium",
+  "topics": [
+    "arrays",
+    "prefix-sums",
+    "hashing"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Facebook",
+    "Mathworks",
+    "Adobe"
+  ],
+  "statement": "Return true when `nums` has a contiguous subarray of length at least 2 whose sum is a multiple of `k`. A multiple includes 0. `k` is at least 1.\n",
+  "constraints": [
+    "1 <= nums.length <= 10^5",
+    "0 <= nums[i] <= 10^9",
+    "1 <= k <= 2^31 - 1"
+  ],
+  "function_name": "check_subarray_sum",
+  "hints": [
+    "Equal prefix remainders mark a multiple, but the two prefixes must be at least two indices apart.",
+    "Store the first index of each remainder.",
+    "Seed remainder 0 at index -1 so a prefix that itself is a multiple of length at least 2 is detected."
+  ],
+  "approaches": [
+    {
+      "name": "All subarrays",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(1)"
+      },
+      "explanation": "Test every range of length at least 2."
+    },
+    {
+      "name": "First remainder index",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(min(n, k))"
+      },
+      "explanation": "Stop when the same remainder is at least two steps old."
+    }
+  ],
+  "editorial": "If prefix[j] and prefix[i] share a remainder and j - i >= 2, the subarray (i, j] has length at least 2 and a sum divisible by k. Record a remainder only the first time you see it, so the gap is as large as possible. The seed (0, -1) handles subarrays that start at index 0.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef check_subarray_sum(nums: list[int], k: int) -> bool:\n    seen = {0: -1}\n    prefix = 0\n    for i, value in enumerate(nums):\n        prefix = (prefix + value) % k\n        if prefix in seen:\n            if i - seen[prefix] >= 2:\n                return True\n        else:\n            seen[prefix] = i\n    return False\n",
+  "starter_code": "from typing import List\n\ndef check_subarray_sum(nums: List[int], k: int) -> bool:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [23, 2, 4, 6, 7], k = 6",
+      "output": "true",
+      "explanation": "[2, 4] sums to 6."
+    },
+    {
+      "input": "nums = [23, 2, 6, 4, 7], k = 13",
+      "output": "false",
+      "explanation": "No qualifying subarray."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "yes",
+      "args": {
+        "nums": [
+          23,
+          2,
+          4,
+          6,
+          7
+        ],
+        "k": 6
+      },
+      "expected": true
+    },
+    {
+      "name": "no",
+      "args": {
+        "nums": [
+          23,
+          2,
+          6,
+          4,
+          7
+        ],
+        "k": 13
+      },
+      "expected": false
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "zeros",
+      "args": {
+        "nums": [
+          0,
+          0
+        ],
+        "k": 1
+      },
+      "expected": true
+    },
+    {
+      "name": "short",
+      "args": {
+        "nums": [
+          5
+        ],
+        "k": 5
+      },
+      "expected": false
+    },
+    {
+      "name": "pair",
+      "args": {
+        "nums": [
+          1,
+          2,
+          3
+        ],
+        "k": 5
+      },
+      "expected": true
+    }
+  ]
+}

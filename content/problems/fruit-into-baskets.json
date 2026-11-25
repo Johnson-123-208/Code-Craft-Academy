@@ -1,0 +1,119 @@
+{
+  "title": "Fruit Into Baskets",
+  "slug": "fruit-into-baskets",
+  "difficulty": "medium",
+  "topics": [
+    "arrays",
+    "sliding-window"
+  ],
+  "company_tags": [
+    "Google",
+    "Amazon",
+    "Adobe",
+    "Uber"
+  ],
+  "statement": "You have two baskets, and each basket holds only one type of fruit. `fruits[i]` is the type of fruit on tree i in a row. Pick one contiguous stretch of trees, putting each fruit into a basket of its type. Return the maximum number of fruits you can pick.\n",
+  "constraints": [
+    "1 <= fruits.length <= 10^5",
+    "0 <= fruits[i] < fruits.length"
+  ],
+  "function_name": "total_fruit",
+  "hints": [
+    "The stretch may contain at most two distinct values.",
+    "A sliding window with a frequency map enforces that limit.",
+    "Shrink from the left while the map holds three types."
+  ],
+  "approaches": [
+    {
+      "name": "All subarrays",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(1)"
+      },
+      "explanation": "Track the set size of every slice."
+    },
+    {
+      "name": "At most two types",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "The map never holds more than three keys."
+    }
+  ],
+  "editorial": "This is longest subarray with at most two distinct values. Expand the window, and while a third type appears, decrement the left fruit and delete it from the map when its count hits zero. The longest window is the answer.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef total_fruit(fruits: list[int]) -> int:\n    count: dict[int, int] = {}\n    left = best = 0\n    for right, fruit in enumerate(fruits):\n        count[fruit] = count.get(fruit, 0) + 1\n        while len(count) > 2:\n            count[fruits[left]] -= 1\n            if count[fruits[left]] == 0:\n                del count[fruits[left]]\n            left += 1\n        best = max(best, right - left + 1)\n    return best\n",
+  "starter_code": "from typing import List\n\ndef total_fruit(fruits: List[int]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "fruits = [1, 2, 1]",
+      "output": "3",
+      "explanation": "The whole row uses two types."
+    },
+    {
+      "input": "fruits = [0, 1, 2, 2]",
+      "output": "3",
+      "explanation": "The best stretch is [1, 2, 2]."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "fruits": [
+          1,
+          2,
+          1
+        ]
+      },
+      "expected": 3
+    },
+    {
+      "name": "three",
+      "args": {
+        "fruits": [
+          0,
+          1,
+          2,
+          2
+        ]
+      },
+      "expected": 3
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "one",
+      "args": {
+        "fruits": [
+          1,
+          1,
+          1
+        ]
+      },
+      "expected": 3
+    },
+    {
+      "name": "alt",
+      "args": {
+        "fruits": [
+          1,
+          2,
+          3,
+          2,
+          2
+        ]
+      },
+      "expected": 4
+    },
+    {
+      "name": "single",
+      "args": {
+        "fruits": [
+          4
+        ]
+      },
+      "expected": 1
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "title": "Top K Frequent Words",
+  "slug": "top-k-frequent-words",
+  "difficulty": "medium",
+  "topics": [
+    "heaps",
+    "hashing",
+    "strings"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Uber",
+    "Google",
+    "Microsoft"
+  ],
+  "statement": "Return the `k` most frequent words. Sort by frequency descending, and break ties by lexicographical order.\n",
+  "constraints": [
+    "1 <= words.length <= 500",
+    "1 <= k <= number of unique words"
+  ],
+  "function_name": "top_k_frequent_words",
+  "hints": [
+    "Count the words.",
+    "Sort unique words by (-count, word).",
+    "A heap of size k with the opposite order also works and is the follow-up for a stream."
+  ],
+  "approaches": [
+    {
+      "name": "Sort",
+      "complexity": {
+        "time": "O(n log n)",
+        "space": "O(n)"
+      },
+      "explanation": "The straightforward ranking."
+    },
+    {
+      "name": "Heap of size k",
+      "complexity": {
+        "time": "O(n log k)",
+        "space": "O(n)"
+      },
+      "explanation": "Push unique words with a key that pops the worst candidate."
+    }
+  ],
+  "editorial": "Frequency is the primary key and the word is the secondary key, reversed so that a smaller word wins a tie. Sort once and slice the first k. The heap version stores the worst of the current top k at the root, using a key of (count, inverted word) or a custom comparison.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef top_k_frequent_words(words: list[str], k: int) -> list[str]:\n    counts = Counter(words)\n    ranked = sorted(counts, key=lambda word: (-counts[word], word))\n    return ranked[:k]\n",
+  "starter_code": "from typing import List\n\ndef top_k_frequent_words(words: List[str], k: int) -> List[str]:\n    pass\n",
+  "examples": [
+    {
+      "input": "words = ['i', 'love', 'leetcode', 'i', 'love', 'coding'], k = 2",
+      "output": "[\"i\", \"love\"]",
+      "explanation": "i and love, with i first by alphabet."
+    },
+    {
+      "input": "words = ['the', 'day', 'is', 'sunny', 'the', 'the', 'the', 'sunny', 'is', 'is'], k = 4",
+      "output": "[\"the\", \"is\", \"sunny\", \"day\"]",
+      "explanation": "Frequency then alphabet."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "words": [
+          "i",
+          "love",
+          "leetcode",
+          "i",
+          "love",
+          "coding"
+        ],
+        "k": 2
+      },
+      "expected": [
+        "i",
+        "love"
+      ]
+    },
+    {
+      "name": "tie",
+      "args": {
+        "words": [
+          "the",
+          "day",
+          "is",
+          "sunny",
+          "the",
+          "the",
+          "the",
+          "sunny",
+          "is",
+          "is"
+        ],
+        "k": 4
+      },
+      "expected": [
+        "the",
+        "is",
+        "sunny",
+        "day"
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "one",
+      "args": {
+        "words": [
+          "a"
+        ],
+        "k": 1
+      },
+      "expected": [
+        "a"
+      ]
+    },
+    {
+      "name": "all",
+      "args": {
+        "words": [
+          "b",
+          "a"
+        ],
+        "k": 2
+      },
+      "expected": [
+        "a",
+        "b"
+      ]
+    },
+    {
+      "name": "same",
+      "args": {
+        "words": [
+          "a",
+          "a",
+          "b"
+        ],
+        "k": 1
+      },
+      "expected": [
+        "a"
+      ]
+    }
+  ]
+}

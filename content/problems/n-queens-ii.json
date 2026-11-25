@@ -1,0 +1,96 @@
+{
+  "title": "N-Queens II",
+  "slug": "n-queens-ii",
+  "difficulty": "hard",
+  "topics": [
+    "backtracking"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "Adobe"
+  ],
+  "statement": "Return the number of distinct ways to place `n` queens on an n by n chessboard so that no two queens attack each other.\n",
+  "constraints": [
+    "1 <= n <= 9"
+  ],
+  "function_name": "total_n_queens",
+  "hints": [
+    "Place one queen per row.",
+    "A column, a diagonal, and an anti-diagonal can each hold at most one queen.",
+    "Diagonals share r - c. Anti-diagonals share r + c. Sets of occupied columns and diagonals prune the search."
+  ],
+  "approaches": [
+    {
+      "name": "Permutations of columns",
+      "complexity": {
+        "time": "O(n!)",
+        "space": "O(n)"
+      },
+      "explanation": "A permutation avoids column clashes. Filter the diagonals."
+    },
+    {
+      "name": "Backtracking with three sets",
+      "complexity": {
+        "time": "O(n!)",
+        "space": "O(n)"
+      },
+      "explanation": "Prune before the permutation is complete."
+    }
+  ],
+  "editorial": "The row-by-row search tries each column that is free in the column set, the (r - c) set, and the (r + c) set. Add the column and both diagonals, recurse to the next row, and remove them. A completed row count of n is one solution. The known sequence starts 1, 0, 0, 2, 10, 4, 40, 92 for n from 1.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef total_n_queens(n: int) -> int:\n    cols: set[int] = set()\n    diag: set[int] = set()\n    anti: set[int] = set()\n\n    def dfs(row: int) -> int:\n        if row == n:\n            return 1\n        total = 0\n        for col in range(n):\n            if col in cols or row - col in diag or row + col in anti:\n                continue\n            cols.add(col)\n            diag.add(row - col)\n            anti.add(row + col)\n            total += dfs(row + 1)\n            cols.remove(col)\n            diag.remove(row - col)\n            anti.remove(row + col)\n        return total\n\n    return dfs(0)\n",
+  "starter_code": "def total_n_queens(n: int) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "n = 4",
+      "output": "2",
+      "explanation": "Two solutions."
+    },
+    {
+      "input": "n = 1",
+      "output": "1",
+      "explanation": "One solution."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "four",
+      "args": {
+        "n": 4
+      },
+      "expected": 2
+    },
+    {
+      "name": "one",
+      "args": {
+        "n": 1
+      },
+      "expected": 1
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "two",
+      "args": {
+        "n": 2
+      },
+      "expected": 0
+    },
+    {
+      "name": "three",
+      "args": {
+        "n": 3
+      },
+      "expected": 0
+    },
+    {
+      "name": "five",
+      "args": {
+        "n": 5
+      },
+      "expected": 10
+    }
+  ]
+}

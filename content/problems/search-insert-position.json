@@ -1,0 +1,123 @@
+{
+  "title": "Search Insert Position",
+  "slug": "search-insert-position",
+  "difficulty": "easy",
+  "topics": [
+    "binary-search"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Adobe",
+    "Apple",
+    "Google"
+  ],
+  "statement": "Given a sorted array of distinct integers, return the index of `target` if it exists. Otherwise return the index where it would be inserted to keep the array sorted.\n",
+  "constraints": [
+    "1 <= nums.length <= 10^4"
+  ],
+  "function_name": "search_insert",
+  "hints": [
+    "This is lower bound: the first index whose value is greater than or equal to target.",
+    "Keep the invariant that the answer lies in [lo, hi].",
+    "When the loop ends, lo is the insertion point, even if it equals n."
+  ],
+  "approaches": [
+    {
+      "name": "Linear scan",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Stop at the first value that is not smaller than target."
+    },
+    {
+      "name": "Lower-bound binary search",
+      "complexity": {
+        "time": "O(log n)",
+        "space": "O(1)"
+      },
+      "explanation": "Half-open or closed search for the first nums[i] >= target."
+    }
+  ],
+  "editorial": "Use a half-open interval [lo, hi). If nums[mid] < target, the insertion point is after mid. Otherwise it is at mid or before. When lo == hi the interval is empty and lo is the first position that is not strictly smaller than target.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef search_insert(nums: list[int], target: int) -> int:\n    lo, hi = 0, len(nums)\n    while lo < hi:\n        mid = (lo + hi) // 2\n        if nums[mid] < target:\n            lo = mid + 1\n        else:\n            hi = mid\n    return lo\n",
+  "starter_code": "from typing import List\n\ndef search_insert(nums: List[int], target: int) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [1, 3, 5, 6], target = 5",
+      "output": "2",
+      "explanation": "5 is already at index 2."
+    },
+    {
+      "input": "nums = [1, 3, 5, 6], target = 2",
+      "output": "1",
+      "explanation": "2 belongs at index 1."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "present",
+      "args": {
+        "nums": [
+          1,
+          3,
+          5,
+          6
+        ],
+        "target": 5
+      },
+      "expected": 2
+    },
+    {
+      "name": "insert",
+      "args": {
+        "nums": [
+          1,
+          3,
+          5,
+          6
+        ],
+        "target": 2
+      },
+      "expected": 1
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "after",
+      "args": {
+        "nums": [
+          1,
+          3,
+          5,
+          6
+        ],
+        "target": 7
+      },
+      "expected": 4
+    },
+    {
+      "name": "before",
+      "args": {
+        "nums": [
+          1,
+          3,
+          5,
+          6
+        ],
+        "target": 0
+      },
+      "expected": 0
+    },
+    {
+      "name": "single",
+      "args": {
+        "nums": [
+          1
+        ],
+        "target": 1
+      },
+      "expected": 0
+    }
+  ]
+}

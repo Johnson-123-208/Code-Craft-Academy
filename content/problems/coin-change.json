@@ -1,0 +1,117 @@
+{
+  "title": "Coin Change",
+  "slug": "coin-change",
+  "difficulty": "medium",
+  "topics": [
+    "dynamic-programming"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Bloomberg",
+    "Microsoft"
+  ],
+  "statement": "Return the fewest coins that sum to `amount`. You have an unlimited supply of each coin in `coins`. Return -1 if the amount cannot be made.\n",
+  "constraints": [
+    "1 <= coins.length <= 12",
+    "1 <= coins[i] <= 2^31 - 1",
+    "0 <= amount <= 10^4"
+  ],
+  "function_name": "coin_change",
+  "hints": [
+    "dp[x] is the fewest coins that make x.",
+    "dp[x] = 1 + min(dp[x - coin]) over coins that do not exceed x.",
+    "Initialize dp[0] to 0 and every other cell to a sentinel larger than any real answer. If the sentinel remains, return -1."
+  ],
+  "approaches": [
+    {
+      "name": "BFS on the remainder",
+      "complexity": {
+        "time": "O(amount * coins)",
+        "space": "O(amount)"
+      },
+      "explanation": "Each edge subtracts one coin. The depth is the fewest coins."
+    },
+    {
+      "name": "Unbounded knapsack DP",
+      "complexity": {
+        "time": "O(amount * coins)",
+        "space": "O(amount)"
+      },
+      "explanation": "The classic bottom-up recurrence."
+    }
+  ],
+  "editorial": "This is unbounded knapsack where every item has weight equal to its value and the cost is the number of items. Filling amounts from 0 to amount, and trying every coin, enforces that a coin may be reused because smaller amounts are already solved. amount 0 needs 0 coins.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef coin_change(coins: list[int], amount: int) -> int:\n    dp = [amount + 1] * (amount + 1)\n    dp[0] = 0\n    for value in range(1, amount + 1):\n        for coin in coins:\n            if coin <= value:\n                dp[value] = min(dp[value], dp[value - coin] + 1)\n    return -1 if dp[amount] > amount else dp[amount]\n",
+  "starter_code": "from typing import List\n\ndef coin_change(coins: List[int], amount: int) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "coins = [1, 2, 5], amount = 11",
+      "output": "3",
+      "explanation": "5 + 5 + 1 uses three coins."
+    },
+    {
+      "input": "coins = [2], amount = 3",
+      "output": "-1",
+      "explanation": "Odd amounts cannot be made from twos."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "coins": [
+          1,
+          2,
+          5
+        ],
+        "amount": 11
+      },
+      "expected": 3
+    },
+    {
+      "name": "impossible",
+      "args": {
+        "coins": [
+          2
+        ],
+        "amount": 3
+      },
+      "expected": -1
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "zero",
+      "args": {
+        "coins": [
+          1
+        ],
+        "amount": 0
+      },
+      "expected": 0
+    },
+    {
+      "name": "one",
+      "args": {
+        "coins": [
+          1
+        ],
+        "amount": 2
+      },
+      "expected": 2
+    },
+    {
+      "name": "choice",
+      "args": {
+        "coins": [
+          1,
+          3,
+          4
+        ],
+        "amount": 6
+      },
+      "expected": 2
+    }
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "title": "Excel Sheet Column Number",
+  "slug": "excel-sheet-column-number",
+  "difficulty": "easy",
+  "topics": [
+    "math",
+    "strings"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft",
+    "Adobe",
+    "Facebook"
+  ],
+  "statement": "Convert an Excel column title to its number. A is 1, Z is 26, AA is 27, and so on. The title is a base-26 numeral with digits A..Z.\n",
+  "constraints": [
+    "1 <= columnTitle.length <= 7",
+    "The title is uppercase"
+  ],
+  "function_name": "title_to_number",
+  "hints": [
+    "This is base 26, but the digits are 1..26 rather than 0..25.",
+    "Fold from the left: result = result * 26 + (char - 'A' + 1).",
+    "There is no zero digit, which is why AA is 27 and not 26 * 26."
+  ],
+  "approaches": [
+    {
+      "name": "Horner fold",
+      "complexity": {
+        "time": "O(length)",
+        "space": "O(1)"
+      },
+      "explanation": "One multiply-add per character."
+    },
+    {
+      "name": "Powers from the right",
+      "complexity": {
+        "time": "O(length)",
+        "space": "O(1)"
+      },
+      "explanation": "The same polynomial written explicitly."
+    }
+  ],
+  "editorial": "Each new character shifts the value accumulated so far by one digit and adds the new digit. The digit of a letter is its alphabet position, starting at 1. That off-by-one from ordinary base conversion is the whole trick.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef title_to_number(column_title: str) -> int:\n    result = 0\n    for ch in column_title:\n        result = result * 26 + (ord(ch) - ord(\"A\") + 1)\n    return result\n",
+  "starter_code": "def title_to_number(column_title: str) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "column_title = 'A'",
+      "output": "1",
+      "explanation": "1."
+    },
+    {
+      "input": "column_title = 'AB'",
+      "output": "28",
+      "explanation": "28."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "A",
+      "args": {
+        "column_title": "A"
+      },
+      "expected": 1
+    },
+    {
+      "name": "AB",
+      "args": {
+        "column_title": "AB"
+      },
+      "expected": 28
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "ZY",
+      "args": {
+        "column_title": "ZY"
+      },
+      "expected": 701
+    },
+    {
+      "name": "AA",
+      "args": {
+        "column_title": "AA"
+      },
+      "expected": 27
+    },
+    {
+      "name": "FXSHRXW",
+      "args": {
+        "column_title": "FXSHRXW"
+      },
+      "expected": 2147483647
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "title": "Multiply Strings",
+  "slug": "multiply-strings",
+  "difficulty": "medium",
+  "topics": [
+    "math",
+    "strings"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Facebook",
+    "Microsoft",
+    "Adobe"
+  ],
+  "statement": "Multiply two non-negative integers given as strings. Return the product as a string. Do not convert the whole inputs with a built-in big-integer parser.\n",
+  "constraints": [
+    "1 <= num1.length, num2.length <= 200",
+    "No leading zeros except the number 0"
+  ],
+  "function_name": "multiply",
+  "hints": [
+    "The product of an i-digit and a j-digit number has at most i + j digits.",
+    "nums1[i] * nums2[j] contributes to positions i + j and i + j + 1, counting from the left, or from the right if you reverse the index.",
+    "Accumulate into an integer array, carry once at the end, and strip leading zeros."
+  ],
+  "approaches": [
+    {
+      "name": "Grade-school multiplication",
+      "complexity": {
+        "time": "O(n * m)",
+        "space": "O(n + m)"
+      },
+      "explanation": "The digit array."
+    },
+    {
+      "name": "Built-in big integers",
+      "complexity": {
+        "time": "O(n * m)",
+        "space": "O(n + m)"
+      },
+      "explanation": "Correct in Python and not the point of the problem."
+    }
+  ],
+  "editorial": "Allocate n + m zeros. For each pair of digits, add the product into index i + j + 1 and carry the tens into i + j. A final carry sweep is unnecessary if you carry immediately. Join the digits and strip leading zeros, leaving a single zero when the product is zero.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef multiply(num1: str, num2: str) -> str:\n    if num1 == \"0\" or num2 == \"0\":\n        return \"0\"\n    n, m = len(num1), len(num2)\n    pos = [0] * (n + m)\n    for i in range(n - 1, -1, -1):\n        for j in range(m - 1, -1, -1):\n            total = (ord(num1[i]) - 48) * (ord(num2[j]) - 48) + pos[i + j + 1]\n            pos[i + j + 1] = total % 10\n            pos[i + j] += total // 10\n    digits = \"\".join(str(d) for d in pos).lstrip(\"0\")\n    return digits or \"0\"\n",
+  "starter_code": "def multiply(num1: str, num2: str) -> str:\n    pass\n",
+  "examples": [
+    {
+      "input": "num1 = '2', num2 = '3'",
+      "output": "\"6\"",
+      "explanation": "6."
+    },
+    {
+      "input": "num1 = '123', num2 = '456'",
+      "output": "\"56088\"",
+      "explanation": "56088."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "num1": "2",
+        "num2": "3"
+      },
+      "expected": "6"
+    },
+    {
+      "name": "bigger",
+      "args": {
+        "num1": "123",
+        "num2": "456"
+      },
+      "expected": "56088"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "zero",
+      "args": {
+        "num1": "0",
+        "num2": "52"
+      },
+      "expected": "0"
+    },
+    {
+      "name": "ten",
+      "args": {
+        "num1": "10",
+        "num2": "10"
+      },
+      "expected": "100"
+    },
+    {
+      "name": "nines",
+      "args": {
+        "num1": "99",
+        "num2": "99"
+      },
+      "expected": "9801"
+    }
+  ]
+}

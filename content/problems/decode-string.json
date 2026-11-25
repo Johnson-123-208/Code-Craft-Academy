@@ -1,0 +1,98 @@
+{
+  "title": "Decode String",
+  "slug": "decode-string",
+  "difficulty": "medium",
+  "topics": [
+    "stacks",
+    "strings"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Facebook",
+    "Bloomberg"
+  ],
+  "statement": "Decode an encoded string. `k[encoded]` means the encoded substring inside the brackets is repeated k times. Inputs are valid and nesting is allowed. Digits are not zero and do not have leading zeros.\n",
+  "constraints": [
+    "1 <= s.length <= 30 for these tests",
+    "The decoded length is small"
+  ],
+  "function_name": "decode_string",
+  "hints": [
+    "When you see '[', you must remember both the current string and the repeat count that applies to the upcoming substring.",
+    "A stack of (previous_string, repeat) pairs handles nesting.",
+    "On ']', pop, repeat the current buffer, and append it to the previous string."
+  ],
+  "approaches": [
+    {
+      "name": "Recursion with an index",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "A helper consumes one substring and returns the new index."
+    },
+    {
+      "name": "Explicit stack",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Same state as the call stack, stored manually."
+    }
+  ],
+  "editorial": "Maintain the string built at the current nesting level and the number currently being parsed. An opening bracket pushes both and resets them. A closing bracket pops and concatenates previous + current * repeat. Digits extend the number, and letters extend the current string.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef decode_string(s: str) -> str:\n    stack: list[tuple[str, int]] = []\n    current = \"\"\n    number = 0\n    for ch in s:\n        if ch.isdigit():\n            number = number * 10 + int(ch)\n        elif ch == \"[\":\n            stack.append((current, number))\n            current = \"\"\n            number = 0\n        elif ch == \"]\":\n            prev, repeat = stack.pop()\n            current = prev + current * repeat\n        else:\n            current += ch\n    return current\n",
+  "starter_code": "def decode_string(s: str) -> str:\n    pass\n",
+  "examples": [
+    {
+      "input": "s = '3[a]2[bc]'",
+      "output": "\"aaabcbc\"",
+      "explanation": "The decoding is aaabcbc."
+    },
+    {
+      "input": "s = '3[a2[c]]'",
+      "output": "\"accaccacc\"",
+      "explanation": "The decoding is accaccacc."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "simple",
+      "args": {
+        "s": "3[a]2[bc]"
+      },
+      "expected": "aaabcbc"
+    },
+    {
+      "name": "nested",
+      "args": {
+        "s": "3[a2[c]]"
+      },
+      "expected": "accaccacc"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "plain",
+      "args": {
+        "s": "abc"
+      },
+      "expected": "abc"
+    },
+    {
+      "name": "mixed",
+      "args": {
+        "s": "2[ab3[c]]"
+      },
+      "expected": "abcccabccc"
+    },
+    {
+      "name": "ten",
+      "args": {
+        "s": "10[a]"
+      },
+      "expected": "aaaaaaaaaa"
+    }
+  ]
+}

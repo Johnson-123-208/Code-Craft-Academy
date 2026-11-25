@@ -1,0 +1,103 @@
+{
+  "title": "Z-Algorithm Search",
+  "slug": "z-algorithm-search",
+  "difficulty": "medium",
+  "topics": [
+    "strings",
+    "z-algorithm"
+  ],
+  "company_tags": [
+    "Google",
+    "Amazon",
+    "Microsoft",
+    "Adobe"
+  ],
+  "statement": "Return the first index of `pattern` in `text`, or -1. Build the Z-array of pattern + a separator + text. A Z-value equal to the pattern length is a match, and its position in the text is the index minus the pattern length minus one.\n",
+  "constraints": [
+    "0 <= pattern.length <= text.length <= 10^5",
+    "Both strings are lowercase and do not contain '#'"
+  ],
+  "function_name": "z_search",
+  "hints": [
+    "Z[i] is the length of the longest substring starting at i that is also a prefix.",
+    "The Z-box [left, right) remembers a segment that is already known to match the prefix. Inside the box, Z[i] starts from the corresponding value Z[i - left], then extends explicitly.",
+    "Concatenate pattern, '#', and text. Any Z[i] equal to the pattern length, with i past the separator, is an occurrence."
+  ],
+  "approaches": [
+    {
+      "name": "Naive search",
+      "complexity": {
+        "time": "O(n * m)",
+        "space": "O(1)"
+      },
+      "explanation": "Check every alignment."
+    },
+    {
+      "name": "Z-array",
+      "complexity": {
+        "time": "O(n + m)",
+        "space": "O(n + m)"
+      },
+      "explanation": "Linear pattern matching."
+    }
+  ],
+  "editorial": "The Z-box maintains the rightmost segment that matches a prefix. Inside that segment, the string repeats the prefix, so previously computed Z-values transfer. The explicit scan only runs when the known copy is not long enough, and each such comparison advances the right edge. That is why the whole array is linear. Searching is then a scan for a Z-value equal to the pattern length.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef z_search(text: str, pattern: str) -> int:\n    if pattern == \"\":\n        return 0\n    combined = pattern + \"#\" + text\n    z = [0] * len(combined)\n    left = right = 0\n    for i in range(1, len(combined)):\n        if i < right:\n            z[i] = min(right - i, z[i - left])\n        while i + z[i] < len(combined) and combined[z[i]] == combined[i + z[i]]:\n            z[i] += 1\n        if i + z[i] > right:\n            left, right = i, i + z[i]\n    size = len(pattern)\n    for i in range(size + 1, len(z)):\n        if z[i] == size:\n            return i - size - 1\n    return -1\n",
+  "starter_code": "def z_search(text: str, pattern: str) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "text = 'abracadabra', pattern = 'cad'",
+      "output": "4",
+      "explanation": "cad starts at index 4."
+    },
+    {
+      "input": "text = 'aaaaa', pattern = 'b'",
+      "output": "-1",
+      "explanation": "b never appears."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "hit",
+      "args": {
+        "text": "abracadabra",
+        "pattern": "cad"
+      },
+      "expected": 4
+    },
+    {
+      "name": "miss",
+      "args": {
+        "text": "aaaaa",
+        "pattern": "b"
+      },
+      "expected": -1
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "start",
+      "args": {
+        "text": "hello",
+        "pattern": "he"
+      },
+      "expected": 0
+    },
+    {
+      "name": "overlap",
+      "args": {
+        "text": "aaaa",
+        "pattern": "aaa"
+      },
+      "expected": 0
+    },
+    {
+      "name": "whole",
+      "args": {
+        "text": "abc",
+        "pattern": "abc"
+      },
+      "expected": 0
+    }
+  ]
+}

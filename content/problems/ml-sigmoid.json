@@ -1,0 +1,83 @@
+{
+  "title": "Stable Sigmoid",
+  "slug": "ml-sigmoid",
+  "difficulty": "easy",
+  "topics": [
+    "machine-learning",
+    "deep-learning",
+    "python"
+  ],
+  "company_tags": [
+    "OpenAI",
+    "Google"
+  ],
+  "statement": "Implement `sigmoid(z)` for a real logit z. Return 1 / (1 + e^(\u2212z)). For z greater than or equal to 0 evaluate exp(\u2212z). For negative z evaluate exp(z) / (1 + exp(z)) so the exponential never overflows.",
+  "constraints": [
+    "z is a finite float",
+    "Use the stable branch described in the statement",
+    "Return a Python float in (0, 1)"
+  ],
+  "examples": [
+    {
+      "input": "{\"z\": 0.0}",
+      "output": "0.5",
+      "explanation": "Matches the reference on this input."
+    },
+    {
+      "input": "{\"z\": 2.0}",
+      "output": "0.8807970779778823",
+      "explanation": "Matches the reference on this input."
+    }
+  ],
+  "starter_code": "def sigmoid(z: float) -> float:\n    pass\n",
+  "function_name": "sigmoid",
+  "hints": [
+    "sigmoid(0) is exactly 0.5.",
+    "Large positive logits approach 1 and large negative logits approach 0.",
+    "Never compute exp of a large positive number; flip the formula when z is negative."
+  ],
+  "approaches": [
+    {
+      "name": "Branch on sign",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "The two algebraically equal forms keep the exp argument non-positive."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "zero",
+      "args": {
+        "z": 0.0
+      },
+      "expected": 0.5
+    },
+    {
+      "name": "positive",
+      "args": {
+        "z": 2.0
+      },
+      "expected": 0.8807970779778823
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "negative",
+      "args": {
+        "z": -2.0
+      },
+      "expected": 0.11920292202211755
+    },
+    {
+      "name": "large",
+      "args": {
+        "z": 20.0
+      },
+      "expected": 0.9999999979388463
+    }
+  ],
+  "editorial": "The logistic function \u03c3(z) = 1 / (1 + e^(\u2212z)) maps a logit to a probability. Its derivative is \u03c3(z) (1 \u2212 \u03c3(z)), which is why logistic regression and sigmoid output layers train with a simple gradient. A naive exp(\u2212z) overflows when z is a large negative number. Branching so the exponent is always \u2264 0 keeps the value finite and matches the mathematical function.",
+  "reference_solution": "import math\n\ndef sigmoid(z: float) -> float:\n    if z >= 0:\n        ez = math.exp(-z)\n        return float(1.0 / (1.0 + ez))\n    ez = math.exp(z)\n    return float(ez / (1.0 + ez))\n"
+}

@@ -1,0 +1,133 @@
+{
+  "title": "Asteroid Collision",
+  "slug": "asteroid-collision",
+  "difficulty": "medium",
+  "topics": [
+    "stacks"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Facebook",
+    "Uber",
+    "Google"
+  ],
+  "statement": "Each asteroid is an integer. Sign is direction, right is positive, and magnitude is size. Asteroids move at the same speed. When two collide, the smaller explodes. Equal magnitudes both explode. Asteroids moving in the same direction never meet. Return the state after all collisions.\n",
+  "constraints": [
+    "2 <= asteroids.length <= 10^4",
+    "-1000 <= asteroids[i] <= 1000",
+    "asteroids[i] != 0"
+  ],
+  "function_name": "asteroid_collision",
+  "hints": [
+    "A collision happens only when a right-moving asteroid is already on the stack and the new one moves left.",
+    "The stack top is the candidate that the new left-mover hits.",
+    "If the new asteroid is larger, pop the top and keep comparing. If it is equal, pop and discard the new one."
+  ],
+  "approaches": [
+    {
+      "name": "Simulation with a list",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(n)"
+      },
+      "explanation": "Rescan after every explosion."
+    },
+    {
+      "name": "Stack of survivors",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Each asteroid is pushed and popped at most once."
+    }
+  ],
+  "editorial": "Stable asteroids are those that will never meet a later opposite asteroid already resolved. Push right-movers freely. A left-mover destroys smaller right-movers on top, dies against a larger one, or mutually destroys an equal one. A left-mover that clears the stack, or meets another left-mover, survives.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef asteroid_collision(asteroids: list[int]) -> list[int]:\n    stack: list[int] = []\n    for rock in asteroids:\n        alive = True\n        while alive and rock < 0 and stack and stack[-1] > 0:\n            if stack[-1] < -rock:\n                stack.pop()\n            elif stack[-1] == -rock:\n                stack.pop()\n                alive = False\n            else:\n                alive = False\n        if alive:\n            stack.append(rock)\n    return stack\n",
+  "starter_code": "from typing import List\n\ndef asteroid_collision(asteroids: List[int]) -> List[int]:\n    pass\n",
+  "examples": [
+    {
+      "input": "asteroids = [5, 10, -5]",
+      "output": "[5, 10]",
+      "explanation": "10 destroys -5. The state is 5, 10."
+    },
+    {
+      "input": "asteroids = [8, -8]",
+      "output": "[]",
+      "explanation": "Both explode."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "asteroids": [
+          5,
+          10,
+          -5
+        ]
+      },
+      "expected": [
+        5,
+        10
+      ]
+    },
+    {
+      "name": "equal",
+      "args": {
+        "asteroids": [
+          8,
+          -8
+        ]
+      },
+      "expected": []
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "left-first",
+      "args": {
+        "asteroids": [
+          -2,
+          -1,
+          1,
+          -2
+        ]
+      },
+      "expected": [
+        -2,
+        -1,
+        -2
+      ]
+    },
+    {
+      "name": "chain",
+      "args": {
+        "asteroids": [
+          10,
+          2,
+          -5
+        ]
+      },
+      "expected": [
+        10
+      ]
+    },
+    {
+      "name": "same-way",
+      "args": {
+        "asteroids": [
+          -2,
+          -1,
+          1,
+          2
+        ]
+      },
+      "expected": [
+        -2,
+        -1,
+        1,
+        2
+      ]
+    }
+  ]
+}

@@ -1,0 +1,162 @@
+{
+  "title": "4Sum II",
+  "slug": "4sum-ii",
+  "difficulty": "medium",
+  "topics": [
+    "arrays",
+    "hashing"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Adobe",
+    "Facebook"
+  ],
+  "statement": "You are given four integer arrays `a`, `b`, `c`, and `d`. Return the number of tuples (i, j, k, l) such that a[i] + b[j] + c[k] + d[l] == 0.\n",
+  "constraints": [
+    "1 <= n <= 200 for the full problem",
+    "Tests use small n",
+    "-2^28 <= values <= 2^28"
+  ],
+  "function_name": "four_sum_count",
+  "hints": [
+    "Four nested loops count tuples correctly and are too slow at n = 200.",
+    "Split the sum into (a + b) and (c + d). The second pair must be the negation of the first.",
+    "Store every a+b sum in a frequency map, then probe -(c+d)."
+  ],
+  "approaches": [
+    {
+      "name": "Four loops",
+      "complexity": {
+        "time": "O(n^4)",
+        "space": "O(1)"
+      },
+      "explanation": "Enumerate every tuple."
+    },
+    {
+      "name": "Meet in the middle",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(n^2)"
+      },
+      "explanation": "Hash one pair of arrays and probe the other pair."
+    }
+  ],
+  "editorial": "Every tuple splits into two pairs. Compute all n squared sums from the first two arrays and count them. Each sum from the last two arrays looks up the negation. Multiplying is unnecessary: the map already stores how many ways the complement can be formed, so you add that count.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef four_sum_count(a: list[int], b: list[int], c: list[int], d: list[int]) -> int:\n    sums = Counter(x + y for x in a for y in b)\n    return sum(sums[-(x + y)] for x in c for y in d)\n",
+  "starter_code": "from typing import List\n\ndef four_sum_count(a: List[int], b: List[int], c: List[int], d: List[int]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "a = [1, 2], b = [-2, -1], c = [-1, 2], d = [0, 2]",
+      "output": "2",
+      "explanation": "Two tuples sum to 0."
+    },
+    {
+      "input": "a = [0], b = [0], c = [0], d = [0]",
+      "output": "1",
+      "explanation": "The only tuple sums to 0."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "a": [
+          1,
+          2
+        ],
+        "b": [
+          -2,
+          -1
+        ],
+        "c": [
+          -1,
+          2
+        ],
+        "d": [
+          0,
+          2
+        ]
+      },
+      "expected": 2
+    },
+    {
+      "name": "zeros",
+      "args": {
+        "a": [
+          0
+        ],
+        "b": [
+          0
+        ],
+        "c": [
+          0
+        ],
+        "d": [
+          0
+        ]
+      },
+      "expected": 1
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "none",
+      "args": {
+        "a": [
+          1
+        ],
+        "b": [
+          1
+        ],
+        "c": [
+          1
+        ],
+        "d": [
+          1
+        ]
+      },
+      "expected": 0
+    },
+    {
+      "name": "mixed",
+      "args": {
+        "a": [
+          0,
+          1
+        ],
+        "b": [
+          0,
+          -1
+        ],
+        "c": [
+          0
+        ],
+        "d": [
+          0
+        ]
+      },
+      "expected": 2
+    },
+    {
+      "name": "neg",
+      "args": {
+        "a": [
+          -1,
+          1
+        ],
+        "b": [
+          1,
+          -1
+        ],
+        "c": [
+          0
+        ],
+        "d": [
+          0
+        ]
+      },
+      "expected": 2
+    }
+  ]
+}

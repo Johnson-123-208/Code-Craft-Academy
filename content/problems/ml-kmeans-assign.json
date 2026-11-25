@@ -1,0 +1,167 @@
+{
+  "title": "K-Means Assignment",
+  "slug": "ml-kmeans-assign",
+  "difficulty": "medium",
+  "topics": [
+    "machine-learning",
+    "clustering",
+    "python"
+  ],
+  "company_tags": [
+    "Netflix",
+    "Uber"
+  ],
+  "statement": "Implement `kmeans_assign(points, centroids)`. Return the index of the nearest centroid for each point under Euclidean distance. If two centroids are equally far, choose the smaller index.",
+  "constraints": [
+    "At least one centroid",
+    "Points and centroids share a dimension",
+    "Ties break toward the smaller index"
+  ],
+  "examples": [
+    {
+      "input": "{\"points\": [[0.0, 0.0], [0.2, 0.1], [5.0, 5.0]], \"centroids\": [[0.0, 0.0], [5.0, 5.0]]}",
+      "output": "[0, 0, 1]",
+      "explanation": "Matches the reference on this input."
+    },
+    {
+      "input": "{\"points\": [[0.0]], \"centroids\": [[-1.0], [1.0]]}",
+      "output": "[0]",
+      "explanation": "Matches the reference on this input."
+    }
+  ],
+  "starter_code": "def kmeans_assign(points: list[list[float]], centroids: list[list[float]]) -> list[int]:\n    pass\n",
+  "function_name": "kmeans_assign",
+  "hints": [
+    "This is only the assignment step, not the mean update.",
+    "Track the best distance and best index together.",
+    "Update the winner only when the new distance is strictly smaller, so earlier centroids win ties."
+  ],
+  "approaches": [
+    {
+      "name": "Lloyd assignment",
+      "complexity": {
+        "time": "O(n k d)",
+        "space": "O(n)"
+      },
+      "explanation": "Lloyd's algorithm alternates this assignment with a mean update."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "two-blobs",
+      "args": {
+        "points": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.2,
+            0.1
+          ],
+          [
+            5.0,
+            5.0
+          ]
+        ],
+        "centroids": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            5.0,
+            5.0
+          ]
+        ]
+      },
+      "expected": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "tie",
+      "args": {
+        "points": [
+          [
+            0.0
+          ]
+        ],
+        "centroids": [
+          [
+            -1.0
+          ],
+          [
+            1.0
+          ]
+        ]
+      },
+      "expected": [
+        0
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "one-d",
+      "args": {
+        "points": [
+          [
+            0.0
+          ],
+          [
+            10.0
+          ],
+          [
+            3.0
+          ]
+        ],
+        "centroids": [
+          [
+            1.0
+          ],
+          [
+            9.0
+          ]
+        ]
+      },
+      "expected": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "three",
+      "args": {
+        "points": [
+          [
+            1.0,
+            1.0
+          ]
+        ],
+        "centroids": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            1.0,
+            1.0
+          ],
+          [
+            8.0,
+            8.0
+          ]
+        ]
+      },
+      "expected": [
+        1
+      ]
+    }
+  ],
+  "editorial": "K-Means alternates two steps. Assignment gives each point the nearest centroid. Update replaces each centroid with the mean of its points. This exercise is only assignment. Using a strict less-than when you compare distances makes an equal distance keep the earlier centroid, which is the smaller index if you scan left to right. Empty clusters are a separate problem: a later update step must reseed them or the algorithm stalls.",
+  "reference_solution": "import math\n\ndef kmeans_assign(points: list[list[float]], centroids: list[list[float]]) -> list[int]:\n    def dist(a: list[float], b: list[float]) -> float:\n        return math.sqrt(sum((x - y) ** 2 for x, y in zip(a, b)))\n    out = []\n    for p in points:\n        best_i = 0\n        best_d = float('inf')\n        for i, c in enumerate(centroids):\n            d = dist(p, c)\n            if d < best_d:\n                best_d = d\n                best_i = i\n        out.append(best_i)\n    return out\n"
+}

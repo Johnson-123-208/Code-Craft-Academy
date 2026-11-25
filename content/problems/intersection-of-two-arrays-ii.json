@@ -1,0 +1,150 @@
+{
+  "title": "Intersection of Two Arrays II",
+  "slug": "intersection-of-two-arrays-ii",
+  "difficulty": "easy",
+  "topics": [
+    "arrays",
+    "hashing"
+  ],
+  "company_tags": [
+    "Facebook",
+    "Amazon",
+    "Adobe",
+    "Google"
+  ],
+  "statement": "Return the intersection of `nums1` and `nums2`, keeping the minimum multiplicity of each value. Sort the result.\n",
+  "constraints": [
+    "1 <= nums1.length, nums2.length <= 1000",
+    "0 <= nums[i] <= 1000"
+  ],
+  "function_name": "intersect",
+  "hints": [
+    "Unique intersection drops repeated matches. This problem must keep them.",
+    "Count one array, then walk the other and decrement.",
+    "Sort both arrays and advance the pointer of the smaller value. Equal values are emitted once and both pointers move."
+  ],
+  "approaches": [
+    {
+      "name": "Sort and two pointers",
+      "complexity": {
+        "time": "O(n log n)",
+        "space": "O(n)"
+      },
+      "explanation": "Emit while values match."
+    },
+    {
+      "name": "Frequency map",
+      "complexity": {
+        "time": "O(n + m)",
+        "space": "O(n)"
+      },
+      "explanation": "Decrement counts from the smaller array."
+    }
+  ],
+  "editorial": "Count values in the first array. For each value in the second, if its remaining count is positive, emit it and decrement. The result length is the sum of minimum frequencies. Sort it for a stable expected value.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef intersect(nums1: list[int], nums2: list[int]) -> list[int]:\n    counts = Counter(nums1)\n    out: list[int] = []\n    for value in nums2:\n        if counts[value] > 0:\n            out.append(value)\n            counts[value] -= 1\n    return sorted(out)\n",
+  "starter_code": "from typing import List\n\ndef intersect(nums1: List[int], nums2: List[int]) -> List[int]:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums1 = [1, 2, 2, 1], nums2 = [2, 2]",
+      "output": "[2, 2]",
+      "explanation": "Both twos are kept."
+    },
+    {
+      "input": "nums1 = [4, 9, 5], nums2 = [9, 4, 9, 8, 4]",
+      "output": "[4, 9]",
+      "explanation": "One 4 and one 9."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "nums1": [
+          1,
+          2,
+          2,
+          1
+        ],
+        "nums2": [
+          2,
+          2
+        ]
+      },
+      "expected": [
+        2,
+        2
+      ]
+    },
+    {
+      "name": "mixed",
+      "args": {
+        "nums1": [
+          4,
+          9,
+          5
+        ],
+        "nums2": [
+          9,
+          4,
+          9,
+          8,
+          4
+        ]
+      },
+      "expected": [
+        4,
+        9
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "none",
+      "args": {
+        "nums1": [
+          1
+        ],
+        "nums2": [
+          2
+        ]
+      },
+      "expected": []
+    },
+    {
+      "name": "more",
+      "args": {
+        "nums1": [
+          1,
+          1,
+          1
+        ],
+        "nums2": [
+          1,
+          1
+        ]
+      },
+      "expected": [
+        1,
+        1
+      ]
+    },
+    {
+      "name": "order",
+      "args": {
+        "nums1": [
+          3,
+          1,
+          2
+        ],
+        "nums2": [
+          1,
+          1
+        ]
+      },
+      "expected": [
+        1
+      ]
+    }
+  ]
+}

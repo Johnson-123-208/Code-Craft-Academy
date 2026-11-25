@@ -1,0 +1,112 @@
+{
+  "title": "Find All Anagrams in a String",
+  "slug": "find-all-anagrams-in-a-string",
+  "difficulty": "medium",
+  "topics": [
+    "strings",
+    "sliding-window"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Facebook",
+    "Microsoft",
+    "Adobe"
+  ],
+  "statement": "Return every start index in `s` where the substring of length len(p) is an anagram of `p`. Indices are in increasing order.\n",
+  "constraints": [
+    "1 <= s.length, p.length <= 3 * 10^4",
+    "Both strings are lowercase English letters"
+  ],
+  "function_name": "find_anagrams",
+  "hints": [
+    "This is permutation-in-string, but you collect every matching index instead of returning early.",
+    "A fixed window of length len(p) is the only candidate size.",
+    "Update counts in O(1) per slide and compare the frequency vectors."
+  ],
+  "approaches": [
+    {
+      "name": "Sort each window",
+      "complexity": {
+        "time": "O(n * m log m)",
+        "space": "O(m)"
+      },
+      "explanation": "Compare sorted windows with sorted p."
+    },
+    {
+      "name": "Sliding counts",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(alphabet)"
+      },
+      "explanation": "Record the left index whenever the counters match."
+    }
+  ],
+  "editorial": "Build the frequency of p and of the first window. Whenever they match, record index 0 or the current left index. Then slide: add the new character, remove the character that falls off, and compare again.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef find_anagrams(s: str, p: str) -> list[int]:\n    if len(p) > len(s):\n        return []\n    need = Counter(p)\n    window = Counter(s[: len(p)])\n    out: list[int] = []\n    if window == need:\n        out.append(0)\n    width = len(p)\n    for right in range(width, len(s)):\n        window[s[right]] += 1\n        left_ch = s[right - width]\n        window[left_ch] -= 1\n        if window[left_ch] == 0:\n            del window[left_ch]\n        if window == need:\n            out.append(right - width + 1)\n    return out\n",
+  "starter_code": "from typing import List\n\ndef find_anagrams(s: str, p: str) -> List[int]:\n    pass\n",
+  "examples": [
+    {
+      "input": "s = 'cbaebabacd', p = 'abc'",
+      "output": "[0, 6]",
+      "explanation": "Anagrams start at 0 and 6."
+    },
+    {
+      "input": "s = 'abab', p = 'ab'",
+      "output": "[0, 1, 2]",
+      "explanation": "Windows start at 0, 1, and 2."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "s": "cbaebabacd",
+        "p": "abc"
+      },
+      "expected": [
+        0,
+        6
+      ]
+    },
+    {
+      "name": "overlap",
+      "args": {
+        "s": "abab",
+        "p": "ab"
+      },
+      "expected": [
+        0,
+        1,
+        2
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "none",
+      "args": {
+        "s": "aaaa",
+        "p": "b"
+      },
+      "expected": []
+    },
+    {
+      "name": "longer-p",
+      "args": {
+        "s": "ab",
+        "p": "abc"
+      },
+      "expected": []
+    },
+    {
+      "name": "single",
+      "args": {
+        "s": "baa",
+        "p": "aa"
+      },
+      "expected": [
+        1
+      ]
+    }
+  ]
+}

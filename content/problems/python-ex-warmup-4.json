@@ -1,0 +1,63 @@
+{
+  "title": "Python Warmup #4",
+  "slug": "python-ex-warmup-4",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "basics"
+  ],
+  "company_tags": [
+    "Python"
+  ],
+  "statement": "Implement `solve()` that returns the value of: `list(map(lambda x: x*x, [1,2,3]))`.",
+  "constraints": [
+    "Use pure Python"
+  ],
+  "examples": [
+    {
+      "input": "()",
+      "output": "[1, 4, 9]"
+    }
+  ],
+  "starter_code": "def solve() -> object:\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Return the expression value.",
+    "No I/O needed.",
+    "Keep it simple."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "Return literal computation."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "primary",
+      "args": {},
+      "expected": [
+        1,
+        4,
+        9
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "again",
+      "args": {},
+      "expected": [
+        1,
+        4,
+        9
+      ]
+    }
+  ],
+  "editorial": "return list(map(lambda x: x*x, [1,2,3]))",
+  "reference_solution": "def solve() -> object:\n    return list(map(lambda x: x*x, [1,2,3]))\n"
+}

@@ -1,0 +1,134 @@
+{
+  "title": "Next Greater Element II",
+  "slug": "next-greater-element-ii",
+  "difficulty": "medium",
+  "topics": [
+    "stacks",
+    "monotonic-stack"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "ByteDance",
+    "Adobe"
+  ],
+  "statement": "The array `nums` is circular. For each index, return the next greater element searching to the right with wraparound, or -1 if none exists.\n",
+  "constraints": [
+    "1 <= nums.length <= 10^4",
+    "-10^9 <= nums[i] <= 10^9"
+  ],
+  "function_name": "next_greater_elements",
+  "hints": [
+    "A circular array can be scanned as if it were concatenated with itself, without actually copying it.",
+    "Walk indices modulo n, for 2n steps, and only write an answer the first time an index is resolved.",
+    "The stack still stores indices in decreasing value order."
+  ],
+  "approaches": [
+    {
+      "name": "Scan the circle",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(1)"
+      },
+      "explanation": "From each index walk at most n - 1 steps."
+    },
+    {
+      "name": "Monotonic stack over two passes",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Index i and i + n share the same value."
+    }
+  ],
+  "editorial": "Iterate i from 0 to 2n - 1 and let j = i mod n. Pop indices whose values are smaller than nums[j] and assign nums[j] as their answer. Push j only during the first pass, so each index is stored once. The second pass exists only to let earlier indices see values that sit to their left in the circle.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef next_greater_elements(nums: list[int]) -> list[int]:\n    n = len(nums)\n    answer = [-1] * n\n    stack: list[int] = []\n    for i in range(2 * n):\n        value = nums[i % n]\n        while stack and nums[stack[-1]] < value:\n            answer[stack.pop()] = value\n        if i < n:\n            stack.append(i)\n    return answer\n",
+  "starter_code": "from typing import List\n\ndef next_greater_elements(nums: List[int]) -> List[int]:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [1, 2, 1]",
+      "output": "[2, -1, 2]",
+      "explanation": "Answers are 2, -1, 2."
+    },
+    {
+      "input": "nums = [1, 2, 3]",
+      "output": "[2, 3, -1]",
+      "explanation": "Only wraparound can help 1 and 2. 3 has no greater value."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "nums": [
+          1,
+          2,
+          1
+        ]
+      },
+      "expected": [
+        2,
+        -1,
+        2
+      ]
+    },
+    {
+      "name": "increasing",
+      "args": {
+        "nums": [
+          1,
+          2,
+          3
+        ]
+      },
+      "expected": [
+        2,
+        3,
+        -1
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "single",
+      "args": {
+        "nums": [
+          5
+        ]
+      },
+      "expected": [
+        -1
+      ]
+    },
+    {
+      "name": "dup-max",
+      "args": {
+        "nums": [
+          5,
+          4,
+          5
+        ]
+      },
+      "expected": [
+        -1,
+        5,
+        -1
+      ]
+    },
+    {
+      "name": "decreasing",
+      "args": {
+        "nums": [
+          3,
+          2,
+          1
+        ]
+      },
+      "expected": [
+        -1,
+        3,
+        3
+      ]
+    }
+  ]
+}

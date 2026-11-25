@@ -1,0 +1,96 @@
+{
+  "title": "Reverse Bits",
+  "slug": "reverse-bits",
+  "difficulty": "easy",
+  "topics": [
+    "bit-manipulation"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Apple",
+    "Microsoft",
+    "Adobe"
+  ],
+  "statement": "Reverse the 32 bits of the non-negative integer `n` and return the result as an integer. Bits beyond the low 32 are zero in the input.\n",
+  "constraints": [
+    "0 <= n < 2^32"
+  ],
+  "function_name": "reverse_bits",
+  "hints": [
+    "Build the answer by taking the low bit of n and appending it to the high side of the result.",
+    "Do this exactly 32 times, even when n becomes zero, so leading zeros become trailing zeros of the reverse.",
+    "result = (result << 1) | (n & 1), then n >>= 1."
+  ],
+  "approaches": [
+    {
+      "name": "String reverse of a 32-bit format",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "The word size is fixed."
+    },
+    {
+      "name": "Bit by bit",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "32 shifts."
+    }
+  ],
+  "editorial": "A 32-iteration loop treats the word width as part of the contract. Each iteration moves one input bit into the result's next low position after shifting the bits already collected. Stopping early would drop the reversed leading zeros.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef reverse_bits(n: int) -> int:\n    result = 0\n    for _ in range(32):\n        result = (result << 1) | (n & 1)\n        n >>= 1\n    return result\n",
+  "starter_code": "def reverse_bits(n: int) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "n = 43261596",
+      "output": "964176192",
+      "explanation": "The 32-bit reverse is 964176192."
+    },
+    {
+      "input": "n = 0",
+      "output": "0",
+      "explanation": "Still zero."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "example",
+      "args": {
+        "n": 43261596
+      },
+      "expected": 964176192
+    },
+    {
+      "name": "zero",
+      "args": {
+        "n": 0
+      },
+      "expected": 0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "one",
+      "args": {
+        "n": 1
+      },
+      "expected": 2147483648
+    },
+    {
+      "name": "high",
+      "args": {
+        "n": 2147483648
+      },
+      "expected": 1
+    },
+    {
+      "name": "all",
+      "args": {
+        "n": 4294967295
+      },
+      "expected": 4294967295
+    }
+  ]
+}

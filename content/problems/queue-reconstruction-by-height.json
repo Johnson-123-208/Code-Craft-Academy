@@ -1,0 +1,228 @@
+{
+  "title": "Queue Reconstruction by Height",
+  "slug": "queue-reconstruction-by-height",
+  "difficulty": "medium",
+  "topics": [
+    "greedy",
+    "sorting"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Adobe",
+    "Bloomberg"
+  ],
+  "statement": "people[i] = [h, k] means a person of height h who expects exactly k people in front of them who are at least as tall. Reconstruct the queue. The input guarantees a solution.\n",
+  "constraints": [
+    "1 <= people.length <= 1100",
+    "0 <= h, k < people.length? heights up to 10^6"
+  ],
+  "function_name": "reconstruct_queue",
+  "hints": [
+    "Sort by height descending, and for equal height by k ascending.",
+    "Insert each person at index k in a list that already contains only taller or equal people.",
+    "Because shorter people are inserted later, they do not change the k-count of the taller people already placed."
+  ],
+  "approaches": [
+    {
+      "name": "Sort and insert",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(n)"
+      },
+      "explanation": "List insertion is linear. n is at most about 1100."
+    },
+    {
+      "name": "Fenwick or segment tree of empty slots",
+      "complexity": {
+        "time": "O(n log n)",
+        "space": "O(n)"
+      },
+      "explanation": "The faster version of the same placement."
+    }
+  ],
+  "editorial": "Taller people are invisible to shorter people's k counts, but shorter people are invisible to taller people's counts. Place the tallest first. Their k is then an absolute index. Each later person inserts at index k among the people already placed, all of whom are at least as tall.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef reconstruct_queue(people: list[list[int]]) -> list[list[int]]:\n    people = sorted(people, key=lambda person: (-person[0], person[1]))\n    queue: list[list[int]] = []\n    for person in people:\n        queue.insert(person[1], person)\n    return queue\n",
+  "starter_code": "from typing import List\n\ndef reconstruct_queue(people: List[List[int]]) -> List[List[int]]:\n    pass\n",
+  "examples": [
+    {
+      "input": "people = [[7, 0], [4, 4], [7, 1], [5, 0], [6, 1], [5, 2]]",
+      "output": "[[5, 0], [7, 0], [5, 2], [6, 1], [4, 4], [7, 1]]",
+      "explanation": "The reconstructed queue places taller people according to k."
+    },
+    {
+      "input": "people = [[1, 0]]",
+      "output": "[[1, 0]]",
+      "explanation": "A single person."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "people": [
+          [
+            7,
+            0
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            7,
+            1
+          ],
+          [
+            5,
+            0
+          ],
+          [
+            6,
+            1
+          ],
+          [
+            5,
+            2
+          ]
+        ]
+      },
+      "expected": [
+        [
+          5,
+          0
+        ],
+        [
+          7,
+          0
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          7,
+          1
+        ]
+      ]
+    },
+    {
+      "name": "one",
+      "args": {
+        "people": [
+          [
+            1,
+            0
+          ]
+        ]
+      },
+      "expected": [
+        [
+          1,
+          0
+        ]
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "two",
+      "args": {
+        "people": [
+          [
+            2,
+            0
+          ],
+          [
+            1,
+            1
+          ]
+        ]
+      },
+      "expected": [
+        [
+          2,
+          0
+        ],
+        [
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "name": "same-height",
+      "args": {
+        "people": [
+          [
+            3,
+            0
+          ],
+          [
+            3,
+            1
+          ],
+          [
+            3,
+            2
+          ]
+        ]
+      },
+      "expected": [
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ]
+      ]
+    },
+    {
+      "name": "mixed",
+      "args": {
+        "people": [
+          [
+            6,
+            0
+          ],
+          [
+            5,
+            0
+          ],
+          [
+            4,
+            0
+          ]
+        ]
+      },
+      "expected": [
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          6,
+          0
+        ]
+      ]
+    }
+  ]
+}

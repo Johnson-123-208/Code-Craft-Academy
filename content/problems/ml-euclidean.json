@@ -1,0 +1,109 @@
+{
+  "title": "Euclidean Distance",
+  "slug": "ml-euclidean",
+  "difficulty": "easy",
+  "topics": [
+    "machine-learning",
+    "linear-algebra",
+    "metrics"
+  ],
+  "company_tags": [
+    "Uber",
+    "Amazon"
+  ],
+  "statement": "Implement `euclidean(a, b)`, the L2 distance between two equal-length vectors. Return the square root of the sum of squared coordinate differences.",
+  "constraints": [
+    "1 <= n <= 10^5",
+    "Equal lengths",
+    "Distance is non-negative"
+  ],
+  "examples": [
+    {
+      "input": "{\"a\": [0.0, 0.0], \"b\": [3.0, 4.0]}",
+      "output": "5.0",
+      "explanation": "Matches the reference on this input."
+    },
+    {
+      "input": "{\"a\": [1.0, 2.0], \"b\": [1.0, 2.0]}",
+      "output": "0.0",
+      "explanation": "Matches the reference on this input."
+    }
+  ],
+  "starter_code": "def euclidean(a: list[float], b: list[float]) -> float:\n    pass\n",
+  "function_name": "euclidean",
+  "hints": [
+    "Square each difference before summing.",
+    "Take one square root at the end.",
+    "A vector compared with itself has distance 0."
+  ],
+  "approaches": [
+    {
+      "name": "L2 norm of the difference",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "\u2016a \u2212 b\u2016\u2082 is the default metric for k-NN and K-Means in continuous space."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "3-4-5",
+      "args": {
+        "a": [
+          0.0,
+          0.0
+        ],
+        "b": [
+          3.0,
+          4.0
+        ]
+      },
+      "expected": 5.0
+    },
+    {
+      "name": "same",
+      "args": {
+        "a": [
+          1.0,
+          2.0
+        ],
+        "b": [
+          1.0,
+          2.0
+        ]
+      },
+      "expected": 0.0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "negatives",
+      "args": {
+        "a": [
+          -1.0,
+          -1.0
+        ],
+        "b": [
+          -1.0,
+          1.0
+        ]
+      },
+      "expected": 2.0
+    },
+    {
+      "name": "1d",
+      "args": {
+        "a": [
+          2.0
+        ],
+        "b": [
+          5.0
+        ]
+      },
+      "expected": 3.0
+    }
+  ],
+  "editorial": "Euclidean distance is the L2 norm of a \u2212 b. K-Means and k-NN use it because it matches the geometry of squared error. In high dimensions all points become far apart; that is a modeling issue, not a bug in the formula. If you only need nearest neighbors, compare squared distances and skip the square root.",
+  "reference_solution": "import math\n\ndef euclidean(a: list[float], b: list[float]) -> float:\n    return float(math.sqrt(sum((x - y) ** 2 for x, y in zip(a, b))))\n"
+}

@@ -1,0 +1,102 @@
+{
+  "title": "Valid Anagram",
+  "slug": "valid-anagram",
+  "difficulty": "easy",
+  "topics": [
+    "strings",
+    "hashing"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft",
+    "Bloomberg",
+    "Uber"
+  ],
+  "statement": "Return true when `t` is an anagram of `s`. Both strings are lowercase English letters.\n",
+  "constraints": [
+    "1 <= s.length, t.length <= 5 * 10^4"
+  ],
+  "function_name": "is_anagram",
+  "hints": [
+    "Equal length is required. A longer string cannot be an anagram.",
+    "Sorting both strings and comparing them is correct.",
+    "A single frequency array of 26 counters is linear and uses constant extra memory."
+  ],
+  "approaches": [
+    {
+      "name": "Sort both",
+      "complexity": {
+        "time": "O(n log n)",
+        "space": "O(n)"
+      },
+      "explanation": "Anagrams share a sorted form."
+    },
+    {
+      "name": "Frequency count",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Increment for s and decrement for t. Every counter must end at zero."
+    }
+  ],
+  "editorial": "An anagram preserves character multiplicity and nothing else. Counting letters in s and subtracting letters in t detects both missing and extra characters. If the lengths differ you can return immediately.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef is_anagram(s: str, t: str) -> bool:\n    return Counter(s) == Counter(t)\n",
+  "starter_code": "def is_anagram(s: str, t: str) -> bool:\n    pass\n",
+  "examples": [
+    {
+      "input": "s = 'anagram', t = 'nagaram'",
+      "output": "true",
+      "explanation": "Same letters."
+    },
+    {
+      "input": "s = 'rat', t = 'car'",
+      "output": "false",
+      "explanation": "Counts differ."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "yes",
+      "args": {
+        "s": "anagram",
+        "t": "nagaram"
+      },
+      "expected": true
+    },
+    {
+      "name": "no",
+      "args": {
+        "s": "rat",
+        "t": "car"
+      },
+      "expected": false
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "length",
+      "args": {
+        "s": "ab",
+        "t": "a"
+      },
+      "expected": false
+    },
+    {
+      "name": "empty",
+      "args": {
+        "s": "",
+        "t": ""
+      },
+      "expected": true
+    },
+    {
+      "name": "repeat",
+      "args": {
+        "s": "aa",
+        "t": "a"
+      },
+      "expected": false
+    }
+  ]
+}

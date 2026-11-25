@@ -1,0 +1,109 @@
+{
+  "title": "Z-Score Standardization",
+  "slug": "ml-zscore",
+  "difficulty": "easy",
+  "topics": [
+    "machine-learning",
+    "statistics",
+    "feature-engineering"
+  ],
+  "company_tags": [
+    "Two Sigma",
+    "Netflix"
+  ],
+  "statement": "Implement `zscore(xs)` using the population standard deviation (divide variance by n, not n \u2212 1). Return (x \u2212 mean) / sd for each element. If the standard deviation is 0, return zeros.",
+  "constraints": [
+    "1 <= n <= 10^5",
+    "Use population std (divide by n)",
+    "Constant input returns zeros"
+  ],
+  "examples": [
+    {
+      "input": "{\"xs\": [-1.0, 0.0, 1.0]}",
+      "output": "[-1.224744871391589, 0.0, 1.224744871391589]",
+      "explanation": "Matches the reference on this input."
+    },
+    {
+      "input": "{\"xs\": [5.0, 5.0]}",
+      "output": "[0.0, 0.0]",
+      "explanation": "Matches the reference on this input."
+    }
+  ],
+  "starter_code": "def zscore(xs: list[float]) -> list[float]:\n    pass\n",
+  "function_name": "zscore",
+  "hints": [
+    "Compute the mean first.",
+    "Variance is the mean of squared deviations, dividing by n.",
+    "A symmetric series such as -1, 0, 1 has mean 0."
+  ],
+  "approaches": [
+    {
+      "name": "Center then scale",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Z-scores put features on a common scale without bounding them to 0..1."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "symmetric",
+      "args": {
+        "xs": [
+          -1.0,
+          0.0,
+          1.0
+        ]
+      },
+      "expected": [
+        -1.224744871391589,
+        0.0,
+        1.224744871391589
+      ]
+    },
+    {
+      "name": "constant",
+      "args": {
+        "xs": [
+          5.0,
+          5.0
+        ]
+      },
+      "expected": [
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "shifted",
+      "args": {
+        "xs": [
+          1.0,
+          2.0,
+          3.0
+        ]
+      },
+      "expected": [
+        -1.224744871391589,
+        0.0,
+        1.224744871391589
+      ]
+    },
+    {
+      "name": "single",
+      "args": {
+        "xs": [
+          8.0
+        ]
+      },
+      "expected": [
+        0.0
+      ]
+    }
+  ],
+  "editorial": "A z-score asks how many population standard deviations a value sits from the mean. Linear models with L2 penalties need this: a feature measured in millimeters would otherwise dominate one measured in kilometers. This problem uses the population definition (divide by n), which is what most ML scalers compute on the training column they just saw. The unbiased sample variance divides by n \u2212 1 and is a statistics-course default, not the usual feature-scaler default. Say which one you used.",
+  "reference_solution": "import math\n\ndef zscore(xs: list[float]) -> list[float]:\n    mu = sum(xs) / len(xs)\n    var = sum((x - mu) ** 2 for x in xs) / len(xs)\n    sd = math.sqrt(var)\n    if sd == 0.0:\n        return [0.0 for _ in xs]\n    return [(x - mu) / sd for x in xs]\n"
+}

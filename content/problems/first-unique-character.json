@@ -1,0 +1,98 @@
+{
+  "title": "First Unique Character in a String",
+  "slug": "first-unique-character",
+  "difficulty": "easy",
+  "topics": [
+    "strings",
+    "hashing"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Bloomberg",
+    "Microsoft",
+    "Apple"
+  ],
+  "statement": "Return the index of the first character in `s` that appears exactly once. Return -1 when every character repeats.\n",
+  "constraints": [
+    "1 <= s.length <= 10^5",
+    "s consists of lowercase English letters"
+  ],
+  "function_name": "first_uniq_char",
+  "hints": [
+    "A first pass counts occurrences.",
+    "A second pass returns the first index whose count is 1.",
+    "One pass is not enough unless you also store indices, because you do not yet know whether a character will repeat."
+  ],
+  "approaches": [
+    {
+      "name": "Count then scan the string again",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "26 counters, then the original order."
+    },
+    {
+      "name": "Index map",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Store the first index and mark repeats as -1."
+    }
+  ],
+  "editorial": "Count every character, then walk the string in order and return the first index whose count is one. The second walk is what preserves 'first'. A heap or sort would destroy that order.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef first_uniq_char(s: str) -> int:\n    counts = Counter(s)\n    for i, ch in enumerate(s):\n        if counts[ch] == 1:\n            return i\n    return -1\n",
+  "starter_code": "def first_uniq_char(s: str) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "s = 'leetcode'",
+      "output": "0",
+      "explanation": "l is unique at index 0."
+    },
+    {
+      "input": "s = 'loveleetcode'",
+      "output": "2",
+      "explanation": "v is the first unique character."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "s": "leetcode"
+      },
+      "expected": 0
+    },
+    {
+      "name": "later",
+      "args": {
+        "s": "loveleetcode"
+      },
+      "expected": 2
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "none",
+      "args": {
+        "s": "aabb"
+      },
+      "expected": -1
+    },
+    {
+      "name": "single",
+      "args": {
+        "s": "z"
+      },
+      "expected": 0
+    },
+    {
+      "name": "end",
+      "args": {
+        "s": "aabbc"
+      },
+      "expected": 4
+    }
+  ]
+}

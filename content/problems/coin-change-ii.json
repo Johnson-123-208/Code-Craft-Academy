@@ -1,0 +1,118 @@
+{
+  "title": "Coin Change II",
+  "slug": "coin-change-ii",
+  "difficulty": "medium",
+  "topics": [
+    "dynamic-programming"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Bloomberg",
+    "Microsoft"
+  ],
+  "statement": "Return the number of combinations that make `amount`. Coin order does not matter, and you have unlimited coins of each type. The answer fits in a 32-bit signed integer for these tests.\n",
+  "constraints": [
+    "1 <= coins.length <= 300",
+    "1 <= coins[i] <= 5000",
+    "0 <= amount <= 5000"
+  ],
+  "function_name": "change",
+  "hints": [
+    "Counting combinations, not permutations, means each coin is considered in an outer loop.",
+    "If the coin loop is inside the amount loop, you count ordered sequences.",
+    "dp[0] = 1, the empty combination."
+  ],
+  "approaches": [
+    {
+      "name": "Recursion with a start index",
+      "complexity": {
+        "time": "exponential",
+        "space": "O(coins)"
+      },
+      "explanation": "The start index enforces nondecreasing coin order."
+    },
+    {
+      "name": "1D unbounded knapsack",
+      "complexity": {
+        "time": "O(amount * coins)",
+        "space": "O(amount)"
+      },
+      "explanation": "Outer coin, inner amount ascending."
+    }
+  ],
+  "editorial": "Iterate coins on the outside. For each coin, update every amount from the coin up to the target by adding dp[amount - coin]. Because the coin is fixed in the outer loop, combinations are counted once in coin order. The inner loop ascending is what allows unlimited use of the current coin.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef change(amount: int, coins: list[int]) -> int:\n    dp = [0] * (amount + 1)\n    dp[0] = 1\n    for coin in coins:\n        for value in range(coin, amount + 1):\n            dp[value] += dp[value - coin]\n    return dp[amount]\n",
+  "starter_code": "from typing import List\n\ndef change(amount: int, coins: List[int]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "amount = 5, coins = [1, 2, 5]",
+      "output": "4",
+      "explanation": "Four combinations."
+    },
+    {
+      "input": "amount = 3, coins = [2]",
+      "output": "0",
+      "explanation": "3 cannot be made."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "amount": 5,
+        "coins": [
+          1,
+          2,
+          5
+        ]
+      },
+      "expected": 4
+    },
+    {
+      "name": "one-type",
+      "args": {
+        "amount": 3,
+        "coins": [
+          2
+        ]
+      },
+      "expected": 0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "zero",
+      "args": {
+        "amount": 0,
+        "coins": [
+          7
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "name": "ten",
+      "args": {
+        "amount": 10,
+        "coins": [
+          2,
+          5
+        ]
+      },
+      "expected": 2
+    },
+    {
+      "name": "three",
+      "args": {
+        "amount": 4,
+        "coins": [
+          1,
+          2,
+          3
+        ]
+      },
+      "expected": 4
+    }
+  ]
+}

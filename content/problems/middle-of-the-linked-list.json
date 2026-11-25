@@ -1,0 +1,135 @@
+{
+  "title": "Middle of the Linked List",
+  "slug": "middle-of-the-linked-list",
+  "difficulty": "easy",
+  "topics": [
+    "linked-lists",
+    "two-pointers"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Adobe",
+    "Apple",
+    "Microsoft"
+  ],
+  "statement": "Return the value sequence starting at the middle node. If there are two middle nodes, return the second one and everything after it.\n",
+  "constraints": [
+    "1 <= length <= 100"
+  ],
+  "function_name": "middle_node",
+  "hints": [
+    "Counting the length and walking length // 2 steps is correct.",
+    "A fast pointer that moves two steps finds the middle when it reaches the end.",
+    "On an even length, two steps per one step lands on the later middle."
+  ],
+  "approaches": [
+    {
+      "name": "Count then walk",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Two passes."
+    },
+    {
+      "name": "Slow and fast",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "One pass, no stored length."
+    }
+  ],
+  "editorial": "Move slow one step and fast two steps until fast cannot move two steps. Slow is then the middle required by the problem. Return the suffix that starts there.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef middle_node(head: list[int]) -> list[int]:\n    slow = fast = _node_chain(head)\n    while fast is not None and fast.nxt is not None:\n        slow = slow.nxt\n        fast = fast.nxt.nxt\n    return _to_list(slow)\n",
+  "starter_code": "from typing import List\n\ndef middle_node(head: List[int]) -> List[int]:\n    pass\n",
+  "examples": [
+    {
+      "input": "head = [1, 2, 3, 4, 5]",
+      "output": "[3, 4, 5]",
+      "explanation": "The middle suffix starts at 3."
+    },
+    {
+      "input": "head = [1, 2, 3, 4, 5, 6]",
+      "output": "[4, 5, 6]",
+      "explanation": "The later middle starts at 4."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "odd",
+      "args": {
+        "head": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      "expected": [
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "name": "even",
+      "args": {
+        "head": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
+      },
+      "expected": [
+        4,
+        5,
+        6
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "one",
+      "args": {
+        "head": [
+          1
+        ]
+      },
+      "expected": [
+        1
+      ]
+    },
+    {
+      "name": "two",
+      "args": {
+        "head": [
+          1,
+          2
+        ]
+      },
+      "expected": [
+        2
+      ]
+    },
+    {
+      "name": "four",
+      "args": {
+        "head": [
+          8,
+          7,
+          6,
+          5
+        ]
+      },
+      "expected": [
+        6,
+        5
+      ]
+    }
+  ]
+}

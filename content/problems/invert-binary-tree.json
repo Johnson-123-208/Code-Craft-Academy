@@ -1,0 +1,137 @@
+{
+  "title": "Invert Binary Tree",
+  "slug": "invert-binary-tree",
+  "difficulty": "easy",
+  "topics": [
+    "trees",
+    "recursion"
+  ],
+  "company_tags": [
+    "Google",
+    "Amazon",
+    "Adobe",
+    "Microsoft"
+  ],
+  "statement": "Invert a binary tree given in level order and return the inverted tree in level order, omitting trailing nulls.\n",
+  "constraints": [
+    "0 <= number of nodes <= 100",
+    "-100 <= Node.val <= 100"
+  ],
+  "function_name": "invert_tree",
+  "hints": [
+    "Swap the two children of every node.",
+    "Recursion does the swap after, or before, inverting the subtrees. The order of the swap and the recursive calls does not matter.",
+    "An empty tree inverts to an empty tree."
+  ],
+  "approaches": [
+    {
+      "name": "BFS swap",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "A queue visits every node and swaps its children."
+    },
+    {
+      "name": "DFS swap",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(h)"
+      },
+      "explanation": "The call stack is the height."
+    }
+  ],
+  "editorial": "Inversion is a homomorphism: invert(node) swaps left and right and inverts both sides. The base case is a null child. Level-order serialization is only the input and output format. The algorithm itself walks nodes.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef invert_tree(root: list) -> list:\n    node = _build(root)\n\n    def walk(current):\n        if current is None:\n            return None\n        current.left, current.right = walk(current.right), walk(current.left)\n        return current\n\n    return _dump(walk(node))\n",
+  "starter_code": "from typing import List, Optional\n\ndef invert_tree(root: List[Optional[int]]) -> List[Optional[int]]:\n    pass\n",
+  "examples": [
+    {
+      "input": "root = [4, 2, 7, 1, 3, 6, 9]",
+      "output": "[4, 7, 2, 9, 6, 3, 1]",
+      "explanation": "Every left and right child swaps."
+    },
+    {
+      "input": "root = []",
+      "output": "[]",
+      "explanation": "The empty tree stays empty."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "root": [
+          4,
+          2,
+          7,
+          1,
+          3,
+          6,
+          9
+        ]
+      },
+      "expected": [
+        4,
+        7,
+        2,
+        9,
+        6,
+        3,
+        1
+      ]
+    },
+    {
+      "name": "empty",
+      "args": {
+        "root": []
+      },
+      "expected": []
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "single",
+      "args": {
+        "root": [
+          1
+        ]
+      },
+      "expected": [
+        1
+      ]
+    },
+    {
+      "name": "skew",
+      "args": {
+        "root": [
+          1,
+          2,
+          null,
+          3
+        ]
+      },
+      "expected": [
+        1,
+        null,
+        2,
+        null,
+        3
+      ]
+    },
+    {
+      "name": "two",
+      "args": {
+        "root": [
+          1,
+          2,
+          3
+        ]
+      },
+      "expected": [
+        1,
+        3,
+        2
+      ]
+    }
+  ]
+}

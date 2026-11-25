@@ -1,0 +1,153 @@
+{
+  "title": "Implement Trie (Prefix Tree)",
+  "slug": "implement-trie",
+  "difficulty": "medium",
+  "topics": [
+    "trie",
+    "design"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "Twitter"
+  ],
+  "statement": "Simulate a trie of lowercase words. `operations` contains insert, search, and startsWith. `arguments[i]` is the word or prefix for that call. insert returns null. search returns whether the word was inserted. startsWith returns whether any inserted word has that prefix.\n",
+  "constraints": [
+    "1 <= operations.length <= 10^4",
+    "1 <= word.length <= 200",
+    "words are lowercase"
+  ],
+  "function_name": "trie_ops",
+  "hints": [
+    "Each node owns a map from character to child, plus a boolean that says a word ends here.",
+    "insert walks or creates a child for every character and marks the last node.",
+    "search requires the end mark. startsWith only requires that the walk succeeds."
+  ],
+  "approaches": [
+    {
+      "name": "Hash set of words plus a prefix scan",
+      "complexity": {
+        "time": "O(total length) worst case per prefix",
+        "space": "O(total length)"
+      },
+      "explanation": "Correct, and slow when many words share prefixes."
+    },
+    {
+      "name": "Trie",
+      "complexity": {
+        "time": "O(length) per call",
+        "space": "O(total characters)"
+      },
+      "explanation": "Shared prefixes share nodes."
+    }
+  ],
+  "editorial": "A trie is a deterministic automaton for the inserted strings. The end mark is separate from the existence of children, because a prefix of an inserted word is not itself inserted unless insert was called on it. startsWith stops at the last character of the prefix and ignores the end mark.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef trie_ops(operations: list[str], arguments: list[str]) -> list[bool | None]:\n    root: dict = {}\n    out: list[bool | None] = []\n    for op, word in zip(operations, arguments):\n        node = root\n        if op == \"insert\":\n            for ch in word:\n                node = node.setdefault(ch, {})\n            node[\"#\"] = True\n            out.append(None)\n        else:\n            missing = False\n            for ch in word:\n                if ch not in node:\n                    missing = True\n                    break\n                node = node[ch]\n            if op == \"search\":\n                out.append((not missing) and bool(node.get(\"#\")))\n            else:\n                out.append(not missing)\n    return out\n",
+  "starter_code": "from typing import List, Optional\n\ndef trie_ops(operations: List[str], arguments: List[str]) -> List[Optional[bool]]:\n    pass\n",
+  "examples": [
+    {
+      "input": "operations = ['insert', 'search', 'search', 'startsWith', 'insert', 'search'], arguments = ['apple', 'apple', 'app', 'app', 'app', 'app']",
+      "output": "[null, true, false, true, null, true]",
+      "explanation": "app is a prefix before it is inserted, and a word afterward."
+    },
+    {
+      "input": "operations = ['search', 'startsWith'], arguments = ['a', 'a']",
+      "output": "[false, false]",
+      "explanation": "An empty trie rejects both queries."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "operations": [
+          "insert",
+          "search",
+          "search",
+          "startsWith",
+          "insert",
+          "search"
+        ],
+        "arguments": [
+          "apple",
+          "apple",
+          "app",
+          "app",
+          "app",
+          "app"
+        ]
+      },
+      "expected": [
+        null,
+        true,
+        false,
+        true,
+        null,
+        true
+      ]
+    },
+    {
+      "name": "miss",
+      "args": {
+        "operations": [
+          "search",
+          "startsWith"
+        ],
+        "arguments": [
+          "a",
+          "a"
+        ]
+      },
+      "expected": [
+        false,
+        false
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "prefix-only",
+      "args": {
+        "operations": [
+          "insert",
+          "startsWith",
+          "search"
+        ],
+        "arguments": [
+          "banana",
+          "ban",
+          "ban"
+        ]
+      },
+      "expected": [
+        null,
+        true,
+        false
+      ]
+    },
+    {
+      "name": "two",
+      "args": {
+        "operations": [
+          "insert",
+          "insert",
+          "search",
+          "startsWith"
+        ],
+        "arguments": [
+          "cat",
+          "car",
+          "car",
+          "ca"
+        ]
+      },
+      "expected": [
+        null,
+        null,
+        true,
+        true
+      ]
+    }
+  ]
+}

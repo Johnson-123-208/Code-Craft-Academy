@@ -1,0 +1,117 @@
+{
+  "title": "House Robber",
+  "slug": "house-robber",
+  "difficulty": "medium",
+  "topics": [
+    "dynamic-programming"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "Airbnb"
+  ],
+  "statement": "Rob houses in a line. You cannot rob two adjacent houses. Return the maximum amount. `nums[i]` is the money in house i.\n",
+  "constraints": [
+    "1 <= nums.length <= 100",
+    "0 <= nums[i] <= 400"
+  ],
+  "function_name": "rob_line",
+  "hints": [
+    "At each house, either skip it and keep the previous best, or rob it and add the best from two houses back.",
+    "dp[i] = max(dp[i - 1], dp[i - 2] + nums[i]).",
+    "Two variables replace the array."
+  ],
+  "approaches": [
+    {
+      "name": "Recursion with memo",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "The state is the starting index."
+    },
+    {
+      "name": "Linear DP",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Rolling skip and take."
+    }
+  ],
+  "editorial": "The optimal decision for a prefix ends by skipping the last house or taking it. Those two choices look at the answers one and two steps back. Walk the street once, keeping the best total that does not use the previous house and the best total overall.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef rob_line(nums: list[int]) -> int:\n    prev2 = prev1 = 0\n    for value in nums:\n        prev2, prev1 = prev1, max(prev1, prev2 + value)\n    return prev1\n",
+  "starter_code": "from typing import List\n\ndef rob_line(nums: List[int]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [1, 2, 3, 1]",
+      "output": "4",
+      "explanation": "Rob houses 1 and 3 for 4. Indexing from the example, 1+3."
+    },
+    {
+      "input": "nums = [2, 7, 9, 3, 1]",
+      "output": "12",
+      "explanation": "2 + 9 + 1 = 12."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "nums": [
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "expected": 4
+    },
+    {
+      "name": "alt",
+      "args": {
+        "nums": [
+          2,
+          7,
+          9,
+          3,
+          1
+        ]
+      },
+      "expected": 12
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "one",
+      "args": {
+        "nums": [
+          5
+        ]
+      },
+      "expected": 5
+    },
+    {
+      "name": "two",
+      "args": {
+        "nums": [
+          2,
+          1
+        ]
+      },
+      "expected": 2
+    },
+    {
+      "name": "zeros",
+      "args": {
+        "nums": [
+          0,
+          0,
+          0
+        ]
+      },
+      "expected": 0
+    }
+  ]
+}

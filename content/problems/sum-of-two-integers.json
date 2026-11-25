@@ -1,0 +1,102 @@
+{
+  "title": "Sum of Two Integers",
+  "slug": "sum-of-two-integers",
+  "difficulty": "medium",
+  "topics": [
+    "bit-manipulation",
+    "math"
+  ],
+  "company_tags": [
+    "Facebook",
+    "Amazon",
+    "Adobe",
+    "Microsoft"
+  ],
+  "statement": "Return the sum of two non-negative integers without using the addition or subtraction operators.\n",
+  "constraints": [
+    "0 <= a, b <= 1000"
+  ],
+  "function_name": "get_sum",
+  "hints": [
+    "XOR writes the sum bits where the bits differ, which is addition without carry.",
+    "AND, shifted left by one, is the carry.",
+    "Repeat until the carry is zero."
+  ],
+  "approaches": [
+    {
+      "name": "Built-in addition",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "Not the point of the problem."
+    },
+    {
+      "name": "XOR and carry",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "Each step pushes the carry one position higher."
+    }
+  ],
+  "editorial": "On paper, a column with two 1s writes 0 and carries 1. XOR writes the 0, and the shifted AND is the carry into the next column. Columns with a single 1 are finished by the XOR. When the carry becomes zero, every column is finished and the XOR is the sum.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef get_sum(a: int, b: int) -> int:\n    while b:\n        a, b = a ^ b, (a & b) << 1\n    return a\n",
+  "starter_code": "def get_sum(a: int, b: int) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "a = 1, b = 2",
+      "output": "3",
+      "explanation": "The sum is 3."
+    },
+    {
+      "input": "a = 5, b = 7",
+      "output": "12",
+      "explanation": "The sum is 12."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "a": 1,
+        "b": 2
+      },
+      "expected": 3
+    },
+    {
+      "name": "carry",
+      "args": {
+        "a": 5,
+        "b": 7
+      },
+      "expected": 12
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "zero",
+      "args": {
+        "a": 0,
+        "b": 0
+      },
+      "expected": 0
+    },
+    {
+      "name": "one-side",
+      "args": {
+        "a": 20,
+        "b": 0
+      },
+      "expected": 20
+    },
+    {
+      "name": "same",
+      "args": {
+        "a": 8,
+        "b": 8
+      },
+      "expected": 16
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "title": "Compute Mean",
+  "slug": "ml-mean",
+  "difficulty": "easy",
+  "topics": [
+    "machine-learning",
+    "statistics",
+    "python"
+  ],
+  "company_tags": [
+    "Two Sigma",
+    "Amazon"
+  ],
+  "statement": "Implement `mean(xs)` for a non-empty list of floats. Return the arithmetic mean, sum divided by count. This is the baseline predictor for squared loss and the centering step in standardization.",
+  "constraints": [
+    "1 <= len(xs) <= 10^5",
+    "Values are finite",
+    "Return a Python float"
+  ],
+  "examples": [
+    {
+      "input": "{\"xs\": [1.0, 2.0, 3.0]}",
+      "output": "2.0",
+      "explanation": "Matches the reference on this input."
+    },
+    {
+      "input": "{\"xs\": [-2.0, 2.0]}",
+      "output": "0.0",
+      "explanation": "Matches the reference on this input."
+    }
+  ],
+  "starter_code": "def mean(xs: list[float]) -> float:\n    pass\n",
+  "function_name": "mean",
+  "hints": [
+    "Sum every element.",
+    "Divide by the length, not by length minus one.",
+    "Keep the result a float even if the sum looks integral."
+  ],
+  "approaches": [
+    {
+      "name": "One pass sum",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "The sample mean minimizes squared error among constant predictors."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "one-two-three",
+      "args": {
+        "xs": [
+          1.0,
+          2.0,
+          3.0
+        ]
+      },
+      "expected": 2.0
+    },
+    {
+      "name": "negatives",
+      "args": {
+        "xs": [
+          -2.0,
+          2.0
+        ]
+      },
+      "expected": 0.0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "single",
+      "args": {
+        "xs": [
+          4.5
+        ]
+      },
+      "expected": 4.5
+    },
+    {
+      "name": "zeros",
+      "args": {
+        "xs": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "expected": 0.0
+    }
+  ],
+  "editorial": "The arithmetic mean \u03bc = (1/n) \u03a3 x\u1d62 is the first moment of the empirical distribution. For squared error, predicting \u03bc on a constant-only model is optimal. Do not confuse it with the median, which is optimal for absolute error, or with the population formula that divides by n versus the unbiased variance that divides by n \u2212 1. Mean itself always divides by n.",
+  "reference_solution": "def mean(xs: list[float]) -> float:\n    return float(sum(xs) / len(xs))\n"
+}

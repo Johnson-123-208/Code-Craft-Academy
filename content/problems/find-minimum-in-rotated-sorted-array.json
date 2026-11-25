@@ -1,0 +1,119 @@
+{
+  "title": "Find Minimum in Rotated Sorted Array",
+  "slug": "find-minimum-in-rotated-sorted-array",
+  "difficulty": "medium",
+  "topics": [
+    "binary-search"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft",
+    "Adobe",
+    "Google"
+  ],
+  "statement": "Return the minimum element of a rotated sorted array of distinct values.\n",
+  "constraints": [
+    "1 <= nums.length <= 5000",
+    "All values are distinct"
+  ],
+  "function_name": "find_min",
+  "hints": [
+    "The minimum is the only element that is smaller than its left neighbor, unless the array is not rotated.",
+    "Compare nums[mid] with nums[hi]. If mid is larger, the minimum is to the right of mid.",
+    "Otherwise the minimum is at mid or to its left, so hi becomes mid."
+  ],
+  "approaches": [
+    {
+      "name": "Linear scan",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "min(nums)."
+    },
+    {
+      "name": "Binary search on the rotation",
+      "complexity": {
+        "time": "O(log n)",
+        "space": "O(1)"
+      },
+      "explanation": "Shrink toward the unsorted side."
+    }
+  ],
+  "editorial": "If nums[mid] > nums[hi], the rotation point, and therefore the minimum, is strictly to the right of mid. Otherwise mid could be the minimum, so hi moves to mid and mid stays inside the interval. The loop uses lo < hi and finishes with both ends on the minimum.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef find_min(nums: list[int]) -> int:\n    lo, hi = 0, len(nums) - 1\n    while lo < hi:\n        mid = (lo + hi) // 2\n        if nums[mid] > nums[hi]:\n            lo = mid + 1\n        else:\n            hi = mid\n    return nums[lo]\n",
+  "starter_code": "from typing import List\n\ndef find_min(nums: List[int]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [3, 4, 5, 1, 2]",
+      "output": "1",
+      "explanation": "The minimum is 1."
+    },
+    {
+      "input": "nums = [1, 2, 3, 4]",
+      "output": "1",
+      "explanation": "The minimum is the first element."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "rotated",
+      "args": {
+        "nums": [
+          3,
+          4,
+          5,
+          1,
+          2
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "name": "unrotated",
+      "args": {
+        "nums": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "expected": 1
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "two",
+      "args": {
+        "nums": [
+          2,
+          1
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "name": "single",
+      "args": {
+        "nums": [
+          8
+        ]
+      },
+      "expected": 8
+    },
+    {
+      "name": "tail",
+      "args": {
+        "nums": [
+          4,
+          5,
+          6,
+          7,
+          0
+        ]
+      },
+      "expected": 0
+    }
+  ]
+}

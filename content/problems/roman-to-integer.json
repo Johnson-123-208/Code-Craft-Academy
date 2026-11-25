@@ -1,0 +1,98 @@
+{
+  "title": "Roman to Integer",
+  "slug": "roman-to-integer",
+  "difficulty": "easy",
+  "topics": [
+    "strings",
+    "math"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Adobe",
+    "Apple",
+    "Microsoft"
+  ],
+  "statement": "Convert a valid Roman numeral `s` to an integer. Subtractive pairs are IV, IX, XL, XC, CD, and CM.\n",
+  "constraints": [
+    "1 <= s.length <= 15",
+    "s is a valid Roman numeral in the range 1..3999"
+  ],
+  "function_name": "roman_to_int",
+  "hints": [
+    "Map I, V, X, L, C, D, and M to 1, 5, 10, 50, 100, 500, and 1000.",
+    "If a smaller value appears immediately before a larger value, subtract it instead of adding it.",
+    "Scanning right to left also works: add the symbol, and remember the previous value so a smaller symbol becomes negative."
+  ],
+  "approaches": [
+    {
+      "name": "Replace subtractive pairs, then sum",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Turn IV into IIII-equivalent by subtracting."
+    },
+    {
+      "name": "One pass comparing neighbors",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Add values[s[i]] with a sign chosen by the next symbol."
+    }
+  ],
+  "editorial": "Walk left to right. If the current symbol is smaller than the next one, subtract its value. Otherwise add it. The last symbol is always added. This encodes every subtractive pair without a special-case table, and it rejects nothing because the problem promises a valid numeral.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef roman_to_int(s: str) -> int:\n    values = {\"I\": 1, \"V\": 5, \"X\": 10, \"L\": 50, \"C\": 100, \"D\": 500, \"M\": 1000}\n    total = 0\n    for i, ch in enumerate(s):\n        if i + 1 < len(s) and values[ch] < values[s[i + 1]]:\n            total -= values[ch]\n        else:\n            total += values[ch]\n    return total\n",
+  "starter_code": "def roman_to_int(s: str) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "s = 'III'",
+      "output": "3",
+      "explanation": "3."
+    },
+    {
+      "input": "s = 'IV'",
+      "output": "4",
+      "explanation": "4, the subtractive pair."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "three",
+      "args": {
+        "s": "III"
+      },
+      "expected": 3
+    },
+    {
+      "name": "four",
+      "args": {
+        "s": "IV"
+      },
+      "expected": 4
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "nine",
+      "args": {
+        "s": "IX"
+      },
+      "expected": 9
+    },
+    {
+      "name": "fifty-eight",
+      "args": {
+        "s": "LVIII"
+      },
+      "expected": 58
+    },
+    {
+      "name": "nineteen-ninety-four",
+      "args": {
+        "s": "MCMXCIV"
+      },
+      "expected": 1994
+    }
+  ]
+}

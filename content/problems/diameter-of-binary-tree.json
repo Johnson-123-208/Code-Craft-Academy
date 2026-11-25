@@ -1,0 +1,120 @@
+{
+  "title": "Diameter of Binary Tree",
+  "slug": "diameter-of-binary-tree",
+  "difficulty": "easy",
+  "topics": [
+    "trees"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Facebook",
+    "Microsoft"
+  ],
+  "statement": "The diameter is the length of the longest path between any two nodes, measured in edges. The path does not have to pass through the root. Return that length.\n",
+  "constraints": [
+    "1 <= number of nodes <= 10^4"
+  ],
+  "function_name": "diameter_of_binary_tree",
+  "hints": [
+    "The longest path through a node is the height of the left subtree plus the height of the right subtree, in edges.",
+    "The diameter of the tree is the maximum of that quantity over every node.",
+    "A height DFS can update a global best on the way back up. Height in edges from a node to its deepest leaf is what you return."
+  ],
+  "approaches": [
+    {
+      "name": "Two DFS passes per node",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(h)"
+      },
+      "explanation": "Recompute heights."
+    },
+    {
+      "name": "One DFS",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(h)"
+      },
+      "explanation": "Height and diameter are computed together."
+    }
+  ],
+  "editorial": "Return the height of a subtree to the parent, and as a side effect record left_height + right_height. Use edges: a null child contributes height 0, and a leaf returns 1 to its parent if you count nodes, or you can count edges explicitly. The standard edge formulation returns 1 + max(left, right) as the height in edges from the parent link, and adds the two child heights.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef diameter_of_binary_tree(root: list) -> int:\n    best = 0\n\n    def height(node) -> int:\n        nonlocal best\n        if node is None:\n            return 0\n        left = height(node.left)\n        right = height(node.right)\n        best = max(best, left + right)\n        return 1 + max(left, right)\n\n    height(_build(root))\n    return best\n",
+  "starter_code": "from typing import List, Optional\n\ndef diameter_of_binary_tree(root: List[Optional[int]]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "root = [1, 2, 3, 4, 5]",
+      "output": "3",
+      "explanation": "The path 4-2-5 or 4-2-1-3 has length 3."
+    },
+    {
+      "input": "root = [1, 2, None, 3]",
+      "output": "2",
+      "explanation": "A single path of two edges."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "root": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      "expected": 3
+    },
+    {
+      "name": "skew",
+      "args": {
+        "root": [
+          1,
+          2,
+          null,
+          3
+        ]
+      },
+      "expected": 2
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "single",
+      "args": {
+        "root": [
+          1
+        ]
+      },
+      "expected": 0
+    },
+    {
+      "name": "two",
+      "args": {
+        "root": [
+          1,
+          2
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "name": "bush",
+      "args": {
+        "root": [
+          1,
+          2,
+          3,
+          4,
+          null,
+          null,
+          5
+        ]
+      },
+      "expected": 4
+    }
+  ]
+}

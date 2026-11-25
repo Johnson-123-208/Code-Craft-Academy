@@ -1,0 +1,177 @@
+{
+  "title": "4Sum",
+  "slug": "4sum",
+  "difficulty": "medium",
+  "topics": [
+    "arrays",
+    "two-pointers"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Apple",
+    "LinkedIn"
+  ],
+  "statement": "Return every unique quadruplet that sums to `target`. Sort each quadruplet and sort the list of quadruplets.\n",
+  "constraints": [
+    "1 <= nums.length <= 200",
+    "-10^9 <= nums[i], target <= 10^9"
+  ],
+  "function_name": "four_sum",
+  "hints": [
+    "4Sum is 3Sum with one extra fixed index.",
+    "Sort, skip duplicates at every fixed index, and finish with two pointers.",
+    "Reduce the target by the two fixed values before the inner scan."
+  ],
+  "approaches": [
+    {
+      "name": "Four nested loops",
+      "complexity": {
+        "time": "O(n^4)",
+        "space": "O(n)"
+      },
+      "explanation": "Canonicalize tuples in a set."
+    },
+    {
+      "name": "Sort plus k-sum recursion of depth 2",
+      "complexity": {
+        "time": "O(n^3)",
+        "space": "O(1)"
+      },
+      "explanation": "Two fixed indices, then a linear two-pointer scan."
+    }
+  ],
+  "editorial": "Sort the array. The outer two loops choose the first two values and skip duplicates the same way 3Sum does. The inner two pointers search for target minus those two values. The pattern generalizes to kSum: k-2 nested loops and one two-pointer base case.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef four_sum(nums: list[int], target: int) -> list[list[int]]:\n    nums = sorted(nums)\n    n = len(nums)\n    found: list[list[int]] = []\n    for i in range(n):\n        if i and nums[i] == nums[i - 1]:\n            continue\n        for j in range(i + 1, n):\n            if j > i + 1 and nums[j] == nums[j - 1]:\n                continue\n            left, right = j + 1, n - 1\n            while left < right:\n                total = nums[i] + nums[j] + nums[left] + nums[right]\n                if total == target:\n                    found.append([nums[i], nums[j], nums[left], nums[right]])\n                    left += 1\n                    right -= 1\n                    while left < right and nums[left] == nums[left - 1]:\n                        left += 1\n                    while left < right and nums[right] == nums[right + 1]:\n                        right -= 1\n                elif total < target:\n                    left += 1\n                else:\n                    right -= 1\n    return found\n",
+  "starter_code": "from typing import List\n\ndef four_sum(nums: List[int], target: int) -> List[List[int]]:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [1, 0, -1, 0, -2, 2], target = 0",
+      "output": "[[-2, -1, 1, 2], [-2, 0, 0, 2], [-1, 0, 0, 1]]",
+      "explanation": "Four unique quadruplets sum to 0."
+    },
+    {
+      "input": "nums = [2, 2, 2, 2, 2], target = 8",
+      "output": "[[2, 2, 2, 2]]",
+      "explanation": "Only [2, 2, 2, 2]."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "nums": [
+          1,
+          0,
+          -1,
+          0,
+          -2,
+          2
+        ],
+        "target": 0
+      },
+      "expected": [
+        [
+          -2,
+          -1,
+          1,
+          2
+        ],
+        [
+          -2,
+          0,
+          0,
+          2
+        ],
+        [
+          -1,
+          0,
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "name": "one",
+      "args": {
+        "nums": [
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "target": 8
+      },
+      "expected": [
+        [
+          2,
+          2,
+          2,
+          2
+        ]
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "none",
+      "args": {
+        "nums": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "target": 100
+      },
+      "expected": []
+    },
+    {
+      "name": "mixed",
+      "args": {
+        "nums": [
+          -2,
+          -1,
+          0,
+          0,
+          1,
+          2
+        ],
+        "target": 0
+      },
+      "expected": [
+        [
+          -2,
+          -1,
+          1,
+          2
+        ],
+        [
+          -2,
+          0,
+          0,
+          2
+        ],
+        [
+          -1,
+          0,
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "name": "short",
+      "args": {
+        "nums": [
+          1,
+          2,
+          3
+        ],
+        "target": 6
+      },
+      "expected": []
+    }
+  ]
+}

@@ -1,0 +1,161 @@
+{
+  "title": "Combination Sum II",
+  "slug": "combination-sum-ii",
+  "difficulty": "medium",
+  "topics": [
+    "backtracking"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Adobe",
+    "Facebook"
+  ],
+  "statement": "Return every unique combination of `candidates` that sums to `target`. Each number may be used once. Two combinations that use the same values the same number of times are the same. Sort each combination and sort the list.\n",
+  "constraints": [
+    "1 <= candidates.length <= 100",
+    "1 <= candidates[i] <= 50",
+    "1 <= target <= 30"
+  ],
+  "function_name": "combination_sum_ii",
+  "hints": [
+    "Sort so equal values are adjacent and combinations are built in non-decreasing order.",
+    "A candidate may be skipped or taken, but it may not be reused, so the next call starts at the next index.",
+    "If the current value equals the previous value and the previous value was skipped at this level, skip this one too. That removes duplicate combinations."
+  ],
+  "approaches": [
+    {
+      "name": "All subsets",
+      "complexity": {
+        "time": "O(2^n)",
+        "space": "O(n)"
+      },
+      "explanation": "Filter the subsets that hit the target and unique them."
+    },
+    {
+      "name": "Backtracking with duplicate skips",
+      "complexity": {
+        "time": "O(2^n)",
+        "space": "O(n)"
+      },
+      "explanation": "Prunes copies as it goes."
+    }
+  ],
+  "editorial": "The recursion state is the start index and the remaining sum. At each level, iterate candidates from the start. Skip a value that repeats the previous one unless that previous one was used in this same level, which the index check `i > start` encodes. Stop the loop when the candidate exceeds the remainder. Record a copy of the path when the remainder hits zero.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef combination_sum_ii(candidates: list[int], target: int) -> list[list[int]]:\n    candidates = sorted(candidates)\n    out: list[list[int]] = []\n    path: list[int] = []\n\n    def dfs(start: int, remain: int) -> None:\n        if remain == 0:\n            out.append(path[:])\n            return\n        for i in range(start, len(candidates)):\n            if i > start and candidates[i] == candidates[i - 1]:\n                continue\n            if candidates[i] > remain:\n                break\n            path.append(candidates[i])\n            dfs(i + 1, remain - candidates[i])\n            path.pop()\n\n    dfs(0, target)\n    return out\n",
+  "starter_code": "from typing import List\n\ndef combination_sum_ii(candidates: List[int], target: int) -> List[List[int]]:\n    pass\n",
+  "examples": [
+    {
+      "input": "candidates = [10, 1, 2, 7, 6, 1, 5], target = 8",
+      "output": "[[1, 1, 6], [1, 2, 5], [1, 7], [2, 6]]",
+      "explanation": "Four unique combinations."
+    },
+    {
+      "input": "candidates = [2, 5, 2, 1, 2], target = 5",
+      "output": "[[1, 2, 2], [5]]",
+      "explanation": "The unique combinations that sum to 5."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "candidates": [
+          10,
+          1,
+          2,
+          7,
+          6,
+          1,
+          5
+        ],
+        "target": 8
+      },
+      "expected": [
+        [
+          1,
+          1,
+          6
+        ],
+        [
+          1,
+          2,
+          5
+        ],
+        [
+          1,
+          7
+        ],
+        [
+          2,
+          6
+        ]
+      ]
+    },
+    {
+      "name": "dups",
+      "args": {
+        "candidates": [
+          2,
+          5,
+          2,
+          1,
+          2
+        ],
+        "target": 5
+      },
+      "expected": [
+        [
+          1,
+          2,
+          2
+        ],
+        [
+          5
+        ]
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "none",
+      "args": {
+        "candidates": [
+          1,
+          1
+        ],
+        "target": 3
+      },
+      "expected": []
+    },
+    {
+      "name": "single",
+      "args": {
+        "candidates": [
+          4
+        ],
+        "target": 4
+      },
+      "expected": [
+        [
+          4
+        ]
+      ]
+    },
+    {
+      "name": "empty",
+      "args": {
+        "candidates": [
+          3,
+          1
+        ],
+        "target": 1
+      },
+      "expected": [
+        [
+          1
+        ]
+      ]
+    }
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "title": "Valid Palindrome II",
+  "slug": "valid-palindrome-ii",
+  "difficulty": "easy",
+  "topics": [
+    "strings",
+    "two-pointers"
+  ],
+  "company_tags": [
+    "Facebook",
+    "Amazon",
+    "Microsoft",
+    "Adobe"
+  ],
+  "statement": "Return true when `s` is a palindrome, or becomes a palindrome after deleting at most one character.\n",
+  "constraints": [
+    "1 <= s.length <= 10^5",
+    "s is lowercase"
+  ],
+  "function_name": "valid_palindrome",
+  "hints": [
+    "Two pointers find the first mismatch.",
+    "At the mismatch you may skip the left character or the right character, but not both in different places.",
+    "Check whether either remaining slice is a strict palindrome."
+  ],
+  "approaches": [
+    {
+      "name": "Delete each character",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(n)"
+      },
+      "explanation": "Try every deletion."
+    },
+    {
+      "name": "One mismatch branch",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Two candidate skips."
+    }
+  ],
+  "editorial": "Walk inward. While the characters match, continue. On a mismatch, the answer is true when s[left+1:right+1] is a palindrome or s[left:right] is a palindrome. A second mismatch inside either check fails that branch. You do not get a second deletion.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef valid_palindrome(s: str) -> bool:\n    def is_pal(left: int, right: int) -> bool:\n        while left < right:\n            if s[left] != s[right]:\n                return False\n            left += 1\n            right -= 1\n        return True\n\n    left, right = 0, len(s) - 1\n    while left < right:\n        if s[left] != s[right]:\n            return is_pal(left + 1, right) or is_pal(left, right - 1)\n        left += 1\n        right -= 1\n    return True\n",
+  "starter_code": "def valid_palindrome(s: str) -> bool:\n    pass\n",
+  "examples": [
+    {
+      "input": "s = 'aba'",
+      "output": "true",
+      "explanation": "Already a palindrome."
+    },
+    {
+      "input": "s = 'abca'",
+      "output": "true",
+      "explanation": "Delete b or c."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "aba",
+      "args": {
+        "s": "aba"
+      },
+      "expected": true
+    },
+    {
+      "name": "abca",
+      "args": {
+        "s": "abca"
+      },
+      "expected": true
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "abc",
+      "args": {
+        "s": "abc"
+      },
+      "expected": false
+    },
+    {
+      "name": "single",
+      "args": {
+        "s": "a"
+      },
+      "expected": true
+    },
+    {
+      "name": "almost",
+      "args": {
+        "s": "abcca"
+      },
+      "expected": true
+    }
+  ]
+}

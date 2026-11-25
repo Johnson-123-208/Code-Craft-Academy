@@ -1,0 +1,103 @@
+{
+  "title": "Permutation in String",
+  "slug": "permutation-in-string",
+  "difficulty": "medium",
+  "topics": [
+    "strings",
+    "sliding-window"
+  ],
+  "company_tags": [
+    "Microsoft",
+    "Amazon",
+    "Google",
+    "Bloomberg"
+  ],
+  "statement": "Return true when `s2` contains a permutation of `s1` as a contiguous substring.\n",
+  "constraints": [
+    "1 <= s1.length, s2.length <= 10^4",
+    "Both strings are lowercase English letters"
+  ],
+  "function_name": "check_inclusion",
+  "hints": [
+    "A permutation is a window of length len(s1) with the same character counts.",
+    "Compare a fixed-size window's counter with the counter of s1.",
+    "Slide by adding the incoming character and removing the outgoing one."
+  ],
+  "approaches": [
+    {
+      "name": "Sort every window",
+      "complexity": {
+        "time": "O(n * m log m)",
+        "space": "O(m)"
+      },
+      "explanation": "Sort s1 and each window of that length."
+    },
+    {
+      "name": "Fixed window counts",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(alphabet)"
+      },
+      "explanation": "Maintain a frequency vector of size 26."
+    }
+  ],
+  "editorial": "If s1 is longer than s2 the answer is false. Otherwise build two counters and slide a window of length len(s1). Equality of counters means the window is a permutation. Decrementing a count to zero should delete the key so dictionary equality stays exact.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef check_inclusion(s1: str, s2: str) -> bool:\n    if len(s1) > len(s2):\n        return False\n    need = Counter(s1)\n    window = Counter(s2[: len(s1)])\n    if window == need:\n        return True\n    width = len(s1)\n    for i in range(width, len(s2)):\n        window[s2[i]] += 1\n        outgoing = s2[i - width]\n        window[outgoing] -= 1\n        if window[outgoing] == 0:\n            del window[outgoing]\n        if window == need:\n            return True\n    return False\n",
+  "starter_code": "def check_inclusion(s1: str, s2: str) -> bool:\n    pass\n",
+  "examples": [
+    {
+      "input": "s1 = 'ab', s2 = 'eidbaooo'",
+      "output": "true",
+      "explanation": "ba is a permutation of ab."
+    },
+    {
+      "input": "s1 = 'ab', s2 = 'eidboaoo'",
+      "output": "false",
+      "explanation": "No window matches."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "yes",
+      "args": {
+        "s1": "ab",
+        "s2": "eidbaooo"
+      },
+      "expected": true
+    },
+    {
+      "name": "no",
+      "args": {
+        "s1": "ab",
+        "s2": "eidboaoo"
+      },
+      "expected": false
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "equal",
+      "args": {
+        "s1": "adc",
+        "s2": "dcda"
+      },
+      "expected": true
+    },
+    {
+      "name": "longer",
+      "args": {
+        "s1": "hello",
+        "s2": "ooolleoooleh"
+      },
+      "expected": false
+    },
+    {
+      "name": "same",
+      "args": {
+        "s1": "abc",
+        "s2": "abc"
+      },
+      "expected": true
+    }
+  ]
+}

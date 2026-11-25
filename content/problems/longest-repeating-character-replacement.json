@@ -1,0 +1,104 @@
+{
+  "title": "Longest Repeating Character Replacement",
+  "slug": "longest-repeating-character-replacement",
+  "difficulty": "medium",
+  "topics": [
+    "strings",
+    "sliding-window"
+  ],
+  "company_tags": [
+    "Google",
+    "Amazon",
+    "Microsoft",
+    "Uber"
+  ],
+  "statement": "You may replace at most `k` characters in `s`. Return the length of the longest substring that can be made of one repeated character.\n",
+  "constraints": [
+    "1 <= s.length <= 10^5",
+    "s consists of uppercase English letters",
+    "0 <= k <= s.length"
+  ],
+  "function_name": "character_replacement",
+  "hints": [
+    "A window is valid when its length minus the count of its most frequent character is at most k.",
+    "A frequency map of the current window is enough.",
+    "The window never needs to shrink by more than it grows, so the best length only increases."
+  ],
+  "approaches": [
+    {
+      "name": "All windows",
+      "complexity": {
+        "time": "O(n^2 * alphabet)",
+        "space": "O(alphabet)"
+      },
+      "explanation": "Test the replacement budget on every slice."
+    },
+    {
+      "name": "Sliding window",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(alphabet)"
+      },
+      "explanation": "Grow the right edge and keep the window valid."
+    }
+  ],
+  "editorial": "For a window, replacements needed equals length minus the highest frequency inside it. Expand right, update the frequency, and while the window needs more than k replacements, advance left. The maximum valid length is the answer. The most frequent count inside the window is what decides the budget.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef character_replacement(s: str, k: int) -> int:\n    count: dict[str, int] = {}\n    left = best = max_freq = 0\n    for right, ch in enumerate(s):\n        count[ch] = count.get(ch, 0) + 1\n        max_freq = max(max_freq, count[ch])\n        while (right - left + 1) - max_freq > k:\n            count[s[left]] -= 1\n            left += 1\n        best = max(best, right - left + 1)\n    return best\n",
+  "starter_code": "def character_replacement(s: str, k: int) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "s = 'ABAB', k = 2",
+      "output": "4",
+      "explanation": "Replace two letters to make AAAA or BBBB."
+    },
+    {
+      "input": "s = 'AABABBA', k = 1",
+      "output": "4",
+      "explanation": "The best length is 4."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "s": "ABAB",
+        "k": 2
+      },
+      "expected": 4
+    },
+    {
+      "name": "one",
+      "args": {
+        "s": "AABABBA",
+        "k": 1
+      },
+      "expected": 4
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "zero",
+      "args": {
+        "s": "ABCD",
+        "k": 0
+      },
+      "expected": 1
+    },
+    {
+      "name": "all",
+      "args": {
+        "s": "AAAA",
+        "k": 2
+      },
+      "expected": 4
+    },
+    {
+      "name": "budget",
+      "args": {
+        "s": "ABCDE",
+        "k": 1
+      },
+      "expected": 2
+    }
+  ]
+}

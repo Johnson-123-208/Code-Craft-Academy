@@ -1,0 +1,126 @@
+{
+  "title": "Binary Search",
+  "slug": "binary-search",
+  "difficulty": "easy",
+  "topics": [
+    "binary-search"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft",
+    "Adobe",
+    "Google"
+  ],
+  "statement": "`nums` is sorted ascending and contains distinct values. Return the index of `target`, or -1 when it is absent.\n",
+  "constraints": [
+    "1 <= nums.length <= 10^4",
+    "-10^4 < nums[i], target < 10^4"
+  ],
+  "function_name": "search",
+  "hints": [
+    "Keep a closed interval [lo, hi] of indices that might still hold the target.",
+    "Compare the middle element and discard the half that cannot contain it.",
+    "Loop while lo <= hi. Returning on an empty interval means the target is absent."
+  ],
+  "approaches": [
+    {
+      "name": "Linear scan",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Ignore the sorted order."
+    },
+    {
+      "name": "Binary search",
+      "complexity": {
+        "time": "O(log n)",
+        "space": "O(1)"
+      },
+      "explanation": "Halve the closed interval each step."
+    }
+  ],
+  "editorial": "Set lo to 0 and hi to n - 1. While the interval is nonempty, let mid = (lo + hi) // 2. Equality returns mid. A smaller target moves hi to mid - 1. A larger target moves lo to mid + 1. Using mid + 1 and mid - 1 is what guarantees the interval shrinks, including when mid equals lo.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef search(nums: list[int], target: int) -> int:\n    lo, hi = 0, len(nums) - 1\n    while lo <= hi:\n        mid = (lo + hi) // 2\n        if nums[mid] == target:\n            return mid\n        if nums[mid] < target:\n            lo = mid + 1\n        else:\n            hi = mid - 1\n    return -1\n",
+  "starter_code": "from typing import List\n\ndef search(nums: List[int], target: int) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [-1, 0, 3, 5, 9, 12], target = 9",
+      "output": "4",
+      "explanation": "9 sits at index 4."
+    },
+    {
+      "input": "nums = [-1, 0, 3, 5, 9, 12], target = 2",
+      "output": "-1",
+      "explanation": "2 is absent."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "hit",
+      "args": {
+        "nums": [
+          -1,
+          0,
+          3,
+          5,
+          9,
+          12
+        ],
+        "target": 9
+      },
+      "expected": 4
+    },
+    {
+      "name": "miss",
+      "args": {
+        "nums": [
+          -1,
+          0,
+          3,
+          5,
+          9,
+          12
+        ],
+        "target": 2
+      },
+      "expected": -1
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "ends",
+      "args": {
+        "nums": [
+          1,
+          2,
+          3
+        ],
+        "target": 1
+      },
+      "expected": 0
+    },
+    {
+      "name": "last",
+      "args": {
+        "nums": [
+          1,
+          2,
+          3
+        ],
+        "target": 3
+      },
+      "expected": 2
+    },
+    {
+      "name": "single",
+      "args": {
+        "nums": [
+          5
+        ],
+        "target": 5
+      },
+      "expected": 0
+    }
+  ]
+}

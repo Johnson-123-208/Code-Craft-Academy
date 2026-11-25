@@ -1,0 +1,97 @@
+{
+  "title": "Palindromic Substrings",
+  "slug": "palindromic-substrings",
+  "difficulty": "medium",
+  "topics": [
+    "strings",
+    "dynamic-programming"
+  ],
+  "company_tags": [
+    "Facebook",
+    "Amazon",
+    "Adobe",
+    "Microsoft"
+  ],
+  "statement": "Return the number of palindromic substrings in `s`. Single characters count. Overlapping substrings count separately.\n",
+  "constraints": [
+    "1 <= s.length <= 1000"
+  ],
+  "function_name": "count_substrings",
+  "hints": [
+    "Every palindrome has a center.",
+    "Expand around each of the 2n - 1 centers and count every successful expansion.",
+    "A DP table dp[i][j] is true when s[i:j+1] is a palindrome, set from the ends and the inside."
+  ],
+  "approaches": [
+    {
+      "name": "Check every substring",
+      "complexity": {
+        "time": "O(n^3)",
+        "space": "O(1)"
+      },
+      "explanation": "Or O(n^2) with care."
+    },
+    {
+      "name": "Expand around centers",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(1)"
+      },
+      "explanation": "Each expansion is charged to a substring."
+    }
+  ],
+  "editorial": "There are n odd centers and n - 1 even centers. From a center, walk outward while the characters match and add one for each radius, including radius 0 for odd centers. The total is the number of palindromic substrings.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef count_substrings(s: str) -> int:\n    n = len(s)\n    count = 0\n    for center in range(2 * n - 1):\n        left, right = center // 2, center // 2 + center % 2\n        while left >= 0 and right < n and s[left] == s[right]:\n            count += 1\n            left -= 1\n            right += 1\n    return count\n",
+  "starter_code": "def count_substrings(s: str) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "s = 'abc'",
+      "output": "3",
+      "explanation": "Three single letters."
+    },
+    {
+      "input": "s = 'aaa'",
+      "output": "6",
+      "explanation": "Six palindromes."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "abc",
+      "args": {
+        "s": "abc"
+      },
+      "expected": 3
+    },
+    {
+      "name": "aaa",
+      "args": {
+        "s": "aaa"
+      },
+      "expected": 6
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "one",
+      "args": {
+        "s": "a"
+      },
+      "expected": 1
+    },
+    {
+      "name": "abba",
+      "args": {
+        "s": "abba"
+      },
+      "expected": 6
+    },
+    {
+      "name": "racecar",
+      "args": {
+        "s": "racecar"
+      },
+      "expected": 10
+    }
+  ]
+}

@@ -1,0 +1,128 @@
+{
+  "title": "3Sum Closest",
+  "slug": "3sum-closest",
+  "difficulty": "medium",
+  "topics": [
+    "arrays",
+    "two-pointers"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Adobe",
+    "Bloomberg",
+    "Google"
+  ],
+  "statement": "Return the sum of three integers in `nums` that is closest to `target`. Each input has exactly one closest sum.\n",
+  "constraints": [
+    "3 <= nums.length <= 500",
+    "-1000 <= nums[i], target <= 1000"
+  ],
+  "function_name": "three_sum_closest",
+  "hints": [
+    "Sort, then the same two-pointer walk used for 3Sum can track distance instead of equality.",
+    "If the current sum is smaller than the target, move the left pointer. If it is larger, move the right pointer.",
+    "Keep the sum whose absolute difference from the target is smallest."
+  ],
+  "approaches": [
+    {
+      "name": "All triples",
+      "complexity": {
+        "time": "O(n^3)",
+        "space": "O(1)"
+      },
+      "explanation": "Track the closest sum."
+    },
+    {
+      "name": "Sort plus two pointers",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(1)"
+      },
+      "explanation": "Prune the inner search with sorted order."
+    }
+  ],
+  "editorial": "After sorting, fix one index and move two pointers. The sum moves monotonically as a pointer moves, so you never need to restart the inner scan. Update the best sum whenever the absolute error improves, and stop early if you hit the target exactly.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef three_sum_closest(nums: list[int], target: int) -> int:\n    nums = sorted(nums)\n    best = nums[0] + nums[1] + nums[2]\n    for i in range(len(nums)):\n        left, right = i + 1, len(nums) - 1\n        while left < right:\n            total = nums[i] + nums[left] + nums[right]\n            if abs(total - target) < abs(best - target):\n                best = total\n            if total < target:\n                left += 1\n            elif total > target:\n                right -= 1\n            else:\n                return total\n    return best\n",
+  "starter_code": "from typing import List\n\ndef three_sum_closest(nums: List[int], target: int) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [-1, 2, 1, -4], target = 1",
+      "output": "2",
+      "explanation": "The closest sum is 2."
+    },
+    {
+      "input": "nums = [0, 0, 0], target = 1",
+      "output": "0",
+      "explanation": "The only sum is 0."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "nums": [
+          -1,
+          2,
+          1,
+          -4
+        ],
+        "target": 1
+      },
+      "expected": 2
+    },
+    {
+      "name": "exact",
+      "args": {
+        "nums": [
+          0,
+          0,
+          0
+        ],
+        "target": 1
+      },
+      "expected": 0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "positive",
+      "args": {
+        "nums": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "target": 100
+      },
+      "expected": 3
+    },
+    {
+      "name": "negative-target",
+      "args": {
+        "nums": [
+          1,
+          2,
+          4,
+          8,
+          16
+        ],
+        "target": 10
+      },
+      "expected": 11
+    },
+    {
+      "name": "small",
+      "args": {
+        "nums": [
+          -3,
+          -2,
+          -1,
+          0
+        ],
+        "target": -4
+      },
+      "expected": -4
+    }
+  ]
+}

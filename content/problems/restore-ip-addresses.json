@@ -1,0 +1,112 @@
+{
+  "title": "Restore IP Addresses",
+  "slug": "restore-ip-addresses",
+  "difficulty": "medium",
+  "topics": [
+    "backtracking",
+    "strings"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "Uber"
+  ],
+  "statement": "A valid IP address is four integers separated by dots. Each integer is 0..255 and has no leading zero. Return every possible valid IP address that can be formed by inserting three dots into `s`. Sort the result.\n",
+  "constraints": [
+    "1 <= s.length <= 20",
+    "s consists of digits"
+  ],
+  "function_name": "restore_ip_addresses",
+  "hints": [
+    "Choose a segment of length 1, 2, or 3.",
+    "Reject a segment with a leading zero, unless the segment is exactly '0'. Reject a segment whose integer value exceeds 255.",
+    "Stop after four segments. The last segment must consume the rest of the string."
+  ],
+  "approaches": [
+    {
+      "name": "Four nested loops",
+      "complexity": {
+        "time": "O(1) because the string is short",
+        "space": "O(1)"
+      },
+      "explanation": "The lengths are at most 3."
+    },
+    {
+      "name": "Backtracking",
+      "complexity": {
+        "time": "O(3^4)",
+        "space": "O(1)"
+      },
+      "explanation": "The same search written recursively."
+    }
+  ],
+  "editorial": "The recursion carries the start index and the segments chosen so far. It tries each legal next segment and, when four segments consume the string, joins them with dots. Leading-zero rejection is a string check, not an integer check, because int('00') is 0.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef restore_ip_addresses(s: str) -> list[str]:\n    out: list[str] = []\n\n    def dfs(i: int, parts: list[str]) -> None:\n        if len(parts) == 4:\n            if i == len(s):\n                out.append(\".\".join(parts))\n            return\n        for length in range(1, 4):\n            if i + length > len(s):\n                break\n            piece = s[i : i + length]\n            if (len(piece) > 1 and piece[0] == \"0\") or int(piece) > 255:\n                continue\n            parts.append(piece)\n            dfs(i + length, parts)\n            parts.pop()\n\n    dfs(0, [])\n    return sorted(out)\n",
+  "starter_code": "from typing import List\n\ndef restore_ip_addresses(s: str) -> List[str]:\n    pass\n",
+  "examples": [
+    {
+      "input": "s = '25525511135'",
+      "output": "[\"255.255.11.135\", \"255.255.111.35\"]",
+      "explanation": "Two valid addresses."
+    },
+    {
+      "input": "s = '0000'",
+      "output": "[\"0.0.0.0\"]",
+      "explanation": "Only 0.0.0.0."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "s": "25525511135"
+      },
+      "expected": [
+        "255.255.11.135",
+        "255.255.111.35"
+      ]
+    },
+    {
+      "name": "zeros",
+      "args": {
+        "s": "0000"
+      },
+      "expected": [
+        "0.0.0.0"
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "short",
+      "args": {
+        "s": "111"
+      },
+      "expected": []
+    },
+    {
+      "name": "leading",
+      "args": {
+        "s": "010010"
+      },
+      "expected": [
+        "0.10.0.10",
+        "0.100.1.0"
+      ]
+    },
+    {
+      "name": "one",
+      "args": {
+        "s": "101023"
+      },
+      "expected": [
+        "1.0.10.23",
+        "1.0.102.3",
+        "10.1.0.23",
+        "10.10.2.3",
+        "101.0.2.3"
+      ]
+    }
+  ]
+}

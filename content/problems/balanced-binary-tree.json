@@ -1,0 +1,121 @@
+{
+  "title": "Balanced Binary Tree",
+  "slug": "balanced-binary-tree",
+  "difficulty": "easy",
+  "topics": [
+    "trees"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft",
+    "Adobe",
+    "Google"
+  ],
+  "statement": "Return true when the tree is height-balanced. A tree is height-balanced when the depths of the two subtrees of every node differ by at most 1.\n",
+  "constraints": [
+    "0 <= number of nodes <= 5000"
+  ],
+  "function_name": "is_balanced",
+  "hints": [
+    "A naive check recomputes height at every node and is quadratic.",
+    "Return the height, and use a sentinel such as -1 when a subtree is already unbalanced.",
+    "A node is balanced when both children are balanced and their heights differ by at most 1."
+  ],
+  "approaches": [
+    {
+      "name": "Height at every node",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(h)"
+      },
+      "explanation": "Simple and easy to overshoot the time limit."
+    },
+    {
+      "name": "Postorder with a sentinel",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(h)"
+      },
+      "explanation": "One walk returns both facts."
+    }
+  ],
+  "editorial": "If either child returns -1, propagate -1. If the absolute difference of the two heights exceeds 1, return -1. Otherwise return 1 + the larger height. The tree is balanced when the root's call does not return -1.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef is_balanced(root: list) -> bool:\n    def height(node) -> int:\n        if node is None:\n            return 0\n        left = height(node.left)\n        if left < 0:\n            return -1\n        right = height(node.right)\n        if right < 0 or abs(left - right) > 1:\n            return -1\n        return 1 + max(left, right)\n\n    return height(_build(root)) >= 0\n",
+  "starter_code": "from typing import List, Optional\n\ndef is_balanced(root: List[Optional[int]]) -> bool:\n    pass\n",
+  "examples": [
+    {
+      "input": "root = [3, 9, 20, None, None, 15, 7]",
+      "output": "true",
+      "explanation": "Every node is balanced."
+    },
+    {
+      "input": "root = [1, 2, 2, 3, 3, None, None, 4, 4]",
+      "output": "false",
+      "explanation": "The left spine is too deep."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "yes",
+      "args": {
+        "root": [
+          3,
+          9,
+          20,
+          null,
+          null,
+          15,
+          7
+        ]
+      },
+      "expected": true
+    },
+    {
+      "name": "no",
+      "args": {
+        "root": [
+          1,
+          2,
+          2,
+          3,
+          3,
+          null,
+          null,
+          4,
+          4
+        ]
+      },
+      "expected": false
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "empty",
+      "args": {
+        "root": []
+      },
+      "expected": true
+    },
+    {
+      "name": "single",
+      "args": {
+        "root": [
+          1
+        ]
+      },
+      "expected": true
+    },
+    {
+      "name": "skew",
+      "args": {
+        "root": [
+          1,
+          2,
+          null,
+          3
+        ]
+      },
+      "expected": false
+    }
+  ]
+}

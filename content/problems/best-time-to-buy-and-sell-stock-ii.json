@@ -1,0 +1,123 @@
+{
+  "title": "Best Time to Buy and Sell Stock II",
+  "slug": "best-time-to-buy-and-sell-stock-ii",
+  "difficulty": "medium",
+  "topics": [
+    "dynamic-programming",
+    "greedy"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Bloomberg",
+    "Google",
+    "Microsoft"
+  ],
+  "statement": "You may complete as many buy-sell transactions as you like. You may not hold more than one share. Return the maximum profit. Prices are given by day.\n",
+  "constraints": [
+    "1 <= prices.length <= 3 * 10^4",
+    "0 <= prices[i] <= 10^4"
+  ],
+  "function_name": "max_profit_unlimited",
+  "hints": [
+    "Every upward difference can be captured by selling and buying again.",
+    "Add prices[i] - prices[i - 1] whenever it is positive.",
+    "A state machine with hold and cash also works and generalizes to the cooldown and fee variants."
+  ],
+  "approaches": [
+    {
+      "name": "Peak and valley",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Sum every increasing segment."
+    },
+    {
+      "name": "State machine",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "cash and hold, updated each day."
+    }
+  ],
+  "editorial": "Because you can transact every day, the optimal policy takes every positive consecutive difference and ignores the negative ones. A multi-day rise from a to c equals (b - a) + (c - b). Summing the pieces is the same profit as one trade across the rise.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef max_profit_unlimited(prices: list[int]) -> int:\n    return sum(max(0, prices[i] - prices[i - 1]) for i in range(1, len(prices)))\n",
+  "starter_code": "from typing import List\n\ndef max_profit_unlimited(prices: List[int]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "prices = [7, 1, 5, 3, 6, 4]",
+      "output": "7",
+      "explanation": "Buy at 1 sell at 5, buy at 3 sell at 6. Profit 7."
+    },
+    {
+      "input": "prices = [1, 2, 3, 4, 5]",
+      "output": "4",
+      "explanation": "The whole rise is profit 4."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "prices": [
+          7,
+          1,
+          5,
+          3,
+          6,
+          4
+        ]
+      },
+      "expected": 7
+    },
+    {
+      "name": "rise",
+      "args": {
+        "prices": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      "expected": 4
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "fall",
+      "args": {
+        "prices": [
+          7,
+          6,
+          4,
+          3,
+          1
+        ]
+      },
+      "expected": 0
+    },
+    {
+      "name": "flat",
+      "args": {
+        "prices": [
+          3,
+          3,
+          3
+        ]
+      },
+      "expected": 0
+    },
+    {
+      "name": "one",
+      "args": {
+        "prices": [
+          4
+        ]
+      },
+      "expected": 0
+    }
+  ]
+}

@@ -1,0 +1,120 @@
+{
+  "title": "Count Inversions",
+  "slug": "count-inversions",
+  "difficulty": "hard",
+  "topics": [
+    "divide-and-conquer",
+    "sorting"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "Adobe"
+  ],
+  "statement": "Return the number of pairs (i, j) with i < j and nums[i] > nums[j]. An inversion is a pair that is out of sorted order.\n",
+  "constraints": [
+    "1 <= nums.length <= 5000 for these tests",
+    "-10^9 <= nums[i] <= 10^9"
+  ],
+  "function_name": "count_inversions",
+  "hints": [
+    "A double loop counts pairs and is quadratic.",
+    "Merge sort counts them while merging. When the right half contributes a value first, it is smaller than every remaining left value.",
+    "Add the number of remaining left values at that moment."
+  ],
+  "approaches": [
+    {
+      "name": "All pairs",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(1)"
+      },
+      "explanation": "The definition."
+    },
+    {
+      "name": "Modified merge sort",
+      "complexity": {
+        "time": "O(n log n)",
+        "space": "O(n)"
+      },
+      "explanation": "Inversions are split across the two halves plus the merge."
+    }
+  ],
+  "editorial": "Inversions are of three kinds: inside the left half, inside the right half, and across the midpoint. The recursive calls count the first two. During the merge, every time a right value is taken before leftover left values, it forms an inversion with each of them. Sum those counts. The sorted merge is what makes the leftover left values a contiguous suffix.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef count_inversions(nums: list[int]) -> int:\n    temp = nums[:]\n    def sort_count(left: int, right: int) -> int:\n        if right - left <= 1:\n            return 0\n        mid = (left + right) // 2\n        inversions = sort_count(left, mid) + sort_count(mid, right)\n        merged = []\n        i, j = left, mid\n        while i < mid and j < right:\n            if temp[i] <= temp[j]:\n                merged.append(temp[i])\n                i += 1\n            else:\n                merged.append(temp[j])\n                inversions += mid - i\n                j += 1\n        merged.extend(temp[i:mid])\n        merged.extend(temp[j:right])\n        temp[left:right] = merged\n        return inversions\n\n    return sort_count(0, len(temp))\n",
+  "starter_code": "from typing import List\n\ndef count_inversions(nums: List[int]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [2, 4, 1, 3, 5]",
+      "output": "3",
+      "explanation": "Three inversions: (2, 1), (4, 1), (4, 3)."
+    },
+    {
+      "input": "nums = [1, 2, 3]",
+      "output": "0",
+      "explanation": "No inversions."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "nums": [
+          2,
+          4,
+          1,
+          3,
+          5
+        ]
+      },
+      "expected": 3
+    },
+    {
+      "name": "sorted",
+      "args": {
+        "nums": [
+          1,
+          2,
+          3
+        ]
+      },
+      "expected": 0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "reversed",
+      "args": {
+        "nums": [
+          3,
+          2,
+          1
+        ]
+      },
+      "expected": 3
+    },
+    {
+      "name": "dups",
+      "args": {
+        "nums": [
+          1,
+          3,
+          2,
+          3,
+          1
+        ]
+      },
+      "expected": 4
+    },
+    {
+      "name": "one",
+      "args": {
+        "nums": [
+          5
+        ]
+      },
+      "expected": 0
+    }
+  ]
+}

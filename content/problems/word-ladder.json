@@ -1,0 +1,130 @@
+{
+  "title": "Word Ladder",
+  "slug": "word-ladder",
+  "difficulty": "hard",
+  "topics": [
+    "graphs",
+    "bfs"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Facebook",
+    "LinkedIn"
+  ],
+  "statement": "Begin at `begin_word` and change one letter at a time. Every intermediate word must be in `word_list`. Return the number of words in the shortest transformation to `end_word`, counting both ends. Return 0 when no sequence exists.\n",
+  "constraints": [
+    "1 <= beginWord.length <= 10",
+    "1 <= wordList.length <= 5000",
+    "All words share that length"
+  ],
+  "function_name": "ladder_length",
+  "hints": [
+    "This is an unweighted graph. An edge joins words at Hamming distance 1. BFS gives the shortest path.",
+    "If the end word is not in the list, return 0.",
+    "Generating all one-letter neighbors from the alphabet is faster than comparing every pair when the list is long. For short tests either method is fine."
+  ],
+  "approaches": [
+    {
+      "name": "Compare every pair",
+      "complexity": {
+        "time": "O(n^2 * word length)",
+        "space": "O(n)"
+      },
+      "explanation": "Build the graph explicitly, then BFS."
+    },
+    {
+      "name": "Wildcard buckets or alphabet expansion",
+      "complexity": {
+        "time": "O(n * length * alphabet)",
+        "space": "O(n * length)"
+      },
+      "explanation": "BFS without a quadratic graph build."
+    }
+  ],
+  "editorial": "Put the word list in a set. BFS from the begin word with distance 1. For each word, try changing every position to every letter. If the new word is in the set, enqueue it with distance + 1 and delete it so it is not visited twice. The first time you generate the end word, return that distance.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef ladder_length(begin_word: str, end_word: str, word_list: list[str]) -> int:\n    words = set(word_list)\n    if end_word not in words:\n        return 0\n    queue = deque([(begin_word, 1)])\n    words.discard(begin_word)\n    alphabet = \"abcdefghijklmnopqrstuvwxyz\"\n    while queue:\n        word, dist = queue.popleft()\n        for i in range(len(word)):\n            for ch in alphabet:\n                nxt = word[:i] + ch + word[i + 1 :]\n                if nxt == end_word:\n                    return dist + 1\n                if nxt in words:\n                    words.remove(nxt)\n                    queue.append((nxt, dist + 1))\n    return 0\n",
+  "starter_code": "from typing import List\n\ndef ladder_length(begin_word: str, end_word: str, word_list: List[str]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "begin_word = 'hit', end_word = 'cog', word_list = ['hot', 'dot', 'dog', 'lot', 'log', 'cog']",
+      "output": "5",
+      "explanation": "hit-hot-dot-dog-cog has length 5."
+    },
+    {
+      "input": "begin_word = 'hit', end_word = 'cog', word_list = ['hot', 'dot', 'dog', 'lot', 'log']",
+      "output": "0",
+      "explanation": "cog is not in the list."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "begin_word": "hit",
+        "end_word": "cog",
+        "word_list": [
+          "hot",
+          "dot",
+          "dog",
+          "lot",
+          "log",
+          "cog"
+        ]
+      },
+      "expected": 5
+    },
+    {
+      "name": "missing",
+      "args": {
+        "begin_word": "hit",
+        "end_word": "cog",
+        "word_list": [
+          "hot",
+          "dot",
+          "dog",
+          "lot",
+          "log"
+        ]
+      },
+      "expected": 0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "same",
+      "args": {
+        "begin_word": "a",
+        "end_word": "c",
+        "word_list": [
+          "a",
+          "b",
+          "c"
+        ]
+      },
+      "expected": 2
+    },
+    {
+      "name": "direct",
+      "args": {
+        "begin_word": "hot",
+        "end_word": "dot",
+        "word_list": [
+          "dot"
+        ]
+      },
+      "expected": 2
+    },
+    {
+      "name": "none",
+      "args": {
+        "begin_word": "ab",
+        "end_word": "cd",
+        "word_list": [
+          "cd"
+        ]
+      },
+      "expected": 0
+    }
+  ]
+}

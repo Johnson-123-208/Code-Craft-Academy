@@ -1,0 +1,142 @@
+{
+  "title": "Online Stock Span",
+  "slug": "online-stock-span",
+  "difficulty": "medium",
+  "topics": [
+    "stacks",
+    "monotonic-stack"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Bloomberg",
+    "Adobe",
+    "Microsoft"
+  ],
+  "statement": "The span of a price is the number of consecutive days, ending today, on which the price was less than or equal to today's price. `prices[i]` arrives on day i. Return the span of every day.\n",
+  "constraints": [
+    "1 <= prices.length <= 10^5",
+    "0 <= prices[i] <= 10^5"
+  ],
+  "function_name": "stock_spans",
+  "hints": [
+    "A decreasing stack stores prices that are still candidates to stop a future span.",
+    "Before pushing today, pop every price that is less than or equal to today. Those days are covered by today's span.",
+    "Store the span with the price so a pop can add that whole span in constant time instead of walking day by day."
+  ],
+  "approaches": [
+    {
+      "name": "Scan backward each day",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(1)"
+      },
+      "explanation": "Stop at the first strictly greater price."
+    },
+    {
+      "name": "Monotonic stack",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Each day is pushed and popped once."
+    }
+  ],
+  "editorial": "The span is one plus the spans of the consecutive previous days that are not strictly greater. Those days sit on the stack in decreasing order. Popping them accumulates their spans, and the first strictly greater price stays on the stack as the new blocker. Today is then pushed with its total span.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef stock_spans(prices: list[int]) -> list[int]:\n    stack: list[tuple[int, int]] = []\n    spans: list[int] = []\n    for price in prices:\n        span = 1\n        while stack and stack[-1][0] <= price:\n            span += stack.pop()[1]\n        stack.append((price, span))\n        spans.append(span)\n    return spans\n",
+  "starter_code": "from typing import List\n\ndef stock_spans(prices: List[int]) -> List[int]:\n    pass\n",
+  "examples": [
+    {
+      "input": "prices = [100, 80, 60, 70, 60, 75, 85]",
+      "output": "[1, 1, 1, 2, 1, 4, 6]",
+      "explanation": "The spans are 1, 1, 1, 2, 1, 4, 6."
+    },
+    {
+      "input": "prices = [1, 2, 3]",
+      "output": "[1, 2, 3]",
+      "explanation": "Each day covers every earlier day."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "prices": [
+          100,
+          80,
+          60,
+          70,
+          60,
+          75,
+          85
+        ]
+      },
+      "expected": [
+        1,
+        1,
+        1,
+        2,
+        1,
+        4,
+        6
+      ]
+    },
+    {
+      "name": "rising",
+      "args": {
+        "prices": [
+          1,
+          2,
+          3
+        ]
+      },
+      "expected": [
+        1,
+        2,
+        3
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "falling",
+      "args": {
+        "prices": [
+          3,
+          2,
+          1
+        ]
+      },
+      "expected": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "flat",
+      "args": {
+        "prices": [
+          5,
+          5,
+          5
+        ]
+      },
+      "expected": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "one",
+      "args": {
+        "prices": [
+          10
+        ]
+      },
+      "expected": [
+        1
+      ]
+    }
+  ]
+}

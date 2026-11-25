@@ -1,0 +1,168 @@
+{
+  "title": "Critical Connections in a Network",
+  "slug": "critical-connections",
+  "difficulty": "hard",
+  "topics": [
+    "graphs",
+    "tarjan",
+    "bridges"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "Uber"
+  ],
+  "statement": "There are `n` servers labeled 0..n-1 and undirected connections. A critical connection is a bridge: an edge whose removal increases the number of connected components. Return every bridge as [u, v] with u less than v, sorted lexicographically.\n",
+  "constraints": [
+    "1 <= n <= 10^5",
+    "0 <= connections.length <= 10^5",
+    "No repeated edges"
+  ],
+  "function_name": "critical_connections",
+  "hints": [
+    "A DFS discovery time and a low-link value are enough. low[v] is the smallest discovery time reachable from v without using the parent edge.",
+    "The edge u-v, with u the parent, is a bridge when low[v] is strictly greater than disc[u]. The child cannot reach the parent or anything above it.",
+    "Ignore the edge back to the parent, but do use other back edges to lower the low-link value."
+  ],
+  "approaches": [
+    {
+      "name": "Remove each edge and recheck connectivity",
+      "complexity": {
+        "time": "O(E * (V + E))",
+        "space": "O(V + E)"
+      },
+      "explanation": "Fine for tiny graphs and a useful oracle."
+    },
+    {
+      "name": "Tarjan bridge DFS",
+      "complexity": {
+        "time": "O(V + E)",
+        "space": "O(V + E)"
+      },
+      "explanation": "One depth-first search."
+    }
+  ],
+  "editorial": "Assign increasing discovery times as DFS enters each node. A child's low-link is the minimum of its own discovery time, the low-links of its children, and the discovery times of back edges. If after exploring a child its low-link stays above the parent's discovery time, the tree edge is the only connection and it is a bridge.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef critical_connections(n: int, connections: list[list[int]]) -> list[list[int]]:\n    graph: list[list[int]] = [[] for _ in range(n)]\n    for u, v in connections:\n        graph[u].append(v)\n        graph[v].append(u)\n    disc = [-1] * n\n    low = [0] * n\n    time = 0\n    bridges: list[list[int]] = []\n\n    def dfs(node: int, parent: int) -> None:\n        nonlocal time\n        disc[node] = low[node] = time\n        time += 1\n        for nxt in graph[node]:\n            if nxt == parent:\n                continue\n            if disc[nxt] == -1:\n                dfs(nxt, node)\n                low[node] = min(low[node], low[nxt])\n                if low[nxt] > disc[node]:\n                    bridges.append(sorted([node, nxt]))\n            else:\n                low[node] = min(low[node], disc[nxt])\n\n    for node in range(n):\n        if disc[node] == -1:\n            dfs(node, -1)\n    bridges.sort()\n    return bridges\n",
+  "starter_code": "from typing import List\n\ndef critical_connections(n: int, connections: List[List[int]]) -> List[List[int]]:\n    pass\n",
+  "examples": [
+    {
+      "input": "n = 4, connections = [[0, 1], [1, 2], [2, 0], [1, 3]]",
+      "output": "[[1, 3]]",
+      "explanation": "The edge from 1 to 3 is the only bridge."
+    },
+    {
+      "input": "n = 3, connections = [[0, 1], [1, 2]]",
+      "output": "[[0, 1], [1, 2]]",
+      "explanation": "Both edges are bridges."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "n": 4,
+        "connections": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            1,
+            3
+          ]
+        ]
+      },
+      "expected": [
+        [
+          1,
+          3
+        ]
+      ]
+    },
+    {
+      "name": "line",
+      "args": {
+        "n": 3,
+        "connections": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ]
+        ]
+      },
+      "expected": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ]
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "cycle",
+      "args": {
+        "n": 3,
+        "connections": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            0
+          ]
+        ]
+      },
+      "expected": []
+    },
+    {
+      "name": "one",
+      "args": {
+        "n": 1,
+        "connections": []
+      },
+      "expected": []
+    },
+    {
+      "name": "two",
+      "args": {
+        "n": 2,
+        "connections": [
+          [
+            0,
+            1
+          ]
+        ]
+      },
+      "expected": [
+        [
+          0,
+          1
+        ]
+      ]
+    }
+  ]
+}

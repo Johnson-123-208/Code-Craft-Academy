@@ -1,0 +1,103 @@
+{
+  "title": "Isomorphic Strings",
+  "slug": "isomorphic-strings",
+  "difficulty": "easy",
+  "topics": [
+    "strings",
+    "hashing"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Adobe",
+    "Google",
+    "LinkedIn"
+  ],
+  "statement": "Two strings are isomorphic when the characters in `s` can be replaced to obtain `t`, with a one-to-one mapping. Every occurrence of a character must map to the same character, and no two characters share an image.\n",
+  "constraints": [
+    "1 <= s.length <= 5 * 10^4",
+    "t.length == s.length"
+  ],
+  "function_name": "is_isomorphic",
+  "hints": [
+    "A single map from s to t is not enough. Two source characters could collide on one target character.",
+    "Keep a map in each direction, or map both strings onto the first index where each character appeared.",
+    "The pattern of first-seen indices must be identical."
+  ],
+  "approaches": [
+    {
+      "name": "Two hash maps",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(alphabet)"
+      },
+      "explanation": "Reject a conflicting forward or backward mapping."
+    },
+    {
+      "name": "Index signature",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(alphabet)"
+      },
+      "explanation": "Replace each character by the index of its first occurrence."
+    }
+  ],
+  "editorial": "Walk both strings together. If s[i] already maps to something other than t[i], or t[i] already maps to something other than s[i], the mapping is not a bijection. Otherwise record both directions. Equal strings are isomorphic under the identity map.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef is_isomorphic(s: str, t: str) -> bool:\n    sto: dict[str, str] = {}\n    tso: dict[str, str] = {}\n    for a, b in zip(s, t):\n        if a in sto and sto[a] != b:\n            return False\n        if b in tso and tso[b] != a:\n            return False\n        sto[a] = b\n        tso[b] = a\n    return True\n",
+  "starter_code": "def is_isomorphic(s: str, t: str) -> bool:\n    pass\n",
+  "examples": [
+    {
+      "input": "s = 'egg', t = 'add'",
+      "output": "true",
+      "explanation": "e maps to a and g maps to d."
+    },
+    {
+      "input": "s = 'foo', t = 'bar'",
+      "output": "false",
+      "explanation": "o would need two images."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "egg",
+      "args": {
+        "s": "egg",
+        "t": "add"
+      },
+      "expected": true
+    },
+    {
+      "name": "foo",
+      "args": {
+        "s": "foo",
+        "t": "bar"
+      },
+      "expected": false
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "paper",
+      "args": {
+        "s": "paper",
+        "t": "title"
+      },
+      "expected": true
+    },
+    {
+      "name": "bad",
+      "args": {
+        "s": "ab",
+        "t": "aa"
+      },
+      "expected": false
+    },
+    {
+      "name": "same",
+      "args": {
+        "s": "abc",
+        "t": "abc"
+      },
+      "expected": true
+    }
+  ]
+}

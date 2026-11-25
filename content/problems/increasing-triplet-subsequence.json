@@ -1,0 +1,125 @@
+{
+  "title": "Increasing Triplet Subsequence",
+  "slug": "increasing-triplet-subsequence",
+  "difficulty": "medium",
+  "topics": [
+    "arrays",
+    "greedy"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Facebook",
+    "Google",
+    "Adobe"
+  ],
+  "statement": "Return true when there exist indices i < j < k with nums[i] < nums[j] < nums[k].\n",
+  "constraints": [
+    "1 <= nums.length <= 5 * 10^5",
+    "-2^31 <= nums[i] <= 2^31 - 1"
+  ],
+  "function_name": "increasing_triplet",
+  "hints": [
+    "Track the smallest value so far and the smallest value that has a smaller predecessor.",
+    "Call them first and second, both starting at infinity.",
+    "If a value is bigger than second, it completes a triplet. If it is smaller than first, it becomes the new first. Otherwise, if it is between them, it becomes the new second."
+  ],
+  "approaches": [
+    {
+      "name": "Triple loop or LIS length",
+      "complexity": {
+        "time": "O(n^2) or O(n log n)",
+        "space": "O(n)"
+      },
+      "explanation": "Stop when the LIS reaches length 3."
+    },
+    {
+      "name": "Two candidates",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "The greedy pair above."
+    }
+  ],
+  "editorial": "first is the smallest start seen. second is the smallest middle that already has a valid start somewhere before it, not necessarily first as it stands now. Updating first to a later smaller value does not invalidate second, because second's original start is still to its left. A value above second therefore has both a middle and a start before it.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef increasing_triplet(nums: list[int]) -> bool:\n    first = second = float(\"inf\")\n    for value in nums:\n        if value <= first:\n            first = value\n        elif value <= second:\n            second = value\n        else:\n            return True\n    return False\n",
+  "starter_code": "from typing import List\n\ndef increasing_triplet(nums: List[int]) -> bool:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [1, 2, 3, 4, 5]",
+      "output": "true",
+      "explanation": "Any increasing triple works."
+    },
+    {
+      "input": "nums = [5, 4, 3, 2, 1]",
+      "output": "false",
+      "explanation": "The array is decreasing."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "yes",
+      "args": {
+        "nums": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      "expected": true
+    },
+    {
+      "name": "no",
+      "args": {
+        "nums": [
+          5,
+          4,
+          3,
+          2,
+          1
+        ]
+      },
+      "expected": false
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "reset",
+      "args": {
+        "nums": [
+          2,
+          1,
+          5,
+          0,
+          4,
+          6
+        ]
+      },
+      "expected": true
+    },
+    {
+      "name": "short",
+      "args": {
+        "nums": [
+          1,
+          2
+        ]
+      },
+      "expected": false
+    },
+    {
+      "name": "equal",
+      "args": {
+        "nums": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "expected": false
+    }
+  ]
+}

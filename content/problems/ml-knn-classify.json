@@ -1,0 +1,167 @@
+{
+  "title": "k-NN Classify",
+  "slug": "ml-knn-classify",
+  "difficulty": "medium",
+  "topics": [
+    "machine-learning",
+    "classical-ml",
+    "python"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft"
+  ],
+  "statement": "Implement `knn_predict(train_x, train_y, query, k)`. Distance is Euclidean. Break distance ties by the smaller training index so the result is deterministic. Among the k nearest labels, return the majority label. If votes tie, return the smaller label.",
+  "constraints": [
+    "1 <= k <= len(train_x)",
+    "Every training row has the same dimension as query",
+    "Labels are integers"
+  ],
+  "examples": [
+    {
+      "input": "{\"train_x\": [[0.0, 0.0], [0.1, 0.0], [5.0, 5.0]], \"train_y\": [0, 0, 1], \"query\": [0.0, 0.2], \"k\": 1}",
+      "output": "0",
+      "explanation": "Matches the reference on this input."
+    },
+    {
+      "input": "{\"train_x\": [[0.0], [0.2], [0.9], [3.0]], \"train_y\": [1, 1, 0, 0], \"query\": [0.1], \"k\": 3}",
+      "output": "1",
+      "explanation": "Matches the reference on this input."
+    }
+  ],
+  "starter_code": "def knn_predict(train_x: list[list[float]], train_y: list[int], query: list[float], k: int) -> int:\n    pass\n",
+  "function_name": "knn_predict",
+  "hints": [
+    "Pair each training row with its distance and its index.",
+    "Sort by distance, then by index.",
+    "Count votes in the first k rows and break label ties toward the smaller label."
+  ],
+  "approaches": [
+    {
+      "name": "Brute force",
+      "complexity": {
+        "time": "O(n d + n log n)",
+        "space": "O(n)"
+      },
+      "explanation": "Exact k-NN scans the training set. Ball trees and HNSW approximate this when n is large."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "obvious",
+      "args": {
+        "train_x": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.1,
+            0.0
+          ],
+          [
+            5.0,
+            5.0
+          ]
+        ],
+        "train_y": [
+          0,
+          0,
+          1
+        ],
+        "query": [
+          0.0,
+          0.2
+        ],
+        "k": 1
+      },
+      "expected": 0
+    },
+    {
+      "name": "majority",
+      "args": {
+        "train_x": [
+          [
+            0.0
+          ],
+          [
+            0.2
+          ],
+          [
+            0.9
+          ],
+          [
+            3.0
+          ]
+        ],
+        "train_y": [
+          1,
+          1,
+          0,
+          0
+        ],
+        "query": [
+          0.1
+        ],
+        "k": 3
+      },
+      "expected": 1
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "label-tie",
+      "args": {
+        "train_x": [
+          [
+            0.0
+          ],
+          [
+            1.0
+          ]
+        ],
+        "train_y": [
+          5,
+          1
+        ],
+        "query": [
+          0.5
+        ],
+        "k": 2
+      },
+      "expected": 1
+    },
+    {
+      "name": "index-tie",
+      "args": {
+        "train_x": [
+          [
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0
+          ],
+          [
+            2.0,
+            2.0
+          ]
+        ],
+        "train_y": [
+          3,
+          4,
+          9
+        ],
+        "query": [
+          0.0,
+          0.0
+        ],
+        "k": 1
+      },
+      "expected": 3
+    }
+  ],
+  "editorial": "k-NN memorizes the training set and predicts by local vote. Sorting by (distance, index) makes equal distances deterministic: the earlier training row wins. Vote ties break toward the smaller label so tests do not depend on dict ordering. Choose odd k for binary problems when you want to avoid ties, scale features before measuring distance, and remember that prediction cost grows with the training set unless you add an index.",
+  "reference_solution": "import math\nfrom collections import Counter\n\ndef knn_predict(train_x: list[list[float]], train_y: list[int], query: list[float], k: int) -> int:\n    def dist(a: list[float]) -> float:\n        return math.sqrt(sum((x - y) ** 2 for x, y in zip(a, query)))\n    ranked = sorted(((dist(x), i, train_y[i]) for i, x in enumerate(train_x)))\n    votes = Counter(label for _, _, label in ranked[:k])\n    return int(sorted(votes.items(), key=lambda kv: (-kv[1], kv[0]))[0][0])\n"
+}

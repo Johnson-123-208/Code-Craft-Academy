@@ -1,0 +1,211 @@
+{
+  "title": "All Paths From Source to Target",
+  "slug": "all-paths-from-source-to-target",
+  "difficulty": "medium",
+  "topics": [
+    "graphs",
+    "backtracking",
+    "dfs"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Facebook",
+    "Bloomberg"
+  ],
+  "statement": "`graph` is a directed acyclic graph as an adjacency list. Nodes are 0..n-1. Return every path from 0 to n - 1, sorted lexicographically.\n",
+  "constraints": [
+    "2 <= n <= 15",
+    "The graph is a DAG"
+  ],
+  "function_name": "all_paths_source_target",
+  "hints": [
+    "DFS from 0, carrying the path.",
+    "When you reach n - 1, copy the path into the answer.",
+    "Backtrack by popping the node so sibling edges can reuse the prefix. A DAG needs no visited set."
+  ],
+  "approaches": [
+    {
+      "name": "BFS storing full paths",
+      "complexity": {
+        "time": "O(2^n * n)",
+        "space": "O(2^n * n)"
+      },
+      "explanation": "Each path is a queue item."
+    },
+    {
+      "name": "DFS backtracking",
+      "complexity": {
+        "time": "O(2^n * n)",
+        "space": "O(n)"
+      },
+      "explanation": "The output size dominates. The recursion depth is n."
+    }
+  ],
+  "editorial": "The absence of cycles means a walk never repeats a node, so you do not need a seen set. Append the current node, recurse to each neighbor, and pop. Record a copy when the current node is the target. Sort the collected paths so the answer is unique.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef all_paths_source_target(graph: list[list[int]]) -> list[list[int]]:\n    target = len(graph) - 1\n    out: list[list[int]] = []\n    path = [0]\n\n    def dfs(node: int) -> None:\n        if node == target:\n            out.append(path[:])\n            return\n        for nxt in graph[node]:\n            path.append(nxt)\n            dfs(nxt)\n            path.pop()\n\n    dfs(0)\n    out.sort()\n    return out\n",
+  "starter_code": "from typing import List\n\ndef all_paths_source_target(graph: List[List[int]]) -> List[List[int]]:\n    pass\n",
+  "examples": [
+    {
+      "input": "graph = [[1, 2], [3], [3], []]",
+      "output": "[[0, 1, 3], [0, 2, 3]]",
+      "explanation": "The two paths are 0-1-3 and 0-2-3."
+    },
+    {
+      "input": "graph = [[1], [2], []]",
+      "output": "[[0, 1, 2]]",
+      "explanation": "One path."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "graph": [
+          [
+            1,
+            2
+          ],
+          [
+            3
+          ],
+          [
+            3
+          ],
+          []
+        ]
+      },
+      "expected": [
+        [
+          0,
+          1,
+          3
+        ],
+        [
+          0,
+          2,
+          3
+        ]
+      ]
+    },
+    {
+      "name": "chain",
+      "args": {
+        "graph": [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          []
+        ]
+      },
+      "expected": [
+        [
+          0,
+          1,
+          2
+        ]
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "branch",
+      "args": {
+        "graph": [
+          [
+            4,
+            3,
+            1
+          ],
+          [
+            3,
+            2,
+            4
+          ],
+          [
+            3
+          ],
+          [
+            4
+          ],
+          []
+        ]
+      },
+      "expected": [
+        [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        [
+          0,
+          1,
+          3,
+          4
+        ],
+        [
+          0,
+          1,
+          4
+        ],
+        [
+          0,
+          3,
+          4
+        ],
+        [
+          0,
+          4
+        ]
+      ]
+    },
+    {
+      "name": "direct",
+      "args": {
+        "graph": [
+          [
+            1
+          ],
+          []
+        ]
+      },
+      "expected": [
+        [
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "name": "two-step",
+      "args": {
+        "graph": [
+          [
+            1,
+            2
+          ],
+          [
+            2
+          ],
+          []
+        ]
+      },
+      "expected": [
+        [
+          0,
+          1,
+          2
+        ],
+        [
+          0,
+          2
+        ]
+      ]
+    }
+  ]
+}

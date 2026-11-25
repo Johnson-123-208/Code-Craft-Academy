@@ -1,0 +1,193 @@
+{
+  "title": "K Closest Points to Origin",
+  "slug": "k-closest-points-to-origin",
+  "difficulty": "medium",
+  "topics": [
+    "heaps",
+    "sorting"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Facebook",
+    "Uber",
+    "Adobe"
+  ],
+  "statement": "Return the `k` points closest to the origin, measured by Euclidean distance. Sort the result by distance, then by x, then by y. Distance ties are broken by that sort.\n",
+  "constraints": [
+    "1 <= k <= points.length <= 10^4",
+    "-10^4 <= x, y <= 10^4"
+  ],
+  "function_name": "k_closest",
+  "hints": [
+    "Comparing squared distances avoids square roots and preserves order.",
+    "A max-heap of size k keeps the closest points. The heap key is the squared distance.",
+    "Sorting all points by squared distance is the simple O(n log n) answer."
+  ],
+  "approaches": [
+    {
+      "name": "Sort",
+      "complexity": {
+        "time": "O(n log n)",
+        "space": "O(n)"
+      },
+      "explanation": "Take the first k after sorting by distance."
+    },
+    {
+      "name": "Heap of size k",
+      "complexity": {
+        "time": "O(n log k)",
+        "space": "O(k)"
+      },
+      "explanation": "A max-heap evicts the farthest of the current k."
+    }
+  ],
+  "editorial": "Squared distance x*x + y*y is enough because the square function is increasing on non-negative numbers. Sort by that key and return the first k points, with a deterministic tie break. Quickselect on the distance would be expected linear and is the follow-up.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef k_closest(points: list[list[int]], k: int) -> list[list[int]]:\n    ranked = sorted(points, key=lambda p: (p[0] * p[0] + p[1] * p[1], p[0], p[1]))\n    return ranked[:k]\n",
+  "starter_code": "from typing import List\n\ndef k_closest(points: List[List[int]], k: int) -> List[List[int]]:\n    pass\n",
+  "examples": [
+    {
+      "input": "points = [[1, 3], [-2, 2]], k = 1",
+      "output": "[[-2, 2]]",
+      "explanation": "[-2, 2] is closer."
+    },
+    {
+      "input": "points = [[3, 3], [5, -1], [-2, 4]], k = 2",
+      "output": "[[3, 3], [-2, 4]]",
+      "explanation": "The two closest points."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "points": [
+          [
+            1,
+            3
+          ],
+          [
+            -2,
+            2
+          ]
+        ],
+        "k": 1
+      },
+      "expected": [
+        [
+          -2,
+          2
+        ]
+      ]
+    },
+    {
+      "name": "two",
+      "args": {
+        "points": [
+          [
+            3,
+            3
+          ],
+          [
+            5,
+            -1
+          ],
+          [
+            -2,
+            4
+          ]
+        ],
+        "k": 2
+      },
+      "expected": [
+        [
+          3,
+          3
+        ],
+        [
+          -2,
+          4
+        ]
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "all",
+      "args": {
+        "points": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "k": 2
+      },
+      "expected": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    },
+    {
+      "name": "tie",
+      "args": {
+        "points": [
+          [
+            1,
+            1
+          ],
+          [
+            -1,
+            1
+          ],
+          [
+            1,
+            -1
+          ]
+        ],
+        "k": 2
+      },
+      "expected": [
+        [
+          -1,
+          1
+        ],
+        [
+          1,
+          -1
+        ]
+      ]
+    },
+    {
+      "name": "origin",
+      "args": {
+        "points": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "k": 1
+      },
+      "expected": [
+        [
+          0,
+          0
+        ]
+      ]
+    }
+  ]
+}

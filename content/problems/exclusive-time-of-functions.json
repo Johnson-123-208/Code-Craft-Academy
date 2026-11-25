@@ -1,0 +1,142 @@
+{
+  "title": "Exclusive Time of Functions",
+  "slug": "exclusive-time-of-functions",
+  "difficulty": "medium",
+  "topics": [
+    "stacks"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Uber",
+    "Microsoft",
+    "Facebook"
+  ],
+  "statement": "There are `n` functions, labeled 0..n-1. logs[i] is 'id:start:time' or 'id:end:time'. A function's exclusive time excludes time spent in functions it called. Return the exclusive time of every function. Time units are inclusive: a function that starts and ends at the same timestamp uses one unit.\n",
+  "constraints": [
+    "1 <= n <= 100",
+    "1 <= logs.length <= 500",
+    "0 <= time <= 10^9"
+  ],
+  "function_name": "exclusive_time",
+  "hints": [
+    "A stack holds the ids of the functions that have started and not ended. The top is the function currently running.",
+    "On a start, charge the previous running function for the time since the previous timestamp, then push.",
+    "On an end, charge the top function through the end timestamp inclusive, pop it, and set the previous timestamp to one past the end so the caller does not count that unit again."
+  ],
+  "approaches": [
+    {
+      "name": "Simulate every timestamp",
+      "complexity": {
+        "time": "O(total time)",
+        "space": "O(n)"
+      },
+      "explanation": "Impossible when timestamps are large."
+    },
+    {
+      "name": "Stack of call frames",
+      "complexity": {
+        "time": "O(logs)",
+        "space": "O(n)"
+      },
+      "explanation": "Charge the gaps between log events."
+    }
+  ],
+  "editorial": "The previous timestamp is the start of the still-unassigned time. A start log assigns [previous, time) to the caller, because the new call begins at time. An end log assigns [previous, time] to the function that is ending, which is time - previous + 1 units, then moves previous to time + 1.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef exclusive_time(n: int, logs: list[str]) -> list[int]:\n    result = [0] * n\n    stack: list[int] = []\n    previous = 0\n    for log in logs:\n        identity, kind, timestamp = log.split(\":\")\n        function_id, time = int(identity), int(timestamp)\n        if kind == \"start\":\n            if stack:\n                result[stack[-1]] += time - previous\n            stack.append(function_id)\n            previous = time\n        else:\n            result[stack.pop()] += time - previous + 1\n            previous = time + 1\n    return result\n",
+  "starter_code": "from typing import List\n\ndef exclusive_time(n: int, logs: List[str]) -> List[int]:\n    pass\n",
+  "examples": [
+    {
+      "input": "n = 2, logs = ['0:start:0', '1:start:2', '1:end:5', '0:end:6']",
+      "output": "[3, 4]",
+      "explanation": "Function 0 runs for 3 units and function 1 runs for 4."
+    },
+    {
+      "input": "n = 1, logs = ['0:start:0', '0:end:0']",
+      "output": "[1]",
+      "explanation": "A single timestamp counts as one unit."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "n": 2,
+        "logs": [
+          "0:start:0",
+          "1:start:2",
+          "1:end:5",
+          "0:end:6"
+        ]
+      },
+      "expected": [
+        3,
+        4
+      ]
+    },
+    {
+      "name": "single",
+      "args": {
+        "n": 1,
+        "logs": [
+          "0:start:0",
+          "0:end:0"
+        ]
+      },
+      "expected": [
+        1
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "sequence",
+      "args": {
+        "n": 2,
+        "logs": [
+          "0:start:0",
+          "0:end:1",
+          "1:start:2",
+          "1:end:3"
+        ]
+      },
+      "expected": [
+        2,
+        2
+      ]
+    },
+    {
+      "name": "nested-two",
+      "args": {
+        "n": 1,
+        "logs": [
+          "0:start:0",
+          "0:start:2",
+          "0:end:5",
+          "0:end:6"
+        ]
+      },
+      "expected": [
+        7
+      ]
+    },
+    {
+      "name": "three",
+      "args": {
+        "n": 3,
+        "logs": [
+          "0:start:0",
+          "1:start:1",
+          "2:start:2",
+          "2:end:3",
+          "1:end:4",
+          "0:end:5"
+        ]
+      },
+      "expected": [
+        2,
+        2,
+        2
+      ]
+    }
+  ]
+}

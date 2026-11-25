@@ -1,0 +1,119 @@
+{
+  "title": "Contains Duplicate",
+  "slug": "contains-duplicate",
+  "difficulty": "easy",
+  "topics": [
+    "arrays",
+    "hashing"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft",
+    "Apple",
+    "Bloomberg"
+  ],
+  "statement": "Return true when any integer appears at least twice in `nums`, and false when every value is unique.\n",
+  "constraints": [
+    "1 <= nums.length <= 10^5",
+    "-10^9 <= nums[i] <= 10^9"
+  ],
+  "function_name": "contains_duplicate",
+  "hints": [
+    "Sorting clusters equal values, so a duplicate is a pair of neighbors.",
+    "A set answers membership in expected constant time.",
+    "Insert as you scan. The first failed insert is a duplicate."
+  ],
+  "approaches": [
+    {
+      "name": "Sort and scan neighbors",
+      "complexity": {
+        "time": "O(n log n)",
+        "space": "O(1)"
+      },
+      "explanation": "After sorting, equal values sit next to each other."
+    },
+    {
+      "name": "Hash set",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Reject a value that is already present."
+    }
+  ],
+  "editorial": "A set stores the values observed so far. If the current value is already in the set, the array contains a duplicate. Otherwise insert it. The extra memory is linear, and the expected time is linear.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef contains_duplicate(nums: list[int]) -> bool:\n    return len(nums) != len(set(nums))\n",
+  "starter_code": "from typing import List\n\ndef contains_duplicate(nums: List[int]) -> bool:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [1, 2, 3, 1]",
+      "output": "true",
+      "explanation": "1 appears twice."
+    },
+    {
+      "input": "nums = [1, 2, 3, 4]",
+      "output": "false",
+      "explanation": "All values are distinct."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "has-dup",
+      "args": {
+        "nums": [
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "expected": true
+    },
+    {
+      "name": "unique",
+      "args": {
+        "nums": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "expected": false
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "single",
+      "args": {
+        "nums": [
+          7
+        ]
+      },
+      "expected": false
+    },
+    {
+      "name": "tail",
+      "args": {
+        "nums": [
+          8,
+          6,
+          4,
+          2,
+          6
+        ]
+      },
+      "expected": true
+    },
+    {
+      "name": "negatives",
+      "args": {
+        "nums": [
+          -1,
+          -1
+        ]
+      },
+      "expected": true
+    }
+  ]
+}

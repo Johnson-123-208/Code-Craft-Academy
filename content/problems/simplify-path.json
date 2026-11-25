@@ -1,0 +1,98 @@
+{
+  "title": "Simplify Path",
+  "slug": "simplify-path",
+  "difficulty": "medium",
+  "topics": [
+    "stacks",
+    "strings"
+  ],
+  "company_tags": [
+    "Facebook",
+    "Amazon",
+    "Microsoft",
+    "Bloomberg"
+  ],
+  "statement": "Convert an absolute Unix path to its canonical form. '.' means the current directory, '..' means the parent, and multiple slashes are one separator. The result starts with a single slash.\n",
+  "constraints": [
+    "1 <= path.length <= 3000",
+    "path is an absolute path"
+  ],
+  "function_name": "simplify_path",
+  "hints": [
+    "Split on '/'. Empty tokens come from repeated slashes and are ignored.",
+    "'.' is ignored. '..' pops a directory if the stack is not empty. You cannot go above the root.",
+    "Join the stack with slashes and prefix the root slash."
+  ],
+  "approaches": [
+    {
+      "name": "String replace",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(n)"
+      },
+      "explanation": "Fragile around repeated slashes and dot segments."
+    },
+    {
+      "name": "Stack of directory names",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "One token decides push, pop, or skip."
+    }
+  ],
+  "editorial": "The stack is the sequence of real directories still on the path. Tokens that are empty or '.' do not change it. '..' pops when possible. Every other token is a directory name and is pushed. The canonical path is '/' joined with the stack, or '/' when the stack is empty.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef simplify_path(path: str) -> str:\n    stack: list[str] = []\n    for token in path.split(\"/\"):\n        if token in {\"\", \".\"}:\n            continue\n        if token == \"..\":\n            if stack:\n                stack.pop()\n        else:\n            stack.append(token)\n    return \"/\" + \"/\".join(stack)\n",
+  "starter_code": "def simplify_path(path: str) -> str:\n    pass\n",
+  "examples": [
+    {
+      "input": "path = '/home/'",
+      "output": "\"/home\"",
+      "explanation": "The canonical path is /home."
+    },
+    {
+      "input": "path = '/../'",
+      "output": "\"/\"",
+      "explanation": "The root has no parent."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "path": "/home/"
+      },
+      "expected": "/home"
+    },
+    {
+      "name": "parent",
+      "args": {
+        "path": "/../"
+      },
+      "expected": "/"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "dots",
+      "args": {
+        "path": "/home//foo/"
+      },
+      "expected": "/home/foo"
+    },
+    {
+      "name": "up",
+      "args": {
+        "path": "/a/./b/../../c/"
+      },
+      "expected": "/c"
+    },
+    {
+      "name": "file",
+      "args": {
+        "path": "/a/../../b/../c//.//"
+      },
+      "expected": "/c"
+    }
+  ]
+}

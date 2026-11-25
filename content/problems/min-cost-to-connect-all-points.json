@@ -1,0 +1,165 @@
+{
+  "title": "Min Cost to Connect All Points",
+  "slug": "min-cost-to-connect-all-points",
+  "difficulty": "medium",
+  "topics": [
+    "graphs",
+    "mst",
+    "prim"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "Facebook"
+  ],
+  "statement": "Points are given as [x, y] on the plane. The cost of connecting two points is the Manhattan distance. Return the minimum cost to connect every point, which is the weight of a minimum spanning tree.\n",
+  "constraints": [
+    "1 <= points.length <= 1000 on the full problem",
+    "These tests use small n",
+    "-1000 <= x, y <= 1000"
+  ],
+  "function_name": "min_cost_connect_points",
+  "hints": [
+    "The complete graph is implicit. You do not need to store every edge for Prim.",
+    "Prim grows one component. The next edge is the cheapest edge from the component to an outside point.",
+    "Manhattan distance is abs(x1 - x2) + abs(y1 - y2)."
+  ],
+  "approaches": [
+    {
+      "name": "Kruskal on all pairs",
+      "complexity": {
+        "time": "O(n^2 log n)",
+        "space": "O(n^2)"
+      },
+      "explanation": "Sort every edge and union until one component remains."
+    },
+    {
+      "name": "Prim",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(n)"
+      },
+      "explanation": "Dense Prim scans all outside points each step and is optimal for a complete graph."
+    }
+  ],
+  "editorial": "Start from point 0. Keep the cheapest known connection from the tree to every outside point. Add the outside point with the smallest connection, then update the other outside points with the distance to the newly added point. The sum of the chosen connections is the MST cost. A single point costs 0.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef min_cost_connect_points(points: list[list[int]]) -> int:\n    n = len(points)\n    in_tree = [False] * n\n    best = [10**18] * n\n    best[0] = 0\n    total = 0\n    for _ in range(n):\n        u = min((best[i], i) for i in range(n) if not in_tree[i])[1]\n        in_tree[u] = True\n        total += best[u]\n        x, y = points[u]\n        for v in range(n):\n            if not in_tree[v]:\n                dist = abs(points[v][0] - x) + abs(points[v][1] - y)\n                best[v] = min(best[v], dist)\n    return total\n",
+  "starter_code": "from typing import List\n\ndef min_cost_connect_points(points: List[List[int]]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "points = [[0, 0], [2, 2], [3, 10], [5, 2], [7, 0]]",
+      "output": "20",
+      "explanation": "The MST costs 20."
+    },
+    {
+      "input": "points = [[3, 12], [-2, 5], [-4, 1]]",
+      "output": "18",
+      "explanation": "The MST costs 18."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "points": [
+          [
+            0,
+            0
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            10
+          ],
+          [
+            5,
+            2
+          ],
+          [
+            7,
+            0
+          ]
+        ]
+      },
+      "expected": 20
+    },
+    {
+      "name": "line",
+      "args": {
+        "points": [
+          [
+            3,
+            12
+          ],
+          [
+            -2,
+            5
+          ],
+          [
+            -4,
+            1
+          ]
+        ]
+      },
+      "expected": 18
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "one",
+      "args": {
+        "points": [
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "expected": 0
+    },
+    {
+      "name": "two",
+      "args": {
+        "points": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            2
+          ]
+        ]
+      },
+      "expected": 3
+    },
+    {
+      "name": "square",
+      "args": {
+        "points": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            1
+          ]
+        ]
+      },
+      "expected": 3
+    }
+  ]
+}

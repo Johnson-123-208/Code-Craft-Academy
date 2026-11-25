@@ -1,0 +1,144 @@
+{
+  "title": "Two Sum",
+  "slug": "two-sum",
+  "difficulty": "easy",
+  "topics": [
+    "arrays",
+    "hashing"
+  ],
+  "company_tags": [
+    "Google",
+    "Amazon",
+    "Meta",
+    "Adobe"
+  ],
+  "statement": "Given an integer array `nums` and an integer `target`, return the indices of the two numbers that add up to `target`. Each input has exactly one solution, and you may not use the same element twice. Return the indices in increasing order.\n",
+  "constraints": [
+    "2 <= nums.length <= 10^4",
+    "-10^9 <= nums[i], target <= 10^9",
+    "Exactly one valid pair exists"
+  ],
+  "function_name": "two_sum",
+  "hints": [
+    "A nested pair scan is correct and quadratic. A dictionary turns the complement lookup into expected constant time.",
+    "Scan left to right. For the current value x, the partner you need is target minus x.",
+    "Store value to index as you go, and only look backward so an element is never paired with itself."
+  ],
+  "approaches": [
+    {
+      "name": "Brute force pairs",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(1)"
+      },
+      "explanation": "Check every pair i < j."
+    },
+    {
+      "name": "Hash map one pass",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Map each seen value to its index and probe the complement."
+    }
+  ],
+  "editorial": "The quadratic solution enumerates pairs. The linear solution remembers every value already seen. When nums[i] arrives, the complement target - nums[i] is either already in the map, in which case the pair is done, or it is recorded for a later index. Because a solution exists, the function always returns inside the loop.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef two_sum(nums: list[int], target: int) -> list[int]:\n    seen: dict[int, int] = {}\n    for i, value in enumerate(nums):\n        need = target - value\n        if need in seen:\n            return [seen[need], i]\n        seen[value] = i\n    raise ValueError(\"no pair\")\n",
+  "starter_code": "from typing import List\n\ndef two_sum(nums: List[int], target: int) -> List[int]:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [2, 7, 11, 15], target = 9",
+      "output": "[0, 1]",
+      "explanation": "2 + 7 = 9 at indices 0 and 1."
+    },
+    {
+      "input": "nums = [3, 2, 4], target = 6",
+      "output": "[1, 2]",
+      "explanation": "2 + 4 = 6 at indices 1 and 2."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "example-1",
+      "args": {
+        "nums": [
+          2,
+          7,
+          11,
+          15
+        ],
+        "target": 9
+      },
+      "expected": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "example-2",
+      "args": {
+        "nums": [
+          3,
+          2,
+          4
+        ],
+        "target": 6
+      },
+      "expected": [
+        1,
+        2
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "duplicates",
+      "args": {
+        "nums": [
+          3,
+          3
+        ],
+        "target": 6
+      },
+      "expected": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "negatives",
+      "args": {
+        "nums": [
+          -1,
+          -2,
+          -3,
+          -4,
+          -5
+        ],
+        "target": -8
+      },
+      "expected": [
+        2,
+        4
+      ]
+    },
+    {
+      "name": "later-pair",
+      "args": {
+        "nums": [
+          1,
+          5,
+          3,
+          7,
+          2,
+          9
+        ],
+        "target": 11
+      },
+      "expected": [
+        4,
+        5
+      ]
+    }
+  ]
+}

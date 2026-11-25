@@ -1,0 +1,125 @@
+{
+  "title": "Container With Most Water",
+  "slug": "container-with-most-water",
+  "difficulty": "medium",
+  "topics": [
+    "arrays",
+    "two-pointers"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Adobe",
+    "Bloomberg"
+  ],
+  "statement": "`height[i]` is the height of a vertical line at x = i. Choose two lines that, together with the x-axis, form a container holding the most water. Return that maximum area.\n",
+  "constraints": [
+    "2 <= height.length <= 10^5",
+    "0 <= height[i] <= 10^4"
+  ],
+  "function_name": "max_area",
+  "hints": [
+    "Area is min(height[left], height[right]) times (right - left).",
+    "The width only shrinks as the pointers move inward, so you must gain height to improve.",
+    "Always discard the shorter line. The taller line might still pair with a closer line of greater height."
+  ],
+  "approaches": [
+    {
+      "name": "All pairs",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(1)"
+      },
+      "explanation": "Compute every width and limiting height."
+    },
+    {
+      "name": "Two pointers",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Start wide and move the shorter side inward."
+    }
+  ],
+  "editorial": "Start at the maximum width. The area is limited by the shorter line. Moving the taller line inward cannot increase the area, because the width falls and the limiting height cannot rise. Moving the shorter line is the only move that might help. Each step discards one index, so the scan is linear.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef max_area(height: list[int]) -> int:\n    left, right = 0, len(height) - 1\n    best = 0\n    while left < right:\n        best = max(best, min(height[left], height[right]) * (right - left))\n        if height[left] <= height[right]:\n            left += 1\n        else:\n            right -= 1\n    return best\n",
+  "starter_code": "from typing import List\n\ndef max_area(height: List[int]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "height = [1, 8, 6, 2, 5, 4, 8, 3, 7]",
+      "output": "49",
+      "explanation": "The best area is 49."
+    },
+    {
+      "input": "height = [1, 1]",
+      "output": "1",
+      "explanation": "Width 1 and height 1."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "height": [
+          1,
+          8,
+          6,
+          2,
+          5,
+          4,
+          8,
+          3,
+          7
+        ]
+      },
+      "expected": 49
+    },
+    {
+      "name": "two",
+      "args": {
+        "height": [
+          1,
+          1
+        ]
+      },
+      "expected": 1
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "increasing",
+      "args": {
+        "height": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "expected": 4
+    },
+    {
+      "name": "valley",
+      "args": {
+        "height": [
+          5,
+          1,
+          1,
+          5
+        ]
+      },
+      "expected": 15
+    },
+    {
+      "name": "peak",
+      "args": {
+        "height": [
+          2,
+          9,
+          2
+        ]
+      },
+      "expected": 4
+    }
+  ]
+}

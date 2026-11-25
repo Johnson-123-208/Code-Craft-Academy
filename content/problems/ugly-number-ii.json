@@ -1,0 +1,98 @@
+{
+  "title": "Ugly Number II",
+  "slug": "ugly-number-ii",
+  "difficulty": "medium",
+  "topics": [
+    "heaps",
+    "dynamic-programming",
+    "math"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "Adobe"
+  ],
+  "statement": "An ugly number is a positive integer whose prime factors are limited to 2, 3, and 5. Return the nth ugly number. 1 is the first.\n",
+  "constraints": [
+    "1 <= n <= 1690"
+  ],
+  "function_name": "nth_ugly_number",
+  "hints": [
+    "Every ugly number except 1 is an earlier ugly number multiplied by 2, 3, or 5.",
+    "Three pointers remember the next index to multiply by each factor.",
+    "Take the minimum of the three candidates, append it once, and advance every pointer that produced it so duplicates are skipped."
+  ],
+  "approaches": [
+    {
+      "name": "Min-heap with a set",
+      "complexity": {
+        "time": "O(n log n)",
+        "space": "O(n)"
+      },
+      "explanation": "Push 2x, 3x, and 5x and skip values already seen."
+    },
+    {
+      "name": "Three pointers",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "The DP formulation."
+    }
+  ],
+  "editorial": "ugly[0] = 1. Maintain i2, i3, and i5. The next ugly number is the min of ugly[i2]*2, ugly[i3]*3, and ugly[i5]*5. Advance each pointer whose product equals that minimum. Advancing all matches is what collapses 6 = 2*3 = 3*2 into one entry.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef nth_ugly_number(n: int) -> int:\n    ugly = [1]\n    i2 = i3 = i5 = 0\n    while len(ugly) < n:\n        nxt = min(ugly[i2] * 2, ugly[i3] * 3, ugly[i5] * 5)\n        ugly.append(nxt)\n        if nxt == ugly[i2] * 2:\n            i2 += 1\n        if nxt == ugly[i3] * 3:\n            i3 += 1\n        if nxt == ugly[i5] * 5:\n            i5 += 1\n    return ugly[-1]\n",
+  "starter_code": "def nth_ugly_number(n: int) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "n = 10",
+      "output": "12",
+      "explanation": "The 10th ugly number is 12."
+    },
+    {
+      "input": "n = 1",
+      "output": "1",
+      "explanation": "1 is ugly."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "ten",
+      "args": {
+        "n": 10
+      },
+      "expected": 12
+    },
+    {
+      "name": "one",
+      "args": {
+        "n": 1
+      },
+      "expected": 1
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "two",
+      "args": {
+        "n": 2
+      },
+      "expected": 2
+    },
+    {
+      "name": "seven",
+      "args": {
+        "n": 7
+      },
+      "expected": 8
+    },
+    {
+      "name": "fifteen",
+      "args": {
+        "n": 15
+      },
+      "expected": 24
+    }
+  ]
+}

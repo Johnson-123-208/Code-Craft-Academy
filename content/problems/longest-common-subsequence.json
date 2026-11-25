@@ -1,0 +1,103 @@
+{
+  "title": "Longest Common Subsequence",
+  "slug": "longest-common-subsequence",
+  "difficulty": "medium",
+  "topics": [
+    "dynamic-programming",
+    "strings"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "Bloomberg"
+  ],
+  "statement": "Return the length of the longest subsequence common to strings `text1` and `text2`.\n",
+  "constraints": [
+    "1 <= text1.length, text2.length <= 1000",
+    "Both strings are lowercase"
+  ],
+  "function_name": "longest_common_subsequence",
+  "hints": [
+    "If the last characters match, they belong to some optimal subsequence. Take them and add one.",
+    "If they differ, discard one of them. The answer is the better of the two choices.",
+    "A rolling row stores only the previous string index."
+  ],
+  "approaches": [
+    {
+      "name": "Recursion",
+      "complexity": {
+        "time": "exponential",
+        "space": "O(n + m)"
+      },
+      "explanation": "Recomputes pairs of suffixes."
+    },
+    {
+      "name": "2D DP",
+      "complexity": {
+        "time": "O(n * m)",
+        "space": "O(n * m)"
+      },
+      "explanation": "dp[i][j] is the LCS of the prefixes of those lengths."
+    }
+  ],
+  "editorial": "dp[i][j] = dp[i - 1][j - 1] + 1 when the characters match, otherwise the max of dropping a character from either string. The empty prefix has LCS 0. The bottom-right cell is the answer. Reconstructing the string walks backward through the same decisions.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef longest_common_subsequence(text1: str, text2: str) -> int:\n    prev = [0] * (len(text2) + 1)\n    for a in text1:\n        cur = [0]\n        for j, b in enumerate(text2, 1):\n            if a == b:\n                cur.append(prev[j - 1] + 1)\n            else:\n                cur.append(max(prev[j], cur[-1]))\n        prev = cur\n    return prev[-1]\n",
+  "starter_code": "def longest_common_subsequence(text1: str, text2: str) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "text1 = 'abcde', text2 = 'ace'",
+      "output": "3",
+      "explanation": "ace has length 3."
+    },
+    {
+      "input": "text1 = 'abc', text2 = 'def'",
+      "output": "0",
+      "explanation": "No shared characters."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "text1": "abcde",
+        "text2": "ace"
+      },
+      "expected": 3
+    },
+    {
+      "name": "none",
+      "args": {
+        "text1": "abc",
+        "text2": "def"
+      },
+      "expected": 0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "same",
+      "args": {
+        "text1": "abc",
+        "text2": "abc"
+      },
+      "expected": 3
+    },
+    {
+      "name": "repeat",
+      "args": {
+        "text1": "aaaa",
+        "text2": "aa"
+      },
+      "expected": 2
+    },
+    {
+      "name": "interleave",
+      "args": {
+        "text1": "abcba",
+        "text2": "abcbcba"
+      },
+      "expected": 5
+    }
+  ]
+}

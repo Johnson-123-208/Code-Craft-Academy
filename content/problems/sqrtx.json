@@ -1,0 +1,97 @@
+{
+  "title": "Sqrt(x)",
+  "slug": "sqrtx",
+  "difficulty": "easy",
+  "topics": [
+    "binary-search",
+    "math"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Apple",
+    "Microsoft",
+    "Bloomberg"
+  ],
+  "statement": "Return the floor of the square root of non-negative integer `x`. Use integer arithmetic only.\n",
+  "constraints": [
+    "0 <= x <= 2^31 - 1"
+  ],
+  "function_name": "my_sqrt",
+  "hints": [
+    "The answer r satisfies r * r <= x and (r + 1) * (r + 1) > x.",
+    "Binary search r over 0..x. For large x, searching up to 2^16 is enough, but 0..x is correct.",
+    "Compare mid * mid with x using integers. Watch overflow in languages with fixed-width ints. Python integers do not overflow."
+  ],
+  "approaches": [
+    {
+      "name": "Linear probe",
+      "complexity": {
+        "time": "O(sqrt(x))",
+        "space": "O(1)"
+      },
+      "explanation": "Increment until the square passes x."
+    },
+    {
+      "name": "Binary search",
+      "complexity": {
+        "time": "O(log x)",
+        "space": "O(1)"
+      },
+      "explanation": "Search the integer root directly."
+    }
+  ],
+  "editorial": "Search the largest integer whose square is at most x. If mid * mid <= x, the answer is at least mid, so move lo to mid + 1 and remember mid. Otherwise move hi to mid - 1. The remembered value, which is hi at the end of a careful loop, is the floor root.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef my_sqrt(x: int) -> int:\n    lo, hi = 0, x\n    ans = 0\n    while lo <= hi:\n        mid = (lo + hi) // 2\n        if mid * mid <= x:\n            ans = mid\n            lo = mid + 1\n        else:\n            hi = mid - 1\n    return ans\n",
+  "starter_code": "def my_sqrt(x: int) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "x = 8",
+      "output": "2",
+      "explanation": "The floor root of 8 is 2."
+    },
+    {
+      "input": "x = 4",
+      "output": "2",
+      "explanation": "The floor root of 4 is 2."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "eight",
+      "args": {
+        "x": 8
+      },
+      "expected": 2
+    },
+    {
+      "name": "four",
+      "args": {
+        "x": 4
+      },
+      "expected": 2
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "zero",
+      "args": {
+        "x": 0
+      },
+      "expected": 0
+    },
+    {
+      "name": "one",
+      "args": {
+        "x": 1
+      },
+      "expected": 1
+    },
+    {
+      "name": "large",
+      "args": {
+        "x": 100
+      },
+      "expected": 10
+    }
+  ]
+}

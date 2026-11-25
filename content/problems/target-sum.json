@@ -1,0 +1,122 @@
+{
+  "title": "Target Sum",
+  "slug": "target-sum",
+  "difficulty": "medium",
+  "topics": [
+    "dynamic-programming"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Facebook",
+    "Adobe"
+  ],
+  "statement": "Place '+' or '-' before each integer in `nums` so the expression equals `target`. Return the number of ways.\n",
+  "constraints": [
+    "1 <= nums.length <= 20",
+    "0 <= nums[i] <= 1000",
+    "-1000 <= target <= 1000"
+  ],
+  "function_name": "find_target_sum_ways",
+  "hints": [
+    "With n <= 20, assigning every sign is 2^n and is acceptable.",
+    "Let P be the positive subset and N the negative subset. P + N = total and P - N = target, so P = (total + target) / 2.",
+    "The problem becomes counting subsets that sum to that P, which is a knapsack count."
+  ],
+  "approaches": [
+    {
+      "name": "Enumerate signs",
+      "complexity": {
+        "time": "O(2^n)",
+        "space": "O(n)"
+      },
+      "explanation": "Fine at n = 20."
+    },
+    {
+      "name": "Subset-sum count",
+      "complexity": {
+        "time": "O(n * sum)",
+        "space": "O(sum)"
+      },
+      "explanation": "The transformed target must be nonnegative and even relative to the total."
+    }
+  ],
+  "editorial": "The sign transformation is the insight. If total + target is odd or negative or larger than twice the total, there are zero ways. Otherwise count subsets summing to (total + target) / 2 with the combination knapsack: dp[s] += dp[s - value], iterating amounts upward only after copying or by using a fresh array per item. The enumeration oracle checks the DP.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef find_target_sum_ways(nums: list[int], target: int) -> int:\n    total = sum(nums)\n    if total < abs(target) or (total + target) % 2:\n        return 0\n    goal = (total + target) // 2\n    dp = [0] * (goal + 1)\n    dp[0] = 1\n    for value in nums:\n        for s in range(goal, value - 1, -1):\n            dp[s] += dp[s - value]\n    return dp[goal]\n",
+  "starter_code": "from typing import List\n\ndef find_target_sum_ways(nums: List[int], target: int) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [1, 1, 1, 1, 1], target = 3",
+      "output": "5",
+      "explanation": "Five ways."
+    },
+    {
+      "input": "nums = [1], target = 1",
+      "output": "1",
+      "explanation": "Only the plus sign."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "nums": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "target": 3
+      },
+      "expected": 5
+    },
+    {
+      "name": "zero",
+      "args": {
+        "nums": [
+          1
+        ],
+        "target": 1
+      },
+      "expected": 1
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "none",
+      "args": {
+        "nums": [
+          1,
+          2
+        ],
+        "target": 4
+      },
+      "expected": 0
+    },
+    {
+      "name": "zeros",
+      "args": {
+        "nums": [
+          0,
+          0,
+          0
+        ],
+        "target": 0
+      },
+      "expected": 8
+    },
+    {
+      "name": "mixed",
+      "args": {
+        "nums": [
+          1,
+          2,
+          3
+        ],
+        "target": 0
+      },
+      "expected": 2
+    }
+  ]
+}

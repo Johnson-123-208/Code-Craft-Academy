@@ -1,0 +1,109 @@
+{
+  "title": "Mean Hinge Loss",
+  "slug": "ml-hinge",
+  "difficulty": "medium",
+  "topics": [
+    "machine-learning",
+    "svm",
+    "python"
+  ],
+  "company_tags": [
+    "Google",
+    "Microsoft"
+  ],
+  "statement": "Implement `hinge(y_true, scores)`, the mean hinge loss. Each label is \u22121 or +1 and each score is a real decision value. The per-example loss is max(0, 1 \u2212 y * score). Average over the batch.",
+  "constraints": [
+    "Labels are -1 or +1",
+    "1 <= n <= 10^5",
+    "Return the mean hinge"
+  ],
+  "examples": [
+    {
+      "input": "{\"y_true\": [1.0, -1.0], \"scores\": [1.0, -1.0]}",
+      "output": "0.0",
+      "explanation": "Matches the reference on this input."
+    },
+    {
+      "input": "{\"y_true\": [1.0, 1.0], \"scores\": [0.0, -1.0]}",
+      "output": "1.5",
+      "explanation": "Matches the reference on this input."
+    }
+  ],
+  "starter_code": "def hinge(y_true: list[float], scores: list[float]) -> float:\n    pass\n",
+  "function_name": "hinge",
+  "hints": [
+    "A correct score with margin at least 1 contributes 0.",
+    "Multiply label by score before subtracting from 1.",
+    "Negative labels flip the meaning of the score."
+  ],
+  "approaches": [
+    {
+      "name": "Margin loss",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "The hinge is the convex surrogate used by linear SVMs."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "on-margin",
+      "args": {
+        "y_true": [
+          1.0,
+          -1.0
+        ],
+        "scores": [
+          1.0,
+          -1.0
+        ]
+      },
+      "expected": 0.0
+    },
+    {
+      "name": "violations",
+      "args": {
+        "y_true": [
+          1.0,
+          1.0
+        ],
+        "scores": [
+          0.0,
+          -1.0
+        ]
+      },
+      "expected": 1.5
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "beyond-margin",
+      "args": {
+        "y_true": [
+          1.0
+        ],
+        "scores": [
+          3.0
+        ]
+      },
+      "expected": 0.0
+    },
+    {
+      "name": "negative-label",
+      "args": {
+        "y_true": [
+          -1.0,
+          -1.0
+        ],
+        "scores": [
+          0.5,
+          -2.0
+        ]
+      },
+      "expected": 0.75
+    }
+  ],
+  "editorial": "Hinge loss max(0, 1 \u2212 y s) is zero once the signed score clears a margin of 1, and linear beyond that. Support vector machines minimize this loss plus an L2 penalty on the weights, which is why only points inside or on the margin become support vectors. Labels must be \u22121 and +1, not 0 and 1. If your dataset uses 0/1, map 0 to \u22121 before calling this function. The subgradient with respect to the score is \u2212y when the margin is violated and 0 when it is satisfied.",
+  "reference_solution": "def hinge(y_true: list[float], scores: list[float]) -> float:\n    total = 0.0\n    for y, s in zip(y_true, scores):\n        total += max(0.0, 1.0 - y * s)\n    return float(total / len(y_true))\n"
+}

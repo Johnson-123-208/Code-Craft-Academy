@@ -1,0 +1,117 @@
+{
+  "title": "Candy",
+  "slug": "candy",
+  "difficulty": "hard",
+  "topics": [
+    "greedy"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "Uber"
+  ],
+  "statement": "Children stand in a line with ratings. Each child gets at least one candy. A child with a strictly higher rating than a neighbor must get more candies than that neighbor. Return the minimum total candies.\n",
+  "constraints": [
+    "1 <= ratings.length <= 2 * 10^4",
+    "0 <= ratings[i] <= 2 * 10^4"
+  ],
+  "function_name": "candy",
+  "hints": [
+    "One pass left to right enforces the left neighbor. One pass right to left enforces the right neighbor.",
+    "Initialize every child to 1.",
+    "When a child is higher than the neighbor you are comparing, set their candies to at least that neighbor's candies plus one. Use max so the other pass is not undone."
+  ],
+  "approaches": [
+    {
+      "name": "Search the assignment",
+      "complexity": {
+        "time": "exponential",
+        "space": "O(n)"
+      },
+      "explanation": "Not viable."
+    },
+    {
+      "name": "Two passes",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Left constraints, then right constraints."
+    }
+  ],
+  "editorial": "The left-to-right pass makes every ascending pair legal from the left. The right-to-left pass does the same for descending pairs and keeps the larger requirement. The sum is minimal because each child receives exactly the candies forced by the longer of the two chains.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef candy(ratings: list[int]) -> int:\n    n = len(ratings)\n    candies = [1] * n\n    for i in range(1, n):\n        if ratings[i] > ratings[i - 1]:\n            candies[i] = candies[i - 1] + 1\n    for i in range(n - 2, -1, -1):\n        if ratings[i] > ratings[i + 1]:\n            candies[i] = max(candies[i], candies[i + 1] + 1)\n    return sum(candies)\n",
+  "starter_code": "from typing import List\n\ndef candy(ratings: List[int]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "ratings = [1, 0, 2]",
+      "output": "5",
+      "explanation": "The distribution 2, 1, 2 sums to 5."
+    },
+    {
+      "input": "ratings = [1, 2, 2]",
+      "output": "4",
+      "explanation": "Equal neighbors can both receive 1. The total is 4."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "ratings": [
+          1,
+          0,
+          2
+        ]
+      },
+      "expected": 5
+    },
+    {
+      "name": "peak",
+      "args": {
+        "ratings": [
+          1,
+          2,
+          2
+        ]
+      },
+      "expected": 4
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "one",
+      "args": {
+        "ratings": [
+          5
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "name": "down",
+      "args": {
+        "ratings": [
+          3,
+          2,
+          1
+        ]
+      },
+      "expected": 6
+    },
+    {
+      "name": "valley",
+      "args": {
+        "ratings": [
+          1,
+          3,
+          2,
+          2,
+          1
+        ]
+      },
+      "expected": 7
+    }
+  ]
+}

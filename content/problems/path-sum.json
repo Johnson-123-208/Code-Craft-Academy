@@ -1,0 +1,131 @@
+{
+  "title": "Path Sum",
+  "slug": "path-sum",
+  "difficulty": "easy",
+  "topics": [
+    "trees",
+    "recursion"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft",
+    "Adobe",
+    "Google"
+  ],
+  "statement": "Return true when the tree has a root-to-leaf path whose values sum to `target_sum`.\n",
+  "constraints": [
+    "0 <= number of nodes <= 5000"
+  ],
+  "function_name": "has_path_sum",
+  "hints": [
+    "Subtract the current value from the target as you descend.",
+    "A leaf matches when the remaining target equals the leaf value.",
+    "A null node is not a successful path. An empty tree is false."
+  ],
+  "approaches": [
+    {
+      "name": "DFS with remaining sum",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(h)"
+      },
+      "explanation": "One boolean per subtree."
+    },
+    {
+      "name": "BFS with remaining sum",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Carry the remainder in the queue."
+    }
+  ],
+  "editorial": "has_path_sum(null, _) is false. A leaf returns whether its value equals the remaining target. An internal node returns true when either child can finish the remainder after subtracting the node value.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef has_path_sum(root: list, target_sum: int) -> bool:\n    def walk(node, remain: int) -> bool:\n        if node is None:\n            return False\n        remain -= node.value\n        if node.left is None and node.right is None:\n            return remain == 0\n        return walk(node.left, remain) or walk(node.right, remain)\n\n    return walk(_build(root), target_sum)\n",
+  "starter_code": "from typing import List, Optional\n\ndef has_path_sum(root: List[Optional[int]], target_sum: int) -> bool:\n    pass\n",
+  "examples": [
+    {
+      "input": "root = [5, 4, 8, 11, None, 13, 4, 7, 2, None, None, None, 1], target_sum = 22",
+      "output": "true",
+      "explanation": "5-4-11-2 sums to 22."
+    },
+    {
+      "input": "root = [1, 2, 3], target_sum = 5",
+      "output": "false",
+      "explanation": "No root-to-leaf path sums to 5."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "yes",
+      "args": {
+        "root": [
+          5,
+          4,
+          8,
+          11,
+          null,
+          13,
+          4,
+          7,
+          2,
+          null,
+          null,
+          null,
+          1
+        ],
+        "target_sum": 22
+      },
+      "expected": true
+    },
+    {
+      "name": "no",
+      "args": {
+        "root": [
+          1,
+          2,
+          3
+        ],
+        "target_sum": 5
+      },
+      "expected": false
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "empty",
+      "args": {
+        "root": [],
+        "target_sum": 0
+      },
+      "expected": false
+    },
+    {
+      "name": "leaf",
+      "args": {
+        "root": [
+          1
+        ],
+        "target_sum": 1
+      },
+      "expected": true
+    },
+    {
+      "name": "neg",
+      "args": {
+        "root": [
+          1,
+          -2,
+          -3,
+          1,
+          3,
+          -2,
+          null,
+          -1
+        ],
+        "target_sum": -1
+      },
+      "expected": true
+    }
+  ]
+}

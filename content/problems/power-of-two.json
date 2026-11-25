@@ -1,0 +1,96 @@
+{
+  "title": "Power of Two",
+  "slug": "power-of-two",
+  "difficulty": "easy",
+  "topics": [
+    "bit-manipulation"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Adobe",
+    "Apple"
+  ],
+  "statement": "Return true when `n` is a power of two. 1 is 2^0 and counts. Non-positive numbers do not.\n",
+  "constraints": [
+    "-2^31 <= n <= 2^31 - 1"
+  ],
+  "function_name": "is_power_of_two",
+  "hints": [
+    "A power of two has exactly one bit set.",
+    "For n > 0, n & (n - 1) is 0 exactly then.",
+    "n > 0 is required because zero and negatives are not powers of two."
+  ],
+  "approaches": [
+    {
+      "name": "Loop dividing by 2",
+      "complexity": {
+        "time": "O(log n)",
+        "space": "O(1)"
+      },
+      "explanation": "Reject odd numbers other than 1."
+    },
+    {
+      "name": "Bit test",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "One set bit."
+    }
+  ],
+  "editorial": "Powers of two are 1, 2, 4, 8, and so on. In binary each is a single 1 followed by zeros. Clearing the lowest set bit of such a number produces 0. Any other positive number still has a bit left.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef is_power_of_two(n: int) -> bool:\n    return n > 0 and n & (n - 1) == 0\n",
+  "starter_code": "def is_power_of_two(n: int) -> bool:\n    pass\n",
+  "examples": [
+    {
+      "input": "n = 16",
+      "output": "true",
+      "explanation": "2^4."
+    },
+    {
+      "input": "n = 3",
+      "output": "false",
+      "explanation": "Not a power of two."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "sixteen",
+      "args": {
+        "n": 16
+      },
+      "expected": true
+    },
+    {
+      "name": "three",
+      "args": {
+        "n": 3
+      },
+      "expected": false
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "one",
+      "args": {
+        "n": 1
+      },
+      "expected": true
+    },
+    {
+      "name": "zero",
+      "args": {
+        "n": 0
+      },
+      "expected": false
+    },
+    {
+      "name": "negative",
+      "args": {
+        "n": -16
+      },
+      "expected": false
+    }
+  ]
+}

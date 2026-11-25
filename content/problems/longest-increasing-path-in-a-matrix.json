@@ -1,0 +1,150 @@
+{
+  "title": "Longest Increasing Path in a Matrix",
+  "slug": "longest-increasing-path-in-a-matrix",
+  "difficulty": "hard",
+  "topics": [
+    "graphs",
+    "dynamic-programming",
+    "matrix"
+  ],
+  "company_tags": [
+    "Google",
+    "Amazon",
+    "Facebook",
+    "Microsoft"
+  ],
+  "statement": "Return the length of the longest strictly increasing path in the matrix. Moves are 4-directional.\n",
+  "constraints": [
+    "1 <= m, n <= 200",
+    "0 <= matrix[i][j] <= 2^31 - 1"
+  ],
+  "function_name": "longest_increasing_path",
+  "hints": [
+    "From each cell, the answer is 1 plus the best answer among strictly greater neighbors.",
+    "Memoize by cell. Each cell is solved once because the increasing constraint makes the dependency graph a DAG.",
+    "The global answer is the maximum over every starting cell."
+  ],
+  "approaches": [
+    {
+      "name": "DFS from every cell",
+      "complexity": {
+        "time": "exponential",
+        "space": "O(mn)"
+      },
+      "explanation": "Overlapping subpaths are recomputed."
+    },
+    {
+      "name": "Memoized DFS",
+      "complexity": {
+        "time": "O(mn)",
+        "space": "O(mn)"
+      },
+      "explanation": "Each cell and each edge is processed once."
+    }
+  ],
+  "editorial": "The state is the cell, not the path, because every increasing path that reaches a cell can be extended by the same best continuation. That is why memoization is correct. A cell with no greater neighbor has length 1.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef longest_increasing_path(matrix: list[list[int]]) -> int:\n    rows, cols = len(matrix), len(matrix[0])\n    memo = [[0] * cols for _ in range(rows)]\n\n    def dfs(r: int, c: int) -> int:\n        if memo[r][c]:\n            return memo[r][c]\n        best = 1\n        for dr, dc in ((1, 0), (-1, 0), (0, 1), (0, -1)):\n            nr, nc = r + dr, c + dc\n            if 0 <= nr < rows and 0 <= nc < cols and matrix[nr][nc] > matrix[r][c]:\n                best = max(best, 1 + dfs(nr, nc))\n        memo[r][c] = best\n        return best\n\n    return max(dfs(r, c) for r in range(rows) for c in range(cols))\n",
+  "starter_code": "from typing import List\n\ndef longest_increasing_path(matrix: List[List[int]]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "matrix = [[9, 9, 4], [6, 6, 8], [2, 1, 1]]",
+      "output": "4",
+      "explanation": "The path 1, 2, 6, 9 has length 4."
+    },
+    {
+      "input": "matrix = [[3, 4, 5], [3, 2, 6], [2, 2, 1]]",
+      "output": "4",
+      "explanation": "The longest path has length 4."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "matrix": [
+          [
+            9,
+            9,
+            4
+          ],
+          [
+            6,
+            6,
+            8
+          ],
+          [
+            2,
+            1,
+            1
+          ]
+        ]
+      },
+      "expected": 4
+    },
+    {
+      "name": "three",
+      "args": {
+        "matrix": [
+          [
+            3,
+            4,
+            5
+          ],
+          [
+            3,
+            2,
+            6
+          ],
+          [
+            2,
+            2,
+            1
+          ]
+        ]
+      },
+      "expected": 4
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "one",
+      "args": {
+        "matrix": [
+          [
+            1
+          ]
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "name": "flat",
+      "args": {
+        "matrix": [
+          [
+            7,
+            7
+          ],
+          [
+            7,
+            7
+          ]
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "name": "row",
+      "args": {
+        "matrix": [
+          [
+            1,
+            2,
+            3
+          ]
+        ]
+      },
+      "expected": 3
+    }
+  ]
+}

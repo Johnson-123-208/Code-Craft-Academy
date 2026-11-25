@@ -1,0 +1,115 @@
+{
+  "title": "Partition Labels",
+  "slug": "partition-labels",
+  "difficulty": "medium",
+  "topics": [
+    "greedy",
+    "strings",
+    "hashing"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Adobe",
+    "Bloomberg"
+  ],
+  "statement": "Partition `s` into as many parts as possible so each letter appears in at most one part. Return a list of the part sizes, in order.\n",
+  "constraints": [
+    "1 <= s.length <= 500",
+    "s consists of lowercase English letters"
+  ],
+  "function_name": "partition_labels",
+  "hints": [
+    "Record the last index of every character.",
+    "Extend the current part's end to the last index of every character you see inside it.",
+    "When the scan index reaches that end, the part is closed. Record its length and start a new one."
+  ],
+  "approaches": [
+    {
+      "name": "Re-scan for each cut",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(1)"
+      },
+      "explanation": "Find the farthest last occurrence repeatedly."
+    },
+    {
+      "name": "Last-index greedy",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "The alphabet is constant."
+    }
+  ],
+  "editorial": "A part that contains a character must extend at least through that character's last occurrence. Taking the max last-index inside the current window is the earliest legal cut. Cutting there is safe and maximal, so the greedy cuts produce the required partition.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef partition_labels(s: str) -> list[int]:\n    last = {ch: i for i, ch in enumerate(s)}\n    out: list[int] = []\n    start = end = 0\n    for i, ch in enumerate(s):\n        end = max(end, last[ch])\n        if i == end:\n            out.append(end - start + 1)\n            start = i + 1\n    return out\n",
+  "starter_code": "from typing import List\n\ndef partition_labels(s: str) -> List[int]:\n    pass\n",
+  "examples": [
+    {
+      "input": "s = 'ababcbacadefegdehijhklij'",
+      "output": "[9, 7, 8]",
+      "explanation": "The sizes are 9, 7, 8."
+    },
+    {
+      "input": "s = 'eccbbbbdec'",
+      "output": "[10]",
+      "explanation": "The whole string is one part."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "s": "ababcbacadefegdehijhklij"
+      },
+      "expected": [
+        9,
+        7,
+        8
+      ]
+    },
+    {
+      "name": "one",
+      "args": {
+        "s": "eccbbbbdec"
+      },
+      "expected": [
+        10
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "single",
+      "args": {
+        "s": "a"
+      },
+      "expected": [
+        1
+      ]
+    },
+    {
+      "name": "all-different",
+      "args": {
+        "s": "abc"
+      },
+      "expected": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "pairs",
+      "args": {
+        "s": "aabbcc"
+      },
+      "expected": [
+        2,
+        2,
+        2
+      ]
+    }
+  ]
+}

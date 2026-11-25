@@ -1,0 +1,97 @@
+{
+  "title": "Repeated Substring Pattern",
+  "slug": "repeated-substring-pattern",
+  "difficulty": "easy",
+  "topics": [
+    "strings",
+    "kmp"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Adobe",
+    "Google",
+    "Microsoft"
+  ],
+  "statement": "Return true when `s` can be built by concatenating a nonempty substring with itself at least twice.\n",
+  "constraints": [
+    "1 <= s.length <= 10^4"
+  ],
+  "function_name": "repeated_substring_pattern",
+  "hints": [
+    "If s is made of a repeated block, then s appears in (s + s) before the last character and after the first.",
+    "Search for s inside (s + s)[1:-1].",
+    "The KMP prefix table gives the same fact: if n % (n - lps[n - 1]) == 0 and lps[n - 1] is nonzero, the string repeats."
+  ],
+  "approaches": [
+    {
+      "name": "Try every divisor",
+      "complexity": {
+        "time": "O(n sqrt n)",
+        "space": "O(n)"
+      },
+      "explanation": "A period must divide the length."
+    },
+    {
+      "name": "Concatenation trick or KMP",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "One string search."
+    }
+  ],
+  "editorial": "Let t = s + s. If s is periodic, a second copy starts at the period inside t, so s is found strictly inside t, not only at the two ends. Conversely, a match inside t[1:-1] means a rotation of s equals s, which is exactly a repeated block. haystack.find on the sliced concatenation is the short proof. The KMP border is the interview follow-up.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef repeated_substring_pattern(s: str) -> bool:\n    return s in (s + s)[1:-1]\n",
+  "starter_code": "def repeated_substring_pattern(s: str) -> bool:\n    pass\n",
+  "examples": [
+    {
+      "input": "s = 'abab'",
+      "output": "true",
+      "explanation": "ab repeated twice."
+    },
+    {
+      "input": "s = 'aba'",
+      "output": "false",
+      "explanation": "No repeated block."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "yes",
+      "args": {
+        "s": "abab"
+      },
+      "expected": true
+    },
+    {
+      "name": "no",
+      "args": {
+        "s": "aba"
+      },
+      "expected": false
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "triple",
+      "args": {
+        "s": "abcabcabc"
+      },
+      "expected": true
+    },
+    {
+      "name": "single",
+      "args": {
+        "s": "a"
+      },
+      "expected": false
+    },
+    {
+      "name": "aa",
+      "args": {
+        "s": "aa"
+      },
+      "expected": true
+    }
+  ]
+}

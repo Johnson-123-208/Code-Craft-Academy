@@ -1,0 +1,103 @@
+{
+  "title": "Paint Fence",
+  "slug": "paint-fence",
+  "difficulty": "medium",
+  "topics": [
+    "dynamic-programming"
+  ],
+  "company_tags": [
+    "Google",
+    "Amazon",
+    "Adobe",
+    "Microsoft"
+  ],
+  "statement": "Paint `n` fence posts with `k` colors so that at most two adjacent posts share a color. Return the number of ways.\n",
+  "constraints": [
+    "1 <= n <= 50",
+    "1 <= k <= 10^5",
+    "The answer fits in a 32-bit signed integer for these tests"
+  ],
+  "function_name": "num_ways_fence",
+  "hints": [
+    "A post can match the previous one, or differ from it.",
+    "same(i) = diff(i - 1), because only one post may match in a row beyond the pair... actually same means this post matches the previous, so the previous pair must have differed.",
+    "diff(i) = (k - 1) * (same(i - 1) + diff(i - 1)). Total(i) = same + diff."
+  ],
+  "approaches": [
+    {
+      "name": "Recursion on the last run",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Two states."
+    },
+    {
+      "name": "Rolling states",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "same and diff."
+    }
+  ],
+  "editorial": "Let same be the ways where the last two posts match, and diff the ways where they differ. For one post, there are k ways, all 'different' from a fictional previous post, and same is 0. Then same becomes the old diff, and diff becomes (k - 1) times the old total. The answer after n posts is same + diff.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef num_ways_fence(n: int, k: int) -> int:\n    if n == 1:\n        return k\n    same, diff = 0, k\n    for _ in range(1, n):\n        same, diff = diff, (k - 1) * (same + diff)\n    return same + diff\n",
+  "starter_code": "def num_ways_fence(n: int, k: int) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "n = 3, k = 2",
+      "output": "6",
+      "explanation": "Six ways."
+    },
+    {
+      "input": "n = 1, k = 1",
+      "output": "1",
+      "explanation": "One post, one color."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "n": 3,
+        "k": 2
+      },
+      "expected": 6
+    },
+    {
+      "name": "one",
+      "args": {
+        "n": 1,
+        "k": 1
+      },
+      "expected": 1
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "two",
+      "args": {
+        "n": 2,
+        "k": 1
+      },
+      "expected": 1
+    },
+    {
+      "name": "seven",
+      "args": {
+        "n": 7,
+        "k": 2
+      },
+      "expected": 42
+    },
+    {
+      "name": "posts",
+      "args": {
+        "n": 2,
+        "k": 4
+      },
+      "expected": 16
+    }
+  ]
+}

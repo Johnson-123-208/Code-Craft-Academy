@@ -1,0 +1,134 @@
+{
+  "title": "Odd Even Linked List",
+  "slug": "odd-even-linked-list",
+  "difficulty": "medium",
+  "topics": [
+    "linked-lists"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Adobe",
+    "Microsoft",
+    "Apple"
+  ],
+  "statement": "Group nodes with odd 1-based indices before nodes with even indices, preserving relative order inside each group. The input is the value sequence. Rewire next pointers rather than building the answer by index arithmetic alone.\n",
+  "constraints": [
+    "0 <= length <= 10^4"
+  ],
+  "function_name": "odd_even_list",
+  "hints": [
+    "Keep an odd tail and an even head and even tail.",
+    "Weave: odd.next = even.next, then advance odd. even.next = odd.next, then advance even.",
+    "Finally connect the odd tail to the even head."
+  ],
+  "approaches": [
+    {
+      "name": "Collect two lists of values",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Index arithmetic."
+    },
+    {
+      "name": "Two pointer chains",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "The in-place weave."
+    }
+  ],
+  "editorial": "If the list has fewer than two nodes, return it. Otherwise odd and even walk the two chains. Each step pulls the next odd node forward and leaves the evens linked. Attaching the even head after the last odd node produces the grouped list without changing the order inside either chain.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef odd_even_list(head: list[int]) -> list[int]:\n    class Node:\n        def __init__(self, value: int, nxt=None):\n            self.value = value\n            self.nxt = nxt\n\n    dummy = Node(0)\n    tail = dummy\n    for value in head:\n        tail.nxt = Node(value)\n        tail = tail.nxt\n    if dummy.nxt is None or dummy.nxt.nxt is None:\n        return head[:]\n    odd = dummy.nxt\n    even = odd.nxt\n    even_head = even\n    while even and even.nxt:\n        odd.nxt = even.nxt\n        odd = odd.nxt\n        even.nxt = odd.nxt\n        even = even.nxt\n    odd.nxt = even_head\n    out = []\n    node = dummy.nxt\n    while node:\n        out.append(node.value)\n        node = node.nxt\n    return out\n",
+  "starter_code": "from typing import List\n\ndef odd_even_list(head: List[int]) -> List[int]:\n    pass\n",
+  "examples": [
+    {
+      "input": "head = [1, 2, 3, 4, 5]",
+      "output": "[1, 3, 5, 2, 4]",
+      "explanation": "Odds 1, 3, 5 then evens 2, 4."
+    },
+    {
+      "input": "head = [2, 1, 3, 5, 6, 4, 7]",
+      "output": "[2, 3, 6, 7, 1, 5, 4]",
+      "explanation": "The odd positions come first."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "head": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      "expected": [
+        1,
+        3,
+        5,
+        2,
+        4
+      ]
+    },
+    {
+      "name": "even-length",
+      "args": {
+        "head": [
+          2,
+          1,
+          3,
+          5,
+          6,
+          4,
+          7
+        ]
+      },
+      "expected": [
+        2,
+        3,
+        6,
+        7,
+        1,
+        5,
+        4
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "empty",
+      "args": {
+        "head": []
+      },
+      "expected": []
+    },
+    {
+      "name": "one",
+      "args": {
+        "head": [
+          1
+        ]
+      },
+      "expected": [
+        1
+      ]
+    },
+    {
+      "name": "two",
+      "args": {
+        "head": [
+          1,
+          2
+        ]
+      },
+      "expected": [
+        1,
+        2
+      ]
+    }
+  ]
+}

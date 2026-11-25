@@ -1,0 +1,117 @@
+{
+  "title": "Linked List Cycle",
+  "slug": "linked-list-cycle",
+  "difficulty": "easy",
+  "topics": [
+    "linked-lists",
+    "two-pointers"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft",
+    "Bloomberg",
+    "Adobe"
+  ],
+  "statement": "A singly linked list is given by its values and by `pos`, the 0-based index of the node that the tail points at. `pos` is -1 when there is no cycle. Return true when a cycle exists. Use Floyd's algorithm, not the index.\n",
+  "constraints": [
+    "0 <= length <= 10^4",
+    "-1 <= pos < length"
+  ],
+  "function_name": "has_cycle",
+  "hints": [
+    "A set of node identities detects a repeat visit and uses linear memory.",
+    "Floyd uses two pointers. The fast pointer moves two steps and the slow pointer moves one.",
+    "If there is a cycle they meet. If the fast pointer reaches the end, there is no cycle."
+  ],
+  "approaches": [
+    {
+      "name": "Hash set of nodes",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "A repeated object identity means a cycle."
+    },
+    {
+      "name": "Floyd tortoise and hare",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "The fast pointer gains one step per iteration inside the cycle."
+    }
+  ],
+  "editorial": "Build the list and, when pos is nonnegative, point the tail at that node. Then ignore pos. Advance slow by one and fast by two. A meeting proves a cycle because the only way two different speeds reunite on a finite chain is a loop. A null next pointer proves the list is finite and acyclic.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef has_cycle(values: list[int], pos: int) -> bool:\n    nodes = []\n    for value in values:\n        node = _node_chain([value])\n        if nodes:\n            nodes[-1].nxt = node\n        nodes.append(node)\n    if pos >= 0 and nodes:\n        nodes[-1].nxt = nodes[pos]\n    slow = fast = nodes[0] if nodes else None\n    while fast is not None and fast.nxt is not None:\n        slow = slow.nxt\n        fast = fast.nxt.nxt\n        if slow is fast:\n            return True\n    return False\n",
+  "starter_code": "from typing import List\n\ndef has_cycle(values: List[int], pos: int) -> bool:\n    pass\n",
+  "examples": [
+    {
+      "input": "values = [3, 2, 0, -4], pos = 1",
+      "output": "true",
+      "explanation": "The tail points at index 1."
+    },
+    {
+      "input": "values = [1, 2], pos = -1",
+      "output": "false",
+      "explanation": "The tail is null."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "cycle",
+      "args": {
+        "values": [
+          3,
+          2,
+          0,
+          -4
+        ],
+        "pos": 1
+      },
+      "expected": true
+    },
+    {
+      "name": "none",
+      "args": {
+        "values": [
+          1,
+          2
+        ],
+        "pos": -1
+      },
+      "expected": false
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "self",
+      "args": {
+        "values": [
+          1
+        ],
+        "pos": 0
+      },
+      "expected": true
+    },
+    {
+      "name": "empty",
+      "args": {
+        "values": [],
+        "pos": -1
+      },
+      "expected": false
+    },
+    {
+      "name": "head",
+      "args": {
+        "values": [
+          1,
+          2,
+          3
+        ],
+        "pos": 0
+      },
+      "expected": true
+    }
+  ]
+}

@@ -1,0 +1,128 @@
+{
+  "title": "Count Subsets With Sum",
+  "slug": "count-subsets-with-sum",
+  "difficulty": "medium",
+  "topics": [
+    "divide-and-conquer",
+    "meet-in-the-middle",
+    "dynamic-programming"
+  ],
+  "company_tags": [
+    "Google",
+    "Amazon",
+    "Microsoft",
+    "Adobe"
+  ],
+  "statement": "Count the subsets of `nums` whose values add up to `target`. The empty subset sums to 0. Values are non-negative and the list has at most 20 elements, so meet-in-the-middle splits the list in half, enumerates both halves, and counts complementary sums.\n",
+  "constraints": [
+    "0 <= nums.length <= 20",
+    "0 <= nums[i] <= 1000",
+    "0 <= target <= 20000"
+  ],
+  "function_name": "count_subsets",
+  "hints": [
+    "Enumerating one half produces 2^(n/2) sums.",
+    "Count how often each sum appears on the right half.",
+    "Every left sum needs the right sum target - left. Add those frequencies."
+  ],
+  "approaches": [
+    {
+      "name": "Full recursion",
+      "complexity": {
+        "time": "O(2^n)",
+        "space": "O(n)"
+      },
+      "explanation": "Fine as an oracle when n is small."
+    },
+    {
+      "name": "Meet in the middle",
+      "complexity": {
+        "time": "O(2^(n/2) * n)",
+        "space": "O(2^(n/2))"
+      },
+      "explanation": "The classic split for n around 40, and already useful at 20."
+    }
+  ],
+  "editorial": "Split the array at the midpoint. Build every subset sum of each half by extending a list: for each existing sum, append that sum plus the new element. A counter on the right half answers, for each left sum, how many subsets complete the target. The product of the half sizes is far smaller than 2^n once n grows, and the count includes every subset exactly once because every subset has a unique split across the midpoint.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef count_subsets(nums: list[int], target: int) -> int:\n    from collections import Counter\n\n    def sums(values: list[int]) -> list[int]:\n        partial = [0]\n        for value in values:\n            partial += [current + value for current in partial]\n        return partial\n\n    mid = len(nums) // 2\n    right = Counter(sums(nums[mid:]))\n    return sum(right[target - left] for left in sums(nums[:mid]))\n",
+  "starter_code": "from typing import List\n\ndef count_subsets(nums: List[int], target: int) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [1, 2, 3], target = 3",
+      "output": "2",
+      "explanation": "The subsets are {3} and {1, 2}."
+    },
+    {
+      "input": "nums = [1, 2], target = 0",
+      "output": "1",
+      "explanation": "Only the empty subset sums to 0."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "nums": [
+          1,
+          2,
+          3
+        ],
+        "target": 3
+      },
+      "expected": 2
+    },
+    {
+      "name": "empty-target",
+      "args": {
+        "nums": [
+          1,
+          2
+        ],
+        "target": 0
+      },
+      "expected": 1
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "none",
+      "args": {
+        "nums": [
+          1,
+          2,
+          3
+        ],
+        "target": 7
+      },
+      "expected": 0
+    },
+    {
+      "name": "dups",
+      "args": {
+        "nums": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "target": 2
+      },
+      "expected": 6
+    },
+    {
+      "name": "longer",
+      "args": {
+        "nums": [
+          2,
+          3,
+          5,
+          6,
+          8,
+          10
+        ],
+        "target": 10
+      },
+      "expected": 3
+    }
+  ]
+}

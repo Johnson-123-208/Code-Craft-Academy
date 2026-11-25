@@ -1,0 +1,131 @@
+{
+  "title": "Binary Tree Right Side View",
+  "slug": "binary-tree-right-side-view",
+  "difficulty": "medium",
+  "topics": [
+    "trees",
+    "bfs"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Facebook",
+    "Bloomberg",
+    "Adobe"
+  ],
+  "statement": "Imagine standing on the right side of the tree. Return the values of the nodes you can see, from top to bottom.\n",
+  "constraints": [
+    "0 <= number of nodes <= 100"
+  ],
+  "function_name": "right_side_view",
+  "hints": [
+    "The visible node on a level is the last node of that level in a left-to-right BFS.",
+    "A DFS that visits the right child before the left child records the first node seen at each depth.",
+    "Both answers are the same list."
+  ],
+  "approaches": [
+    {
+      "name": "BFS last node",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Take the last value of every layer."
+    },
+    {
+      "name": "Right-first DFS",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(h)"
+      },
+      "explanation": "Append when depth equals the answer length."
+    }
+  ],
+  "editorial": "Level order already groups the nodes a viewer would scan. The rightmost node of each group is visible. The DFS version relies on visit order: the first time a depth is reached from the right, that node hides everything to its left on the same depth.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef right_side_view(root: list) -> list[int]:\n    levels = level_order(root)\n    return [layer[-1] for layer in levels]\n",
+  "starter_code": "from typing import List, Optional\n\ndef right_side_view(root: List[Optional[int]]) -> List[int]:\n    pass\n",
+  "examples": [
+    {
+      "input": "root = [1, 2, 3, None, 5, None, 4]",
+      "output": "[1, 3, 4]",
+      "explanation": "The right side is 1, 3, 4."
+    },
+    {
+      "input": "root = [1, 2, None, 3]",
+      "output": "[1, 2, 3]",
+      "explanation": "A left child is visible when nothing is to its right."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "root": [
+          1,
+          2,
+          3,
+          null,
+          5,
+          null,
+          4
+        ]
+      },
+      "expected": [
+        1,
+        3,
+        4
+      ]
+    },
+    {
+      "name": "left-only",
+      "args": {
+        "root": [
+          1,
+          2,
+          null,
+          3
+        ]
+      },
+      "expected": [
+        1,
+        2,
+        3
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "empty",
+      "args": {
+        "root": []
+      },
+      "expected": []
+    },
+    {
+      "name": "single",
+      "args": {
+        "root": [
+          1
+        ]
+      },
+      "expected": [
+        1
+      ]
+    },
+    {
+      "name": "full",
+      "args": {
+        "root": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "expected": [
+        1,
+        3,
+        4
+      ]
+    }
+  ]
+}

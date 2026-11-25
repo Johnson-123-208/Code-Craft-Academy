@@ -1,0 +1,97 @@
+{
+  "title": "Happy Number",
+  "slug": "happy-number",
+  "difficulty": "easy",
+  "topics": [
+    "hashing",
+    "math"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Apple",
+    "Google",
+    "Uber"
+  ],
+  "statement": "Start with a positive integer. Replace the number by the sum of the squares of its digits, and repeat. Return true when the process reaches 1. Return false when it enters a cycle that does not include 1.\n",
+  "constraints": [
+    "1 <= n <= 2^31 - 1"
+  ],
+  "function_name": "is_happy",
+  "hints": [
+    "The digit-square sum of any 32-bit integer quickly falls into a small range, so a cycle must appear.",
+    "A set of seen values detects the cycle.",
+    "Floyd's cycle rule also works: a slow sum and a fast double sum meet on a cycle. They meet at 1 only for happy numbers."
+  ],
+  "approaches": [
+    {
+      "name": "Seen set",
+      "complexity": {
+        "time": "O(log n) per step, few steps",
+        "space": "O(log n)"
+      },
+      "explanation": "Stop when a value repeats."
+    },
+    {
+      "name": "Floyd on the sum function",
+      "complexity": {
+        "time": "O(log n) steps",
+        "space": "O(1)"
+      },
+      "explanation": "Slow and fast digit-square walks."
+    }
+  ],
+  "editorial": "Define next(n) as the sum of squares of decimal digits. The sequence is infinite, and because next(n) is O(log n) in magnitude it eventually repeats. Store seen values and return true only if 1 appears before a repeat. Unhappy numbers famously fall into the cycle that contains 4.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef is_happy(n: int) -> bool:\n    def nxt(x: int) -> int:\n        total = 0\n        while x:\n            x, digit = divmod(x, 10)\n            total += digit * digit\n        return total\n\n    seen: set[int] = set()\n    while n != 1 and n not in seen:\n        seen.add(n)\n        n = nxt(n)\n    return n == 1\n",
+  "starter_code": "def is_happy(n: int) -> bool:\n    pass\n",
+  "examples": [
+    {
+      "input": "n = 19",
+      "output": "true",
+      "explanation": "19 reaches 1."
+    },
+    {
+      "input": "n = 2",
+      "output": "false",
+      "explanation": "2 falls into the cycle of 4."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "happy",
+      "args": {
+        "n": 19
+      },
+      "expected": true
+    },
+    {
+      "name": "unhappy",
+      "args": {
+        "n": 2
+      },
+      "expected": false
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "one",
+      "args": {
+        "n": 1
+      },
+      "expected": true
+    },
+    {
+      "name": "seven",
+      "args": {
+        "n": 7
+      },
+      "expected": true
+    },
+    {
+      "name": "ten",
+      "args": {
+        "n": 10
+      },
+      "expected": true
+    }
+  ]
+}

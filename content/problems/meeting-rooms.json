@@ -1,0 +1,134 @@
+{
+  "title": "Meeting Rooms",
+  "slug": "meeting-rooms",
+  "difficulty": "easy",
+  "topics": [
+    "intervals",
+    "sorting"
+  ],
+  "company_tags": [
+    "Facebook",
+    "Amazon",
+    "Google",
+    "Uber"
+  ],
+  "statement": "Given meeting intervals, return true when a person can attend every meeting. Meetings that touch at an endpoint do not conflict.\n",
+  "constraints": [
+    "0 <= intervals.length <= 10^4",
+    "0 <= start <= end <= 10^6"
+  ],
+  "function_name": "can_attend_meetings",
+  "hints": [
+    "Sort by start time.",
+    "A conflict is a meeting that starts before the previous meeting ends.",
+    "One linear check after the sort is enough."
+  ],
+  "approaches": [
+    {
+      "name": "All pairs",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(1)"
+      },
+      "explanation": "Test every pair for overlap."
+    },
+    {
+      "name": "Sort and adjacent check",
+      "complexity": {
+        "time": "O(n log n)",
+        "space": "O(1)"
+      },
+      "explanation": "Only neighbors in start order can be the first conflict."
+    }
+  ],
+  "editorial": "If any two meetings overlap, the one with the earlier start overlaps the next one after sorting. So it is enough to compare each meeting with its predecessor. A start equal to the previous end is allowed.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef can_attend_meetings(intervals: list[list[int]]) -> bool:\n    ordered = sorted(intervals)\n    for i in range(1, len(ordered)):\n        if ordered[i][0] < ordered[i - 1][1]:\n            return False\n    return True\n",
+  "starter_code": "from typing import List\n\ndef can_attend_meetings(intervals: List[List[int]]) -> bool:\n    pass\n",
+  "examples": [
+    {
+      "input": "intervals = [[0, 30], [5, 10], [15, 20]]",
+      "output": "false",
+      "explanation": "The long meeting covers the other two."
+    },
+    {
+      "input": "intervals = [[7, 10], [2, 4]]",
+      "output": "true",
+      "explanation": "The meetings are disjoint."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "no",
+      "args": {
+        "intervals": [
+          [
+            0,
+            30
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            15,
+            20
+          ]
+        ]
+      },
+      "expected": false
+    },
+    {
+      "name": "yes",
+      "args": {
+        "intervals": [
+          [
+            7,
+            10
+          ],
+          [
+            2,
+            4
+          ]
+        ]
+      },
+      "expected": true
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "touch",
+      "args": {
+        "intervals": [
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ]
+        ]
+      },
+      "expected": true
+    },
+    {
+      "name": "empty",
+      "args": {
+        "intervals": []
+      },
+      "expected": true
+    },
+    {
+      "name": "one",
+      "args": {
+        "intervals": [
+          [
+            1,
+            5
+          ]
+        ]
+      },
+      "expected": true
+    }
+  ]
+}

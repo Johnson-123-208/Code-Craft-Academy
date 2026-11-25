@@ -1,0 +1,101 @@
+{
+  "title": "Unique Paths",
+  "slug": "unique-paths",
+  "difficulty": "medium",
+  "topics": [
+    "dynamic-programming"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "Bloomberg"
+  ],
+  "statement": "A robot starts at the top-left of an `m` by `n` grid and can move only right or down. Return the number of ways to reach the bottom-right.\n",
+  "constraints": [
+    "1 <= m, n <= 100"
+  ],
+  "function_name": "unique_paths",
+  "hints": [
+    "To enter a cell you came from the left or from above.",
+    "dp[r][c] = dp[r - 1][c] + dp[r][c - 1], with the first row and column equal to 1.",
+    "The closed form is the binomial coefficient C((m - 1) + (n - 1), m - 1)."
+  ],
+  "approaches": [
+    {
+      "name": "Recursion",
+      "complexity": {
+        "time": "exponential",
+        "space": "O(m + n)"
+      },
+      "explanation": "Overlapping paths."
+    },
+    {
+      "name": "DP or binomial",
+      "complexity": {
+        "time": "O(m * n) or O(m + n)",
+        "space": "O(min(m, n))"
+      },
+      "explanation": "The grid DP, or a multiplicative binomial."
+    }
+  ],
+  "editorial": "Every path has exactly m - 1 downs and n - 1 rights, in some order. The count is the binomial coefficient. The DP writes the same number cell by cell and is the version to code when the grid later gains obstacles. One row is enough: each cell adds the cell to its left, which is already updated, and the cell above, which is the old value.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef unique_paths(m: int, n: int) -> int:\n    row = [1] * n\n    for _ in range(1, m):\n        for c in range(1, n):\n            row[c] += row[c - 1]\n    return row[-1]\n",
+  "starter_code": "def unique_paths(m: int, n: int) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "m = 3, n = 7",
+      "output": "28",
+      "explanation": "28 paths."
+    },
+    {
+      "input": "m = 3, n = 2",
+      "output": "3",
+      "explanation": "3 paths."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "m": 3,
+        "n": 7
+      },
+      "expected": 28
+    },
+    {
+      "name": "square",
+      "args": {
+        "m": 3,
+        "n": 2
+      },
+      "expected": 3
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "row",
+      "args": {
+        "m": 1,
+        "n": 5
+      },
+      "expected": 1
+    },
+    {
+      "name": "one",
+      "args": {
+        "m": 1,
+        "n": 1
+      },
+      "expected": 1
+    },
+    {
+      "name": "small",
+      "args": {
+        "m": 2,
+        "n": 2
+      },
+      "expected": 2
+    }
+  ]
+}

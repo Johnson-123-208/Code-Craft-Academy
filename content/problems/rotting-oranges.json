@@ -1,0 +1,147 @@
+{
+  "title": "Rotting Oranges",
+  "slug": "rotting-oranges",
+  "difficulty": "medium",
+  "topics": [
+    "graphs",
+    "bfs",
+    "grid"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "Uber"
+  ],
+  "statement": "0 is empty, 1 is a fresh orange, and 2 is a rotten orange. Every minute, a rotten orange rots its 4-directional fresh neighbors. Return the minutes until no fresh orange remains, or -1 if some fresh orange can never rot.\n",
+  "constraints": [
+    "1 <= m, n <= 10",
+    "grid[i][j] is 0, 1, or 2"
+  ],
+  "function_name": "oranges_rotting",
+  "hints": [
+    "Multi-source BFS: every initially rotten orange is a source at minute 0.",
+    "The minute of a cell is one more than the minute of the rotten neighbor that reached it.",
+    "If a fresh orange is never reached, return -1. The answer is the maximum minute written on a rotten cell."
+  ],
+  "approaches": [
+    {
+      "name": "Simulate minute by minute",
+      "complexity": {
+        "time": "O(mn * minutes)",
+        "space": "O(mn)"
+      },
+      "explanation": "Scan the whole grid each minute."
+    },
+    {
+      "name": "Multi-source BFS",
+      "complexity": {
+        "time": "O(mn)",
+        "space": "O(mn)"
+      },
+      "explanation": "Each cell is enqueued at most once."
+    }
+  ],
+  "editorial": "Enqueue every rotten cell with time 0 and count the fresh cells. When you rot a fresh neighbor, decrement the fresh count and enqueue it with time + 1. If fresh remains, return -1. Otherwise return the last time you wrote, which is 0 when there was nothing to rot.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef oranges_rotting(grid: list[list[int]]) -> int:\n    rows, cols = len(grid), len(grid[0])\n    queue = deque()\n    fresh = 0\n    for r in range(rows):\n        for c in range(cols):\n            if grid[r][c] == 2:\n                queue.append((r, c, 0))\n            elif grid[r][c] == 1:\n                fresh += 1\n    minutes = 0\n    while queue:\n        r, c, minutes = queue.popleft()\n        for dr, dc in ((1, 0), (-1, 0), (0, 1), (0, -1)):\n            nr, nc = r + dr, c + dc\n            if 0 <= nr < rows and 0 <= nc < cols and grid[nr][nc] == 1:\n                grid[nr][nc] = 2\n                fresh -= 1\n                queue.append((nr, nc, minutes + 1))\n    return -1 if fresh else minutes\n",
+  "starter_code": "from typing import List\n\ndef oranges_rotting(grid: List[List[int]]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "grid = [[2, 1, 1], [1, 1, 0], [0, 1, 1]]",
+      "output": "4",
+      "explanation": "Every fresh orange rots in 4 minutes."
+    },
+    {
+      "input": "grid = [[2, 1, 1], [0, 1, 1], [1, 0, 1]]",
+      "output": "-1",
+      "explanation": "The bottom-left orange is isolated."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "grid": [
+          [
+            2,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            0
+          ],
+          [
+            0,
+            1,
+            1
+          ]
+        ]
+      },
+      "expected": 4
+    },
+    {
+      "name": "blocked",
+      "args": {
+        "grid": [
+          [
+            2,
+            1,
+            1
+          ],
+          [
+            0,
+            1,
+            1
+          ],
+          [
+            1,
+            0,
+            1
+          ]
+        ]
+      },
+      "expected": -1
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "none",
+      "args": {
+        "grid": [
+          [
+            0,
+            2
+          ]
+        ]
+      },
+      "expected": 0
+    },
+    {
+      "name": "already",
+      "args": {
+        "grid": [
+          [
+            1
+          ],
+          [
+            2
+          ]
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "name": "empty-fresh",
+      "args": {
+        "grid": [
+          [
+            0
+          ]
+        ]
+      },
+      "expected": 0
+    }
+  ]
+}

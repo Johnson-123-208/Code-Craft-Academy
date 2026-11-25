@@ -1,0 +1,190 @@
+{
+  "title": "Cheapest Flights Within K Stops",
+  "slug": "cheapest-flights-within-k-stops",
+  "difficulty": "medium",
+  "topics": [
+    "graphs",
+    "bellman-ford",
+    "shortest-paths"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Expedia",
+    "Uber"
+  ],
+  "statement": "`flights[i] = [from, to, price]` is a directed flight. Return the cheapest price from `src` to `dst` using at most `k` stops. A stop is an intermediate city, so you may use at most k + 1 flights. Return -1 if no such route exists.\n",
+  "constraints": [
+    "1 <= n <= 100",
+    "0 <= k < n",
+    "1 <= price <= 10^4"
+  ],
+  "function_name": "find_cheapest_price",
+  "hints": [
+    "Plain Dijkstra by price can take a cheap path with too many stops and then miss a legal path.",
+    "Bellman-Ford relaxed for exactly one more edge per round respects the stop limit.",
+    "Copy the distance array before a round so a path cannot use more than one new edge in that round."
+  ],
+  "approaches": [
+    {
+      "name": "DFS with pruning",
+      "complexity": {
+        "time": "exponential",
+        "space": "O(k)"
+      },
+      "explanation": "Try every walk of length at most k + 1."
+    },
+    {
+      "name": "Bounded Bellman-Ford",
+      "complexity": {
+        "time": "O(k * flights)",
+        "space": "O(n)"
+      },
+      "explanation": "k + 1 rounds of relaxation."
+    }
+  ],
+  "editorial": "Let dist[v] be the cheapest price to reach v with the flights used so far. Perform k + 1 rounds. In each round, relax every flight against a snapshot of the previous round, so one round adds one flight. If dst is still infinite, return -1.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef find_cheapest_price(n: int, flights: list[list[int]], src: int, dst: int, k: int) -> int:\n    dist = [10**18] * n\n    dist[src] = 0\n    for _ in range(k + 1):\n        nxt = dist[:]\n        for u, v, w in flights:\n            if dist[u] + w < nxt[v]:\n                nxt[v] = dist[u] + w\n        dist = nxt\n    return -1 if dist[dst] >= 10**18 else dist[dst]\n",
+  "starter_code": "from typing import List\n\ndef find_cheapest_price(n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "n = 4, flights = [[0, 1, 100], [1, 2, 100], [2, 0, 100], [1, 3, 600], [2, 3, 200]], src = 0, dst = 3, k = 1",
+      "output": "700",
+      "explanation": "One stop allows 0-1-3 for 700. The cheaper 0-1-2-3 uses two stops."
+    },
+    {
+      "input": "n = 3, flights = [[0, 1, 100], [1, 2, 100], [0, 2, 500]], src = 0, dst = 2, k = 1",
+      "output": "200",
+      "explanation": "Both the direct flight and the one-stop flight are legal. 200 is cheaper."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "n": 4,
+        "flights": [
+          [
+            0,
+            1,
+            100
+          ],
+          [
+            1,
+            2,
+            100
+          ],
+          [
+            2,
+            0,
+            100
+          ],
+          [
+            1,
+            3,
+            600
+          ],
+          [
+            2,
+            3,
+            200
+          ]
+        ],
+        "src": 0,
+        "dst": 3,
+        "k": 1
+      },
+      "expected": 700
+    },
+    {
+      "name": "none",
+      "args": {
+        "n": 3,
+        "flights": [
+          [
+            0,
+            1,
+            100
+          ],
+          [
+            1,
+            2,
+            100
+          ],
+          [
+            0,
+            2,
+            500
+          ]
+        ],
+        "src": 0,
+        "dst": 2,
+        "k": 1
+      },
+      "expected": 200
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "direct",
+      "args": {
+        "n": 2,
+        "flights": [
+          [
+            0,
+            1,
+            10
+          ]
+        ],
+        "src": 0,
+        "dst": 1,
+        "k": 0
+      },
+      "expected": 10
+    },
+    {
+      "name": "blocked",
+      "args": {
+        "n": 3,
+        "flights": [
+          [
+            0,
+            1,
+            2
+          ]
+        ],
+        "src": 0,
+        "dst": 2,
+        "k": 1
+      },
+      "expected": -1
+    },
+    {
+      "name": "zero-stop",
+      "args": {
+        "n": 3,
+        "flights": [
+          [
+            0,
+            1,
+            2
+          ],
+          [
+            1,
+            2,
+            3
+          ],
+          [
+            0,
+            2,
+            10
+          ]
+        ],
+        "src": 0,
+        "dst": 2,
+        "k": 0
+      },
+      "expected": 10
+    }
+  ]
+}

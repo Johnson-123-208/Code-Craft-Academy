@@ -1,0 +1,120 @@
+{
+  "title": "Find Peak Element",
+  "slug": "find-peak-element",
+  "difficulty": "medium",
+  "topics": [
+    "binary-search"
+  ],
+  "company_tags": [
+    "Google",
+    "Amazon",
+    "Microsoft",
+    "Adobe"
+  ],
+  "statement": "A peak is an element strictly greater than its neighbors. The ends have one neighbor, and the array is treated as bordered by negative infinity. `nums` may contain several peaks. Return the index of any peak.\n",
+  "constraints": [
+    "1 <= nums.length <= 1000",
+    "neighbors are never equal"
+  ],
+  "function_name": "find_peak_element",
+  "hints": [
+    "A linear scan finds a peak by walking uphill.",
+    "Binary search also works. If nums[mid] < nums[mid + 1], a peak exists on the right, because the slope is rising and the border is negative infinity.",
+    "Otherwise a peak exists at mid or on the left."
+  ],
+  "approaches": [
+    {
+      "name": "Linear scan",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Return the first descent, or the last index."
+    },
+    {
+      "name": "Binary search on the slope",
+      "complexity": {
+        "time": "O(log n)",
+        "space": "O(1)"
+      },
+      "explanation": "Follow the rising side."
+    }
+  ],
+  "editorial": "The negative-infinity borders guarantee a peak. On a rising slope, the peak cannot be to the left of the higher neighbor, so discard the left half including mid. On a falling slope, mid itself may be the peak, so keep it by setting hi = mid. The loop ends on a peak index.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef find_peak_element(nums: list[int]) -> int:\n    lo, hi = 0, len(nums) - 1\n    while lo < hi:\n        mid = (lo + hi) // 2\n        if nums[mid] < nums[mid + 1]:\n            lo = mid + 1\n        else:\n            hi = mid\n    return lo\n",
+  "starter_code": "from typing import List\n\ndef find_peak_element(nums: List[int]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [1, 2, 3, 1]",
+      "output": "2",
+      "explanation": "Index 2 is a peak."
+    },
+    {
+      "input": "nums = [1, 2, 1, 3, 5, 6, 4]",
+      "output": "5",
+      "explanation": "Either peak is acceptable. The binary search picks one."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "nums": [
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "expected": 2
+    },
+    {
+      "name": "two",
+      "args": {
+        "nums": [
+          1,
+          2,
+          1,
+          3,
+          5,
+          6,
+          4
+        ]
+      },
+      "expected": 5
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "single",
+      "args": {
+        "nums": [
+          1
+        ]
+      },
+      "expected": 0
+    },
+    {
+      "name": "rising",
+      "args": {
+        "nums": [
+          1,
+          2,
+          3
+        ]
+      },
+      "expected": 2
+    },
+    {
+      "name": "falling",
+      "args": {
+        "nums": [
+          3,
+          2,
+          1
+        ]
+      },
+      "expected": 0
+    }
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "title": "Decode Ways",
+  "slug": "decode-ways",
+  "difficulty": "medium",
+  "topics": [
+    "dynamic-programming",
+    "strings"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Facebook",
+    "Microsoft"
+  ],
+  "statement": "A message of digits encodes A as 1 through Z as 26. Return how many ways `s` can be decoded. A leading zero makes a code invalid.\n",
+  "constraints": [
+    "1 <= s.length <= 100",
+    "s consists of digits"
+  ],
+  "function_name": "num_decodings",
+  "hints": [
+    "A single digit from 1 to 9 is a letter. 0 is not.",
+    "A two-digit window from 10 to 26 is also a letter.",
+    "dp[i] adds dp[i - 1] when the last digit is valid and dp[i - 2] when the last two digits are valid."
+  ],
+  "approaches": [
+    {
+      "name": "Recursion on the index",
+      "complexity": {
+        "time": "exponential",
+        "space": "O(n)"
+      },
+      "explanation": "Two choices when both windows are legal."
+    },
+    {
+      "name": "Linear DP",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Rolling two values."
+    }
+  ],
+  "editorial": "This is climbing stairs with validity filters. A zero can only survive as the second digit of 10 or 20. If a position can be reached by neither a one-digit nor a two-digit code, the whole string has zero decodings.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef num_decodings(s: str) -> int:\n    if s[0] == \"0\":\n        return 0\n    prev2, prev1 = 1, 1\n    for i in range(1, len(s)):\n        current = 0\n        if s[i] != \"0\":\n            current += prev1\n        if 10 <= int(s[i - 1 : i + 1]) <= 26:\n            current += prev2\n        prev2, prev1 = prev1, current\n    return prev1\n",
+  "starter_code": "def num_decodings(s: str) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "s = '12'",
+      "output": "2",
+      "explanation": "AB or L."
+    },
+    {
+      "input": "s = '226'",
+      "output": "3",
+      "explanation": "Three decodings."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "twelve",
+      "args": {
+        "s": "12"
+      },
+      "expected": 2
+    },
+    {
+      "name": "two-two-six",
+      "args": {
+        "s": "226"
+      },
+      "expected": 3
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "zero",
+      "args": {
+        "s": "0"
+      },
+      "expected": 0
+    },
+    {
+      "name": "ten",
+      "args": {
+        "s": "10"
+      },
+      "expected": 1
+    },
+    {
+      "name": "invalid-middle",
+      "args": {
+        "s": "2101"
+      },
+      "expected": 1
+    }
+  ]
+}

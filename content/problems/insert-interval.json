@@ -1,0 +1,206 @@
+{
+  "title": "Insert Interval",
+  "slug": "insert-interval",
+  "difficulty": "medium",
+  "topics": [
+    "intervals"
+  ],
+  "company_tags": [
+    "Google",
+    "Amazon",
+    "Facebook",
+    "LinkedIn"
+  ],
+  "statement": "`intervals` is a sorted list of non-overlapping intervals. Insert `new_interval` and merge whatever overlaps it. Return the sorted result.\n",
+  "constraints": [
+    "0 <= intervals.length <= 10^4",
+    "intervals are sorted by start and do not overlap"
+  ],
+  "function_name": "insert",
+  "hints": [
+    "Copy every interval that ends before the new one starts.",
+    "Merge every interval that overlaps the new one by expanding its start and end.",
+    "Then append the merged interval and copy the rest unchanged."
+  ],
+  "approaches": [
+    {
+      "name": "Append and run merge-intervals",
+      "complexity": {
+        "time": "O(n log n)",
+        "space": "O(n)"
+      },
+      "explanation": "Ignores the fact that the input is already sorted."
+    },
+    {
+      "name": "Linear insertion",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Three phases: before, overlap, after."
+    }
+  ],
+  "editorial": "Because the input is sorted and disjoint, overlap is a single contiguous run. Skip the prefix that ends before new_interval starts. Fold the overlapping run into one interval. Append the untouched suffix. No full sort is required.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef insert(intervals: list[list[int]], new_interval: list[int]) -> list[list[int]]:\n    out: list[list[int]] = []\n    i = 0\n    start, end = new_interval\n    while i < len(intervals) and intervals[i][1] < start:\n        out.append(intervals[i])\n        i += 1\n    while i < len(intervals) and intervals[i][0] <= end:\n        start = min(start, intervals[i][0])\n        end = max(end, intervals[i][1])\n        i += 1\n    out.append([start, end])\n    out.extend(intervals[i:])\n    return out\n",
+  "starter_code": "from typing import List\n\ndef insert(intervals: List[List[int]], new_interval: List[int]) -> List[List[int]]:\n    pass\n",
+  "examples": [
+    {
+      "input": "intervals = [[1, 3], [6, 9]], new_interval = [2, 5]",
+      "output": "[[1, 5], [6, 9]]",
+      "explanation": "The new interval merges with [1, 3]."
+    },
+    {
+      "input": "intervals = [[1, 2], [3, 5], [6, 7], [8, 10], [12, 16]], new_interval = [4, 8]",
+      "output": "[[1, 2], [3, 10], [12, 16]]",
+      "explanation": "Several intervals collapse."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "overlap",
+      "args": {
+        "intervals": [
+          [
+            1,
+            3
+          ],
+          [
+            6,
+            9
+          ]
+        ],
+        "new_interval": [
+          2,
+          5
+        ]
+      },
+      "expected": [
+        [
+          1,
+          5
+        ],
+        [
+          6,
+          9
+        ]
+      ]
+    },
+    {
+      "name": "middle",
+      "args": {
+        "intervals": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            5
+          ],
+          [
+            6,
+            7
+          ],
+          [
+            8,
+            10
+          ],
+          [
+            12,
+            16
+          ]
+        ],
+        "new_interval": [
+          4,
+          8
+        ]
+      },
+      "expected": [
+        [
+          1,
+          2
+        ],
+        [
+          3,
+          10
+        ],
+        [
+          12,
+          16
+        ]
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "empty",
+      "args": {
+        "intervals": [],
+        "new_interval": [
+          5,
+          7
+        ]
+      },
+      "expected": [
+        [
+          5,
+          7
+        ]
+      ]
+    },
+    {
+      "name": "front",
+      "args": {
+        "intervals": [
+          [
+            3,
+            4
+          ],
+          [
+            6,
+            7
+          ]
+        ],
+        "new_interval": [
+          1,
+          2
+        ]
+      },
+      "expected": [
+        [
+          1,
+          2
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          6,
+          7
+        ]
+      ]
+    },
+    {
+      "name": "cover",
+      "args": {
+        "intervals": [
+          [
+            1,
+            5
+          ]
+        ],
+        "new_interval": [
+          0,
+          6
+        ]
+      },
+      "expected": [
+        [
+          0,
+          6
+        ]
+      ]
+    }
+  ]
+}

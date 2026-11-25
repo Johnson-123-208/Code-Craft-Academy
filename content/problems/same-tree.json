@@ -1,0 +1,128 @@
+{
+  "title": "Same Tree",
+  "slug": "same-tree",
+  "difficulty": "easy",
+  "topics": [
+    "trees"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Bloomberg",
+    "Adobe",
+    "Google"
+  ],
+  "statement": "Return true when two binary trees are structurally identical and have the same node values.\n",
+  "constraints": [
+    "0 <= number of nodes <= 100"
+  ],
+  "function_name": "is_same_tree",
+  "hints": [
+    "Both nodes null means this position matches.",
+    "Exactly one null, or two different values, means the trees differ.",
+    "Otherwise both subtrees must match."
+  ],
+  "approaches": [
+    {
+      "name": "Serialize and compare",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Level order including internal nulls."
+    },
+    {
+      "name": "Paired DFS",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(h)"
+      },
+      "explanation": "Walk both trees with the same recursion."
+    }
+  ],
+  "editorial": "Equality is recursive. Compare the current values, then the left children, then the right children. Short-circuit on the first mismatch. The null cases are what make structure part of the comparison rather than values alone.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef is_same_tree(p: list, q: list) -> bool:\n    def walk(a, b) -> bool:\n        if a is None or b is None:\n            return a is b\n        return a.value == b.value and walk(a.left, b.left) and walk(a.right, b.right)\n\n    return walk(_build(p), _build(q))\n",
+  "starter_code": "from typing import List, Optional\n\ndef is_same_tree(p: List[Optional[int]], q: List[Optional[int]]) -> bool:\n    pass\n",
+  "examples": [
+    {
+      "input": "p = [1, 2, 3], q = [1, 2, 3]",
+      "output": "true",
+      "explanation": "The trees match."
+    },
+    {
+      "input": "p = [1, 2], q = [1, None, 2]",
+      "output": "false",
+      "explanation": "The child is on the other side."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "yes",
+      "args": {
+        "p": [
+          1,
+          2,
+          3
+        ],
+        "q": [
+          1,
+          2,
+          3
+        ]
+      },
+      "expected": true
+    },
+    {
+      "name": "no-value",
+      "args": {
+        "p": [
+          1,
+          2
+        ],
+        "q": [
+          1,
+          null,
+          2
+        ]
+      },
+      "expected": false
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "empty",
+      "args": {
+        "p": [],
+        "q": []
+      },
+      "expected": true
+    },
+    {
+      "name": "shape",
+      "args": {
+        "p": [
+          1,
+          2,
+          3
+        ],
+        "q": [
+          1,
+          2,
+          4
+        ]
+      },
+      "expected": false
+    },
+    {
+      "name": "single",
+      "args": {
+        "p": [
+          1
+        ],
+        "q": [
+          1
+        ]
+      },
+      "expected": true
+    }
+  ]
+}

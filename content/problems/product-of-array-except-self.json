@@ -1,0 +1,143 @@
+{
+  "title": "Product of Array Except Self",
+  "slug": "product-of-array-except-self",
+  "difficulty": "medium",
+  "topics": [
+    "arrays",
+    "prefix-sums"
+  ],
+  "company_tags": [
+    "Facebook",
+    "Amazon",
+    "Apple",
+    "Microsoft"
+  ],
+  "statement": "Return an array `answer` where `answer[i]` is the product of every element of `nums` except `nums[i]`. Solve it without using division, in O(n) time.\n",
+  "constraints": [
+    "2 <= nums.length <= 10^5",
+    "-30 <= nums[i] <= 30",
+    "The product fits in a 32-bit signed integer"
+  ],
+  "function_name": "product_except_self",
+  "hints": [
+    "Division by nums[i] fails when a value is zero and hides the structure of the problem.",
+    "answer[i] is the product of the prefix before i times the product of the suffix after i.",
+    "Build the prefix products in the output array, then fold the suffix product from the right in a second pass."
+  ],
+  "approaches": [
+    {
+      "name": "Prefix and suffix arrays",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Store products to the left and to the right, then multiply them."
+    },
+    {
+      "name": "Output array as prefix",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Reuse the answer buffer, then multiply a running suffix. Output space is not counted."
+    }
+  ],
+  "editorial": "Left-to-right, answer[i] becomes the product of nums[0..i-1]. Right-to-left, a running suffix product multiplies those prefixes. Zeros need no special case: a zero in the prefix or suffix naturally zeroes every other slot, and the zero's own slot receives the product of the rest.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef product_except_self(nums: list[int]) -> list[int]:\n    n = len(nums)\n    answer = [1] * n\n    prefix = 1\n    for i in range(n):\n        answer[i] = prefix\n        prefix *= nums[i]\n    suffix = 1\n    for i in range(n - 1, -1, -1):\n        answer[i] *= suffix\n        suffix *= nums[i]\n    return answer\n",
+  "starter_code": "from typing import List\n\ndef product_except_self(nums: List[int]) -> List[int]:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [1, 2, 3, 4]",
+      "output": "[24, 12, 8, 6]",
+      "explanation": "Products are 24, 12, 8, 6."
+    },
+    {
+      "input": "nums = [-1, 1, 0, -3, 3]",
+      "output": "[0, 0, 9, 0, 0]",
+      "explanation": "Only the zero slot is nonzero."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "example",
+      "args": {
+        "nums": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "expected": [
+        24,
+        12,
+        8,
+        6
+      ]
+    },
+    {
+      "name": "zero",
+      "args": {
+        "nums": [
+          -1,
+          1,
+          0,
+          -3,
+          3
+        ]
+      },
+      "expected": [
+        0,
+        0,
+        9,
+        0,
+        0
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "two",
+      "args": {
+        "nums": [
+          2,
+          5
+        ]
+      },
+      "expected": [
+        5,
+        2
+      ]
+    },
+    {
+      "name": "negatives",
+      "args": {
+        "nums": [
+          -2,
+          -3,
+          4
+        ]
+      },
+      "expected": [
+        -12,
+        -8,
+        6
+      ]
+    },
+    {
+      "name": "double-zero",
+      "args": {
+        "nums": [
+          0,
+          4,
+          0
+        ]
+      },
+      "expected": [
+        0,
+        0,
+        0
+      ]
+    }
+  ]
+}

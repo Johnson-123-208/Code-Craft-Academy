@@ -1,0 +1,140 @@
+{
+  "title": "Unique Paths II",
+  "slug": "unique-paths-ii",
+  "difficulty": "medium",
+  "topics": [
+    "dynamic-programming"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Bloomberg",
+    "Microsoft"
+  ],
+  "statement": "The same right-and-down robot now faces a grid where 1 is an obstacle and 0 is empty. Return the number of ways from the top-left to the bottom-right. A path cannot enter an obstacle.\n",
+  "constraints": [
+    "1 <= m, n <= 100",
+    "grid[i][j] is 0 or 1"
+  ],
+  "function_name": "unique_paths_with_obstacles",
+  "hints": [
+    "An obstacle cell has 0 ways.",
+    "Any other cell is the sum of the ways to enter from the left and from above, ignoring missing neighbors.",
+    "If the start cell is blocked, the answer is 0."
+  ],
+  "approaches": [
+    {
+      "name": "DFS with memo",
+      "complexity": {
+        "time": "O(mn)",
+        "space": "O(mn)"
+      },
+      "explanation": "State is the cell."
+    },
+    {
+      "name": "In-place or row DP",
+      "complexity": {
+        "time": "O(mn)",
+        "space": "O(n)"
+      },
+      "explanation": "Sweep left to right, top to bottom."
+    }
+  ],
+  "editorial": "Initialize the first cell to 1 if it is open. A cell in the first row can only be reached from the left, and a cell in the first column only from above, until an obstacle zeroes the rest of that line. Every later open cell adds the two predecessors.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef unique_paths_with_obstacles(obstacle_grid: list[list[int]]) -> int:\n    if obstacle_grid[0][0] == 1:\n        return 0\n    rows, cols = len(obstacle_grid), len(obstacle_grid[0])\n    dp = [0] * cols\n    dp[0] = 1\n    for r in range(rows):\n        for c in range(cols):\n            if obstacle_grid[r][c] == 1:\n                dp[c] = 0\n            elif c:\n                dp[c] += dp[c - 1]\n    return dp[-1]\n",
+  "starter_code": "from typing import List\n\ndef unique_paths_with_obstacles(obstacle_grid: List[List[int]]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "obstacle_grid = [[0, 0, 0], [0, 1, 0], [0, 0, 0]]",
+      "output": "2",
+      "explanation": "Two paths avoid the center obstacle."
+    },
+    {
+      "input": "obstacle_grid = [[1, 0]]",
+      "output": "0",
+      "explanation": "The start is blocked."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "obstacle_grid": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "expected": 2
+    },
+    {
+      "name": "blocked-start",
+      "args": {
+        "obstacle_grid": [
+          [
+            1,
+            0
+          ]
+        ]
+      },
+      "expected": 0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "one",
+      "args": {
+        "obstacle_grid": [
+          [
+            0
+          ]
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "name": "end",
+      "args": {
+        "obstacle_grid": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "name": "full",
+      "args": {
+        "obstacle_grid": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "expected": 2
+    }
+  ]
+}

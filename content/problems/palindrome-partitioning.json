@@ -1,0 +1,144 @@
+{
+  "title": "Palindrome Partitioning",
+  "slug": "palindrome-partitioning",
+  "difficulty": "medium",
+  "topics": [
+    "backtracking",
+    "dynamic-programming",
+    "strings"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Bloomberg",
+    "Adobe"
+  ],
+  "statement": "Partition `s` so every substring is a palindrome. Return all partitions, each as a list of substrings. Sort the partitions.\n",
+  "constraints": [
+    "1 <= s.length <= 16",
+    "s is lowercase"
+  ],
+  "function_name": "partition",
+  "hints": [
+    "A cut is legal when the chosen prefix is a palindrome.",
+    "Recurse on the suffix and append the prefix to the path.",
+    "A boolean table of palindromic slices makes the check O(1) after O(n^2) preprocessing. A direct check is fine at n <= 16."
+  ],
+  "approaches": [
+    {
+      "name": "Backtracking with slice checks",
+      "complexity": {
+        "time": "O(n * 2^n)",
+        "space": "O(n)"
+      },
+      "explanation": "Every partition is a choice of cuts."
+    },
+    {
+      "name": "DP palindrome table plus backtracking",
+      "complexity": {
+        "time": "O(n * 2^n)",
+        "space": "O(n^2)"
+      },
+      "explanation": "The check becomes constant time."
+    }
+  ],
+  "editorial": "At index i, try every end j >= i. If s[i:j+1] is a palindrome, append it and partition the rest. When i reaches the end, copy the path. Sorting the list of partitions makes tests deterministic. The first cut is forced to be considered in increasing length, which already yields a stable order if you do not sort, but sorting is harmless.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef partition(s: str) -> list[list[str]]:\n    out: list[list[str]] = []\n    path: list[str] = []\n\n    def dfs(i: int) -> None:\n        if i == len(s):\n            out.append(path[:])\n            return\n        for j in range(i, len(s)):\n            piece = s[i : j + 1]\n            if piece == piece[::-1]:\n                path.append(piece)\n                dfs(j + 1)\n                path.pop()\n\n    dfs(0)\n    out.sort()\n    return out\n",
+  "starter_code": "from typing import List\n\ndef partition(s: str) -> List[List[str]]:\n    pass\n",
+  "examples": [
+    {
+      "input": "s = 'aab'",
+      "output": "[[\"a\", \"a\", \"b\"], [\"aa\", \"b\"]]",
+      "explanation": "Two partitions: a,a,b and aa,b."
+    },
+    {
+      "input": "s = 'a'",
+      "output": "[[\"a\"]]",
+      "explanation": "One partition."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "aab",
+      "args": {
+        "s": "aab"
+      },
+      "expected": [
+        [
+          "a",
+          "a",
+          "b"
+        ],
+        [
+          "aa",
+          "b"
+        ]
+      ]
+    },
+    {
+      "name": "a",
+      "args": {
+        "s": "a"
+      },
+      "expected": [
+        [
+          "a"
+        ]
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "aaa",
+      "args": {
+        "s": "aaa"
+      },
+      "expected": [
+        [
+          "a",
+          "a",
+          "a"
+        ],
+        [
+          "a",
+          "aa"
+        ],
+        [
+          "aa",
+          "a"
+        ],
+        [
+          "aaa"
+        ]
+      ]
+    },
+    {
+      "name": "ab",
+      "args": {
+        "s": "ab"
+      },
+      "expected": [
+        [
+          "a",
+          "b"
+        ]
+      ]
+    },
+    {
+      "name": "aba",
+      "args": {
+        "s": "aba"
+      },
+      "expected": [
+        [
+          "a",
+          "b",
+          "a"
+        ],
+        [
+          "aba"
+        ]
+      ]
+    }
+  ]
+}

@@ -1,0 +1,178 @@
+{
+  "title": "Number of Enclaves",
+  "slug": "number-of-enclaves",
+  "difficulty": "medium",
+  "topics": [
+    "graphs",
+    "dfs",
+    "grid"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "Uber"
+  ],
+  "statement": "Return the number of land cells (1) that cannot reach the border by 4-directional moves. Land on the border, and land connected to it, can escape.\n",
+  "constraints": [
+    "1 <= m, n <= 500",
+    "grid[i][j] is 0 or 1"
+  ],
+  "function_name": "num_enclaves",
+  "hints": [
+    "Flood every border land cell and mark the connected land as escaped.",
+    "Count the land cells that remain unmarked.",
+    "This is the same border-flood idea as surrounded regions, counting cells instead of flipping them."
+  ],
+  "approaches": [
+    {
+      "name": "DFS from each land cell",
+      "complexity": {
+        "time": "O(mn)",
+        "space": "O(mn)"
+      },
+      "explanation": "See whether the component touches the border."
+    },
+    {
+      "name": "Border flood then count",
+      "complexity": {
+        "time": "O(mn)",
+        "space": "O(mn)"
+      },
+      "explanation": "One flood, one count."
+    }
+  ],
+  "editorial": "Start DFS or BFS from every border land cell and mark visited land. Those cells can walk off the board. Every other land cell is an enclave. Count them.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef num_enclaves(grid: list[list[int]]) -> int:\n    rows, cols = len(grid), len(grid[0])\n    seen = [[False] * cols for _ in range(rows)]\n\n    def flood(r: int, c: int) -> None:\n        stack = [(r, c)]\n        seen[r][c] = True\n        while stack:\n            x, y = stack.pop()\n            for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):\n                nx, ny = x + dx, y + dy\n                if 0 <= nx < rows and 0 <= ny < cols and not seen[nx][ny] and grid[nx][ny] == 1:\n                    seen[nx][ny] = True\n                    stack.append((nx, ny))\n\n    for r in range(rows):\n        for c in range(cols):\n            if grid[r][c] == 1 and (r in (0, rows - 1) or c in (0, cols - 1)):\n                flood(r, c)\n    return sum(grid[r][c] == 1 and not seen[r][c] for r in range(rows) for c in range(cols))\n",
+  "starter_code": "from typing import List\n\ndef num_enclaves(grid: List[List[int]]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "grid = [[0, 0, 0, 0], [1, 0, 1, 0], [0, 1, 1, 0], [0, 0, 0, 0]]",
+      "output": "3",
+      "explanation": "Three land cells are trapped."
+    },
+    {
+      "input": "grid = [[0, 1, 1, 0], [0, 0, 1, 0], [0, 0, 1, 0], [0, 0, 0, 0]]",
+      "output": "0",
+      "explanation": "Every land cell can reach the border."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "grid": [
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            1,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "expected": 3
+    },
+    {
+      "name": "escape",
+      "args": {
+        "grid": [
+          [
+            0,
+            1,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "expected": 0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "none",
+      "args": {
+        "grid": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "expected": 0
+    },
+    {
+      "name": "one",
+      "args": {
+        "grid": [
+          [
+            1
+          ]
+        ]
+      },
+      "expected": 0
+    },
+    {
+      "name": "center",
+      "args": {
+        "grid": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "expected": 1
+    }
+  ]
+}

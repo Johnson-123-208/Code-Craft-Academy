@@ -1,0 +1,192 @@
+{
+  "title": "Subsets II",
+  "slug": "subsets-ii",
+  "difficulty": "medium",
+  "topics": [
+    "backtracking"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Facebook",
+    "Bloomberg",
+    "Adobe"
+  ],
+  "statement": "`nums` may contain duplicates. Return every unique subset, sorted internally and as a list.\n",
+  "constraints": [
+    "1 <= nums.length <= 10"
+  ],
+  "function_name": "subsets_with_dup",
+  "hints": [
+    "Sort so equal values are adjacent.",
+    "At each level, skip a value that equals the previous value when the previous value was not chosen.",
+    "That skip is what prevents emitting the same subset from two identical numbers."
+  ],
+  "approaches": [
+    {
+      "name": "Set of tuples",
+      "complexity": {
+        "time": "O(n * 2^n)",
+        "space": "O(n * 2^n)"
+      },
+      "explanation": "Generate the full power set and uniquify."
+    },
+    {
+      "name": "Sorted backtracking with a skip",
+      "complexity": {
+        "time": "O(n * 2^n)",
+        "space": "O(n)"
+      },
+      "explanation": "Never start a branch on a duplicate that the previous sibling skipped."
+    }
+  ],
+  "editorial": "Sort, then do the combination-style recursion that chooses a start index. Inside the loop, if i > start and nums[i] == nums[i - 1], continue. The first copy of a value is allowed to open the branch. Later copies are used only deeper, after that first copy was taken.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef subsets_with_dup(nums: list[int]) -> list[list[int]]:\n    nums = sorted(nums)\n    out: list[list[int]] = []\n    path: list[int] = []\n\n    def dfs(start: int) -> None:\n        out.append(path[:])\n        for i in range(start, len(nums)):\n            if i > start and nums[i] == nums[i - 1]:\n                continue\n            path.append(nums[i])\n            dfs(i + 1)\n            path.pop()\n\n    dfs(0)\n    out.sort()\n    return out\n",
+  "starter_code": "from typing import List\n\ndef subsets_with_dup(nums: List[int]) -> List[List[int]]:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [1, 2, 2]",
+      "output": "[[], [1], [1, 2], [1, 2, 2], [2], [2, 2]]",
+      "explanation": "Duplicate 2s collapse identical subsets."
+    },
+    {
+      "input": "nums = [1, 1]",
+      "output": "[[], [1], [1, 1]]",
+      "explanation": "Subsets are [], [1], and [1, 1]."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "nums": [
+          1,
+          2,
+          2
+        ]
+      },
+      "expected": [
+        [],
+        [
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          2,
+          2
+        ],
+        [
+          2
+        ],
+        [
+          2,
+          2
+        ]
+      ]
+    },
+    {
+      "name": "all-same",
+      "args": {
+        "nums": [
+          1,
+          1
+        ]
+      },
+      "expected": [
+        [],
+        [
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "unique",
+      "args": {
+        "nums": [
+          1,
+          2
+        ]
+      },
+      "expected": [
+        [],
+        [
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2
+        ]
+      ]
+    },
+    {
+      "name": "three",
+      "args": {
+        "nums": [
+          4,
+          4,
+          4,
+          1
+        ]
+      },
+      "expected": [
+        [],
+        [
+          1
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          1,
+          4,
+          4
+        ],
+        [
+          1,
+          4,
+          4,
+          4
+        ],
+        [
+          4
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          4,
+          4,
+          4
+        ]
+      ]
+    },
+    {
+      "name": "single",
+      "args": {
+        "nums": [
+          0
+        ]
+      },
+      "expected": [
+        [],
+        [
+          0
+        ]
+      ]
+    }
+  ]
+}

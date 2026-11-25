@@ -1,0 +1,125 @@
+{
+  "title": "Subarray Sums Divisible by K",
+  "slug": "subarray-sums-divisible-by-k",
+  "difficulty": "medium",
+  "topics": [
+    "arrays",
+    "prefix-sums",
+    "hashing"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Facebook",
+    "Mathworks"
+  ],
+  "statement": "Return the number of non-empty contiguous subarrays whose sum is divisible by `k`.\n",
+  "constraints": [
+    "1 <= nums.length <= 3 * 10^4",
+    "-10^4 <= nums[i] <= 10^4",
+    "2 <= k <= 10^4"
+  ],
+  "function_name": "subarrays_div_by_k",
+  "hints": [
+    "A subarray sum is a difference of prefix sums. That difference is divisible by k when the prefixes share a remainder.",
+    "Negative prefixes need a nonnegative remainder. In Python the % operator already does that.",
+    "Count how many earlier prefixes have the same remainder, including remainder 0 before the array starts."
+  ],
+  "approaches": [
+    {
+      "name": "All subarrays",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(1)"
+      },
+      "explanation": "Test every range sum modulo k."
+    },
+    {
+      "name": "Remainder frequency",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(k)"
+      },
+      "explanation": "Map each prefix remainder to its count."
+    }
+  ],
+  "editorial": "prefix[j] - prefix[i] is divisible by k exactly when prefix[j] and prefix[i] are congruent modulo k. Seed remainder 0 with count 1. For each new prefix remainder, add the number of times it has already occurred, then increment its count.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef subarrays_div_by_k(nums: list[int], k: int) -> int:\n    seen = {0: 1}\n    prefix = answer = 0\n    for value in nums:\n        prefix = (prefix + value) % k\n        answer += seen.get(prefix, 0)\n        seen[prefix] = seen.get(prefix, 0) + 1\n    return answer\n",
+  "starter_code": "from typing import List\n\ndef subarrays_div_by_k(nums: List[int], k: int) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [4, 5, 0, -2, -3, 1], k = 5",
+      "output": "7",
+      "explanation": "Seven subarrays are divisible by 5."
+    },
+    {
+      "input": "nums = [5], k = 9",
+      "output": "0",
+      "explanation": "5 is not divisible by 9."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "nums": [
+          4,
+          5,
+          0,
+          -2,
+          -3,
+          1
+        ],
+        "k": 5
+      },
+      "expected": 7
+    },
+    {
+      "name": "simple",
+      "args": {
+        "nums": [
+          5
+        ],
+        "k": 9
+      },
+      "expected": 0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "zeros",
+      "args": {
+        "nums": [
+          0,
+          0
+        ],
+        "k": 2
+      },
+      "expected": 3
+    },
+    {
+      "name": "negatives",
+      "args": {
+        "nums": [
+          -1,
+          2,
+          9
+        ],
+        "k": 2
+      },
+      "expected": 2
+    },
+    {
+      "name": "all",
+      "args": {
+        "nums": [
+          2,
+          4,
+          6
+        ],
+        "k": 2
+      },
+      "expected": 6
+    }
+  ]
+}

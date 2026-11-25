@@ -1,0 +1,195 @@
+{
+  "title": "Redundant Connection",
+  "slug": "redundant-connection",
+  "difficulty": "medium",
+  "topics": [
+    "graphs",
+    "union-find"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Facebook",
+    "Microsoft"
+  ],
+  "statement": "An undirected graph started as a tree and then gained one extra edge. `edges` lists the edges in the order they were added, as pairs of 1-based node ids. Return the edge that can be removed to restore a tree. If several answers exist, return the one that appears latest in the input.\n",
+  "constraints": [
+    "3 <= n <= 1000",
+    "edges.length == n",
+    "There is exactly one extra edge"
+  ],
+  "function_name": "find_redundant_connection",
+  "hints": [
+    "A tree on n nodes has n - 1 edges and no cycle. The extra edge is the one that closes a cycle.",
+    "Union-find detects that moment: union fails when both endpoints are already in the same component.",
+    "Because you scan in input order, the last failing edge is the one the problem wants."
+  ],
+  "approaches": [
+    {
+      "name": "DFS cycle after each insertion",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(n)"
+      },
+      "explanation": "Rebuild and search."
+    },
+    {
+      "name": "Disjoint set",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Nearly constant-time finds with path compression and union by rank."
+    }
+  ],
+  "editorial": "Process edges in order. If find(u) equals find(v), this edge connects two nodes that are already connected, so it is redundant. Otherwise union them. The problem guarantees exactly one such edge, and the scan order makes it the latest one.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef find_redundant_connection(edges: list[list[int]]) -> list[int]:\n    parent = list(range(len(edges) + 1))\n\n    def find(x: int) -> int:\n        while parent[x] != x:\n            parent[x] = parent[parent[x]]\n            x = parent[x]\n        return x\n\n    for u, v in edges:\n        ru, rv = find(u), find(v)\n        if ru == rv:\n            return [u, v]\n        parent[ru] = rv\n    raise ValueError(\"no cycle\")\n",
+  "starter_code": "from typing import List\n\ndef find_redundant_connection(edges: List[List[int]]) -> List[int]:\n    pass\n",
+  "examples": [
+    {
+      "input": "edges = [[1, 2], [1, 3], [2, 3]]",
+      "output": "[2, 3]",
+      "explanation": "The last edge closes the triangle."
+    },
+    {
+      "input": "edges = [[1, 2], [2, 3], [3, 4], [1, 4], [1, 5]]",
+      "output": "[1, 4]",
+      "explanation": "[1, 4] closes the cycle. [1, 5] is a tree edge."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "edges": [
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            2,
+            3
+          ]
+        ]
+      },
+      "expected": [
+        2,
+        3
+      ]
+    },
+    {
+      "name": "later",
+      "args": {
+        "edges": [
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            5
+          ]
+        ]
+      },
+      "expected": [
+        1,
+        4
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "square",
+      "args": {
+        "edges": [
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            1
+          ]
+        ]
+      },
+      "expected": [
+        3,
+        1
+      ]
+    },
+    {
+      "name": "tail",
+      "args": {
+        "edges": [
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            2,
+            4
+          ]
+        ]
+      },
+      "expected": [
+        2,
+        4
+      ]
+    },
+    {
+      "name": "small",
+      "args": {
+        "edges": [
+          [
+            2,
+            1
+          ],
+          [
+            3,
+            1
+          ],
+          [
+            4,
+            2
+          ],
+          [
+            1,
+            4
+          ]
+        ]
+      },
+      "expected": [
+        1,
+        4
+      ]
+    }
+  ]
+}

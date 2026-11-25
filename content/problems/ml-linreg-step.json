@@ -1,0 +1,128 @@
+{
+  "title": "One Linear Regression Step",
+  "slug": "ml-linreg-step",
+  "difficulty": "medium",
+  "topics": [
+    "machine-learning",
+    "optimization",
+    "python"
+  ],
+  "company_tags": [
+    "Jane Street",
+    "Google"
+  ],
+  "statement": "Implement `linreg_step(w, x, y, lr)` for one example of linear regression without a separate bias feature (put a constant 1 in x if you want a bias). Prediction is the dot product of w and x. Update each weight by subtracting lr times (prediction \u2212 y) times the matching x coordinate. Return the new weight vector. This is gradient descent on half the squared error.",
+  "constraints": [
+    "len(w) == len(x) >= 1",
+    "lr is a positive float",
+    "Return a new list; do not require the caller to reuse the old one"
+  ],
+  "examples": [
+    {
+      "input": "{\"w\": [0.0, 0.0], \"x\": [1.0, 2.0], \"y\": 1.0, \"lr\": 0.1}",
+      "output": "[0.1, 0.2]",
+      "explanation": "Matches the reference on this input."
+    },
+    {
+      "input": "{\"w\": [0.5, 0.5], \"x\": [2.0, 2.0], \"y\": 2.0, \"lr\": 0.5}",
+      "output": "[0.5, 0.5]",
+      "explanation": "Matches the reference on this input."
+    }
+  ],
+  "starter_code": "def linreg_step(w: list[float], x: list[float], y: float, lr: float) -> list[float]:\n    pass\n",
+  "function_name": "linreg_step",
+  "hints": [
+    "Compute the scalar error prediction minus y.",
+    "The partial derivative of 0.5 (pred \u2212 y)\u00b2 w.r.t. w\u1d62 is error * x\u1d62.",
+    "A zero error must leave w unchanged."
+  ],
+  "approaches": [
+    {
+      "name": "SGD on half-square loss",
+      "complexity": {
+        "time": "O(d)",
+        "space": "O(d)"
+      },
+      "explanation": "One example, one step. Full-batch GD averages this gradient over the dataset."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "moves",
+      "args": {
+        "w": [
+          0.0,
+          0.0
+        ],
+        "x": [
+          1.0,
+          2.0
+        ],
+        "y": 1.0,
+        "lr": 0.1
+      },
+      "expected": [
+        0.1,
+        0.2
+      ]
+    },
+    {
+      "name": "already-fit",
+      "args": {
+        "w": [
+          0.5,
+          0.5
+        ],
+        "x": [
+          2.0,
+          2.0
+        ],
+        "y": 2.0,
+        "lr": 0.5
+      },
+      "expected": [
+        0.5,
+        0.5
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "negative-target",
+      "args": {
+        "w": [
+          1.0
+        ],
+        "x": [
+          1.0
+        ],
+        "y": -1.0,
+        "lr": 0.25
+      },
+      "expected": [
+        0.5
+      ]
+    },
+    {
+      "name": "bias-feature",
+      "args": {
+        "w": [
+          0.0,
+          0.0
+        ],
+        "x": [
+          1.0,
+          3.0
+        ],
+        "y": 3.0,
+        "lr": 0.1
+      },
+      "expected": [
+        0.30000000000000004,
+        0.9000000000000001
+      ]
+    }
+  ],
+  "editorial": "For a single row, loss L = 0.5 (w \u00b7 x \u2212 y)\u00b2 has gradient (w \u00b7 x \u2212 y) x. Subtracting learning-rate times that gradient is stochastic gradient descent. The leading 0.5 is a convention so the 2 from the chain rule disappears; some texts omit it and fold the 2 into the learning rate. State which convention you use. A bias term is just a feature that is always 1, which is why this signature has no separate intercept.",
+  "reference_solution": "def linreg_step(w: list[float], x: list[float], y: float, lr: float) -> list[float]:\n    pred = sum(wi * xi for wi, xi in zip(w, x))\n    err = pred - y\n    return [wi - lr * err * xi for wi, xi in zip(w, x)]\n"
+}

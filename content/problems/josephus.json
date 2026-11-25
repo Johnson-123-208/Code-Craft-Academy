@@ -1,0 +1,103 @@
+{
+  "title": "Josephus Problem",
+  "slug": "josephus",
+  "difficulty": "medium",
+  "topics": [
+    "math",
+    "queues"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft",
+    "Adobe",
+    "Google"
+  ],
+  "statement": "There are `n` people numbered 1..n in a circle. Counting starts at 1. Every `k`-th remaining person is eliminated until one remains. Return the number of the survivor. k is at least 1.\n",
+  "constraints": [
+    "1 <= n <= 5000",
+    "1 <= k <= n"
+  ],
+  "function_name": "josephus",
+  "hints": [
+    "A queue or a circular list simulates the count.",
+    "Move k - 1 people from the front to the back, then eliminate the front.",
+    "The 0-based recurrence is f(1) = 0 and f(n) = (f(n - 1) + k) mod n. Add 1 to convert to 1-based numbering."
+  ],
+  "approaches": [
+    {
+      "name": "Simulation",
+      "complexity": {
+        "time": "O(n * k)",
+        "space": "O(n)"
+      },
+      "explanation": "A deque of the living people."
+    },
+    {
+      "name": "Recurrence",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "The classic modular formula."
+    }
+  ],
+  "editorial": "The 0-based survivor after eliminating every k-th person satisfies f(n) = (f(n - 1) + k) mod n, with f(1) = 0. The formula shifts the previous survivor by k positions because one person was removed and the count continues at the next person. This problem numbers people from 1, so return f(n) + 1.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef josephus(n: int, k: int) -> int:\n    survivor = 0\n    for size in range(2, n + 1):\n        survivor = (survivor + k) % size\n    return survivor + 1\n",
+  "starter_code": "def josephus(n: int, k: int) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "n = 5, k = 2",
+      "output": "3",
+      "explanation": "The survivor is 3."
+    },
+    {
+      "input": "n = 1, k = 1",
+      "output": "1",
+      "explanation": "The only person survives."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "n": 5,
+        "k": 2
+      },
+      "expected": 3
+    },
+    {
+      "name": "one",
+      "args": {
+        "n": 1,
+        "k": 1
+      },
+      "expected": 1
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "all",
+      "args": {
+        "n": 7,
+        "k": 3
+      },
+      "expected": 4
+    },
+    {
+      "name": "k-one",
+      "args": {
+        "n": 4,
+        "k": 1
+      },
+      "expected": 4
+    },
+    {
+      "name": "six",
+      "args": {
+        "n": 6,
+        "k": 5
+      },
+      "expected": 1
+    }
+  ]
+}

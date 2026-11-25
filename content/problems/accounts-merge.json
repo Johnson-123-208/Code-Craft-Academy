@@ -1,0 +1,180 @@
+{
+  "title": "Accounts Merge",
+  "slug": "accounts-merge",
+  "difficulty": "medium",
+  "topics": [
+    "graphs",
+    "union-find",
+    "hashing"
+  ],
+  "company_tags": [
+    "Facebook",
+    "Amazon",
+    "Google",
+    "Uber"
+  ],
+  "statement": "Each account is a name followed by email addresses. Merge accounts that share an email. The same name does not by itself mean the same person. Return the merged accounts, each starting with the name and then the sorted unique emails. Sort the accounts by name and then by the email list.\n",
+  "constraints": [
+    "1 <= accounts.length <= 1000",
+    "1 <= emails per account <= 10"
+  ],
+  "function_name": "accounts_merge",
+  "hints": [
+    "Emails are nodes. Emails in the same account are connected.",
+    "Union-find groups emails. Remember one name for each email.",
+    "After unions, collect emails by root, sort them, and prefix the name."
+  ],
+  "approaches": [
+    {
+      "name": "DFS on an email graph",
+      "complexity": {
+        "time": "O(total emails)",
+        "space": "O(total emails)"
+      },
+      "explanation": "Build edges between consecutive emails of an account."
+    },
+    {
+      "name": "Disjoint set",
+      "complexity": {
+        "time": "O(total emails)",
+        "space": "O(total emails)"
+      },
+      "explanation": "Union every email with the first email of its account."
+    }
+  ],
+  "editorial": "Map each email to an integer and union it with the account's first email. Store the name on the first email. Group emails by the find-root, sort each group, and emit name plus emails. Sort the accounts so the output is unique.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef accounts_merge(accounts: list[list[str]]) -> list[list[str]]:\n    parent: dict[str, str] = {}\n    owner: dict[str, str] = {}\n\n    def find(email: str) -> str:\n        parent.setdefault(email, email)\n        while parent[email] != email:\n            parent[email] = parent[parent[email]]\n            email = parent[email]\n        return email\n\n    for account in accounts:\n        name, first, *rest = account\n        owner[find(first)] = name\n        root = find(first)\n        for email in rest:\n            parent[find(email)] = root\n            owner.setdefault(email, name)\n    groups: dict[str, list[str]] = defaultdict(list)\n    for email in list(parent):\n        groups[find(email)].append(email)\n    merged = [[owner[root], *sorted(emails)] for root, emails in groups.items()]\n    merged.sort()\n    return merged\n",
+  "starter_code": "from typing import List\n\ndef accounts_merge(accounts: List[List[str]]) -> List[List[str]]:\n    pass\n",
+  "examples": [
+    {
+      "input": "accounts = [['John', 'johnsmith@mail.com', 'john_newyork@mail.com'], ['John', 'johnsmith@mail.com', 'john00@mail.com'], ['Mary', 'mary@mail.com'], ['John', 'johnnybravo@mail.com']]",
+      "output": "[[\"John\", \"john00@mail.com\", \"john_newyork@mail.com\", \"johnsmith@mail.com\"], [\"John\", \"johnnybravo@mail.com\"], [\"Mary\", \"mary@mail.com\"]]",
+      "explanation": "The two John Smith accounts merge. Johnny Bravo stays separate."
+    },
+    {
+      "input": "accounts = [['Gabe', 'gabe@mail.com']]",
+      "output": "[[\"Gabe\", \"gabe@mail.com\"]]",
+      "explanation": "A single account."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "accounts": [
+          [
+            "John",
+            "johnsmith@mail.com",
+            "john_newyork@mail.com"
+          ],
+          [
+            "John",
+            "johnsmith@mail.com",
+            "john00@mail.com"
+          ],
+          [
+            "Mary",
+            "mary@mail.com"
+          ],
+          [
+            "John",
+            "johnnybravo@mail.com"
+          ]
+        ]
+      },
+      "expected": [
+        [
+          "John",
+          "john00@mail.com",
+          "john_newyork@mail.com",
+          "johnsmith@mail.com"
+        ],
+        [
+          "John",
+          "johnnybravo@mail.com"
+        ],
+        [
+          "Mary",
+          "mary@mail.com"
+        ]
+      ]
+    },
+    {
+      "name": "one",
+      "args": {
+        "accounts": [
+          [
+            "Gabe",
+            "gabe@mail.com"
+          ]
+        ]
+      },
+      "expected": [
+        [
+          "Gabe",
+          "gabe@mail.com"
+        ]
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "same-name",
+      "args": {
+        "accounts": [
+          [
+            "A",
+            "a@x.com"
+          ],
+          [
+            "A",
+            "b@x.com"
+          ]
+        ]
+      },
+      "expected": [
+        [
+          "A",
+          "a@x.com"
+        ],
+        [
+          "A",
+          "b@x.com"
+        ]
+      ]
+    },
+    {
+      "name": "chain",
+      "args": {
+        "accounts": [
+          [
+            "A",
+            "1@x.com",
+            "2@x.com"
+          ],
+          [
+            "A",
+            "2@x.com",
+            "3@x.com"
+          ],
+          [
+            "B",
+            "4@x.com"
+          ]
+        ]
+      },
+      "expected": [
+        [
+          "A",
+          "1@x.com",
+          "2@x.com",
+          "3@x.com"
+        ],
+        [
+          "B",
+          "4@x.com"
+        ]
+      ]
+    }
+  ]
+}

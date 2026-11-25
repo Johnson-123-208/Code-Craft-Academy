@@ -1,0 +1,119 @@
+{
+  "title": "Classification Accuracy",
+  "slug": "ml-accuracy",
+  "difficulty": "easy",
+  "topics": [
+    "machine-learning",
+    "metrics",
+    "python"
+  ],
+  "company_tags": [
+    "Stripe",
+    "Meta"
+  ],
+  "statement": "Implement `accuracy(y_true, y_pred)` for integer class labels. Return the fraction of positions where the prediction equals the label. Accuracy is the right headline metric only when classes are balanced and errors have similar cost.",
+  "constraints": [
+    "1 <= n <= 10^5",
+    "Labels are integers",
+    "Return a float in 0 to 1 inclusive"
+  ],
+  "examples": [
+    {
+      "input": "{\"y_true\": [1, 0, 1, 1], \"y_pred\": [1, 0, 0, 1]}",
+      "output": "0.75",
+      "explanation": "Matches the reference on this input."
+    },
+    {
+      "input": "{\"y_true\": [0, 1, 0], \"y_pred\": [1, 0, 1]}",
+      "output": "0.0",
+      "explanation": "Matches the reference on this input."
+    }
+  ],
+  "starter_code": "def accuracy(y_true: list[int], y_pred: list[int]) -> float:\n    pass\n",
+  "function_name": "accuracy",
+  "hints": [
+    "Count exact matches.",
+    "Divide the count by n as a float.",
+    "Do not treat a nearby class as correct."
+  ],
+  "approaches": [
+    {
+      "name": "Match count",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Accuracy is the 0-1 loss averaged and flipped. It ignores how confident the model was."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "three-of-four",
+      "args": {
+        "y_true": [
+          1,
+          0,
+          1,
+          1
+        ],
+        "y_pred": [
+          1,
+          0,
+          0,
+          1
+        ]
+      },
+      "expected": 0.75
+    },
+    {
+      "name": "all-wrong",
+      "args": {
+        "y_true": [
+          0,
+          1,
+          0
+        ],
+        "y_pred": [
+          1,
+          0,
+          1
+        ]
+      },
+      "expected": 0.0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "multiclass",
+      "args": {
+        "y_true": [
+          2,
+          0,
+          2,
+          1
+        ],
+        "y_pred": [
+          2,
+          2,
+          2,
+          1
+        ]
+      },
+      "expected": 0.75
+    },
+    {
+      "name": "single",
+      "args": {
+        "y_true": [
+          7
+        ],
+        "y_pred": [
+          7
+        ]
+      },
+      "expected": 1.0
+    }
+  ],
+  "editorial": "Accuracy = (1/n) \u03a3 1[y\u1d62 = \u0177\u1d62]. It is easy to explain and easy to game on imbalanced data: a fraud model that always predicts legitimate can post 99 percent accuracy while catching nothing. Pair it with precision, recall, or balanced accuracy before you ship a classifier. The implementation is a single pass of equality tests.",
+  "reference_solution": "def accuracy(y_true: list[int], y_pred: list[int]) -> float:\n    return float(sum(int(a == b) for a, b in zip(y_true, y_pred)) / len(y_true))\n"
+}

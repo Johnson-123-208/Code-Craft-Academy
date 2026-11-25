@@ -1,0 +1,198 @@
+{
+  "title": "Combinations",
+  "slug": "combinations",
+  "difficulty": "medium",
+  "topics": [
+    "backtracking"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Adobe",
+    "Microsoft"
+  ],
+  "statement": "Return every combination of `k` numbers chosen from 1..n, sorted.\n",
+  "constraints": [
+    "1 <= n <= 20",
+    "1 <= k <= n"
+  ],
+  "function_name": "combine",
+  "hints": [
+    "This is subsets of a fixed size.",
+    "Choose the next number from start..n, then recurse with k decreased.",
+    "Stop a branch early when the remaining numbers cannot fill the combination."
+  ],
+  "approaches": [
+    {
+      "name": "Library combinations",
+      "complexity": {
+        "time": "O(k * C(n, k))",
+        "space": "O(k)"
+      },
+      "explanation": "The closed form of the same recursion."
+    },
+    {
+      "name": "Backtracking with pruning",
+      "complexity": {
+        "time": "O(k * C(n, k))",
+        "space": "O(k)"
+      },
+      "explanation": "The remaining-count check cuts hopeless branches."
+    }
+  ],
+  "editorial": "At each step append a number at least one larger than the previous, which enforces increasing order. If the numbers left in 1..n are fewer than the slots left in the combination, return. That prune is the difference between a toy recursion and an interview-quality one.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef combine(n: int, k: int) -> list[list[int]]:\n    out: list[list[int]] = []\n    path: list[int] = []\n\n    def dfs(start: int) -> None:\n        if len(path) == k:\n            out.append(path[:])\n            return\n        need = k - len(path)\n        for value in range(start, n - need + 2):\n            path.append(value)\n            dfs(value + 1)\n            path.pop()\n\n    dfs(1)\n    return out\n",
+  "starter_code": "from typing import List\n\ndef combine(n: int, k: int) -> List[List[int]]:\n    pass\n",
+  "examples": [
+    {
+      "input": "n = 4, k = 2",
+      "output": "[[1, 2], [1, 3], [1, 4], [2, 3], [2, 4], [3, 4]]",
+      "explanation": "Every pair from 1..4."
+    },
+    {
+      "input": "n = 3, k = 3",
+      "output": "[[1, 2, 3]]",
+      "explanation": "Only [1, 2, 3]."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "n": 4,
+        "k": 2
+      },
+      "expected": [
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          3,
+          4
+        ]
+      ]
+    },
+    {
+      "name": "full",
+      "args": {
+        "n": 3,
+        "k": 3
+      },
+      "expected": [
+        [
+          1,
+          2,
+          3
+        ]
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "one",
+      "args": {
+        "n": 3,
+        "k": 1
+      },
+      "expected": [
+        [
+          1
+        ],
+        [
+          2
+        ],
+        [
+          3
+        ]
+      ]
+    },
+    {
+      "name": "k3",
+      "args": {
+        "n": 5,
+        "k": 3
+      },
+      "expected": [
+        [
+          1,
+          2,
+          3
+        ],
+        [
+          1,
+          2,
+          4
+        ],
+        [
+          1,
+          2,
+          5
+        ],
+        [
+          1,
+          3,
+          4
+        ],
+        [
+          1,
+          3,
+          5
+        ],
+        [
+          1,
+          4,
+          5
+        ],
+        [
+          2,
+          3,
+          4
+        ],
+        [
+          2,
+          3,
+          5
+        ],
+        [
+          2,
+          4,
+          5
+        ],
+        [
+          3,
+          4,
+          5
+        ]
+      ]
+    },
+    {
+      "name": "n1",
+      "args": {
+        "n": 1,
+        "k": 1
+      },
+      "expected": [
+        [
+          1
+        ]
+      ]
+    }
+  ]
+}

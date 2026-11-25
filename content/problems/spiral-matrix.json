@@ -1,0 +1,187 @@
+{
+  "title": "Spiral Matrix",
+  "slug": "spiral-matrix",
+  "difficulty": "medium",
+  "topics": [
+    "arrays",
+    "matrix",
+    "simulation"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft",
+    "Adobe",
+    "Apple"
+  ],
+  "statement": "Return all elements of the m by n matrix in clockwise spiral order.\n",
+  "constraints": [
+    "1 <= m, n <= 10",
+    "-100 <= matrix[i][j] <= 100"
+  ],
+  "function_name": "spiral_order",
+  "hints": [
+    "Maintain four bounds: top, bottom, left, and right.",
+    "Walk right along top, down along right, left along bottom, and up along left. Shrink the bound you just finished.",
+    "Before the leftward and upward walks, check that the layer is still nonempty. A single row or column would otherwise be walked twice."
+  ],
+  "approaches": [
+    {
+      "name": "Visited matrix",
+      "complexity": {
+        "time": "O(mn)",
+        "space": "O(mn)"
+      },
+      "explanation": "Turn right whenever the next cell is out of bounds or visited."
+    },
+    {
+      "name": "Layer bounds",
+      "complexity": {
+        "time": "O(mn)",
+        "space": "O(1)"
+      },
+      "explanation": "Four loops per layer. Output space is required either way."
+    }
+  ],
+  "editorial": "Each layer is a rectangle. Consume its four sides and contract the bounds. The guards `top <= bottom` and `left <= right` before the reverse directions protect the middle row and the middle column of odd-sized matrices. Stop when the number of recorded cells equals m * n.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef spiral_order(matrix: list[list[int]]) -> list[int]:\n    if not matrix or not matrix[0]:\n        return []\n    out: list[int] = []\n    top, bottom = 0, len(matrix) - 1\n    left, right = 0, len(matrix[0]) - 1\n    while top <= bottom and left <= right:\n        for col in range(left, right + 1):\n            out.append(matrix[top][col])\n        top += 1\n        for row in range(top, bottom + 1):\n            out.append(matrix[row][right])\n        right -= 1\n        if top <= bottom:\n            for col in range(right, left - 1, -1):\n                out.append(matrix[bottom][col])\n            bottom -= 1\n        if left <= right:\n            for row in range(bottom, top - 1, -1):\n                out.append(matrix[row][left])\n            left += 1\n    return out\n",
+  "starter_code": "from typing import List\n\ndef spiral_order(matrix: List[List[int]]) -> List[int]:\n    pass\n",
+  "examples": [
+    {
+      "input": "matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]",
+      "output": "[1, 2, 3, 6, 9, 8, 7, 4, 5]",
+      "explanation": "The spiral is 1, 2, 3, 6, 9, 8, 7, 4, 5."
+    },
+    {
+      "input": "matrix = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]",
+      "output": "[1, 2, 3, 4, 8, 12, 11, 10, 9, 5, 6, 7]",
+      "explanation": "A 3 by 4 spiral."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "matrix": [
+          [
+            1,
+            2,
+            3
+          ],
+          [
+            4,
+            5,
+            6
+          ],
+          [
+            7,
+            8,
+            9
+          ]
+        ]
+      },
+      "expected": [
+        1,
+        2,
+        3,
+        6,
+        9,
+        8,
+        7,
+        4,
+        5
+      ]
+    },
+    {
+      "name": "rect",
+      "args": {
+        "matrix": [
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            5,
+            6,
+            7,
+            8
+          ],
+          [
+            9,
+            10,
+            11,
+            12
+          ]
+        ]
+      },
+      "expected": [
+        1,
+        2,
+        3,
+        4,
+        8,
+        12,
+        11,
+        10,
+        9,
+        5,
+        6,
+        7
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "row",
+      "args": {
+        "matrix": [
+          [
+            1,
+            2,
+            3
+          ]
+        ]
+      },
+      "expected": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "col",
+      "args": {
+        "matrix": [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      },
+      "expected": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "one",
+      "args": {
+        "matrix": [
+          [
+            7
+          ]
+        ]
+      },
+      "expected": [
+        7
+      ]
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "title": "Shortest Path in Binary Matrix",
+  "slug": "shortest-path-in-binary-matrix",
+  "difficulty": "medium",
+  "topics": [
+    "graphs",
+    "bfs",
+    "grid"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Facebook",
+    "Microsoft"
+  ],
+  "statement": "In an n by n binary grid, 0 is open and 1 is blocked. Return the length of the shortest clear path from (0, 0) to (n - 1, n - 1). You may move to any of the eight neighbors. Return -1 if the path does not exist. A path length counts cells, including both ends.\n",
+  "constraints": [
+    "1 <= n <= 100",
+    "grid[i][j] is 0 or 1"
+  ],
+  "function_name": "shortest_path_binary_matrix",
+  "hints": [
+    "Unweighted grid movement is BFS, not Dijkstra.",
+    "Eight directions include the diagonals.",
+    "If either corner is blocked, return -1 before searching. Mark cells visited when you enqueue them."
+  ],
+  "approaches": [
+    {
+      "name": "DFS",
+      "complexity": {
+        "time": "exponential without memo",
+        "space": "O(n^2)"
+      },
+      "explanation": "DFS does not give the shortest path in an unweighted graph unless you explore every walk."
+    },
+    {
+      "name": "BFS",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(n^2)"
+      },
+      "explanation": "The first time you reach the corner is optimal."
+    }
+  ],
+  "editorial": "BFS layers are distances in an unweighted graph. Start at the top-left with distance 1 if it is open. Expand all eight neighbors that are open and unvisited. The distance stored when you first reach the bottom-right is the answer.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef shortest_path_binary_matrix(grid: list[list[int]]) -> int:\n    n = len(grid)\n    if grid[0][0] or grid[n - 1][n - 1]:\n        return -1\n    queue = deque([(0, 0, 1)])\n    grid[0][0] = 1\n    while queue:\n        r, c, dist = queue.popleft()\n        if r == n - 1 and c == n - 1:\n            return dist\n        for dr in (-1, 0, 1):\n            for dc in (-1, 0, 1):\n                if dr == 0 and dc == 0:\n                    continue\n                nr, nc = r + dr, c + dc\n                if 0 <= nr < n and 0 <= nc < n and grid[nr][nc] == 0:\n                    grid[nr][nc] = 1\n                    queue.append((nr, nc, dist + 1))\n    return -1\n",
+  "starter_code": "from typing import List\n\ndef shortest_path_binary_matrix(grid: List[List[int]]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "grid = [[0, 1], [1, 0]]",
+      "output": "2",
+      "explanation": "The diagonal path has length 2."
+    },
+    {
+      "input": "grid = [[0, 0, 0], [1, 1, 0], [1, 1, 0]]",
+      "output": "4",
+      "explanation": "The clear path has length 4."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "grid": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            0
+          ]
+        ]
+      },
+      "expected": 2
+    },
+    {
+      "name": "blocked",
+      "args": {
+        "grid": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            1,
+            0
+          ],
+          [
+            1,
+            1,
+            0
+          ]
+        ]
+      },
+      "expected": 4
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "start-blocked",
+      "args": {
+        "grid": [
+          [
+            1,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "expected": -1
+    },
+    {
+      "name": "one",
+      "args": {
+        "grid": [
+          [
+            0
+          ]
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "name": "none",
+      "args": {
+        "grid": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ]
+      },
+      "expected": -1
+    }
+  ]
+}

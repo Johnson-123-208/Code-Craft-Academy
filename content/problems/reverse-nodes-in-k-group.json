@@ -1,0 +1,142 @@
+{
+  "title": "Reverse Nodes in k-Group",
+  "slug": "reverse-nodes-in-k-group",
+  "difficulty": "hard",
+  "topics": [
+    "linked-lists"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft",
+    "Google",
+    "Adobe"
+  ],
+  "statement": "The list is given as values. Reverse every group of `k` nodes and return the new sequence. A leftover tail shorter than k stays in its original order. Rewire next pointers.\n",
+  "constraints": [
+    "0 <= length <= 5000",
+    "1 <= k <= length when the list is nonempty"
+  ],
+  "function_name": "reverse_k_group",
+  "hints": [
+    "A dummy node before the head makes the first group look like every other group.",
+    "Walk k steps from the node before the group. If you fall off the list, stop.",
+    "Reverse the k nodes by pointing each one at its predecessor, then attach the reversed block and move the group cursor to the new tail."
+  ],
+  "approaches": [
+    {
+      "name": "Reverse value slices",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Correct output, but it does not practice pointer rewiring."
+    },
+    {
+      "name": "Pointer reversal per group",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Each node is rewired once."
+    }
+  ],
+  "editorial": "Count k successors from the node that precedes the current group. If they exist, reverse that segment with the usual three-pointer loop, using the node after the segment as the initial previous pointer so the tail of the reversed group stays connected. The old head of the group becomes the tail, and the next iteration starts there.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef reverse_k_group(head: list[int], k: int) -> list[int]:\n    class Node:\n        def __init__(self, value: int, nxt=None):\n            self.value = value\n            self.nxt = nxt\n\n    dummy = Node(0)\n    tail = dummy\n    for value in head:\n        tail.nxt = Node(value)\n        tail = tail.nxt\n    group_prev = dummy\n    while True:\n        kth = group_prev\n        for _ in range(k):\n            kth = kth.nxt\n            if kth is None:\n                node = dummy.nxt\n                out = []\n                while node:\n                    out.append(node.value)\n                    node = node.nxt\n                return out\n        group_next = kth.nxt\n        prev, cur = group_next, group_prev.nxt\n        for _ in range(k):\n            nxt = cur.nxt\n            cur.nxt = prev\n            prev = cur\n            cur = nxt\n        new_tail = group_prev.nxt\n        group_prev.nxt = prev\n        group_prev = new_tail\n",
+  "starter_code": "from typing import List\n\ndef reverse_k_group(head: List[int], k: int) -> List[int]:\n    pass\n",
+  "examples": [
+    {
+      "input": "head = [1, 2, 3, 4, 5], k = 2",
+      "output": "[2, 1, 4, 3, 5]",
+      "explanation": "Pairs reverse and the last node stays."
+    },
+    {
+      "input": "head = [1, 2, 3, 4, 5], k = 3",
+      "output": "[3, 2, 1, 4, 5]",
+      "explanation": "The first three reverse. The tail stays."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "head": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "k": 2
+      },
+      "expected": [
+        2,
+        1,
+        4,
+        3,
+        5
+      ]
+    },
+    {
+      "name": "three",
+      "args": {
+        "head": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "k": 3
+      },
+      "expected": [
+        3,
+        2,
+        1,
+        4,
+        5
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "whole",
+      "args": {
+        "head": [
+          1,
+          2,
+          3
+        ],
+        "k": 3
+      },
+      "expected": [
+        3,
+        2,
+        1
+      ]
+    },
+    {
+      "name": "one",
+      "args": {
+        "head": [
+          1,
+          2,
+          3
+        ],
+        "k": 1
+      },
+      "expected": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "empty",
+      "args": {
+        "head": [],
+        "k": 1
+      },
+      "expected": []
+    }
+  ]
+}

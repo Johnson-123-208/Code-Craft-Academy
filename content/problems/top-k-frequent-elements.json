@@ -1,0 +1,151 @@
+{
+  "title": "Top K Frequent Elements",
+  "slug": "top-k-frequent-elements",
+  "difficulty": "medium",
+  "topics": [
+    "hashing",
+    "heaps",
+    "bucket-sort"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Facebook",
+    "Google",
+    "Uber"
+  ],
+  "statement": "Return the `k` most frequent values in `nums`, ordered from most frequent to least frequent. If frequencies tie, the smaller value comes first.\n",
+  "constraints": [
+    "1 <= nums.length <= 10^5",
+    "k is in the range 1..number of unique values",
+    "-10^4 <= nums[i] <= 10^4"
+  ],
+  "function_name": "top_k_frequent",
+  "hints": [
+    "Count with a hash map first. The rest of the problem is selection on the counts.",
+    "A heap of size k keeps the current leaders in O(n log k).",
+    "Bucket sort by frequency is linear: bucket[count] holds every value that occurs count times."
+  ],
+  "approaches": [
+    {
+      "name": "Sort unique values",
+      "complexity": {
+        "time": "O(n log n)",
+        "space": "O(n)"
+      },
+      "explanation": "Sort by frequency descending."
+    },
+    {
+      "name": "Min-heap of size k",
+      "complexity": {
+        "time": "O(n log k)",
+        "space": "O(n)"
+      },
+      "explanation": "Push counts and pop the smallest when the heap exceeds k."
+    },
+    {
+      "name": "Frequency buckets",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Index buckets by count and walk from the high end."
+    }
+  ],
+  "editorial": "Frequency counting is mandatory and linear. Bucket sort then exploits the fact that a count is between 1 and n. Walk counts from n down to 1 and emit values until k of them have been produced. Sorting each bucket by value makes ties deterministic.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef top_k_frequent(nums: list[int], k: int) -> list[int]:\n    counts = Counter(nums)\n    buckets: list[list[int]] = [[] for _ in range(len(nums) + 1)]\n    for value, count in counts.items():\n        buckets[count].append(value)\n    out: list[int] = []\n    for count in range(len(nums), 0, -1):\n        for value in sorted(buckets[count]):\n            out.append(value)\n            if len(out) == k:\n                return out\n    return out\n",
+  "starter_code": "from typing import List\n\ndef top_k_frequent(nums: List[int], k: int) -> List[int]:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [1, 1, 1, 2, 2, 3], k = 2",
+      "output": "[1, 2]",
+      "explanation": "1 appears three times and 2 appears twice."
+    },
+    {
+      "input": "nums = [1], k = 1",
+      "output": "[1]",
+      "explanation": "The only value."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "nums": [
+          1,
+          1,
+          1,
+          2,
+          2,
+          3
+        ],
+        "k": 2
+      },
+      "expected": [
+        1,
+        2
+      ]
+    },
+    {
+      "name": "one",
+      "args": {
+        "nums": [
+          1
+        ],
+        "k": 1
+      },
+      "expected": [
+        1
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "tie",
+      "args": {
+        "nums": [
+          4,
+          4,
+          2,
+          2,
+          3
+        ],
+        "k": 2
+      },
+      "expected": [
+        2,
+        4
+      ]
+    },
+    {
+      "name": "all",
+      "args": {
+        "nums": [
+          5,
+          6,
+          5,
+          6
+        ],
+        "k": 2
+      },
+      "expected": [
+        5,
+        6
+      ]
+    },
+    {
+      "name": "k-one",
+      "args": {
+        "nums": [
+          3,
+          0,
+          1,
+          0
+        ],
+        "k": 1
+      },
+      "expected": [
+        0
+      ]
+    }
+  ]
+}

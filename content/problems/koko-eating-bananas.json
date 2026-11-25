@@ -1,0 +1,126 @@
+{
+  "title": "Koko Eating Bananas",
+  "slug": "koko-eating-bananas",
+  "difficulty": "medium",
+  "topics": [
+    "binary-search"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Facebook",
+    "Uber"
+  ],
+  "statement": "Koko eats all bananas from one pile before starting another, at a constant integer speed of k bananas per hour. Each pile takes ceil(pile / k) hours. Return the minimum k that finishes every pile within `h` hours.\n",
+  "constraints": [
+    "1 <= piles.length <= 10^4",
+    "1 <= piles[i] <= 10^9",
+    "piles.length <= h"
+  ],
+  "function_name": "min_eating_speed",
+  "hints": [
+    "Hours needed is monotone in the speed: a faster speed never takes more hours.",
+    "The search range is 1..max(piles). At max(piles), every pile takes one hour.",
+    "Binary search the smallest speed whose hour count is at most h."
+  ],
+  "approaches": [
+    {
+      "name": "Linear search of speeds",
+      "complexity": {
+        "time": "O(max(pile) * n)",
+        "space": "O(1)"
+      },
+      "explanation": "Try every speed."
+    },
+    {
+      "name": "Binary search on the answer",
+      "complexity": {
+        "time": "O(n log max(pile))",
+        "space": "O(1)"
+      },
+      "explanation": "The feasibility predicate is monotone."
+    }
+  ],
+  "editorial": "This is binary search on the answer, not on an array index. The predicate 'speed k finishes in at most h hours' is false, then true, as k grows. Compute hours with integer ceiling division (pile + k - 1) // k and shrink to the first true speed.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef min_eating_speed(piles: list[int], h: int) -> int:\n    def hours(speed: int) -> int:\n        return sum((pile + speed - 1) // speed for pile in piles)\n\n    lo, hi = 1, max(piles)\n    while lo < hi:\n        mid = (lo + hi) // 2\n        if hours(mid) <= h:\n            hi = mid\n        else:\n            lo = mid + 1\n    return lo\n",
+  "starter_code": "from typing import List\n\ndef min_eating_speed(piles: List[int], h: int) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "piles = [3, 6, 7, 11], h = 8",
+      "output": "4",
+      "explanation": "Speed 4 finishes in 8 hours."
+    },
+    {
+      "input": "piles = [30, 11, 23, 4, 20], h = 5",
+      "output": "30",
+      "explanation": "Speed equals the largest pile."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "piles": [
+          3,
+          6,
+          7,
+          11
+        ],
+        "h": 8
+      },
+      "expected": 4
+    },
+    {
+      "name": "tight",
+      "args": {
+        "piles": [
+          30,
+          11,
+          23,
+          4,
+          20
+        ],
+        "h": 5
+      },
+      "expected": 30
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "loose",
+      "args": {
+        "piles": [
+          30,
+          11,
+          23,
+          4,
+          20
+        ],
+        "h": 6
+      },
+      "expected": 23
+    },
+    {
+      "name": "one",
+      "args": {
+        "piles": [
+          5
+        ],
+        "h": 2
+      },
+      "expected": 3
+    },
+    {
+      "name": "exact",
+      "args": {
+        "piles": [
+          1,
+          1,
+          1
+        ],
+        "h": 3
+      },
+      "expected": 1
+    }
+  ]
+}

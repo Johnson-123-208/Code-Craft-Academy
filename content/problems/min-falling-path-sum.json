@@ -1,0 +1,142 @@
+{
+  "title": "Minimum Falling Path Sum",
+  "slug": "min-falling-path-sum",
+  "difficulty": "medium",
+  "topics": [
+    "dynamic-programming",
+    "matrix"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "Adobe"
+  ],
+  "statement": "A falling path starts at any cell in the first row and chooses the cell directly below or diagonally below. Return the minimum sum of any falling path.\n",
+  "constraints": [
+    "1 <= n <= 100",
+    "-100 <= matrix[i][j] <= 100"
+  ],
+  "function_name": "min_falling_path_sum",
+  "hints": [
+    "The best path ending at (r, c) comes from (r - 1, c - 1), (r - 1, c), or (r - 1, c + 1).",
+    "Add matrix[r][c] to the minimum of those in-bounds predecessors.",
+    "The answer is the minimum of the last row."
+  ],
+  "approaches": [
+    {
+      "name": "Recursion from the top",
+      "complexity": {
+        "time": "exponential",
+        "space": "O(n)"
+      },
+      "explanation": "Three choices per row."
+    },
+    {
+      "name": "In-place row DP",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(1) extra"
+      },
+      "explanation": "Overwrite the matrix downward."
+    }
+  ],
+  "editorial": "Process rows from top to bottom. Each cell becomes its own value plus the best legal parent. Edge columns have only two parents. Because each row depends only on the previous row, the original cells can be updated in a copy of the previous row to avoid using already-updated neighbors.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef min_falling_path_sum(matrix: list[list[int]]) -> int:\n    n = len(matrix)\n    prev = matrix[0][:]\n    for r in range(1, n):\n        cur = []\n        for c in range(n):\n            best = prev[c]\n            if c:\n                best = min(best, prev[c - 1])\n            if c + 1 < n:\n                best = min(best, prev[c + 1])\n            cur.append(matrix[r][c] + best)\n        prev = cur\n    return min(prev)\n",
+  "starter_code": "from typing import List\n\ndef min_falling_path_sum(matrix: List[List[int]]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "matrix = [[2, 1, 3], [6, 5, 4], [7, 8, 9]]",
+      "output": "13",
+      "explanation": "The path 1, 4, 7? 1 then 5 or 4. Minimum is 13."
+    },
+    {
+      "input": "matrix = [[-5]]",
+      "output": "-5",
+      "explanation": "The only cell."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "matrix": [
+          [
+            2,
+            1,
+            3
+          ],
+          [
+            6,
+            5,
+            4
+          ],
+          [
+            7,
+            8,
+            9
+          ]
+        ]
+      },
+      "expected": 13
+    },
+    {
+      "name": "one",
+      "args": {
+        "matrix": [
+          [
+            -5
+          ]
+        ]
+      },
+      "expected": -5
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "row",
+      "args": {
+        "matrix": [
+          [
+            1,
+            2,
+            3
+          ]
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "name": "neg",
+      "args": {
+        "matrix": [
+          [
+            -1,
+            2
+          ],
+          [
+            3,
+            -4
+          ]
+        ]
+      },
+      "expected": -5
+    },
+    {
+      "name": "flat",
+      "args": {
+        "matrix": [
+          [
+            1,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ]
+      },
+      "expected": 2
+    }
+  ]
+}

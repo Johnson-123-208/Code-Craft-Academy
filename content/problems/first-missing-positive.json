@@ -1,0 +1,118 @@
+{
+  "title": "First Missing Positive",
+  "slug": "first-missing-positive",
+  "difficulty": "hard",
+  "topics": [
+    "arrays",
+    "cyclic-sort"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "Adobe"
+  ],
+  "statement": "Return the smallest missing positive integer in an unsorted array. The interview constraint is O(n) time and O(1) extra memory, which cyclic placement achieves.\n",
+  "constraints": [
+    "1 <= nums.length <= 10^5",
+    "-2^31 <= nums[i] <= 2^31 - 1"
+  ],
+  "function_name": "first_missing_positive",
+  "hints": [
+    "The answer is in 1..n+1. Values outside that range can be ignored.",
+    "Place each value v onto index v - 1 by swapping, and keep swapping while the new value also belongs in range.",
+    "The first index i whose value is not i + 1 is the answer. If every index matches, the answer is n + 1."
+  ],
+  "approaches": [
+    {
+      "name": "Hash set",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Look for 1, 2, 3, ... until a gap."
+    },
+    {
+      "name": "Index as a hash",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Swap values into their home slots. Each swap places one value permanently."
+    }
+  ],
+  "editorial": "For an array of length n the smallest missing positive is at most n + 1. Use the array itself as a set of presence flags by swapping nums[i] into index nums[i] - 1 whenever that index is in range and does not already hold the value. A second scan returns the first mismatch. The swap loop is linear because every swap puts at least one value on its home index.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef first_missing_positive(nums: list[int]) -> int:\n    n = len(nums)\n    for i in range(n):\n        while 1 <= nums[i] <= n and nums[nums[i] - 1] != nums[i]:\n            j = nums[i] - 1\n            nums[i], nums[j] = nums[j], nums[i]\n    for i in range(n):\n        if nums[i] != i + 1:\n            return i + 1\n    return n + 1\n",
+  "starter_code": "from typing import List\n\ndef first_missing_positive(nums: List[int]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [1, 2, 0]",
+      "output": "3",
+      "explanation": "3 is the smallest missing positive."
+    },
+    {
+      "input": "nums = [3, 4, -1, 1]",
+      "output": "2",
+      "explanation": "2 is missing."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "nums": [
+          1,
+          2,
+          0
+        ]
+      },
+      "expected": 3
+    },
+    {
+      "name": "gap",
+      "args": {
+        "nums": [
+          3,
+          4,
+          -1,
+          1
+        ]
+      },
+      "expected": 2
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "seven",
+      "args": {
+        "nums": [
+          7,
+          8,
+          9,
+          11,
+          12
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "name": "one",
+      "args": {
+        "nums": [
+          1
+        ]
+      },
+      "expected": 2
+    },
+    {
+      "name": "dups",
+      "args": {
+        "nums": [
+          1,
+          1
+        ]
+      },
+      "expected": 2
+    }
+  ]
+}

@@ -1,0 +1,114 @@
+{
+  "title": "Longest Common Prefix",
+  "slug": "longest-common-prefix",
+  "difficulty": "easy",
+  "topics": [
+    "strings"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Adobe",
+    "Microsoft"
+  ],
+  "statement": "Return the longest common prefix shared by every string in `strs`. If there is none, return an empty string.\n",
+  "constraints": [
+    "1 <= strs.length <= 200",
+    "0 <= strs[i].length <= 200"
+  ],
+  "function_name": "longest_common_prefix",
+  "hints": [
+    "Horizontal scanning: start with the first string and trim it against each later string.",
+    "Vertical scanning: compare column i of every string until one disagrees or ends.",
+    "A trie also works. For this input size it is unnecessary machinery."
+  ],
+  "approaches": [
+    {
+      "name": "Sort and compare the extremes",
+      "complexity": {
+        "time": "O(n log n * m)",
+        "space": "O(1)"
+      },
+      "explanation": "The common prefix of the whole set is the common prefix of the first and last strings after sorting."
+    },
+    {
+      "name": "Vertical scan",
+      "complexity": {
+        "time": "O(n * m)",
+        "space": "O(1)"
+      },
+      "explanation": "Stop at the first mismatched column."
+    }
+  ],
+  "editorial": "Take the first string as the candidate prefix. For each later string, shorten the candidate until that string starts with it. If the candidate becomes empty, return immediately. The vertical scan is equivalent and makes the column-wise disagreement obvious.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef longest_common_prefix(strs: list[str]) -> str:\n    prefix = strs[0]\n    for word in strs[1:]:\n        while not word.startswith(prefix):\n            prefix = prefix[:-1]\n            if not prefix:\n                return \"\"\n    return prefix\n",
+  "starter_code": "from typing import List\n\ndef longest_common_prefix(strs: List[str]) -> str:\n    pass\n",
+  "examples": [
+    {
+      "input": "strs = ['flower', 'flow', 'flight']",
+      "output": "\"fl\"",
+      "explanation": "The prefix is fl."
+    },
+    {
+      "input": "strs = ['dog', 'racecar', 'car']",
+      "output": "\"\"",
+      "explanation": "There is no common prefix."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "flower",
+      "args": {
+        "strs": [
+          "flower",
+          "flow",
+          "flight"
+        ]
+      },
+      "expected": "fl"
+    },
+    {
+      "name": "none",
+      "args": {
+        "strs": [
+          "dog",
+          "racecar",
+          "car"
+        ]
+      },
+      "expected": ""
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "one",
+      "args": {
+        "strs": [
+          "alone"
+        ]
+      },
+      "expected": "alone"
+    },
+    {
+      "name": "empty-word",
+      "args": {
+        "strs": [
+          "",
+          "a"
+        ]
+      },
+      "expected": ""
+    },
+    {
+      "name": "full",
+      "args": {
+        "strs": [
+          "ab",
+          "abc",
+          "abcd"
+        ]
+      },
+      "expected": "ab"
+    }
+  ]
+}

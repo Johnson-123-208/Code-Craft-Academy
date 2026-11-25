@@ -1,0 +1,137 @@
+{
+  "title": "Remove Nth Node From End of List",
+  "slug": "remove-nth-node-from-end",
+  "difficulty": "medium",
+  "topics": [
+    "linked-lists",
+    "two-pointers"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft",
+    "Adobe",
+    "Facebook"
+  ],
+  "statement": "Remove the nth node from the end of the list and return the remaining values. `n` is always valid.\n",
+  "constraints": [
+    "1 <= length <= 30",
+    "1 <= n <= length"
+  ],
+  "function_name": "remove_nth_from_end",
+  "hints": [
+    "Two passes work: count the length, then delete length - n.",
+    "One pass uses a gap of n nodes between a fast pointer and a slow pointer.",
+    "A dummy head makes deleting the first node the same as deleting any other node."
+  ],
+  "approaches": [
+    {
+      "name": "Length then delete",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Two walks."
+    },
+    {
+      "name": "Fast and slow gap",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "When fast falls off, slow stands before the target."
+    }
+  ],
+  "editorial": "Advance fast n + 1 steps from the dummy, so the gap includes the dummy. Then move both pointers until fast is null. Slow.next is the node to delete. Splice it out with slow.next = slow.next.next.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef remove_nth_from_end(head: list[int], n: int) -> list[int]:\n    dummy = _node_chain([0])\n    dummy.nxt = _node_chain(head)\n    fast = slow = dummy\n    for _ in range(n + 1):\n        fast = fast.nxt\n    while fast is not None:\n        fast = fast.nxt\n        slow = slow.nxt\n    slow.nxt = slow.nxt.nxt\n    return _to_list(dummy.nxt)\n",
+  "starter_code": "from typing import List\n\ndef remove_nth_from_end(head: List[int], n: int) -> List[int]:\n    pass\n",
+  "examples": [
+    {
+      "input": "head = [1, 2, 3, 4, 5], n = 2",
+      "output": "[1, 2, 3, 5]",
+      "explanation": "4 is removed."
+    },
+    {
+      "input": "head = [1], n = 1",
+      "output": "[]",
+      "explanation": "The list becomes empty."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "head": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "n": 2
+      },
+      "expected": [
+        1,
+        2,
+        3,
+        5
+      ]
+    },
+    {
+      "name": "only",
+      "args": {
+        "head": [
+          1
+        ],
+        "n": 1
+      },
+      "expected": []
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "head",
+      "args": {
+        "head": [
+          1,
+          2
+        ],
+        "n": 2
+      },
+      "expected": [
+        2
+      ]
+    },
+    {
+      "name": "tail",
+      "args": {
+        "head": [
+          1,
+          2,
+          3
+        ],
+        "n": 1
+      },
+      "expected": [
+        1,
+        2
+      ]
+    },
+    {
+      "name": "middle",
+      "args": {
+        "head": [
+          7,
+          8,
+          9,
+          10
+        ],
+        "n": 3
+      },
+      "expected": [
+        7,
+        9,
+        10
+      ]
+    }
+  ]
+}

@@ -1,0 +1,125 @@
+{
+  "title": "House Robber III",
+  "slug": "house-robber-iii",
+  "difficulty": "medium",
+  "topics": [
+    "trees",
+    "dynamic-programming"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "Uber"
+  ],
+  "statement": "Houses form a binary tree. Adjacent houses, meaning a parent and its child, cannot both be robbed. Return the maximum amount you can rob. Every node value is the money in that house.\n",
+  "constraints": [
+    "1 <= number of nodes <= 10^4",
+    "0 <= Node.val <= 10^4"
+  ],
+  "function_name": "rob",
+  "hints": [
+    "For each subtree, compute two numbers: the best if you rob the root, and the best if you do not.",
+    "Robbing the root adds its value to the 'do not rob' results of both children.",
+    "Skipping the root takes the better of rob or skip from each child."
+  ],
+  "approaches": [
+    {
+      "name": "Recursion with memo on nodes",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Two states per node."
+    },
+    {
+      "name": "Return a pair",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(h)"
+      },
+      "explanation": "The pair is (rob this node, skip this node)."
+    }
+  ],
+  "editorial": "Let rob_this = value + skip_left + skip_right. Let skip_this = max(rob_left, skip_left) + max(rob_right, skip_right). The answer for the subtree is the max of those two. The answer for the tree is that value at the root. This is the standard tree DP with a binary state.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef rob(root: list) -> int:\n    def walk(node):\n        if node is None:\n            return 0, 0\n        left = walk(node.left)\n        right = walk(node.right)\n        take = node.value + left[1] + right[1]\n        skip = max(left) + max(right)\n        return take, skip\n\n    return max(walk(_build(root)))\n",
+  "starter_code": "from typing import List, Optional\n\ndef rob(root: List[Optional[int]]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "root = [3, 2, 3, None, 3, None, 1]",
+      "output": "7",
+      "explanation": "Rob 3, 3, and 1 for a total of 7."
+    },
+    {
+      "input": "root = [3, 4, 5, 1, 3, None, 1]",
+      "output": "9",
+      "explanation": "The best total is 9."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "root": [
+          3,
+          2,
+          3,
+          null,
+          3,
+          null,
+          1
+        ]
+      },
+      "expected": 7
+    },
+    {
+      "name": "other",
+      "args": {
+        "root": [
+          3,
+          4,
+          5,
+          1,
+          3,
+          null,
+          1
+        ]
+      },
+      "expected": 9
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "single",
+      "args": {
+        "root": [
+          4
+        ]
+      },
+      "expected": 4
+    },
+    {
+      "name": "line",
+      "args": {
+        "root": [
+          2,
+          1,
+          null,
+          3
+        ]
+      },
+      "expected": 5
+    },
+    {
+      "name": "zeros",
+      "args": {
+        "root": [
+          0,
+          0,
+          0
+        ]
+      },
+      "expected": 0
+    }
+  ]
+}

@@ -1,0 +1,157 @@
+{
+  "title": "Paint House",
+  "slug": "paint-house",
+  "difficulty": "medium",
+  "topics": [
+    "dynamic-programming"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "LinkedIn",
+    "Microsoft"
+  ],
+  "statement": "`costs[i]` is the cost of painting house i red, blue, or green, in that order. Adjacent houses cannot share a color. Return the minimum cost to paint every house.\n",
+  "constraints": [
+    "1 <= houses <= 100",
+    "1 <= costs[i][j] <= 20"
+  ],
+  "function_name": "min_cost_paint",
+  "hints": [
+    "The state is the house and the color you just used.",
+    "Painting house i color c costs costs[i][c] plus the cheaper of the other two colors on house i - 1.",
+    "Three rolling values are enough."
+  ],
+  "approaches": [
+    {
+      "name": "Recursion",
+      "complexity": {
+        "time": "O(2^n)",
+        "space": "O(n)"
+      },
+      "explanation": "Two legal colors after the first."
+    },
+    {
+      "name": "DP over three colors",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "A constant number of colors."
+    }
+  ],
+  "editorial": "Keep the minimum cost of reaching the current house in each color. The next red cost is the red paint plus the min of the previous blue and green. The answer is the min of the three totals after the last house.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef min_cost_paint(costs: list[list[int]]) -> int:\n    a, b, c = costs[0]\n    for red, blue, green in costs[1:]:\n        a, b, c = red + min(b, c), blue + min(a, c), green + min(a, b)\n    return min(a, b, c)\n",
+  "starter_code": "from typing import List\n\ndef min_cost_paint(costs: List[List[int]]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "costs = [[17, 2, 17], [16, 16, 5], [14, 3, 19]]",
+      "output": "10",
+      "explanation": "Paint blue, green, blue for 10."
+    },
+    {
+      "input": "costs = [[7, 6, 2]]",
+      "output": "2",
+      "explanation": "The cheapest single color."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "costs": [
+          [
+            17,
+            2,
+            17
+          ],
+          [
+            16,
+            16,
+            5
+          ],
+          [
+            14,
+            3,
+            19
+          ]
+        ]
+      },
+      "expected": 10
+    },
+    {
+      "name": "one",
+      "args": {
+        "costs": [
+          [
+            7,
+            6,
+            2
+          ]
+        ]
+      },
+      "expected": 2
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "two",
+      "args": {
+        "costs": [
+          [
+            1,
+            10,
+            10
+          ],
+          [
+            10,
+            1,
+            10
+          ]
+        ]
+      },
+      "expected": 2
+    },
+    {
+      "name": "same",
+      "args": {
+        "costs": [
+          [
+            5,
+            5,
+            5
+          ],
+          [
+            5,
+            5,
+            5
+          ]
+        ]
+      },
+      "expected": 10
+    },
+    {
+      "name": "three",
+      "args": {
+        "costs": [
+          [
+            1,
+            2,
+            3
+          ],
+          [
+            1,
+            2,
+            3
+          ],
+          [
+            3,
+            2,
+            1
+          ]
+        ]
+      },
+      "expected": 4
+    }
+  ]
+}

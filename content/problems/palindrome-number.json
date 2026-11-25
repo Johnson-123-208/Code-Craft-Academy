@@ -1,0 +1,96 @@
+{
+  "title": "Palindrome Number",
+  "slug": "palindrome-number",
+  "difficulty": "easy",
+  "topics": [
+    "math"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Adobe",
+    "Apple",
+    "Microsoft"
+  ],
+  "statement": "Return true when the integer `x` reads the same forward and backward. Negative numbers are not palindromes.\n",
+  "constraints": [
+    "-2^31 <= x <= 2^31 - 1"
+  ],
+  "function_name": "is_palindrome_number",
+  "hints": [
+    "A negative number has a sign and is not a palindrome.",
+    "Reverse the digits and compare. Overflow does not matter if you compare the full reverse.",
+    "You can reverse only half the digits and compare the two halves to avoid building a number larger than the input."
+  ],
+  "approaches": [
+    {
+      "name": "String compare",
+      "complexity": {
+        "time": "O(digits)",
+        "space": "O(digits)"
+      },
+      "explanation": "Compare the decimal representation with its reverse."
+    },
+    {
+      "name": "Half reverse",
+      "complexity": {
+        "time": "O(digits)",
+        "space": "O(1)"
+      },
+      "explanation": "Stop when the reversed half catches the remaining half."
+    }
+  ],
+  "editorial": "Reject negatives. Reverse the decimal digits of the absolute value and compare. The half-reverse version stops when the reversed suffix has as many digits as the remaining prefix, and handles an odd middle digit by dividing the reverse by 10.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef is_palindrome_number(x: int) -> bool:\n    if x < 0:\n        return False\n    original = x\n    rev = 0\n    while x:\n        x, digit = divmod(x, 10)\n        rev = rev * 10 + digit\n    return rev == original\n",
+  "starter_code": "def is_palindrome_number(x: int) -> bool:\n    pass\n",
+  "examples": [
+    {
+      "input": "x = 121",
+      "output": "true",
+      "explanation": "121 reversed is 121."
+    },
+    {
+      "input": "x = -121",
+      "output": "false",
+      "explanation": "The sign breaks the palindrome."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "yes",
+      "args": {
+        "x": 121
+      },
+      "expected": true
+    },
+    {
+      "name": "negative",
+      "args": {
+        "x": -121
+      },
+      "expected": false
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "ten",
+      "args": {
+        "x": 10
+      },
+      "expected": false
+    },
+    {
+      "name": "zero",
+      "args": {
+        "x": 0
+      },
+      "expected": true
+    },
+    {
+      "name": "odd",
+      "args": {
+        "x": 12321
+      },
+      "expected": true
+    }
+  ]
+}

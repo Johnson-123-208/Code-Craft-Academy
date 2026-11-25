@@ -1,0 +1,163 @@
+{
+  "title": "Search a 2D Matrix",
+  "slug": "search-a-2d-matrix",
+  "difficulty": "medium",
+  "topics": [
+    "binary-search",
+    "matrix"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft",
+    "Adobe",
+    "Facebook"
+  ],
+  "statement": "Each row of the matrix is sorted, and the first element of each row is greater than the last element of the previous row. Return true when `target` is present.\n",
+  "constraints": [
+    "1 <= m, n <= 100",
+    "-10^4 <= values, target <= 10^4"
+  ],
+  "function_name": "search_matrix",
+  "hints": [
+    "The matrix is a sorted array written in rows.",
+    "Binary search the index range 0 .. m*n - 1.",
+    "Index k lives at row k // n and column k % n."
+  ],
+  "approaches": [
+    {
+      "name": "Binary search each row",
+      "complexity": {
+        "time": "O(m log n)",
+        "space": "O(1)"
+      },
+      "explanation": "Find the row, then search it."
+    },
+    {
+      "name": "One binary search",
+      "complexity": {
+        "time": "O(log (m*n))",
+        "space": "O(1)"
+      },
+      "explanation": "Treat the matrix as a flat sorted array."
+    }
+  ],
+  "editorial": "Map a flat index to a cell and run an ordinary binary search. The row-start condition is what makes the flat sequence sorted, so the usual halving argument applies. A staircase search from the top-right is the algorithm for the different problem where each row and each column is sorted but rows do not continue each other.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef search_matrix(matrix: list[list[int]], target: int) -> bool:\n    rows, cols = len(matrix), len(matrix[0])\n    lo, hi = 0, rows * cols - 1\n    while lo <= hi:\n        mid = (lo + hi) // 2\n        value = matrix[mid // cols][mid % cols]\n        if value == target:\n            return True\n        if value < target:\n            lo = mid + 1\n        else:\n            hi = mid - 1\n    return False\n",
+  "starter_code": "from typing import List\n\ndef search_matrix(matrix: List[List[int]], target: int) -> bool:\n    pass\n",
+  "examples": [
+    {
+      "input": "matrix = [[1, 3, 5, 7], [10, 11, 16, 20], [23, 30, 34, 60]], target = 3",
+      "output": "true",
+      "explanation": "3 is in the first row."
+    },
+    {
+      "input": "matrix = [[1, 3, 5, 7], [10, 11, 16, 20], [23, 30, 34, 60]], target = 13",
+      "output": "false",
+      "explanation": "13 is absent."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "hit",
+      "args": {
+        "matrix": [
+          [
+            1,
+            3,
+            5,
+            7
+          ],
+          [
+            10,
+            11,
+            16,
+            20
+          ],
+          [
+            23,
+            30,
+            34,
+            60
+          ]
+        ],
+        "target": 3
+      },
+      "expected": true
+    },
+    {
+      "name": "miss",
+      "args": {
+        "matrix": [
+          [
+            1,
+            3,
+            5,
+            7
+          ],
+          [
+            10,
+            11,
+            16,
+            20
+          ],
+          [
+            23,
+            30,
+            34,
+            60
+          ]
+        ],
+        "target": 13
+      },
+      "expected": false
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "corner",
+      "args": {
+        "matrix": [
+          [
+            1
+          ]
+        ],
+        "target": 1
+      },
+      "expected": true
+    },
+    {
+      "name": "last",
+      "args": {
+        "matrix": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        "target": 4
+      },
+      "expected": true
+    },
+    {
+      "name": "none",
+      "args": {
+        "matrix": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        "target": 5
+      },
+      "expected": false
+    }
+  ]
+}

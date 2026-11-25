@@ -1,0 +1,98 @@
+{
+  "title": "Score of Parentheses",
+  "slug": "score-of-parentheses",
+  "difficulty": "medium",
+  "topics": [
+    "stacks",
+    "strings"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Uber",
+    "Adobe"
+  ],
+  "statement": "The score of '()' is 1. The score of AB is score(A) + score(B). The score of (A) is 2 * score(A). `s` is a balanced parentheses string. Return its score.\n",
+  "constraints": [
+    "2 <= s.length <= 50",
+    "s is balanced"
+  ],
+  "function_name": "score_of_parentheses",
+  "hints": [
+    "A stack of scores handles nesting. Push 0 on '(' as a frame.",
+    "On ')', pop the frame. If it is 0, the pair was (), worth 1. Otherwise the frame is an inner score and the value is twice that.",
+    "Add the value onto the new top, which accumulates adjacent groups."
+  ],
+  "approaches": [
+    {
+      "name": "Recursion on matching pairs",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Find the span of each top-level group."
+    },
+    {
+      "name": "Stack of frames",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "The iterative version."
+    }
+  ],
+  "editorial": "Start with a stack containing 0, the score of the content outside everything. '(' pushes a fresh 0. ')' pops the inner score, turns 0 into 1 or doubles a positive score, and adds that onto the frame now on top. The only remaining value is the score of the whole string.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef score_of_parentheses(s: str) -> int:\n    stack = [0]\n    for ch in s:\n        if ch == \"(\":\n            stack.append(0)\n        else:\n            inner = stack.pop()\n            stack[-1] += 1 if inner == 0 else 2 * inner\n    return stack[-1]\n",
+  "starter_code": "def score_of_parentheses(s: str) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "s = '()'",
+      "output": "1",
+      "explanation": "Score 1."
+    },
+    {
+      "input": "s = '(())'",
+      "output": "2",
+      "explanation": "Score 2."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "one",
+      "args": {
+        "s": "()"
+      },
+      "expected": 1
+    },
+    {
+      "name": "double",
+      "args": {
+        "s": "(())"
+      },
+      "expected": 2
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "sum",
+      "args": {
+        "s": "()()"
+      },
+      "expected": 2
+    },
+    {
+      "name": "mixed",
+      "args": {
+        "s": "(()(()))"
+      },
+      "expected": 6
+    },
+    {
+      "name": "deep",
+      "args": {
+        "s": "((()))"
+      },
+      "expected": 4
+    }
+  ]
+}

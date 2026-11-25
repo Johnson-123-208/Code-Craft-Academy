@@ -1,0 +1,139 @@
+{
+  "title": "0/1 Knapsack",
+  "slug": "knapsack",
+  "difficulty": "medium",
+  "topics": [
+    "dynamic-programming",
+    "knapsack"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "Goldman Sachs"
+  ],
+  "statement": "Each item has a weight and a value. Choose each item at most once. Return the maximum value whose total weight does not exceed `capacity`.\n",
+  "constraints": [
+    "1 <= n <= 100",
+    "1 <= capacity <= 1000",
+    "1 <= weight, value <= 1000"
+  ],
+  "function_name": "knapsack",
+  "hints": [
+    "dp[w] is the best value using the items considered so far with capacity w.",
+    "Process one item at a time. For that item, iterate capacities downward so the item is not used twice.",
+    "The transition is dp[w] = max(dp[w], dp[w - weight] + value) when w >= weight."
+  ],
+  "approaches": [
+    {
+      "name": "Recursion with memo",
+      "complexity": {
+        "time": "O(n * capacity)",
+        "space": "O(n * capacity)"
+      },
+      "explanation": "State is (item index, remaining capacity)."
+    },
+    {
+      "name": "1D backward DP",
+      "complexity": {
+        "time": "O(n * capacity)",
+        "space": "O(capacity)"
+      },
+      "explanation": "The classic rolling array."
+    }
+  ],
+  "editorial": "The 0/1 constraint is the direction of the inner loop. Updating capacity from high to low reads the previous item's values, which still sit in the lower cells. Updating low to high would be the unbounded knapsack, where the same item can be chosen again.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef knapsack(weights: list[int], values: list[int], capacity: int) -> int:\n    dp = [0] * (capacity + 1)\n    for weight, value in zip(weights, values):\n        for w in range(capacity, weight - 1, -1):\n            dp[w] = max(dp[w], dp[w - weight] + value)\n    return dp[capacity]\n",
+  "starter_code": "from typing import List\n\ndef knapsack(weights: List[int], values: List[int], capacity: int) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "weights = [1, 3, 4, 5], values = [1, 4, 5, 7], capacity = 7",
+      "output": "9",
+      "explanation": "Items of weight 3 and 4 give value 9."
+    },
+    {
+      "input": "weights = [2, 2], values = [3, 4], capacity = 3",
+      "output": "4",
+      "explanation": "Only the heavier value fits once. Weight 2 value 4."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "weights": [
+          1,
+          3,
+          4,
+          5
+        ],
+        "values": [
+          1,
+          4,
+          5,
+          7
+        ],
+        "capacity": 7
+      },
+      "expected": 9
+    },
+    {
+      "name": "tight",
+      "args": {
+        "weights": [
+          2,
+          2
+        ],
+        "values": [
+          3,
+          4
+        ],
+        "capacity": 3
+      },
+      "expected": 4
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "none",
+      "args": {
+        "weights": [
+          5
+        ],
+        "values": [
+          10
+        ],
+        "capacity": 4
+      },
+      "expected": 0
+    },
+    {
+      "name": "all",
+      "args": {
+        "weights": [
+          1,
+          1
+        ],
+        "values": [
+          2,
+          3
+        ],
+        "capacity": 2
+      },
+      "expected": 5
+    },
+    {
+      "name": "one",
+      "args": {
+        "weights": [
+          4
+        ],
+        "values": [
+          6
+        ],
+        "capacity": 4
+      },
+      "expected": 6
+    }
+  ]
+}

@@ -1,0 +1,122 @@
+{
+  "title": "Symmetric Tree",
+  "slug": "symmetric-tree",
+  "difficulty": "easy",
+  "topics": [
+    "trees"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft",
+    "Facebook",
+    "LinkedIn"
+  ],
+  "statement": "Return true when the binary tree is a mirror of itself around its center.\n",
+  "constraints": [
+    "1 <= number of nodes <= 1000"
+  ],
+  "function_name": "is_symmetric",
+  "hints": [
+    "The tree is symmetric when the left subtree is a mirror of the right subtree.",
+    "Two trees are mirrors when their roots match and each left child mirrors the other right child.",
+    "A null pair matches. One null does not."
+  ],
+  "approaches": [
+    {
+      "name": "Recursive mirror check",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(h)"
+      },
+      "explanation": "Compare outside children and inside children."
+    },
+    {
+      "name": "BFS pairs",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Enqueue children in mirror order."
+    }
+  ],
+  "editorial": "Call a helper on (left, right). It returns true when both are null, false when one is null or the values differ, and otherwise checks mirror(left.left, right.right) and mirror(left.right, right.left). The root itself has no partner. Its two children do.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef is_symmetric(root: list) -> bool:\n    node = _build(root)\n\n    def mirror(a, b) -> bool:\n        if a is None or b is None:\n            return a is b\n        return a.value == b.value and mirror(a.left, b.right) and mirror(a.right, b.left)\n\n    return node is None or mirror(node.left, node.right)\n",
+  "starter_code": "from typing import List, Optional\n\ndef is_symmetric(root: List[Optional[int]]) -> bool:\n    pass\n",
+  "examples": [
+    {
+      "input": "root = [1, 2, 2, 3, 4, 4, 3]",
+      "output": "true",
+      "explanation": "The tree is a mirror."
+    },
+    {
+      "input": "root = [1, 2, 2, None, 3, None, 3]",
+      "output": "false",
+      "explanation": "The inner children are not mirrored."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "yes",
+      "args": {
+        "root": [
+          1,
+          2,
+          2,
+          3,
+          4,
+          4,
+          3
+        ]
+      },
+      "expected": true
+    },
+    {
+      "name": "no",
+      "args": {
+        "root": [
+          1,
+          2,
+          2,
+          null,
+          3,
+          null,
+          3
+        ]
+      },
+      "expected": false
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "single",
+      "args": {
+        "root": [
+          1
+        ]
+      },
+      "expected": true
+    },
+    {
+      "name": "two",
+      "args": {
+        "root": [
+          1,
+          2,
+          2
+        ]
+      },
+      "expected": true
+    },
+    {
+      "name": "values",
+      "args": {
+        "root": [
+          1,
+          2,
+          3
+        ]
+      },
+      "expected": false
+    }
+  ]
+}

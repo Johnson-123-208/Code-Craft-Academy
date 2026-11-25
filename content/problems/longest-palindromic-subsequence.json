@@ -1,0 +1,98 @@
+{
+  "title": "Longest Palindromic Subsequence",
+  "slug": "longest-palindromic-subsequence",
+  "difficulty": "medium",
+  "topics": [
+    "dynamic-programming",
+    "strings"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "Uber"
+  ],
+  "statement": "Return the length of the longest palindromic subsequence of `s`.\n",
+  "constraints": [
+    "1 <= s.length <= 1000",
+    "s is lowercase"
+  ],
+  "function_name": "longest_palindrome_subseq",
+  "hints": [
+    "A subsequence does not have to be contiguous. This is not the longest palindromic substring.",
+    "If the ends match, add 2 to the answer for the inside.",
+    "If they differ, drop one end. The answer is the LCS of s and its reverse."
+  ],
+  "approaches": [
+    {
+      "name": "Interval DP",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(n^2)"
+      },
+      "explanation": "dp[i][j] is the answer on s[i:j+1]."
+    },
+    {
+      "name": "LCS with the reverse",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(n^2)"
+      },
+      "explanation": "A palindromic subsequence is a common subsequence of s and reverse(s)."
+    }
+  ],
+  "editorial": "The LCS formulation is the shortest proof. Any palindromic subsequence reads the same forward and backward, so it is common to s and reverse(s), and the longest such common subsequence can be realized as a palindrome. The interval DP writes the same recurrence without building the reverse explicitly.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef longest_palindrome_subseq(s: str) -> int:\n    return longest_common_subsequence(s, s[::-1])\n",
+  "starter_code": "def longest_palindrome_subseq(s: str) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "s = 'bbbab'",
+      "output": "4",
+      "explanation": "bbbb has length 4."
+    },
+    {
+      "input": "s = 'cbbd'",
+      "output": "2",
+      "explanation": "bb has length 2."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "bbbab",
+      "args": {
+        "s": "bbbab"
+      },
+      "expected": 4
+    },
+    {
+      "name": "cbbd",
+      "args": {
+        "s": "cbbd"
+      },
+      "expected": 2
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "single",
+      "args": {
+        "s": "a"
+      },
+      "expected": 1
+    },
+    {
+      "name": "even",
+      "args": {
+        "s": "abba"
+      },
+      "expected": 4
+    },
+    {
+      "name": "odd",
+      "args": {
+        "s": "abcba"
+      },
+      "expected": 5
+    }
+  ]
+}

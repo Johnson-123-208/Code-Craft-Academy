@@ -1,0 +1,126 @@
+{
+  "title": "Can Place Flowers",
+  "slug": "can-place-flowers",
+  "difficulty": "easy",
+  "topics": [
+    "arrays",
+    "greedy"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "LinkedIn",
+    "Adobe"
+  ],
+  "statement": "`flowerbed[i]` is 1 if planted and 0 if empty. Flowers cannot be adjacent. Return true when `n` new flowers can be planted without violating that rule.\n",
+  "constraints": [
+    "1 <= flowerbed.length <= 2 * 10^4",
+    "flowerbed[i] is 0 or 1",
+    "0 <= n <= flowerbed.length"
+  ],
+  "function_name": "can_place_flowers",
+  "hints": [
+    "A plot is plantable when it and its existing neighbors are empty.",
+    "Greedily plant whenever you can. Planting earlier cannot block a later legal plot in a way that reduces the total.",
+    "Treat missing neighbors as empty so the ends are easy."
+  ],
+  "approaches": [
+    {
+      "name": "Try every subset",
+      "complexity": {
+        "time": "exponential",
+        "space": "O(n)"
+      },
+      "explanation": "Not needed."
+    },
+    {
+      "name": "Greedy scan",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Plant and skip the next plot."
+    }
+  ],
+  "editorial": "Scan the bed. If the current plot and both neighbors are empty, plant and decrement n. You can return early when n hits zero. At the end, n must be zero or negative.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef can_place_flowers(flowerbed: list[int], n: int) -> bool:\n    bed = flowerbed[:]\n    for i in range(len(bed)):\n        left = bed[i - 1] if i else 0\n        right = bed[i + 1] if i + 1 < len(bed) else 0\n        if bed[i] == left == right == 0:\n            bed[i] = 1\n            n -= 1\n    return n <= 0\n",
+  "starter_code": "from typing import List\n\ndef can_place_flowers(flowerbed: List[int], n: int) -> bool:\n    pass\n",
+  "examples": [
+    {
+      "input": "flowerbed = [1, 0, 0, 0, 1], n = 1",
+      "output": "true",
+      "explanation": "The middle plot works."
+    },
+    {
+      "input": "flowerbed = [1, 0, 0, 0, 1], n = 2",
+      "output": "false",
+      "explanation": "Only one plot is legal."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "yes",
+      "args": {
+        "flowerbed": [
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "n": 1
+      },
+      "expected": true
+    },
+    {
+      "name": "no",
+      "args": {
+        "flowerbed": [
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "n": 2
+      },
+      "expected": false
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "empty",
+      "args": {
+        "flowerbed": [
+          0,
+          0,
+          0
+        ],
+        "n": 2
+      },
+      "expected": true
+    },
+    {
+      "name": "zero",
+      "args": {
+        "flowerbed": [
+          1,
+          0,
+          1
+        ],
+        "n": 0
+      },
+      "expected": true
+    },
+    {
+      "name": "full",
+      "args": {
+        "flowerbed": [
+          0
+        ],
+        "n": 1
+      },
+      "expected": true
+    }
+  ]
+}

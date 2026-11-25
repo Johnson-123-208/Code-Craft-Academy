@@ -1,0 +1,155 @@
+{
+  "title": "Non-overlapping Intervals",
+  "slug": "non-overlapping-intervals",
+  "difficulty": "medium",
+  "topics": [
+    "intervals",
+    "greedy"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "ByteDance"
+  ],
+  "statement": "Return the minimum number of intervals to remove so the rest do not overlap. Touching endpoints do not count as overlap.\n",
+  "constraints": [
+    "1 <= intervals.length <= 10^5",
+    "-5 * 10^4 <= start < end <= 5 * 10^4"
+  ],
+  "function_name": "erase_overlap_intervals",
+  "hints": [
+    "Sorting by end time makes the greedy choice obvious: keep the interval that frees the timeline soonest.",
+    "If the next interval starts before the last kept end, it overlaps and must be removed.",
+    "Otherwise keep it and move the end forward."
+  ],
+  "approaches": [
+    {
+      "name": "Sort by start and dynamic programming",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(n)"
+      },
+      "explanation": "Longest non-overlapping subset, then removals are n minus that length."
+    },
+    {
+      "name": "Greedy by earliest end",
+      "complexity": {
+        "time": "O(n log n)",
+        "space": "O(1)"
+      },
+      "explanation": "One pass after sorting by end."
+    }
+  ],
+  "editorial": "The minimum deletions equal n minus the size of the largest compatible subset. Activity selection proves that sorting by finish time and taking every interval that starts at or after the last finish is optimal. Count the intervals you skip. Endpoints that merely touch are compatible, so the comparison is strict: start < last_end means overlap.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef erase_overlap_intervals(intervals: list[list[int]]) -> int:\n    ordered = sorted(intervals, key=lambda item: item[1])\n    removed = 0\n    end = ordered[0][1]\n    for start, finish in ordered[1:]:\n        if start < end:\n            removed += 1\n        else:\n            end = finish\n    return removed\n",
+  "starter_code": "from typing import List\n\ndef erase_overlap_intervals(intervals: List[List[int]]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "intervals = [[1, 2], [2, 3], [3, 4], [1, 3]]",
+      "output": "1",
+      "explanation": "Remove [1, 3]. Touching intervals stay."
+    },
+    {
+      "input": "intervals = [[1, 2], [1, 2], [1, 2]]",
+      "output": "2",
+      "explanation": "Keep one copy and remove two."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "intervals": [
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            1,
+            3
+          ]
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "name": "chain",
+      "args": {
+        "intervals": [
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ]
+        ]
+      },
+      "expected": 2
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "none",
+      "args": {
+        "intervals": [
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ]
+        ]
+      },
+      "expected": 0
+    },
+    {
+      "name": "nested",
+      "args": {
+        "intervals": [
+          [
+            1,
+            10
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            4
+          ]
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "name": "single",
+      "args": {
+        "intervals": [
+          [
+            1,
+            5
+          ]
+        ]
+      },
+      "expected": 0
+    }
+  ]
+}

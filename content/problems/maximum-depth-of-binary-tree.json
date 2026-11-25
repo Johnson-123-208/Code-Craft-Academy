@@ -1,0 +1,116 @@
+{
+  "title": "Maximum Depth of Binary Tree",
+  "slug": "maximum-depth-of-binary-tree",
+  "difficulty": "easy",
+  "topics": [
+    "trees",
+    "recursion"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft",
+    "Apple",
+    "Google"
+  ],
+  "statement": "Return the number of nodes on the longest root-to-leaf path. An empty tree has depth 0.\n",
+  "constraints": [
+    "0 <= number of nodes <= 10^4"
+  ],
+  "function_name": "max_depth",
+  "hints": [
+    "The depth of a node is 1 plus the deeper child.",
+    "A null child has depth 0.",
+    "BFS counts layers and returns the number of layers."
+  ],
+  "approaches": [
+    {
+      "name": "BFS layers",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "The last layer index is the depth."
+    },
+    {
+      "name": "DFS",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(h)"
+      },
+      "explanation": "One recursive definition."
+    }
+  ],
+  "editorial": "max_depth(null) = 0 and max_depth(node) = 1 + max(max_depth(left), max_depth(right)). That is the whole algorithm. It is also the template for height-based tree DP.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef max_depth(root: list) -> int:\n    def walk(node) -> int:\n        if node is None:\n            return 0\n        return 1 + max(walk(node.left), walk(node.right))\n\n    return walk(_build(root))\n",
+  "starter_code": "from typing import List, Optional\n\ndef max_depth(root: List[Optional[int]]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "root = [3, 9, 20, None, None, 15, 7]",
+      "output": "3",
+      "explanation": "The longest path has three nodes."
+    },
+    {
+      "input": "root = []",
+      "output": "0",
+      "explanation": "Depth is 0."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "root": [
+          3,
+          9,
+          20,
+          null,
+          null,
+          15,
+          7
+        ]
+      },
+      "expected": 3
+    },
+    {
+      "name": "empty",
+      "args": {
+        "root": []
+      },
+      "expected": 0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "skew",
+      "args": {
+        "root": [
+          1,
+          2,
+          null,
+          3
+        ]
+      },
+      "expected": 3
+    },
+    {
+      "name": "single",
+      "args": {
+        "root": [
+          1
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "name": "full",
+      "args": {
+        "root": [
+          1,
+          2,
+          3
+        ]
+      },
+      "expected": 2
+    }
+  ]
+}

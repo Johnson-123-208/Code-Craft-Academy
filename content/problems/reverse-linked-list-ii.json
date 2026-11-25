@@ -1,0 +1,149 @@
+{
+  "title": "Reverse Linked List II",
+  "slug": "reverse-linked-list-ii",
+  "difficulty": "medium",
+  "topics": [
+    "linked-lists"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Facebook",
+    "Microsoft",
+    "Adobe"
+  ],
+  "statement": "Reverse the nodes of the list from position `left` to position `right`, using 1-based positions, and return the value sequence. Do it in one pass.\n",
+  "constraints": [
+    "1 <= length <= 500",
+    "1 <= left <= right <= length"
+  ],
+  "function_name": "reverse_between",
+  "hints": [
+    "A dummy node removes the special case where left is 1.",
+    "Walk left - 1 steps so you stand on the node before the segment.",
+    "Reverse the next (right - left + 1) nodes with the ordinary three-pointer loop, then reconnect both ends."
+  ],
+  "approaches": [
+    {
+      "name": "Convert to an array",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Reverse the slice and rebuild."
+    },
+    {
+      "name": "One-pass pointer reverse",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Reverse only the requested segment and stitch it back."
+    }
+  ],
+  "editorial": "Let prev be the node before position left, and let start be the first node of the segment. Reverse the following right - left nodes by inserting each successor of start directly after prev. That head-insertion formulation keeps start as the tail of the reversed segment, so the final link from start to the remainder is already correct.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef reverse_between(head: list[int], left: int, right: int) -> list[int]:\n    dummy = _node_chain([0])\n    dummy.nxt = _node_chain(head)\n    prev = dummy\n    for _ in range(left - 1):\n        prev = prev.nxt\n    start = prev.nxt\n    for _ in range(right - left):\n        nxt = start.nxt\n        start.nxt = nxt.nxt\n        nxt.nxt = prev.nxt\n        prev.nxt = nxt\n    return _to_list(dummy.nxt)\n",
+  "starter_code": "from typing import List\n\ndef reverse_between(head: List[int], left: int, right: int) -> List[int]:\n    pass\n",
+  "examples": [
+    {
+      "input": "head = [1, 2, 3, 4, 5], left = 2, right = 4",
+      "output": "[1, 4, 3, 2, 5]",
+      "explanation": "The middle segment reverses."
+    },
+    {
+      "input": "head = [1, 2, 3], left = 1, right = 3",
+      "output": "[3, 2, 1]",
+      "explanation": "The entire list reverses."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "head": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "left": 2,
+        "right": 4
+      },
+      "expected": [
+        1,
+        4,
+        3,
+        2,
+        5
+      ]
+    },
+    {
+      "name": "whole",
+      "args": {
+        "head": [
+          1,
+          2,
+          3
+        ],
+        "left": 1,
+        "right": 3
+      },
+      "expected": [
+        3,
+        2,
+        1
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "single",
+      "args": {
+        "head": [
+          5
+        ],
+        "left": 1,
+        "right": 1
+      },
+      "expected": [
+        5
+      ]
+    },
+    {
+      "name": "tail",
+      "args": {
+        "head": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "left": 3,
+        "right": 4
+      },
+      "expected": [
+        1,
+        2,
+        4,
+        3
+      ]
+    },
+    {
+      "name": "head-two",
+      "args": {
+        "head": [
+          1,
+          2,
+          3
+        ],
+        "left": 1,
+        "right": 2
+      },
+      "expected": [
+        2,
+        1,
+        3
+      ]
+    }
+  ]
+}

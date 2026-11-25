@@ -1,0 +1,127 @@
+{
+  "title": "Reverse Linked List",
+  "slug": "reverse-linked-list",
+  "difficulty": "easy",
+  "topics": [
+    "linked-lists"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft",
+    "Apple",
+    "Adobe"
+  ],
+  "statement": "`head` is the value sequence of a singly linked list. Reverse the list iteratively with pointer rewiring and return the new value sequence.\n",
+  "constraints": [
+    "0 <= length <= 5000",
+    "-5000 <= Node.val <= 5000"
+  ],
+  "function_name": "reverse_list",
+  "hints": [
+    "Three references are enough: previous, current, and the saved next node.",
+    "Before you overwrite current.next, store it.",
+    "When current becomes null, previous is the new head."
+  ],
+  "approaches": [
+    {
+      "name": "Recursion",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "The call stack remembers the way back. Reverse the tail, then attach the head at the end."
+    },
+    {
+      "name": "Iteration",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Rewire next pointers in one walk."
+    }
+  ],
+  "editorial": "Build the nodes, then walk them. Save next, point current at previous, and advance both pointers. The empty list and the one-node list fall out naturally: the loop never runs, or it runs once and previous becomes that node. The recursive form is the same rewiring expressed as 'reverse the tail, then point the old head's next next back at the head'.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef reverse_list(head: list[int]) -> list[int]:\n    current = _node_chain(head)\n    previous = None\n    while current is not None:\n        nxt = current.nxt\n        current.nxt = previous\n        previous = current\n        current = nxt\n    return _to_list(previous)\n",
+  "starter_code": "from typing import List\n\ndef reverse_list(head: List[int]) -> List[int]:\n    pass\n",
+  "examples": [
+    {
+      "input": "head = [1, 2, 3, 4, 5]",
+      "output": "[5, 4, 3, 2, 1]",
+      "explanation": "The reversed sequence is 5, 4, 3, 2, 1."
+    },
+    {
+      "input": "head = [1, 2]",
+      "output": "[2, 1]",
+      "explanation": "The two nodes swap."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "head": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      "expected": [
+        5,
+        4,
+        3,
+        2,
+        1
+      ]
+    },
+    {
+      "name": "two",
+      "args": {
+        "head": [
+          1,
+          2
+        ]
+      },
+      "expected": [
+        2,
+        1
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "empty",
+      "args": {
+        "head": []
+      },
+      "expected": []
+    },
+    {
+      "name": "single",
+      "args": {
+        "head": [
+          7
+        ]
+      },
+      "expected": [
+        7
+      ]
+    },
+    {
+      "name": "negatives",
+      "args": {
+        "head": [
+          -1,
+          0,
+          2
+        ]
+      },
+      "expected": [
+        2,
+        0,
+        -1
+      ]
+    }
+  ]
+}

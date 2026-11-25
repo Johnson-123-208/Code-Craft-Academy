@@ -1,0 +1,217 @@
+{
+  "title": "Game of Life",
+  "slug": "game-of-life",
+  "difficulty": "medium",
+  "topics": [
+    "arrays",
+    "matrix",
+    "simulation"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Dropbox",
+    "Microsoft"
+  ],
+  "statement": "Apply one step of Conway's Game of Life and return the board. 1 is live and 0 is dead. A live cell with two or three live neighbors stays live. A dead cell with exactly three live neighbors becomes live. Every other cell dies or stays dead. Neighbors are the eight surrounding cells.\n",
+  "constraints": [
+    "1 <= m, n <= 25",
+    "board[i][j] is 0 or 1"
+  ],
+  "function_name": "game_of_life",
+  "hints": [
+    "If you write the next state immediately, later neighbor counts are wrong.",
+    "Encode the next state in a second bit. The current state stays in the low bit.",
+    "After every cell is encoded, shift each value right by one to drop the old state."
+  ],
+  "approaches": [
+    {
+      "name": "Copy the board",
+      "complexity": {
+        "time": "O(mn)",
+        "space": "O(mn)"
+      },
+      "explanation": "Count neighbors on the copy."
+    },
+    {
+      "name": "In-place bit encoding",
+      "complexity": {
+        "time": "O(mn)",
+        "space": "O(1)"
+      },
+      "explanation": "The second bit holds the next state."
+    }
+  ],
+  "editorial": "Count live neighbors using the low bit only. If the cell should be live next, set the second bit with OR 2. A final pass replaces every cell with its second bit. The original board is not required after the step, and the encoding never needs a second matrix.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef game_of_life(board: list[list[int]]) -> list[list[int]]:\n    rows, cols = len(board), len(board[0])\n\n    def live(r: int, c: int) -> int:\n        if 0 <= r < rows and 0 <= c < cols:\n            return board[r][c] & 1\n        return 0\n\n    for r in range(rows):\n        for c in range(cols):\n            neighbors = sum(live(r + dr, c + dc) for dr in (-1, 0, 1) for dc in (-1, 0, 1) if (dr, dc) != (0, 0))\n            if board[r][c] == 1 and neighbors in (2, 3):\n                board[r][c] = 3\n            if board[r][c] == 0 and neighbors == 3:\n                board[r][c] = 2\n    for r in range(rows):\n        for c in range(cols):\n            board[r][c] >>= 1\n    return board\n",
+  "starter_code": "from typing import List\n\ndef game_of_life(board: List[List[int]]) -> List[List[int]]:\n    pass\n",
+  "examples": [
+    {
+      "input": "board = [[0, 1, 0], [0, 0, 1], [1, 1, 1], [0, 0, 0]]",
+      "output": "[[0, 0, 0], [1, 0, 1], [0, 1, 1], [0, 1, 0]]",
+      "explanation": "One generation of the classic board."
+    },
+    {
+      "input": "board = [[0, 0], [0, 0]]",
+      "output": "[[0, 0], [0, 0]]",
+      "explanation": "Stays dead."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "board": [
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "expected": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          1
+        ],
+        [
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          1,
+          0
+        ]
+      ]
+    },
+    {
+      "name": "dead",
+      "args": {
+        "board": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "expected": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "block",
+      "args": {
+        "board": [
+          [
+            1,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ]
+      },
+      "expected": [
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "name": "single",
+      "args": {
+        "board": [
+          [
+            1
+          ]
+        ]
+      },
+      "expected": [
+        [
+          0
+        ]
+      ]
+    },
+    {
+      "name": "blinker",
+      "args": {
+        "board": [
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            1,
+            0
+          ]
+        ]
+      },
+      "expected": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  ]
+}

@@ -1,0 +1,150 @@
+{
+  "title": "Scaled Dot-Product Attention Weights",
+  "slug": "ml-attention-weights",
+  "difficulty": "hard",
+  "topics": [
+    "machine-learning",
+    "deep-learning",
+    "transformers"
+  ],
+  "company_tags": [
+    "OpenAI",
+    "Google",
+    "Anthropic"
+  ],
+  "statement": "Implement `attention_weights(query, keys)` for a single query and a list of key vectors, all of dimension d. Logits are the dot product of the query with each key, divided by sqrt(d). Return the softmax of those logits. Subtract the max logit inside softmax for stability. This is one row of scaled dot-product attention before multiplying by values.",
+  "constraints": [
+    "d >= 1 and every key has length d",
+    "At least one key",
+    "Weights are positive and sum to 1"
+  ],
+  "examples": [
+    {
+      "input": "{\"query\": [1.0, 0.0], \"keys\": [[1.0, 0.0], [1.0, 0.0]]}",
+      "output": "[0.5, 0.5]",
+      "explanation": "Matches the reference on this input."
+    },
+    {
+      "input": "{\"query\": [1.0, 0.0], \"keys\": [[1.0, 0.0], [0.0, 1.0]]}",
+      "output": "[0.6697615493266569, 0.3302384506733431]",
+      "explanation": "Matches the reference on this input."
+    }
+  ],
+  "starter_code": "def attention_weights(query: list[float], keys: list[list[float]]) -> list[float]:\n    pass\n",
+  "function_name": "attention_weights",
+  "hints": [
+    "Scale by sqrt(d), not by d.",
+    "Softmax is shift-invariant; subtract the max logit.",
+    "Identical keys produce a uniform distribution."
+  ],
+  "approaches": [
+    {
+      "name": "Scaled dots then softmax",
+      "complexity": {
+        "time": "O(n d)",
+        "space": "O(n)"
+      },
+      "explanation": "Vaswani et al. scale by sqrt(d) so the variance of the dot product stays stable as dimension grows."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "identical-keys",
+      "args": {
+        "query": [
+          1.0,
+          0.0
+        ],
+        "keys": [
+          [
+            1.0,
+            0.0
+          ],
+          [
+            1.0,
+            0.0
+          ]
+        ]
+      },
+      "expected": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "prefers-aligned",
+      "args": {
+        "query": [
+          1.0,
+          0.0
+        ],
+        "keys": [
+          [
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      "expected": [
+        0.6697615493266569,
+        0.3302384506733431
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "three",
+      "args": {
+        "query": [
+          0.0,
+          1.0
+        ],
+        "keys": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            -1.0
+          ],
+          [
+            1.0,
+            0.0
+          ]
+        ]
+      },
+      "expected": [
+        0.575975345215362,
+        0.14002924504337802,
+        0.28399540974126003
+      ]
+    },
+    {
+      "name": "d-one",
+      "args": {
+        "query": [
+          2.0
+        ],
+        "keys": [
+          [
+            2.0
+          ],
+          [
+            0.0
+          ]
+        ]
+      },
+      "expected": [
+        0.9820137900379085,
+        0.017986209962091555
+      ]
+    }
+  ],
+  "editorial": "Scaled dot-product attention computes softmax(q K\u1d40 / \u221ad) and then multiplies by V. The square-root scale keeps logits from growing like d when components are random with variance 1, which would saturate softmax. This exercise returns only the weights for one query. The full head is those weights times the value matrix. Masking, as in causal language models, is implemented by setting illegal logits to a large negative number before the softmax.",
+  "reference_solution": "import math\n\ndef attention_weights(query: list[float], keys: list[list[float]]) -> list[float]:\n    scale = math.sqrt(len(query))\n    logits = [sum(q * k for q, k in zip(query, key)) / scale for key in keys]\n    m = max(logits)\n    exps = [math.exp(z - m) for z in logits]\n    s = sum(exps)\n    return [e / s for e in exps]\n"
+}

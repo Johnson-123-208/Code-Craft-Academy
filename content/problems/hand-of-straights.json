@@ -1,0 +1,133 @@
+{
+  "title": "Hand of Straights",
+  "slug": "hand-of-straights",
+  "difficulty": "medium",
+  "topics": [
+    "greedy",
+    "hashing"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Adobe",
+    "Microsoft"
+  ],
+  "statement": "Return true when you can rearrange `hand` into groups of `group_size` consecutive values. Each card is used once.\n",
+  "constraints": [
+    "1 <= hand.length <= 10^4",
+    "0 <= hand[i] <= 10^9",
+    "1 <= groupSize <= hand.length"
+  ],
+  "function_name": "is_n_straight_hand",
+  "hints": [
+    "If the length is not divisible by the group size, return false.",
+    "Count the cards. Always start a group at the smallest remaining value.",
+    "A group starting at x consumes one of x, x+1, ..., x+group_size-1. If any is missing, return false."
+  ],
+  "approaches": [
+    {
+      "name": "Sort and scan",
+      "complexity": {
+        "time": "O(n log n)",
+        "space": "O(n)"
+      },
+      "explanation": "A counter plus a sorted unique list."
+    },
+    {
+      "name": "Ordered map",
+      "complexity": {
+        "time": "O(n log n)",
+        "space": "O(n)"
+      },
+      "explanation": "The same greedy start."
+    }
+  ],
+  "editorial": "The smallest remaining card has nowhere to sit except as the start of a group. That greedy choice is forced. Consume the next group_size - 1 consecutive values. Repeat until the counter is empty or a hole appears.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef is_n_straight_hand(hand: list[int], group_size: int) -> bool:\n    if len(hand) % group_size:\n        return False\n    counts = Counter(hand)\n    for start in sorted(counts):\n        need = counts[start]\n        if need == 0:\n            continue\n        for offset in range(group_size):\n            counts[start + offset] -= need\n            if counts[start + offset] < 0:\n                return False\n    return True\n",
+  "starter_code": "from typing import List\n\ndef is_n_straight_hand(hand: List[int], group_size: int) -> bool:\n    pass\n",
+  "examples": [
+    {
+      "input": "hand = [1, 2, 3, 6, 2, 3, 4, 7, 8], group_size = 3",
+      "output": "true",
+      "explanation": "Three straights."
+    },
+    {
+      "input": "hand = [1, 2, 3, 4, 5], group_size = 4",
+      "output": "false",
+      "explanation": "The length is not divisible by 4."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "yes",
+      "args": {
+        "hand": [
+          1,
+          2,
+          3,
+          6,
+          2,
+          3,
+          4,
+          7,
+          8
+        ],
+        "group_size": 3
+      },
+      "expected": true
+    },
+    {
+      "name": "no",
+      "args": {
+        "hand": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "group_size": 4
+      },
+      "expected": false
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "one",
+      "args": {
+        "hand": [
+          1
+        ],
+        "group_size": 1
+      },
+      "expected": true
+    },
+    {
+      "name": "dups",
+      "args": {
+        "hand": [
+          1,
+          1,
+          2,
+          2,
+          3,
+          3
+        ],
+        "group_size": 3
+      },
+      "expected": true
+    },
+    {
+      "name": "gap",
+      "args": {
+        "hand": [
+          1,
+          2,
+          4
+        ],
+        "group_size": 3
+      },
+      "expected": false
+    }
+  ]
+}

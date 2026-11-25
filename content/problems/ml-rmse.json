@@ -1,0 +1,111 @@
+{
+  "title": "Root Mean Squared Error",
+  "slug": "ml-rmse",
+  "difficulty": "easy",
+  "topics": [
+    "machine-learning",
+    "metrics",
+    "python"
+  ],
+  "company_tags": [
+    "Netflix",
+    "Amazon"
+  ],
+  "statement": "Implement `rmse(y_true, y_pred)`. Return the square root of the mean squared error. RMSE is in the same units as the target, which makes it easier to explain than MSE.",
+  "constraints": [
+    "Equal non-empty lengths",
+    "Return a non-negative float",
+    "A perfect prediction has RMSE 0"
+  ],
+  "examples": [
+    {
+      "input": "{\"y_true\": [0.0, 0.0], \"y_pred\": [1.0, -1.0]}",
+      "output": "1.0",
+      "explanation": "Matches the reference on this input."
+    },
+    {
+      "input": "{\"y_true\": [3.0, 4.0], \"y_pred\": [3.0, 4.0]}",
+      "output": "0.0",
+      "explanation": "Matches the reference on this input."
+    }
+  ],
+  "starter_code": "def rmse(y_true: list[float], y_pred: list[float]) -> float:\n    pass\n",
+  "function_name": "rmse",
+  "hints": [
+    "Compute MSE first.",
+    "Take the square root once.",
+    "Do not average the square roots of absolute residuals; that would be a different metric."
+  ],
+  "approaches": [
+    {
+      "name": "Sqrt of MSE",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "RMSE and MSE rank models the same way. RMSE is easier to read."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "unit-miss",
+      "args": {
+        "y_true": [
+          0.0,
+          0.0
+        ],
+        "y_pred": [
+          1.0,
+          -1.0
+        ]
+      },
+      "expected": 1.0
+    },
+    {
+      "name": "perfect",
+      "args": {
+        "y_true": [
+          3.0,
+          4.0
+        ],
+        "y_pred": [
+          3.0,
+          4.0
+        ]
+      },
+      "expected": 0.0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "single",
+      "args": {
+        "y_true": [
+          10.0
+        ],
+        "y_pred": [
+          6.0
+        ]
+      },
+      "expected": 4.0
+    },
+    {
+      "name": "partial",
+      "args": {
+        "y_true": [
+          1.0,
+          2.0,
+          3.0
+        ],
+        "y_pred": [
+          1.0,
+          2.0,
+          6.0
+        ]
+      },
+      "expected": 1.7320508075688772
+    }
+  ],
+  "editorial": "RMSE = sqrt( (1/n) \u03a3 (y \u2212 \u0177)\u00b2 ). Because square root is monotone, the model that wins on MSE wins on RMSE, but the number is interpretable in target units: an RMSE of 2.0 on house prices in hundreds of thousands of dollars is a typical error of about 200,000 dollars. Outliers still dominate, since the square happens before the root. Use MAE when you want each residual to count linearly.",
+  "reference_solution": "import math\n\ndef rmse(y_true: list[float], y_pred: list[float]) -> float:\n    mse = sum((a - b) ** 2 for a, b in zip(y_true, y_pred)) / len(y_true)\n    return float(math.sqrt(mse))\n"
+}

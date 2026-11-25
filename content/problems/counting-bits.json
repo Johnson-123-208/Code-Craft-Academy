@@ -1,0 +1,123 @@
+{
+  "title": "Counting Bits",
+  "slug": "counting-bits",
+  "difficulty": "easy",
+  "topics": [
+    "bit-manipulation",
+    "dynamic-programming"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Apple",
+    "Microsoft"
+  ],
+  "statement": "Return an array `ans` of length n + 1 where ans[i] is the number of 1-bits in the binary representation of i.\n",
+  "constraints": [
+    "0 <= n <= 10^5"
+  ],
+  "function_name": "count_bits",
+  "hints": [
+    "ans[i] = ans[i >> 1] + (i & 1). The shift drops the last bit and the mask reads it.",
+    "i & (i - 1) clears the lowest set bit, so ans[i] = ans[i & (i - 1)] + 1 for i > 0.",
+    "Either recurrence fills the array in one pass."
+  ],
+  "approaches": [
+    {
+      "name": "Built-in popcount per integer",
+      "complexity": {
+        "time": "O(n log n)",
+        "space": "O(1)"
+      },
+      "explanation": "Count bits independently."
+    },
+    {
+      "name": "DP from the parent number",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1) extra"
+      },
+      "explanation": "Each integer reuses a smaller answer."
+    }
+  ],
+  "editorial": "Right-shifting i produces a number whose popcount is already known, because it is smaller than i. Add one when i is odd. ans[0] is 0. The loop from 1 to n is therefore a linear DP.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef count_bits(n: int) -> list[int]:\n    ans = [0] * (n + 1)\n    for i in range(1, n + 1):\n        ans[i] = ans[i >> 1] + (i & 1)\n    return ans\n",
+  "starter_code": "from typing import List\n\ndef count_bits(n: int) -> List[int]:\n    pass\n",
+  "examples": [
+    {
+      "input": "n = 2",
+      "output": "[0, 1, 1]",
+      "explanation": "[0, 1, 1]."
+    },
+    {
+      "input": "n = 5",
+      "output": "[0, 1, 1, 2, 1, 2]",
+      "explanation": "Popcounts through 5."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "two",
+      "args": {
+        "n": 2
+      },
+      "expected": [
+        0,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "five",
+      "args": {
+        "n": 5
+      },
+      "expected": [
+        0,
+        1,
+        1,
+        2,
+        1,
+        2
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "zero",
+      "args": {
+        "n": 0
+      },
+      "expected": [
+        0
+      ]
+    },
+    {
+      "name": "one",
+      "args": {
+        "n": 1
+      },
+      "expected": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "eight",
+      "args": {
+        "n": 8
+      },
+      "expected": [
+        0,
+        1,
+        1,
+        2,
+        1,
+        2,
+        2,
+        3,
+        1
+      ]
+    }
+  ]
+}

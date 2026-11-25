@@ -1,0 +1,98 @@
+{
+  "title": "Basic Calculator",
+  "slug": "basic-calculator",
+  "difficulty": "hard",
+  "topics": [
+    "stacks",
+    "expression-evaluation"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "Uber"
+  ],
+  "statement": "Evaluate a string expression that contains non-negative integers, plus, minus, parentheses, and spaces. The expression is valid. Return the integer result.\n",
+  "constraints": [
+    "1 <= s.length <= 3 * 10^5",
+    "s is a valid expression"
+  ],
+  "function_name": "calculate",
+  "hints": [
+    "Keep a running result, the current number, and the sign that should be applied to that number.",
+    "An operator flushes the current number into the result with the pending sign, then stores the new sign.",
+    "An opening parenthesis pushes the result and the sign, then starts a fresh result. A closing parenthesis flushes the number, multiplies by the saved sign, and adds the saved result."
+  ],
+  "approaches": [
+    {
+      "name": "Convert to postfix and evaluate",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "The shunting-yard algorithm."
+    },
+    {
+      "name": "One stack of frames",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Parentheses save and restore the outer result and sign."
+    }
+  ],
+  "editorial": "Spaces are ignored. Digits accumulate into the current number. Plus and minus apply the previous number to the result and set the next sign. Parentheses are a stack frame: the value computed inside is a single signed term of the outer expression. After the string ends, flush the last number.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef calculate(s: str) -> int:\n    stack: list[int] = []\n    result = 0\n    number = 0\n    sign = 1\n    for ch in s:\n        if ch.isdigit():\n            number = number * 10 + int(ch)\n        elif ch == \"+\":\n            result += sign * number\n            number = 0\n            sign = 1\n        elif ch == \"-\":\n            result += sign * number\n            number = 0\n            sign = -1\n        elif ch == \"(\":\n            stack.append(result)\n            stack.append(sign)\n            result = 0\n            sign = 1\n        elif ch == \")\":\n            result += sign * number\n            number = 0\n            result *= stack.pop()\n            result += stack.pop()\n    return result + sign * number\n",
+  "starter_code": "def calculate(s: str) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "s = '1 + 1'",
+      "output": "2",
+      "explanation": "The result is 2."
+    },
+    {
+      "input": "s = '(1+(4+5+2)-3)+(6+8)'",
+      "output": "23",
+      "explanation": "The result is 23."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "simple",
+      "args": {
+        "s": "1 + 1"
+      },
+      "expected": 2
+    },
+    {
+      "name": "nested",
+      "args": {
+        "s": "(1+(4+5+2)-3)+(6+8)"
+      },
+      "expected": 23
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "spaces",
+      "args": {
+        "s": " 2-1 + 2 "
+      },
+      "expected": 3
+    },
+    {
+      "name": "paren",
+      "args": {
+        "s": "(1)"
+      },
+      "expected": 1
+    },
+    {
+      "name": "minus",
+      "args": {
+        "s": "1-(2+3)"
+      },
+      "expected": -4
+    }
+  ]
+}

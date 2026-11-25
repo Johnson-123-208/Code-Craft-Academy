@@ -1,0 +1,99 @@
+{
+  "title": "Reorganize String",
+  "slug": "reorganize-string",
+  "difficulty": "medium",
+  "topics": [
+    "greedy",
+    "heaps",
+    "strings"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Facebook",
+    "Uber"
+  ],
+  "statement": "Rearrange `s` so no two adjacent characters are equal. Return an empty string when it is impossible. When it is possible, return the string formed by sorting characters by descending frequency and then by character, and writing them into even indexes first and odd indexes afterward.\n",
+  "constraints": [
+    "1 <= s.length <= 500",
+    "s consists of lowercase English letters"
+  ],
+  "function_name": "reorganize_string",
+  "hints": [
+    "If one character appears more than (n + 1) / 2 times, no arrangement exists.",
+    "A max-heap of frequencies always places the currently most frequent remaining character, unless it equals the previous character.",
+    "To make the result unique, break frequency ties by the character itself."
+  ],
+  "approaches": [
+    {
+      "name": "Fill even indexes then odd indexes",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Sort by frequency and write into even slots first."
+    },
+    {
+      "name": "Heap",
+      "complexity": {
+        "time": "O(n log alphabet)",
+        "space": "O(alphabet)"
+      },
+      "explanation": "Greedy most-frequent placement."
+    }
+  ],
+  "editorial": "Sort characters by descending frequency, then by character. If the top frequency exceeds (n + 1) // 2, return an empty string. Write the sorted characters into even indexes first and then odd indexes. The most frequent character lands on evens and cannot touch itself when the frequency bound holds. Sorting the characters inside a frequency makes the string deterministic.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef reorganize_string(s: str) -> str:\n    counts = Counter(s)\n    if max(counts.values()) > (len(s) + 1) // 2:\n        return \"\"\n    ordered = sorted(s, key=lambda ch: (-counts[ch], ch))\n    result = [\"\"] * len(s)\n    index = 0\n    for ch in ordered:\n        result[index] = ch\n        index += 2\n        if index >= len(s):\n            index = 1\n    return \"\".join(result)\n",
+  "starter_code": "def reorganize_string(s: str) -> str:\n    pass\n",
+  "examples": [
+    {
+      "input": "s = 'aab'",
+      "output": "\"aba\"",
+      "explanation": "aba is the only shape."
+    },
+    {
+      "input": "s = 'aaab'",
+      "output": "\"\"",
+      "explanation": "Impossible."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "aab",
+      "args": {
+        "s": "aab"
+      },
+      "expected": "aba"
+    },
+    {
+      "name": "aaab",
+      "args": {
+        "s": "aaab"
+      },
+      "expected": ""
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "vvvlo",
+      "args": {
+        "s": "vvvlo"
+      },
+      "expected": "vlvov"
+    },
+    {
+      "name": "a",
+      "args": {
+        "s": "a"
+      },
+      "expected": "a"
+    },
+    {
+      "name": "abcd",
+      "args": {
+        "s": "abcd"
+      },
+      "expected": "acbd"
+    }
+  ]
+}

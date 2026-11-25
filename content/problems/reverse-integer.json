@@ -1,0 +1,96 @@
+{
+  "title": "Reverse Integer",
+  "slug": "reverse-integer",
+  "difficulty": "medium",
+  "topics": [
+    "math"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Apple",
+    "Bloomberg",
+    "Adobe"
+  ],
+  "statement": "Reverse the digits of a 32-bit signed integer. If the reversed value overflows the signed 32-bit range, return 0. The sign stays in front.\n",
+  "constraints": [
+    "-2^31 <= x <= 2^31 - 1"
+  ],
+  "function_name": "reverse_integer",
+  "hints": [
+    "Pop digits with modulo 10 and build the reverse by multiplying by 10.",
+    "Python integers do not overflow. Compare the result with [-2^31, 2^31 - 1] at the end.",
+    "Negative inputs: either reverse the absolute value and restore the sign, or let Python's modulo behavior be handled explicitly so the digit math stays non-negative."
+  ],
+  "approaches": [
+    {
+      "name": "String reverse",
+      "complexity": {
+        "time": "O(digits)",
+        "space": "O(digits)"
+      },
+      "explanation": "Strip the sign, reverse, parse, and range-check."
+    },
+    {
+      "name": "Arithmetic",
+      "complexity": {
+        "time": "O(digits)",
+        "space": "O(1)"
+      },
+      "explanation": "No string allocation."
+    }
+  ],
+  "editorial": "Take the sign, reverse the absolute value by repeated divmod, and reapply the sign. If the result is outside the signed 32-bit range, return 0. The problem is about overflow discipline more than about digits.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef reverse_integer(x: int) -> int:\n    sign = -1 if x < 0 else 1\n    value = abs(x)\n    rev = 0\n    while value:\n        value, digit = divmod(value, 10)\n        rev = rev * 10 + digit\n    rev *= sign\n    if rev < -(2**31) or rev > 2**31 - 1:\n        return 0\n    return rev\n",
+  "starter_code": "def reverse_integer(x: int) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "x = 123",
+      "output": "321",
+      "explanation": "321."
+    },
+    {
+      "input": "x = -123",
+      "output": "-321",
+      "explanation": "-321."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "positive",
+      "args": {
+        "x": 123
+      },
+      "expected": 321
+    },
+    {
+      "name": "negative",
+      "args": {
+        "x": -123
+      },
+      "expected": -321
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "trailing-zero",
+      "args": {
+        "x": 120
+      },
+      "expected": 21
+    },
+    {
+      "name": "zero",
+      "args": {
+        "x": 0
+      },
+      "expected": 0
+    },
+    {
+      "name": "overflow",
+      "args": {
+        "x": 1534236469
+      },
+      "expected": 0
+    }
+  ]
+}

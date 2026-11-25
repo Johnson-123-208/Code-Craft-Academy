@@ -1,0 +1,104 @@
+{
+  "title": "Pow(x, n)",
+  "slug": "powx-n",
+  "difficulty": "medium",
+  "topics": [
+    "binary-search",
+    "math",
+    "divide-and-conquer"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Facebook",
+    "Bloomberg"
+  ],
+  "statement": "Compute the integer power `x` raised to the non-negative integer `n` using fast exponentiation. The tests keep the result inside a 64-bit signed range.\n",
+  "constraints": [
+    "-100 <= x <= 100",
+    "0 <= n <= 30 for these tests"
+  ],
+  "function_name": "my_pow",
+  "hints": [
+    "x^n = (x^(n/2))^2 when n is even, and x * (x^(n//2))^2 when n is odd.",
+    "The iterative form squares the base and halves the exponent, multiplying into the result when the exponent is odd.",
+    "n = 0 returns 1, including 0^0 in this problem's convention."
+  ],
+  "approaches": [
+    {
+      "name": "Multiply in a loop",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Too slow when n is 10^9, which the full problem allows."
+    },
+    {
+      "name": "Binary exponentiation",
+      "complexity": {
+        "time": "O(log n)",
+        "space": "O(1)"
+      },
+      "explanation": "Every bit of the exponent does constant work."
+    }
+  ],
+  "editorial": "Binary exponentiation reads the binary expansion of n. Each set bit contributes the current base to the result, and the base is squared as the exponent shifts right. The number of multiplications is proportional to the number of bits, not to n.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef my_pow(x: int, n: int) -> int:\n    result = 1\n    base = x\n    exp = n\n    while exp:\n        if exp & 1:\n            result *= base\n        base *= base\n        exp >>= 1\n    return result\n",
+  "starter_code": "def my_pow(x: int, n: int) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "x = 2, n = 10",
+      "output": "1024",
+      "explanation": "2^10 = 1024."
+    },
+    {
+      "input": "x = 2, n = 3",
+      "output": "8",
+      "explanation": "2^3 = 8."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "x": 2,
+        "n": 10
+      },
+      "expected": 1024
+    },
+    {
+      "name": "odd",
+      "args": {
+        "x": 2,
+        "n": 3
+      },
+      "expected": 8
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "zero-exp",
+      "args": {
+        "x": 5,
+        "n": 0
+      },
+      "expected": 1
+    },
+    {
+      "name": "negative-base",
+      "args": {
+        "x": -2,
+        "n": 5
+      },
+      "expected": -32
+    },
+    {
+      "name": "one",
+      "args": {
+        "x": 1,
+        "n": 20
+      },
+      "expected": 1
+    }
+  ]
+}

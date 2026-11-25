@@ -1,0 +1,190 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* LeetCode-inspired dark platform theme (default) */
+  :root {
+    --background: 0 0% 10%;
+    --foreground: 220 20% 94%;
+    --card: 0 0% 15%;
+    --card-foreground: 220 20% 94%;
+    --popover: 0 0% 15%;
+    --popover-foreground: 220 20% 94%;
+    --primary: 36 100% 54%;
+    --primary-foreground: 0 0% 10%;
+    --secondary: 0 0% 20%;
+    --secondary-foreground: 220 20% 94%;
+    --muted: 0 0% 18%;
+    --muted-foreground: 220 10% 65%;
+    --accent: 36 100% 54%;
+    --accent-foreground: 0 0% 10%;
+    --destructive: 348 100% 61%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 36 100% 54%;
+    --ink: 220 20% 94%;
+    --radius: 0.5rem;
+    --lc-bg: #1a1a1a;
+    --lc-panel: #262626;
+    --lc-panel-2: #2a2a2a;
+    --lc-border: #333333;
+    --lc-orange: #ffa116;
+    --lc-green: #2cbb5d;
+    --lc-easy: #00b8a3;
+    --lc-medium: #ffc01e;
+    --lc-hard: #ff375f;
+    --lc-text: #eff1f6;
+    --lc-text-dim: #eff1f699;
+  }
+
+  .light {
+    --background: 0 0% 98%;
+    --foreground: 0 0% 12%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 12%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 12%;
+    --primary: 36 100% 45%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 94%;
+    --secondary-foreground: 0 0% 12%;
+    --muted: 0 0% 94%;
+    --muted-foreground: 0 0% 40%;
+    --accent: 36 100% 45%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 348 100% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 88%;
+    --input: 0 0% 88%;
+    --ring: 36 100% 45%;
+    --ink: 0 0% 12%;
+    --lc-bg: #f5f5f5;
+    --lc-panel: #ffffff;
+    --lc-panel-2: #fafafa;
+    --lc-border: #e5e5e5;
+    --lc-text: #262626;
+    --lc-text-dim: #8c8c8c;
+  }
+
+  .dark {
+    --background: 0 0% 10%;
+    --foreground: 220 20% 94%;
+    --card: 0 0% 15%;
+    --card-foreground: 220 20% 94%;
+    --popover: 0 0% 15%;
+    --popover-foreground: 220 20% 94%;
+    --primary: 36 100% 54%;
+    --primary-foreground: 0 0% 10%;
+    --secondary: 0 0% 20%;
+    --secondary-foreground: 220 20% 94%;
+    --muted: 0 0% 18%;
+    --muted-foreground: 220 10% 65%;
+    --accent: 36 100% 54%;
+    --accent-foreground: 0 0% 10%;
+    --destructive: 348 100% 61%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 36 100% 54%;
+    --ink: 220 20% 94%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: auto;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    background-color: var(--lc-bg);
+    font-family: var(--font-sans), "IBM Plex Sans", ui-sans-serif, sans-serif;
+    font-feature-settings: "kern" 1, "liga" 1;
+    letter-spacing: -0.011em;
+  }
+
+  .font-display {
+    font-family: var(--font-sans), "IBM Plex Sans", ui-sans-serif, sans-serif;
+    letter-spacing: -0.02em;
+  }
+
+  .font-mono,
+  code,
+  pre,
+  kbd {
+    font-family: var(--font-mono), "IBM Plex Mono", ui-monospace, monospace;
+    font-feature-settings: "liga" 0;
+    letter-spacing: 0;
+  }
+}
+
+@layer components {
+  .lc-shell {
+    @apply bg-[var(--lc-bg)] text-[var(--lc-text)];
+  }
+
+  .lc-panel {
+    @apply border border-[var(--lc-border)] bg-[var(--lc-panel)];
+  }
+
+  .lc-prose {
+    @apply text-[16px] leading-[1.75] text-[#d7dbe3];
+    font-family: var(--font-sans), "IBM Plex Sans", ui-sans-serif, sans-serif;
+  }
+
+  .lc-prose h1,
+  .lc-prose h2,
+  .lc-prose h3 {
+    @apply font-semibold tracking-tight text-white;
+  }
+
+  .lc-prose a {
+    @apply text-[var(--lc-orange)] hover:underline;
+  }
+
+  .lc-prose code {
+    @apply rounded-md bg-[#2a2a2a] px-1.5 py-0.5 font-mono text-[13px] text-[#ffc46b];
+  }
+
+  .lc-prose pre {
+    @apply my-5 overflow-x-auto rounded-xl border border-[#333] bg-[#141414] p-4 font-mono text-[13px] leading-6;
+  }
+
+  .lc-prose pre code {
+    @apply bg-transparent p-0 text-[#e8eaed];
+  }
+
+  .lc-prose ul {
+    @apply my-4 list-disc space-y-2 pl-6;
+  }
+
+  .lc-prose p {
+    @apply my-4;
+  }
+
+  .lc-prose table {
+    @apply my-5 w-full border-collapse text-sm;
+  }
+
+  .lc-prose th,
+  .lc-prose td {
+    @apply border border-[#333] px-3 py-2;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.5rem 0;
+}

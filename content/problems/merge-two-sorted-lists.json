@@ -1,0 +1,147 @@
+{
+  "title": "Merge Two Sorted Lists",
+  "slug": "merge-two-sorted-lists",
+  "difficulty": "easy",
+  "topics": [
+    "linked-lists",
+    "two-pointers"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft",
+    "Apple",
+    "Adobe"
+  ],
+  "statement": "Merge two sorted linked lists, given as value arrays, into one sorted list. Return the merged values.\n",
+  "constraints": [
+    "0 <= length <= 50",
+    "-100 <= Node.val <= 100",
+    "Both lists are sorted nondecreasing"
+  ],
+  "function_name": "merge_two_lists",
+  "hints": [
+    "A dummy head removes the empty-list special case.",
+    "Always attach the smaller current node, and advance that list only.",
+    "When one list ends, attach the other list in one pointer assignment."
+  ],
+  "approaches": [
+    {
+      "name": "Array merge",
+      "complexity": {
+        "time": "O(n + m)",
+        "space": "O(n + m)"
+      },
+      "explanation": "The same algorithm on arrays."
+    },
+    {
+      "name": "Pointer merge",
+      "complexity": {
+        "time": "O(n + m)",
+        "space": "O(1)"
+      },
+      "explanation": "Rewire existing nodes. The output list is the extra structure the caller asked for."
+    }
+  ],
+  "editorial": "This is the merge step of merge sort, played on nodes. Compare the two heads, splice the smaller one onto the tail, and repeat. The unused list is already sorted, so it becomes the final suffix.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef merge_two_lists(list1: list[int], list2: list[int]) -> list[int]:\n    a = _node_chain(list1)\n    b = _node_chain(list2)\n    dummy = _node_chain([0])\n    tail = dummy\n    while a is not None and b is not None:\n        if a.value <= b.value:\n            tail.nxt = a\n            a = a.nxt\n        else:\n            tail.nxt = b\n            b = b.nxt\n        tail = tail.nxt\n    tail.nxt = a if a is not None else b\n    return _to_list(dummy.nxt)\n",
+  "starter_code": "from typing import List\n\ndef merge_two_lists(list1: List[int], list2: List[int]) -> List[int]:\n    pass\n",
+  "examples": [
+    {
+      "input": "list1 = [1, 2, 4], list2 = [1, 3, 4]",
+      "output": "[1, 1, 2, 3, 4, 4]",
+      "explanation": "The merged list is 1, 1, 2, 3, 4, 4."
+    },
+    {
+      "input": "list1 = [], list2 = []",
+      "output": "[]",
+      "explanation": "Both lists are empty."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "list1": [
+          1,
+          2,
+          4
+        ],
+        "list2": [
+          1,
+          3,
+          4
+        ]
+      },
+      "expected": [
+        1,
+        1,
+        2,
+        3,
+        4,
+        4
+      ]
+    },
+    {
+      "name": "empty",
+      "args": {
+        "list1": [],
+        "list2": []
+      },
+      "expected": []
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "one-empty",
+      "args": {
+        "list1": [],
+        "list2": [
+          0
+        ]
+      },
+      "expected": [
+        0
+      ]
+    },
+    {
+      "name": "longer",
+      "args": {
+        "list1": [
+          1,
+          5,
+          7
+        ],
+        "list2": [
+          2,
+          3
+        ]
+      },
+      "expected": [
+        1,
+        2,
+        3,
+        5,
+        7
+      ]
+    },
+    {
+      "name": "negatives",
+      "args": {
+        "list1": [
+          -3,
+          -1
+        ],
+        "list2": [
+          -2,
+          0
+        ]
+      },
+      "expected": [
+        -3,
+        -2,
+        -1,
+        0
+      ]
+    }
+  ]
+}

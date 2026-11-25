@@ -1,0 +1,125 @@
+{
+  "title": "Longest Increasing Subsequence",
+  "slug": "longest-increasing-subsequence",
+  "difficulty": "medium",
+  "topics": [
+    "dynamic-programming",
+    "binary-search"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "Bloomberg"
+  ],
+  "statement": "Return the length of the longest strictly increasing subsequence of `nums`. The subsequence need not be contiguous.\n",
+  "constraints": [
+    "1 <= nums.length <= 2500",
+    "-10^4 <= nums[i] <= 10^4"
+  ],
+  "function_name": "length_of_lis",
+  "hints": [
+    "dp[i] is the longest increasing subsequence that ends at i. It is 1 + the best dp[j] for j < i and nums[j] < nums[i].",
+    "That is O(n^2).",
+    "Patience sorting keeps the smallest possible tail of every length. The tails array is increasing, so a new value binary-searches its place. The length of tails is the answer."
+  ],
+  "approaches": [
+    {
+      "name": "O(n^2) DP",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(n)"
+      },
+      "explanation": "Every pair of indices."
+    },
+    {
+      "name": "Patience sorting",
+      "complexity": {
+        "time": "O(n log n)",
+        "space": "O(n)"
+      },
+      "explanation": "Binary search the tails."
+    }
+  ],
+  "editorial": "tails[k] is the smallest tail of any increasing subsequence of length k + 1 found so far. For each value, replace the first tail that is greater than or equal to it. If it is larger than every tail, append it. The array length is the LIS length. The array is not always the LIS itself.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef length_of_lis(nums: list[int]) -> int:\n    tails: list[int] = []\n    for value in nums:\n        lo, hi = 0, len(tails)\n        while lo < hi:\n            mid = (lo + hi) // 2\n            if tails[mid] < value:\n                lo = mid + 1\n            else:\n                hi = mid\n        if lo == len(tails):\n            tails.append(value)\n        else:\n            tails[lo] = value\n    return len(tails)\n",
+  "starter_code": "from typing import List\n\ndef length_of_lis(nums: List[int]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [10, 9, 2, 5, 3, 7, 101, 18]",
+      "output": "4",
+      "explanation": "One LIS is 2, 3, 7, 18."
+    },
+    {
+      "input": "nums = [7, 7, 7, 7]",
+      "output": "1",
+      "explanation": "Strict increase has length 1."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "nums": [
+          10,
+          9,
+          2,
+          5,
+          3,
+          7,
+          101,
+          18
+        ]
+      },
+      "expected": 4
+    },
+    {
+      "name": "decreasing",
+      "args": {
+        "nums": [
+          7,
+          7,
+          7,
+          7
+        ]
+      },
+      "expected": 1
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "sorted",
+      "args": {
+        "nums": [
+          1,
+          2,
+          3
+        ]
+      },
+      "expected": 3
+    },
+    {
+      "name": "one",
+      "args": {
+        "nums": [
+          4
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "name": "mixed",
+      "args": {
+        "nums": [
+          0,
+          1,
+          0,
+          3,
+          2,
+          3
+        ]
+      },
+      "expected": 4
+    }
+  ]
+}

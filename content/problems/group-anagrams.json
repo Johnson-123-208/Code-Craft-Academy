@@ -1,0 +1,155 @@
+{
+  "title": "Group Anagrams",
+  "slug": "group-anagrams",
+  "difficulty": "medium",
+  "topics": [
+    "strings",
+    "hashing"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft",
+    "Uber",
+    "Goldman Sachs"
+  ],
+  "statement": "Group the strings in `strs` that are anagrams of each other. Return the groups sorted, and sort the strings inside each group.\n",
+  "constraints": [
+    "1 <= strs.length <= 10^4",
+    "0 <= strs[i].length <= 100",
+    "strs[i] is lowercase English"
+  ],
+  "function_name": "group_anagrams",
+  "hints": [
+    "Two strings are anagrams when their sorted characters match.",
+    "A frequency tuple of 26 counts is an equivalent key and avoids sorting long strings.",
+    "Append each string to the bucket of its key, then normalize the output order for comparison."
+  ],
+  "approaches": [
+    {
+      "name": "Compare every pair",
+      "complexity": {
+        "time": "O(n^2 * m log m)",
+        "space": "O(n)"
+      },
+      "explanation": "Sort each string and compare it with every group representative."
+    },
+    {
+      "name": "Hash by signature",
+      "complexity": {
+        "time": "O(n * m log m)",
+        "space": "O(n * m)"
+      },
+      "explanation": "Map the sorted string, or a count tuple, to its group."
+    }
+  ],
+  "editorial": "The signature of an anagram class is invariant under permutation. Sorting the characters is the simplest signature. A count of each letter is faster when strings are long and the alphabet is small. Either key belongs in a hash map from signature to the list of original strings.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef group_anagrams(strs: list[str]) -> list[list[str]]:\n    buckets: dict[str, list[str]] = defaultdict(list)\n    for word in strs:\n        buckets[\"\".join(sorted(word))].append(word)\n    groups = [sorted(group) for group in buckets.values()]\n    groups.sort()\n    return groups\n",
+  "starter_code": "from typing import List\n\ndef group_anagrams(strs: List[str]) -> List[List[str]]:\n    pass\n",
+  "examples": [
+    {
+      "input": "strs = ['eat', 'tea', 'tan', 'ate', 'nat', 'bat']",
+      "output": "[[\"ate\", \"eat\", \"tea\"], [\"bat\"], [\"nat\", \"tan\"]]",
+      "explanation": "Three anagram classes."
+    },
+    {
+      "input": "strs = ['']",
+      "output": "[[\"\"]]",
+      "explanation": "A single empty string."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "strs": [
+          "eat",
+          "tea",
+          "tan",
+          "ate",
+          "nat",
+          "bat"
+        ]
+      },
+      "expected": [
+        [
+          "ate",
+          "eat",
+          "tea"
+        ],
+        [
+          "bat"
+        ],
+        [
+          "nat",
+          "tan"
+        ]
+      ]
+    },
+    {
+      "name": "empty",
+      "args": {
+        "strs": [
+          ""
+        ]
+      },
+      "expected": [
+        [
+          ""
+        ]
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "unique",
+      "args": {
+        "strs": [
+          "a",
+          "b",
+          "c"
+        ]
+      },
+      "expected": [
+        [
+          "a"
+        ],
+        [
+          "b"
+        ],
+        [
+          "c"
+        ]
+      ]
+    },
+    {
+      "name": "dups",
+      "args": {
+        "strs": [
+          "ab",
+          "ba",
+          "ab"
+        ]
+      },
+      "expected": [
+        [
+          "ab",
+          "ab",
+          "ba"
+        ]
+      ]
+    },
+    {
+      "name": "single",
+      "args": {
+        "strs": [
+          "abc"
+        ]
+      },
+      "expected": [
+        [
+          "abc"
+        ]
+      ]
+    }
+  ]
+}

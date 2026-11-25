@@ -1,0 +1,129 @@
+{
+  "title": "Assign Cookies",
+  "slug": "assign-cookies",
+  "difficulty": "easy",
+  "topics": [
+    "greedy",
+    "two-pointers"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Adobe",
+    "Bloomberg"
+  ],
+  "statement": "`g[i]` is the minimum cookie size child i accepts. `s[j]` is the size of cookie j. Each child gets at most one cookie. Return the maximum number of content children.\n",
+  "constraints": [
+    "1 <= g.length, s.length <= 3 * 10^4",
+    "1 <= g[i], s[j] <= 2^31 - 1"
+  ],
+  "function_name": "find_content_children",
+  "hints": [
+    "Sort both arrays.",
+    "Give the smallest cookie that satisfies the smallest remaining child.",
+    "If the cookie is too small, discard it. If it fits, move to the next child."
+  ],
+  "approaches": [
+    {
+      "name": "Try every assignment",
+      "complexity": {
+        "time": "exponential",
+        "space": "O(n)"
+      },
+      "explanation": "Not needed."
+    },
+    {
+      "name": "Two pointers after sorting",
+      "complexity": {
+        "time": "O(n log n)",
+        "space": "O(1)"
+      },
+      "explanation": "The greedy match."
+    }
+  ],
+  "editorial": "Sorting both sides makes the greedy choice local. A cookie that cannot satisfy the smallest child cannot satisfy any later child, so it is discarded. A cookie that can satisfy the child is assigned immediately, because saving it cannot help a smaller child and a larger child can still use a larger cookie.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef find_content_children(g: list[int], s: list[int]) -> int:\n    g.sort()\n    s.sort()\n    child = cookie = 0\n    while child < len(g) and cookie < len(s):\n        if s[cookie] >= g[child]:\n            child += 1\n        cookie += 1\n    return child\n",
+  "starter_code": "from typing import List\n\ndef find_content_children(g: List[int], s: List[int]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "g = [1, 2, 3], s = [1, 1]",
+      "output": "1",
+      "explanation": "One child is content."
+    },
+    {
+      "input": "g = [1, 2], s = [1, 2, 3]",
+      "output": "2",
+      "explanation": "Both children are content."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "g": [
+          1,
+          2,
+          3
+        ],
+        "s": [
+          1,
+          1
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "name": "two",
+      "args": {
+        "g": [
+          1,
+          2
+        ],
+        "s": [
+          1,
+          2,
+          3
+        ]
+      },
+      "expected": 2
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "none",
+      "args": {
+        "g": [
+          5
+        ],
+        "s": [
+          1
+        ]
+      },
+      "expected": 0
+    },
+    {
+      "name": "empty-cookies",
+      "args": {
+        "g": [
+          1
+        ],
+        "s": []
+      },
+      "expected": 0
+    },
+    {
+      "name": "exact",
+      "args": {
+        "g": [
+          2,
+          2
+        ],
+        "s": [
+          2,
+          2
+        ]
+      },
+      "expected": 2
+    }
+  ]
+}

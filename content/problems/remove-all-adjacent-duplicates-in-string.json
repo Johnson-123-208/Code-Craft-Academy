@@ -1,0 +1,98 @@
+{
+  "title": "Remove All Adjacent Duplicates in String",
+  "slug": "remove-all-adjacent-duplicates-in-string",
+  "difficulty": "easy",
+  "topics": [
+    "stacks",
+    "strings"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Adobe",
+    "Facebook"
+  ],
+  "statement": "Repeatedly remove adjacent pairs of the same character until none remain. Return the final string.\n",
+  "constraints": [
+    "1 <= s.length <= 10^5",
+    "s is lowercase"
+  ],
+  "function_name": "remove_duplicates",
+  "hints": [
+    "A stack stores the characters that have not yet been cancelled.",
+    "If the new character equals the top, pop. Otherwise push.",
+    "The stack from bottom to top is the answer. Removals cascade because the new top is checked on the next character."
+  ],
+  "approaches": [
+    {
+      "name": "Repeated string replace",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(n)"
+      },
+      "explanation": "Scan until stable."
+    },
+    {
+      "name": "Stack",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Each character is pushed and popped at most once."
+    }
+  ],
+  "editorial": "The stack is the string built so far, with every adjacent duplicate already removed. A new character either cancels the last survivor or becomes a new survivor. That local rule is enough because a cancellation only exposes the previous survivor, which is exactly the stack top.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef remove_duplicates(s: str) -> str:\n    stack: list[str] = []\n    for ch in s:\n        if stack and stack[-1] == ch:\n            stack.pop()\n        else:\n            stack.append(ch)\n    return \"\".join(stack)\n",
+  "starter_code": "def remove_duplicates(s: str) -> str:\n    pass\n",
+  "examples": [
+    {
+      "input": "s = 'abbaca'",
+      "output": "\"ca\"",
+      "explanation": "The result is ca."
+    },
+    {
+      "input": "s = 'azxxzy'",
+      "output": "\"ay\"",
+      "explanation": "The result is ay."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "s": "abbaca"
+      },
+      "expected": "ca"
+    },
+    {
+      "name": "all",
+      "args": {
+        "s": "azxxzy"
+      },
+      "expected": "ay"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "none",
+      "args": {
+        "s": "abc"
+      },
+      "expected": "abc"
+    },
+    {
+      "name": "empty-result",
+      "args": {
+        "s": "aa"
+      },
+      "expected": ""
+    },
+    {
+      "name": "single",
+      "args": {
+        "s": "a"
+      },
+      "expected": "a"
+    }
+  ]
+}

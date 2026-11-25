@@ -1,0 +1,105 @@
+{
+  "title": "Remove K Digits",
+  "slug": "remove-k-digits",
+  "difficulty": "medium",
+  "topics": [
+    "stacks",
+    "monotonic-stack",
+    "greedy"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "Adobe"
+  ],
+  "statement": "Remove `k` digits from the non-negative integer string `num` so the remaining number is as small as possible. Return it as a string without leading zeros, or '0' if every digit is removed.\n",
+  "constraints": [
+    "1 <= num.length <= 10^5",
+    "0 <= k <= num.length",
+    "num has no leading zeros except the number 0"
+  ],
+  "function_name": "remove_kdigits",
+  "hints": [
+    "A decreasing digit sequence is already small. An ascent is a place where deleting the previous larger digit helps.",
+    "Keep a stack of chosen digits. While the new digit is smaller than the top and deletions remain, pop.",
+    "If deletions remain, they come off the tail. Then strip leading zeros."
+  ],
+  "approaches": [
+    {
+      "name": "Try every deletion subset",
+      "complexity": {
+        "time": "O(C(n, k) * n)",
+        "space": "O(n)"
+      },
+      "explanation": "Only for tiny n."
+    },
+    {
+      "name": "Monotonic increasing stack",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Each digit is pushed and popped at most once."
+    }
+  ],
+  "editorial": "The greedy choice is to delete a left digit that is larger than the digit immediately after it. The stack enforces that by popping while the top is greater than the incoming digit and k remains. After the scan, delete any leftover budget from the end, which handles a nondecreasing number such as 12345. Strip zeros and return '0' for an empty result.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef remove_kdigits(num: str, k: int) -> str:\n    stack: list[str] = []\n    for digit in num:\n        while k and stack and stack[-1] > digit:\n            stack.pop()\n            k -= 1\n        stack.append(digit)\n    if k:\n        stack = stack[:-k]\n    result = \"\".join(stack).lstrip(\"0\")\n    return result or \"0\"\n",
+  "starter_code": "def remove_kdigits(num: str, k: int) -> str:\n    pass\n",
+  "examples": [
+    {
+      "input": "num = '1432219', k = 3",
+      "output": "\"1219\"",
+      "explanation": "Removing 4, 3, and 2 leaves 1219."
+    },
+    {
+      "input": "num = '10200', k = 1",
+      "output": "\"200\"",
+      "explanation": "Removing 1 leaves 200, written as 200."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "num": "1432219",
+        "k": 3
+      },
+      "expected": "1219"
+    },
+    {
+      "name": "zeros",
+      "args": {
+        "num": "10200",
+        "k": 1
+      },
+      "expected": "200"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "all",
+      "args": {
+        "num": "10",
+        "k": 2
+      },
+      "expected": "0"
+    },
+    {
+      "name": "increasing",
+      "args": {
+        "num": "1234",
+        "k": 2
+      },
+      "expected": "12"
+    },
+    {
+      "name": "same",
+      "args": {
+        "num": "1111",
+        "k": 2
+      },
+      "expected": "11"
+    }
+  ]
+}

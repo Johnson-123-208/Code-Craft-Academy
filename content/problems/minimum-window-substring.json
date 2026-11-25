@@ -1,0 +1,104 @@
+{
+  "title": "Minimum Window Substring",
+  "slug": "minimum-window-substring",
+  "difficulty": "hard",
+  "topics": [
+    "strings",
+    "sliding-window",
+    "hashing"
+  ],
+  "company_tags": [
+    "Facebook",
+    "Amazon",
+    "Google",
+    "LinkedIn"
+  ],
+  "statement": "Return the minimum window in `s` that covers every character of `t`, including duplicates. If no such window exists, return an empty string. If several windows share the minimum length, return the one that starts earliest.\n",
+  "constraints": [
+    "0 <= s.length, t.length <= 10^5 on the full problem",
+    "Tests use short strings so a brute oracle stays honest"
+  ],
+  "function_name": "min_window",
+  "hints": [
+    "Count how many copies of each character t still needs.",
+    "Expand the right edge until the window is feasible, then shrink the left edge while it stays feasible.",
+    "Remember the best [left, right] pair seen during the shrink phase."
+  ],
+  "approaches": [
+    {
+      "name": "Every window",
+      "complexity": {
+        "time": "O(n^2 * alphabet)",
+        "space": "O(alphabet)"
+      },
+      "explanation": "Test each slice against the need counts."
+    },
+    {
+      "name": "Feasible sliding window",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(alphabet)"
+      },
+      "explanation": "Two pointers plus a satisfied counter."
+    }
+  ],
+  "editorial": "Maintain a need map copied from t and a counter of how many characters are still missing. Advance right, and when missing hits zero the window is feasible. Then advance left, recording the window whenever it is shorter than the best, until the window breaks. The earliest shortest window wins because a later window replaces the best only when it is strictly shorter.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef min_window(s: str, t: str) -> str:\n    if not t or not s:\n        return \"\"\n    need = Counter(t)\n    missing = len(t)\n    left = 0\n    best = \"\"\n    for right, ch in enumerate(s):\n        if need[ch] > 0:\n            missing -= 1\n        need[ch] -= 1\n        while missing == 0:\n            window = s[left : right + 1]\n            if best == \"\" or len(window) < len(best):\n                best = window\n            need[s[left]] += 1\n            if need[s[left]] > 0:\n                missing += 1\n            left += 1\n    return best\n",
+  "starter_code": "def min_window(s: str, t: str) -> str:\n    pass\n",
+  "examples": [
+    {
+      "input": "s = 'ADOBECODEBANC', t = 'ABC'",
+      "output": "\"BANC\"",
+      "explanation": "The minimum window is BANC."
+    },
+    {
+      "input": "s = 'a', t = 'a'",
+      "output": "\"a\"",
+      "explanation": "The whole string is the window."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "s": "ADOBECODEBANC",
+        "t": "ABC"
+      },
+      "expected": "BANC"
+    },
+    {
+      "name": "exact",
+      "args": {
+        "s": "a",
+        "t": "a"
+      },
+      "expected": "a"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "missing",
+      "args": {
+        "s": "a",
+        "t": "aa"
+      },
+      "expected": ""
+    },
+    {
+      "name": "dupes",
+      "args": {
+        "s": "aaflslflsldkalskaaa",
+        "t": "aaa"
+      },
+      "expected": "aaa"
+    },
+    {
+      "name": "order",
+      "args": {
+        "s": "cabwefgewcwaefgcf",
+        "t": "cae"
+      },
+      "expected": "cwae"
+    }
+  ]
+}

@@ -1,0 +1,167 @@
+{
+  "title": "Combination Sum",
+  "slug": "combination-sum",
+  "difficulty": "medium",
+  "topics": [
+    "backtracking"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Adobe",
+    "Uber",
+    "Airbnb"
+  ],
+  "statement": "Return every unique combination of `candidates` that sums to `target`. The same number may be chosen unlimited times. Combinations are sets of choices, so order does not matter. Sort each combination and sort the list.\n",
+  "constraints": [
+    "1 <= candidates.length <= 30",
+    "2 <= candidates[i] <= 40",
+    "All values distinct",
+    "1 <= target <= 40"
+  ],
+  "function_name": "combination_sum",
+  "hints": [
+    "Sort the candidates so you can stop when a candidate exceeds the remaining target.",
+    "Reuse the current index on the recursive call to allow unlimited copies. Advance the index to move to the next candidate.",
+    "Record the path when the remainder hits zero."
+  ],
+  "approaches": [
+    {
+      "name": "Unbounded recursion without pruning",
+      "complexity": {
+        "time": "exponential",
+        "space": "O(target)"
+      },
+      "explanation": "Correct and messy."
+    },
+    {
+      "name": "Sorted backtracking",
+      "complexity": {
+        "time": "O(n^(target/min))",
+        "space": "O(target)"
+      },
+      "explanation": "Prune when the candidate exceeds the remainder."
+    }
+  ],
+  "editorial": "This is unbounded knapsack written as search. The start index enforces nondecreasing order, which is what makes [2, 2, 3] and [3, 2, 2] the same combination. Passing i, not i + 1, is the single line that allows reuse.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef combination_sum(candidates: list[int], target: int) -> list[list[int]]:\n    candidates = sorted(candidates)\n    out: list[list[int]] = []\n    path: list[int] = []\n\n    def dfs(start: int, remain: int) -> None:\n        if remain == 0:\n            out.append(path[:])\n            return\n        for i in range(start, len(candidates)):\n            if candidates[i] > remain:\n                break\n            path.append(candidates[i])\n            dfs(i, remain - candidates[i])\n            path.pop()\n\n    dfs(0, target)\n    return out\n",
+  "starter_code": "from typing import List\n\ndef combination_sum(candidates: List[int], target: int) -> List[List[int]]:\n    pass\n",
+  "examples": [
+    {
+      "input": "candidates = [2, 3, 6, 7], target = 7",
+      "output": "[[2, 2, 3], [7]]",
+      "explanation": "The combinations are [2, 2, 3] and [7]."
+    },
+    {
+      "input": "candidates = [2, 3, 5], target = 8",
+      "output": "[[2, 2, 2, 2], [2, 3, 3], [3, 5]]",
+      "explanation": "Three combinations sum to 8."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "candidates": [
+          2,
+          3,
+          6,
+          7
+        ],
+        "target": 7
+      },
+      "expected": [
+        [
+          2,
+          2,
+          3
+        ],
+        [
+          7
+        ]
+      ]
+    },
+    {
+      "name": "repeat",
+      "args": {
+        "candidates": [
+          2,
+          3,
+          5
+        ],
+        "target": 8
+      },
+      "expected": [
+        [
+          2,
+          2,
+          2,
+          2
+        ],
+        [
+          2,
+          3,
+          3
+        ],
+        [
+          3,
+          5
+        ]
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "none",
+      "args": {
+        "candidates": [
+          2
+        ],
+        "target": 1
+      },
+      "expected": []
+    },
+    {
+      "name": "one",
+      "args": {
+        "candidates": [
+          3
+        ],
+        "target": 9
+      },
+      "expected": [
+        [
+          3,
+          3,
+          3
+        ]
+      ]
+    },
+    {
+      "name": "mixed",
+      "args": {
+        "candidates": [
+          8,
+          7,
+          4,
+          3
+        ],
+        "target": 11
+      },
+      "expected": [
+        [
+          3,
+          4,
+          4
+        ],
+        [
+          3,
+          8
+        ],
+        [
+          4,
+          7
+        ]
+      ]
+    }
+  ]
+}

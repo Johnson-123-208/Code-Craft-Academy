@@ -1,0 +1,115 @@
+{
+  "title": "Min-Max Scale",
+  "slug": "ml-minmax",
+  "difficulty": "easy",
+  "topics": [
+    "machine-learning",
+    "feature-engineering",
+    "python"
+  ],
+  "company_tags": [
+    "Uber",
+    "Airbnb"
+  ],
+  "statement": "Implement `minmax(xs)`, scaling a non-empty list into the unit interval. For each x return (x \u2212 min) / (max \u2212 min). If max equals min, return a list of zeros of the same length so a constant feature does not divide by zero.",
+  "constraints": [
+    "1 <= len(xs) <= 10^5",
+    "Constant columns map to zeros",
+    "Return a list of floats"
+  ],
+  "examples": [
+    {
+      "input": "{\"xs\": [0.0, 5.0, 10.0]}",
+      "output": "[0.0, 0.5, 1.0]",
+      "explanation": "Matches the reference on this input."
+    },
+    {
+      "input": "{\"xs\": [3.0, 3.0, 3.0]}",
+      "output": "[0.0, 0.0, 0.0]",
+      "explanation": "Matches the reference on this input."
+    }
+  ],
+  "starter_code": "def minmax(xs: list[float]) -> list[float]:\n    pass\n",
+  "function_name": "minmax",
+  "hints": [
+    "Find min and max in one or two passes.",
+    "Guard the case max == min.",
+    "The original minimum maps to 0 and the maximum maps to 1 when they differ."
+  ],
+  "approaches": [
+    {
+      "name": "Affine map",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Min-max is an affine map onto 0..1. It is sensitive to outliers, unlike z-scores."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "spread",
+      "args": {
+        "xs": [
+          0.0,
+          5.0,
+          10.0
+        ]
+      },
+      "expected": [
+        0.0,
+        0.5,
+        1.0
+      ]
+    },
+    {
+      "name": "constant",
+      "args": {
+        "xs": [
+          3.0,
+          3.0,
+          3.0
+        ]
+      },
+      "expected": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "reversed",
+      "args": {
+        "xs": [
+          10.0,
+          0.0,
+          5.0
+        ]
+      },
+      "expected": [
+        1.0,
+        0.0,
+        0.5
+      ]
+    },
+    {
+      "name": "negatives",
+      "args": {
+        "xs": [
+          -2.0,
+          0.0,
+          2.0
+        ]
+      },
+      "expected": [
+        0.0,
+        0.5,
+        1.0
+      ]
+    }
+  ],
+  "editorial": "Min-max scaling sends the smallest training value to 0 and the largest to 1, with linear interpolation between them. Neural nets with saturating activations often train more calmly when features share a scale. Fit min and max on the training fold only, then apply those constants to validation and test rows. A constant feature has no range; returning zeros is the safe, deterministic choice and matches a column of no information.",
+  "reference_solution": "def minmax(xs: list[float]) -> list[float]:\n    lo, hi = min(xs), max(xs)\n    if hi == lo:\n        return [0.0 for _ in xs]\n    return [(x - lo) / (hi - lo) for x in xs]\n"
+}

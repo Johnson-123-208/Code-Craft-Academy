@@ -1,0 +1,128 @@
+{
+  "title": "Search in Rotated Sorted Array",
+  "slug": "search-in-rotated-sorted-array",
+  "difficulty": "medium",
+  "topics": [
+    "binary-search"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Facebook",
+    "Microsoft",
+    "Bloomberg"
+  ],
+  "statement": "`nums` was sorted ascending with distinct values, then rotated. Return the index of `target`, or -1.\n",
+  "constraints": [
+    "1 <= nums.length <= 5000",
+    "All values are distinct"
+  ],
+  "function_name": "search_rotated",
+  "hints": [
+    "One half of a rotated array is still sorted. Identify which one by comparing nums[lo] and nums[mid].",
+    "If the target lies inside the sorted half, discard the other half. Otherwise discard the sorted half.",
+    "The comparison target < nums[mid] must be combined with the half's bounds, not used alone."
+  ],
+  "approaches": [
+    {
+      "name": "Find the pivot, then binary search",
+      "complexity": {
+        "time": "O(log n)",
+        "space": "O(1)"
+      },
+      "explanation": "Two binary searches."
+    },
+    {
+      "name": "One binary search",
+      "complexity": {
+        "time": "O(log n)",
+        "space": "O(1)"
+      },
+      "explanation": "Decide the sorted half on every step."
+    }
+  ],
+  "editorial": "At each mid, either the left half [lo, mid] is sorted or the right half [mid, hi] is sorted. Test whether the target sits inside that sorted range, using inclusive bounds on the outer end. If it does, keep that half. If it does not, the target is in the other half, which contains the rotation.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef search_rotated(nums: list[int], target: int) -> int:\n    lo, hi = 0, len(nums) - 1\n    while lo <= hi:\n        mid = (lo + hi) // 2\n        if nums[mid] == target:\n            return mid\n        if nums[lo] <= nums[mid]:\n            if nums[lo] <= target < nums[mid]:\n                hi = mid - 1\n            else:\n                lo = mid + 1\n        elif nums[mid] < target <= nums[hi]:\n            lo = mid + 1\n        else:\n            hi = mid - 1\n    return -1\n",
+  "starter_code": "from typing import List\n\ndef search_rotated(nums: List[int], target: int) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [4, 5, 6, 7, 0, 1, 2], target = 0",
+      "output": "4",
+      "explanation": "0 sits at index 4."
+    },
+    {
+      "input": "nums = [4, 5, 6, 7, 0, 1, 2], target = 3",
+      "output": "-1",
+      "explanation": "3 is absent."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "nums": [
+          4,
+          5,
+          6,
+          7,
+          0,
+          1,
+          2
+        ],
+        "target": 0
+      },
+      "expected": 4
+    },
+    {
+      "name": "miss",
+      "args": {
+        "nums": [
+          4,
+          5,
+          6,
+          7,
+          0,
+          1,
+          2
+        ],
+        "target": 3
+      },
+      "expected": -1
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "unrotated",
+      "args": {
+        "nums": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "target": 3
+      },
+      "expected": 2
+    },
+    {
+      "name": "pivot-target",
+      "args": {
+        "nums": [
+          3,
+          1
+        ],
+        "target": 1
+      },
+      "expected": 1
+    },
+    {
+      "name": "single",
+      "args": {
+        "nums": [
+          1
+        ],
+        "target": 0
+      },
+      "expected": -1
+    }
+  ]
+}

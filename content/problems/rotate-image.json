@@ -1,0 +1,224 @@
+{
+  "title": "Rotate Image",
+  "slug": "rotate-image",
+  "difficulty": "medium",
+  "topics": [
+    "arrays",
+    "matrix"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft",
+    "Apple",
+    "Adobe"
+  ],
+  "statement": "Rotate an n by n matrix 90 degrees clockwise and return it. Rotate in place in the algorithm.\n",
+  "constraints": [
+    "1 <= n <= 20",
+    "-1000 <= matrix[i][j] <= 1000"
+  ],
+  "function_name": "rotate",
+  "hints": [
+    "Transpose the matrix, then reverse every row.",
+    "The transpose swaps matrix[i][j] with matrix[j][i] only for j greater than i, so each pair swaps once.",
+    "Reversing each row turns the transpose into a clockwise rotation."
+  ],
+  "approaches": [
+    {
+      "name": "Allocate a new matrix",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(n^2)"
+      },
+      "explanation": "The cell at (i, j) moves to (j, n - 1 - i)."
+    },
+    {
+      "name": "Transpose and reverse",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(1)"
+      },
+      "explanation": "The in-place rotation."
+    }
+  ],
+  "editorial": "A clockwise rotation sends (i, j) to (j, n - 1 - i). Transposing sends (i, j) to (j, i), and reversing the row then sends that cell to (j, n - 1 - i). Doing the swap only above the diagonal keeps the transform in place.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef rotate(matrix: list[list[int]]) -> list[list[int]]:\n    n = len(matrix)\n    for i in range(n):\n        for j in range(i + 1, n):\n            matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]\n    for row in matrix:\n        row.reverse()\n    return matrix\n",
+  "starter_code": "from typing import List\n\ndef rotate(matrix: List[List[int]]) -> List[List[int]]:\n    pass\n",
+  "examples": [
+    {
+      "input": "matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]",
+      "output": "[[7, 4, 1], [8, 5, 2], [9, 6, 3]]",
+      "explanation": "The first row becomes the last column."
+    },
+    {
+      "input": "matrix = [[1, 2], [3, 4]]",
+      "output": "[[3, 1], [4, 2]]",
+      "explanation": "A 2 by 2 clockwise turn."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "matrix": [
+          [
+            1,
+            2,
+            3
+          ],
+          [
+            4,
+            5,
+            6
+          ],
+          [
+            7,
+            8,
+            9
+          ]
+        ]
+      },
+      "expected": [
+        [
+          7,
+          4,
+          1
+        ],
+        [
+          8,
+          5,
+          2
+        ],
+        [
+          9,
+          6,
+          3
+        ]
+      ]
+    },
+    {
+      "name": "two",
+      "args": {
+        "matrix": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ]
+      },
+      "expected": [
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          2
+        ]
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "one",
+      "args": {
+        "matrix": [
+          [
+            5
+          ]
+        ]
+      },
+      "expected": [
+        [
+          5
+        ]
+      ]
+    },
+    {
+      "name": "four",
+      "args": {
+        "matrix": [
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            5,
+            6,
+            7,
+            8
+          ],
+          [
+            9,
+            10,
+            11,
+            12
+          ],
+          [
+            13,
+            14,
+            15,
+            16
+          ]
+        ]
+      },
+      "expected": [
+        [
+          13,
+          9,
+          5,
+          1
+        ],
+        [
+          14,
+          10,
+          6,
+          2
+        ],
+        [
+          15,
+          11,
+          7,
+          3
+        ],
+        [
+          16,
+          12,
+          8,
+          4
+        ]
+      ]
+    },
+    {
+      "name": "neg",
+      "args": {
+        "matrix": [
+          [
+            -1,
+            0
+          ],
+          [
+            2,
+            -3
+          ]
+        ]
+      },
+      "expected": [
+        [
+          2,
+          -1
+        ],
+        [
+          -3,
+          0
+        ]
+      ]
+    }
+  ]
+}

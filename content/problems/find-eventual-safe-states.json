@@ -1,0 +1,151 @@
+{
+  "title": "Find Eventual Safe States",
+  "slug": "find-eventual-safe-states",
+  "difficulty": "medium",
+  "topics": [
+    "graphs",
+    "dfs",
+    "topological-sort"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "Uber"
+  ],
+  "statement": "A node is safe when every path starting there ends at a terminal node. `graph` is a directed adjacency list. Return every safe node in increasing order.\n",
+  "constraints": [
+    "1 <= n <= 10^4",
+    "0 <= graph[i].length <= n",
+    "The graph may contain cycles"
+  ],
+  "function_name": "eventual_safe_nodes",
+  "hints": [
+    "A node on a cycle, or that can reach a cycle, is unsafe.",
+    "DFS colors: gray means the node is on the current stack. A gray neighbor means a cycle.",
+    "A node is safe when every neighbor is safe. Memoize the result."
+  ],
+  "approaches": [
+    {
+      "name": "DFS with memo and a recursion stack",
+      "complexity": {
+        "time": "O(V + E)",
+        "space": "O(V)"
+      },
+      "explanation": "Three colors."
+    },
+    {
+      "name": "Reverse edges and Kahn",
+      "complexity": {
+        "time": "O(V + E)",
+        "space": "O(V + E)"
+      },
+      "explanation": "Terminal nodes have outdegree 0. Safe nodes are those that reach only terminals, which is a topological peel on the reversed graph."
+    }
+  ],
+  "editorial": "Color 0 is unseen, 1 is on the stack, and 2 is done and safe. If a neighbor is gray, this node reaches a cycle and is unsafe. If every neighbor returns safe, paint this node safe. Collect the safe nodes in order.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef eventual_safe_nodes(graph: list[list[int]]) -> list[int]:\n    n = len(graph)\n    color = [0] * n\n\n    def safe(node: int) -> bool:\n        if color[node]:\n            return color[node] == 2\n        color[node] = 1\n        if any(not safe(nxt) for nxt in graph[node]):\n            return False\n        color[node] = 2\n        return True\n\n    return [node for node in range(n) if safe(node)]\n",
+  "starter_code": "from typing import List\n\ndef eventual_safe_nodes(graph: List[List[int]]) -> List[int]:\n    pass\n",
+  "examples": [
+    {
+      "input": "graph = [[1, 2], [2, 3], [5], [0], [5], [], []]",
+      "output": "[2, 4, 5, 6]",
+      "explanation": "Nodes 2, 4, 5, and 6 are safe."
+    },
+    {
+      "input": "graph = [[], [0, 2], []]",
+      "output": "[0, 1, 2]",
+      "explanation": "Every node reaches a terminal."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "graph": [
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            5
+          ],
+          [
+            0
+          ],
+          [
+            5
+          ],
+          [],
+          []
+        ]
+      },
+      "expected": [
+        2,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "name": "terminal",
+      "args": {
+        "graph": [
+          [],
+          [
+            0,
+            2
+          ],
+          []
+        ]
+      },
+      "expected": [
+        0,
+        1,
+        2
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "cycle",
+      "args": {
+        "graph": [
+          [
+            1
+          ],
+          [
+            0
+          ]
+        ]
+      },
+      "expected": []
+    },
+    {
+      "name": "one",
+      "args": {
+        "graph": [
+          []
+        ]
+      },
+      "expected": [
+        0
+      ]
+    },
+    {
+      "name": "self",
+      "args": {
+        "graph": [
+          [
+            0
+          ]
+        ]
+      },
+      "expected": []
+    }
+  ]
+}

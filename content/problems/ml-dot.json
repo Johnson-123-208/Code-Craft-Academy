@@ -1,0 +1,111 @@
+{
+  "title": "Dot Product",
+  "slug": "ml-dot",
+  "difficulty": "easy",
+  "topics": [
+    "machine-learning",
+    "linear-algebra",
+    "python"
+  ],
+  "company_tags": [
+    "Google",
+    "DeepMind"
+  ],
+  "statement": "Implement `dot(a, b)`, the dot product of two equal-length vectors. Return the sum of elementwise products as a float. This is the similarity score inside linear regression, cosine retrieval, and attention logits.",
+  "constraints": [
+    "1 <= len(a) == len(b) <= 10^5",
+    "Values are finite floats",
+    "Return a Python float"
+  ],
+  "examples": [
+    {
+      "input": "{\"a\": [1.0, 2.0, 3.0], \"b\": [4.0, 5.0, 6.0]}",
+      "output": "32.0",
+      "explanation": "1*4 + 2*5 + 3*6 = 32."
+    },
+    {
+      "input": "{\"a\": [1.0, 0.0], \"b\": [0.0, 1.0]}",
+      "output": "0.0",
+      "explanation": "Perpendicular vectors have dot product 0."
+    }
+  ],
+  "starter_code": "def dot(a: list[float], b: list[float]) -> float:\n    pass\n",
+  "function_name": "dot",
+  "hints": [
+    "Walk both vectors with zip.",
+    "Accumulate x * y into a float sum.",
+    "Do not normalize; cosine is a different function."
+  ],
+  "approaches": [
+    {
+      "name": "Single pass",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "One multiply-add per coordinate. This is the inner product BLAS calls gemv and attention both reduce to."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "aligned",
+      "args": {
+        "a": [
+          1.0,
+          2.0,
+          3.0
+        ],
+        "b": [
+          4.0,
+          5.0,
+          6.0
+        ]
+      },
+      "expected": 32.0
+    },
+    {
+      "name": "orthogonal",
+      "args": {
+        "a": [
+          1.0,
+          0.0
+        ],
+        "b": [
+          0.0,
+          1.0
+        ]
+      },
+      "expected": 0.0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "negatives",
+      "args": {
+        "a": [
+          -1.0,
+          2.0
+        ],
+        "b": [
+          3.0,
+          -4.0
+        ]
+      },
+      "expected": -11.0
+    },
+    {
+      "name": "singleton",
+      "args": {
+        "a": [
+          2.5
+        ],
+        "b": [
+          4.0
+        ]
+      },
+      "expected": 10.0
+    }
+  ],
+  "editorial": "The dot product a \u00b7 b = \u03a3\u1d62 a\u1d62 b\u1d62 measures signed alignment. A positive value means the vectors point into the same half-space; zero means they are orthogonal; negative means they oppose. Linear layers, least squares, and attention scores are all built on this reduction. The implementation is a single zip over coordinates. Length mismatches are out of contract here, but production code should assert shapes before the loop.",
+  "reference_solution": "def dot(a: list[float], b: list[float]) -> float:\n    return float(sum(x * y for x, y in zip(a, b)))\n"
+}

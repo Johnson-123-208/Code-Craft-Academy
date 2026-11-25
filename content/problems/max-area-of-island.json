@@ -1,0 +1,255 @@
+{
+  "title": "Max Area of Island",
+  "slug": "max-area-of-island",
+  "difficulty": "medium",
+  "topics": [
+    "graphs",
+    "dfs",
+    "grid"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Facebook",
+    "Uber"
+  ],
+  "statement": "Return the area of the largest 4-connected island of 1s in a grid of 0s and 1s. An all-water grid has area 0.\n",
+  "constraints": [
+    "1 <= m, n <= 50",
+    "grid[i][j] is 0 or 1"
+  ],
+  "function_name": "max_area_of_island",
+  "hints": [
+    "This is number of islands, except you return the size of the component instead of 1.",
+    "Count cells as you mark them visited.",
+    "Track the maximum count. Zero islands means the answer is 0."
+  ],
+  "approaches": [
+    {
+      "name": "DFS size",
+      "complexity": {
+        "time": "O(mn)",
+        "space": "O(mn)"
+      },
+      "explanation": "Return the number of cells flooded."
+    },
+    {
+      "name": "BFS size",
+      "complexity": {
+        "time": "O(mn)",
+        "space": "O(mn)"
+      },
+      "explanation": "Same component, counted with a queue."
+    }
+  ],
+  "editorial": "Flood each unvisited land cell and add one to the area for every cell you mark. The answer is the maximum area encountered. Marking visited is mandatory, otherwise a cell would be counted by every neighbor.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef max_area_of_island(grid: list[list[int]]) -> int:\n    rows, cols = len(grid), len(grid[0])\n    seen = [[False] * cols for _ in range(rows)]\n\n    def area(r: int, c: int) -> int:\n        stack = [(r, c)]\n        seen[r][c] = True\n        size = 0\n        while stack:\n            x, y = stack.pop()\n            size += 1\n            for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):\n                nx, ny = x + dx, y + dy\n                if 0 <= nx < rows and 0 <= ny < cols and not seen[nx][ny] and grid[nx][ny] == 1:\n                    seen[nx][ny] = True\n                    stack.append((nx, ny))\n        return size\n\n    best = 0\n    for r in range(rows):\n        for c in range(cols):\n            if grid[r][c] == 1 and not seen[r][c]:\n                best = max(best, area(r, c))\n    return best\n",
+  "starter_code": "from typing import List\n\ndef max_area_of_island(grid: List[List[int]]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "grid = [[0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0], [0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0], [0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0]]",
+      "output": "6",
+      "explanation": "The largest island has area 6."
+    },
+    {
+      "input": "grid = [[0, 0, 0], [0, 0, 0]]",
+      "output": "0",
+      "explanation": "No land."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "grid": [
+          [
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            1,
+            1,
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "expected": 6
+    },
+    {
+      "name": "none",
+      "args": {
+        "grid": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "expected": 0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "one",
+      "args": {
+        "grid": [
+          [
+            1
+          ]
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "name": "all",
+      "args": {
+        "grid": [
+          [
+            1,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ]
+      },
+      "expected": 4
+    },
+    {
+      "name": "split",
+      "args": {
+        "grid": [
+          [
+            1,
+            0,
+            1
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ]
+      },
+      "expected": 2
+    }
+  ]
+}

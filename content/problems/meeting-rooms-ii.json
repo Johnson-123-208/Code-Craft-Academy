@@ -1,0 +1,155 @@
+{
+  "title": "Meeting Rooms II",
+  "slug": "meeting-rooms-ii",
+  "difficulty": "medium",
+  "topics": [
+    "intervals",
+    "heaps"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Facebook",
+    "Bloomberg"
+  ],
+  "statement": "Return the minimum number of conference rooms required so that all the meetings can be scheduled. Touching endpoints can share a room.\n",
+  "constraints": [
+    "1 <= intervals.length <= 10^4",
+    "0 <= start < end <= 10^6"
+  ],
+  "function_name": "min_meeting_rooms",
+  "hints": [
+    "Sort starts and ends separately.",
+    "A start before the earliest end needs a new room. A start at or after that end frees a room.",
+    "The maximum number of rooms in use during the sweep is the answer."
+  ],
+  "approaches": [
+    {
+      "name": "Min-heap of end times",
+      "complexity": {
+        "time": "O(n log n)",
+        "space": "O(n)"
+      },
+      "explanation": "The heap size is the number of rooms currently busy."
+    },
+    {
+      "name": "Two-pointer sweep",
+      "complexity": {
+        "time": "O(n log n)",
+        "space": "O(n)"
+      },
+      "explanation": "Sort starts and ends, then walk the starts."
+    }
+  ],
+  "editorial": "Chronological order is the whole problem. Separate the start events from the end events. If the next start happens strictly before the next end, a new room opens. Otherwise a room frees first and is reused. The peak of the running count is the minimum number of rooms.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef min_meeting_rooms(intervals: list[list[int]]) -> int:\n    starts = sorted(item[0] for item in intervals)\n    ends = sorted(item[1] for item in intervals)\n    rooms = best = end_i = 0\n    for start in starts:\n        if start < ends[end_i]:\n            rooms += 1\n            best = max(best, rooms)\n        else:\n            end_i += 1\n    return best\n",
+  "starter_code": "from typing import List\n\ndef min_meeting_rooms(intervals: List[List[int]]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "intervals = [[0, 30], [5, 10], [15, 20]]",
+      "output": "2",
+      "explanation": "The long meeting forces a second room."
+    },
+    {
+      "input": "intervals = [[7, 10], [2, 4]]",
+      "output": "1",
+      "explanation": "One room is reused."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "two",
+      "args": {
+        "intervals": [
+          [
+            0,
+            30
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            15,
+            20
+          ]
+        ]
+      },
+      "expected": 2
+    },
+    {
+      "name": "one",
+      "args": {
+        "intervals": [
+          [
+            7,
+            10
+          ],
+          [
+            2,
+            4
+          ]
+        ]
+      },
+      "expected": 1
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "touch",
+      "args": {
+        "intervals": [
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ]
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "name": "same",
+      "args": {
+        "intervals": [
+          [
+            1,
+            5
+          ],
+          [
+            1,
+            5
+          ],
+          [
+            1,
+            5
+          ]
+        ]
+      },
+      "expected": 3
+    },
+    {
+      "name": "chain",
+      "args": {
+        "intervals": [
+          [
+            1,
+            4
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            6,
+            8
+          ]
+        ]
+      },
+      "expected": 2
+    }
+  ]
+}

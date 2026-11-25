@@ -1,0 +1,169 @@
+{
+  "title": "Word Search",
+  "slug": "word-search",
+  "difficulty": "medium",
+  "topics": [
+    "backtracking",
+    "matrix"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft",
+    "Bloomberg",
+    "Facebook"
+  ],
+  "statement": "Return true when `word` can be formed by adjacent letters on the board. Adjacent means 4-directional. A cell may be used once per path.\n",
+  "constraints": [
+    "1 <= m, n <= 6",
+    "1 <= word.length <= 15",
+    "board and word are lowercase"
+  ],
+  "function_name": "exist",
+  "hints": [
+    "DFS from every cell that matches the first letter.",
+    "Mark the current cell as used before exploring neighbors, and unmark it afterward.",
+    "Prune when the remaining board cannot contain the next character. The basic version just checks the character."
+  ],
+  "approaches": [
+    {
+      "name": "DFS backtracking",
+      "complexity": {
+        "time": "O(mn * 4^L)",
+        "space": "O(L)"
+      },
+      "explanation": "L is the word length. The board is small."
+    },
+    {
+      "name": "Trie of many words",
+      "complexity": {
+        "time": "O(mn * 4^L)",
+        "space": "O(total word letters)"
+      },
+      "explanation": "The Word Search II upgrade."
+    }
+  ],
+  "editorial": "The search state is the cell and the index in the word. A cell matches when it is in bounds, unused, and equal to word[index]. Mark it, try four neighbors at index + 1, and unmark it so another path can use it. Reaching the end of the word returns true.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef exist(board: list[list[str]], word: str) -> bool:\n    rows, cols = len(board), len(board[0])\n\n    def dfs(r: int, c: int, k: int) -> bool:\n        if k == len(word):\n            return True\n        if not (0 <= r < rows and 0 <= c < cols) or board[r][c] != word[k]:\n            return False\n        saved = board[r][c]\n        board[r][c] = \"#\"\n        ok = any(dfs(r + dr, c + dc, k + 1) for dr, dc in ((1, 0), (-1, 0), (0, 1), (0, -1)))\n        board[r][c] = saved\n        return ok\n\n    return any(dfs(r, c, 0) for r in range(rows) for c in range(cols))\n",
+  "starter_code": "from typing import List\n\ndef exist(board: List[List[str]], word: str) -> bool:\n    pass\n",
+  "examples": [
+    {
+      "input": "board = [['A', 'B', 'C', 'E'], ['S', 'F', 'C', 'S'], ['A', 'D', 'E', 'E']], word = 'ABCCED'",
+      "output": "true",
+      "explanation": "The word snakes through the board."
+    },
+    {
+      "input": "board = [['A', 'B', 'C', 'E'], ['S', 'F', 'C', 'S'], ['A', 'D', 'E', 'E']], word = 'ABCB'",
+      "output": "false",
+      "explanation": "The path would reuse B."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "yes",
+      "args": {
+        "board": [
+          [
+            "A",
+            "B",
+            "C",
+            "E"
+          ],
+          [
+            "S",
+            "F",
+            "C",
+            "S"
+          ],
+          [
+            "A",
+            "D",
+            "E",
+            "E"
+          ]
+        ],
+        "word": "ABCCED"
+      },
+      "expected": true
+    },
+    {
+      "name": "no",
+      "args": {
+        "board": [
+          [
+            "A",
+            "B",
+            "C",
+            "E"
+          ],
+          [
+            "S",
+            "F",
+            "C",
+            "S"
+          ],
+          [
+            "A",
+            "D",
+            "E",
+            "E"
+          ]
+        ],
+        "word": "ABCB"
+      },
+      "expected": false
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "single",
+      "args": {
+        "board": [
+          [
+            "A"
+          ]
+        ],
+        "word": "A"
+      },
+      "expected": true
+    },
+    {
+      "name": "see",
+      "args": {
+        "board": [
+          [
+            "A",
+            "B",
+            "C",
+            "E"
+          ],
+          [
+            "S",
+            "F",
+            "C",
+            "S"
+          ],
+          [
+            "A",
+            "D",
+            "E",
+            "E"
+          ]
+        ],
+        "word": "SEE"
+      },
+      "expected": true
+    },
+    {
+      "name": "miss",
+      "args": {
+        "board": [
+          [
+            "A"
+          ]
+        ],
+        "word": "B"
+      },
+      "expected": false
+    }
+  ]
+}

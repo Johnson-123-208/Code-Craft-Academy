@@ -1,0 +1,152 @@
+{
+  "title": "Add Two Numbers",
+  "slug": "add-two-numbers",
+  "difficulty": "medium",
+  "topics": [
+    "linked-lists",
+    "math"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft",
+    "Adobe",
+    "Bloomberg"
+  ],
+  "statement": "Two non-negative integers are stored as digit lists in reverse order, one digit per node. Add them and return the sum in the same representation.\n",
+  "constraints": [
+    "1 <= length <= 100",
+    "0 <= digit <= 9",
+    "No leading zeros except the number 0"
+  ],
+  "function_name": "add_two_numbers",
+  "hints": [
+    "Reverse order means the least significant digit is first, which is the order addition wants.",
+    "Carry is 0 or 1, or temporarily 1 plus a 9 and a 9 which is still a single extra digit.",
+    "Continue while either list remains or the carry is 1. A final carry creates a new digit."
+  ],
+  "approaches": [
+    {
+      "name": "Convert to integers",
+      "complexity": {
+        "time": "O(n + m)",
+        "space": "O(n + m)"
+      },
+      "explanation": "Fine in Python, and it hides the carry lesson."
+    },
+    {
+      "name": "Digit walk with carry",
+      "complexity": {
+        "time": "O(n + m)",
+        "space": "O(1)"
+      },
+      "explanation": "Add one column at a time. The output list is the required space."
+    }
+  ],
+  "editorial": "Initialize carry to 0. At each step add the two digits if those nodes exist, plus the carry. The output digit is the total modulo 10 and the next carry is the total divided by 10. Because the lists are already least-significant digit first, you never reverse them.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef add_two_numbers(l1: list[int], l2: list[int]) -> list[int]:\n    a = _node_chain(l1)\n    b = _node_chain(l2)\n    dummy = tail = _node_chain([0])\n    carry = 0\n    while a is not None or b is not None or carry:\n        total = carry\n        if a is not None:\n            total += a.value\n            a = a.nxt\n        if b is not None:\n            total += b.value\n            b = b.nxt\n        carry, digit = divmod(total, 10)\n        tail.nxt = _node_chain([digit])\n        tail = tail.nxt\n    return _to_list(dummy.nxt)\n",
+  "starter_code": "from typing import List\n\ndef add_two_numbers(l1: List[int], l2: List[int]) -> List[int]:\n    pass\n",
+  "examples": [
+    {
+      "input": "l1 = [2, 4, 3], l2 = [5, 6, 4]",
+      "output": "[7, 0, 8]",
+      "explanation": "342 + 465 = 807, stored as 7, 0, 8."
+    },
+    {
+      "input": "l1 = [0], l2 = [0]",
+      "output": "[0]",
+      "explanation": "0 + 0 = 0."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "l1": [
+          2,
+          4,
+          3
+        ],
+        "l2": [
+          5,
+          6,
+          4
+        ]
+      },
+      "expected": [
+        7,
+        0,
+        8
+      ]
+    },
+    {
+      "name": "zero",
+      "args": {
+        "l1": [
+          0
+        ],
+        "l2": [
+          0
+        ]
+      },
+      "expected": [
+        0
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "carry",
+      "args": {
+        "l1": [
+          9,
+          9
+        ],
+        "l2": [
+          1
+        ]
+      },
+      "expected": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "different",
+      "args": {
+        "l1": [
+          1,
+          8
+        ],
+        "l2": [
+          0
+        ]
+      },
+      "expected": [
+        1,
+        8
+      ]
+    },
+    {
+      "name": "long-carry",
+      "args": {
+        "l1": [
+          9,
+          9,
+          9
+        ],
+        "l2": [
+          9,
+          9,
+          9
+        ]
+      },
+      "expected": [
+        8,
+        9,
+        9,
+        1
+      ]
+    }
+  ]
+}

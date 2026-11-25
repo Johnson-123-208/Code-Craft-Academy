@@ -1,0 +1,96 @@
+{
+  "title": "Number of 1 Bits",
+  "slug": "number-of-1-bits",
+  "difficulty": "easy",
+  "topics": [
+    "bit-manipulation"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Apple",
+    "Microsoft",
+    "Adobe"
+  ],
+  "statement": "Return the number of 1 bits in the binary representation of the non-negative integer `n`. This is the Hamming weight.\n",
+  "constraints": [
+    "0 <= n <= 2^31 - 1"
+  ],
+  "function_name": "hamming_weight",
+  "hints": [
+    "n & (n - 1) clears the lowest set bit.",
+    "Repeat until n is 0 and count the operations.",
+    "The loop runs once per set bit, not once per bit position."
+  ],
+  "approaches": [
+    {
+      "name": "Shift and test",
+      "complexity": {
+        "time": "O(word size)",
+        "space": "O(1)"
+      },
+      "explanation": "Test the low bit and shift."
+    },
+    {
+      "name": "Kernighan",
+      "complexity": {
+        "time": "O(number of set bits)",
+        "space": "O(1)"
+      },
+      "explanation": "Clear the lowest set bit each iteration."
+    }
+  ],
+  "editorial": "Subtracting one flips every bit up to and including the lowest 1. AND-ing with the original number clears that 1 and leaves the higher bits unchanged. Counting those clears is the popcount.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef hamming_weight(n: int) -> int:\n    count = 0\n    while n:\n        n &= n - 1\n        count += 1\n    return count\n",
+  "starter_code": "def hamming_weight(n: int) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "n = 11",
+      "output": "3",
+      "explanation": "1011 has three 1 bits."
+    },
+    {
+      "input": "n = 0",
+      "output": "0",
+      "explanation": "No set bits."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "eleven",
+      "args": {
+        "n": 11
+      },
+      "expected": 3
+    },
+    {
+      "name": "zero",
+      "args": {
+        "n": 0
+      },
+      "expected": 0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "one",
+      "args": {
+        "n": 1
+      },
+      "expected": 1
+    },
+    {
+      "name": "power",
+      "args": {
+        "n": 128
+      },
+      "expected": 1
+    },
+    {
+      "name": "dense",
+      "args": {
+        "n": 127
+      },
+      "expected": 7
+    }
+  ]
+}

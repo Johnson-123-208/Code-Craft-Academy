@@ -1,0 +1,161 @@
+{
+  "title": "Number of Provinces",
+  "slug": "number-of-provinces",
+  "difficulty": "medium",
+  "topics": [
+    "graphs",
+    "dfs",
+    "union-find"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft",
+    "Google",
+    "Facebook"
+  ],
+  "statement": "`is_connected` is an n by n adjacency matrix of an undirected graph. Return the number of connected components, called provinces.\n",
+  "constraints": [
+    "1 <= n <= 200",
+    "is_connected[i][i] == 1",
+    "The matrix is symmetric"
+  ],
+  "function_name": "find_circle_num",
+  "hints": [
+    "DFS or BFS from every unvisited city counts a component.",
+    "Union-find unions cities that share an edge and then counts roots.",
+    "Skip the diagonal. It is a self-loop, not a new edge."
+  ],
+  "approaches": [
+    {
+      "name": "DFS on the matrix",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(n)"
+      },
+      "explanation": "Each pair is inspected once."
+    },
+    {
+      "name": "Disjoint set",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(n)"
+      },
+      "explanation": "Union every edge, then count parents that point at themselves."
+    }
+  ],
+  "editorial": "A province is a connected component. The DFS version marks a city visited and recurses through every neighbor whose matrix entry is 1. The number of times you start a search is the number of provinces.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef find_circle_num(is_connected: list[list[int]]) -> int:\n    n = len(is_connected)\n    seen = [False] * n\n\n    def dfs(city: int) -> None:\n        seen[city] = True\n        for other in range(n):\n            if is_connected[city][other] and not seen[other]:\n                dfs(other)\n\n    count = 0\n    for city in range(n):\n        if not seen[city]:\n            count += 1\n            dfs(city)\n    return count\n",
+  "starter_code": "from typing import List\n\ndef find_circle_num(is_connected: List[List[int]]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "is_connected = [[1, 1, 0], [1, 1, 0], [0, 0, 1]]",
+      "output": "2",
+      "explanation": "Cities 0 and 1 are connected. City 2 is alone."
+    },
+    {
+      "input": "is_connected = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]",
+      "output": "3",
+      "explanation": "Three isolated cities."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "two",
+      "args": {
+        "is_connected": [
+          [
+            1,
+            1,
+            0
+          ],
+          [
+            1,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ]
+      },
+      "expected": 2
+    },
+    {
+      "name": "three",
+      "args": {
+        "is_connected": [
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ]
+      },
+      "expected": 3
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "one",
+      "args": {
+        "is_connected": [
+          [
+            1
+          ]
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "name": "all",
+      "args": {
+        "is_connected": [
+          [
+            1,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "name": "chain",
+      "args": {
+        "is_connected": [
+          [
+            1,
+            1,
+            0
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            0,
+            1,
+            1
+          ]
+        ]
+      },
+      "expected": 1
+    }
+  ]
+}

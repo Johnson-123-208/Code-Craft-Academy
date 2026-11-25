@@ -1,0 +1,119 @@
+{
+  "title": "Largest Rectangle in Histogram",
+  "slug": "largest-rectangle-in-histogram",
+  "difficulty": "hard",
+  "topics": [
+    "stacks",
+    "monotonic-stack"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "Facebook"
+  ],
+  "statement": "Given bar heights, return the area of the largest rectangle that can be formed inside the histogram. Each bar has width 1.\n",
+  "constraints": [
+    "1 <= heights.length <= 10^5",
+    "0 <= heights[i] <= 10^4"
+  ],
+  "function_name": "largest_rectangle_area",
+  "hints": [
+    "For each bar, the best rectangle that uses it as the shortest bar extends left and right until a shorter bar.",
+    "A nearest-smaller index on each side gives that width.",
+    "A monotonic increasing stack computes both nearest smaller indices as bars are popped."
+  ],
+  "approaches": [
+    {
+      "name": "Expand each bar",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(1)"
+      },
+      "explanation": "Walk left and right while the height stays at least heights[i]."
+    },
+    {
+      "name": "Monotonic stack",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Pop a bar when a shorter bar arrives. The new bar is its right bound and the new top is its left bound."
+    }
+  ],
+  "editorial": "Append a sentinel 0 so every bar is eventually popped. The stack stores increasing heights. When bar i is shorter than the top, the top bar cannot extend to i. Its right bound is i and its left bound is the new stack top. Width is right - left - 1. Area is height times width. The maximum area is the answer.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef largest_rectangle_area(heights: list[int]) -> int:\n    stack = [-1]\n    best = 0\n    extended = heights + [0]\n    for i, height in enumerate(extended):\n        while stack[-1] != -1 and extended[stack[-1]] > height:\n            h = extended[stack.pop()]\n            width = i - stack[-1] - 1\n            best = max(best, h * width)\n        stack.append(i)\n    return best\n",
+  "starter_code": "from typing import List\n\ndef largest_rectangle_area(heights: List[int]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "heights = [2, 1, 5, 6, 2, 3]",
+      "output": "10",
+      "explanation": "The rectangle of height 5 and width 2 has area 10."
+    },
+    {
+      "input": "heights = [2, 4]",
+      "output": "4",
+      "explanation": "The best area is 4."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "heights": [
+          2,
+          1,
+          5,
+          6,
+          2,
+          3
+        ]
+      },
+      "expected": 10
+    },
+    {
+      "name": "flat",
+      "args": {
+        "heights": [
+          2,
+          4
+        ]
+      },
+      "expected": 4
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "single",
+      "args": {
+        "heights": [
+          6
+        ]
+      },
+      "expected": 6
+    },
+    {
+      "name": "zeros",
+      "args": {
+        "heights": [
+          0,
+          1,
+          0
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "name": "increasing",
+      "args": {
+        "heights": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "expected": 6
+    }
+  ]
+}

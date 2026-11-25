@@ -1,0 +1,136 @@
+{
+  "title": "Dungeon Game",
+  "slug": "dungeon-game",
+  "difficulty": "hard",
+  "topics": [
+    "dynamic-programming",
+    "matrix"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "Adobe"
+  ],
+  "statement": "The knight starts at the top-left of the dungeon and must reach the bottom-right, moving only right or down. dungeon[i][j] is the health change of that room. Health must stay at least 1 at every moment, including after the final room. Return the minimum starting health that makes the rescue possible.\n",
+  "constraints": [
+    "1 <= m, n <= 200",
+    "-1000 <= dungeon[i][j] <= 1000"
+  ],
+  "function_name": "calculate_minimum_hp",
+  "hints": [
+    "Work backward. The future requirement is easier to express than the past.",
+    "After the last room the knight needs health 1. Before entering a room, the knight needs enough health to absorb that room and still meet the cheaper child's requirement.",
+    "The need is max(1, min(need_right, need_down) - dungeon[i][j]). A positive room can reduce the requirement, but never below 1."
+  ],
+  "approaches": [
+    {
+      "name": "Forward search of starting health",
+      "complexity": {
+        "time": "O(mn log H)",
+        "space": "O(mn)"
+      },
+      "explanation": "Binary search the start and simulate."
+    },
+    {
+      "name": "Backward DP",
+      "complexity": {
+        "time": "O(mn)",
+        "space": "O(mn)"
+      },
+      "explanation": "Each room stores the health required on entry."
+    }
+  ],
+  "editorial": "Let dp[i][j] be the minimum health required when entering room (i, j). The princess room requires max(1, 1 - dungeon[m-1][n-1]). Every earlier room takes the cheaper of the two legal exits, subtracts its own health change, and clamps the result to at least 1. The top-left value is the answer.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef calculate_minimum_hp(dungeon: list[list[int]]) -> int:\n    rows, cols = len(dungeon), len(dungeon[0])\n    need = [[10**9] * (cols + 1) for _ in range(rows + 1)]\n    need[rows][cols - 1] = need[rows - 1][cols] = 1\n    for r in range(rows - 1, -1, -1):\n        for c in range(cols - 1, -1, -1):\n            need[r][c] = max(1, min(need[r + 1][c], need[r][c + 1]) - dungeon[r][c])\n    return need[0][0]\n",
+  "starter_code": "from typing import List\n\ndef calculate_minimum_hp(dungeon: List[List[int]]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "dungeon = [[-2, -3, 3], [-5, -10, 1], [10, 30, -5]]",
+      "output": "7",
+      "explanation": "The knight needs 7 health at the start."
+    },
+    {
+      "input": "dungeon = [[-5]]",
+      "output": "6",
+      "explanation": "Start at 6 so the room leaves the knight at 1."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "dungeon": [
+          [
+            -2,
+            -3,
+            3
+          ],
+          [
+            -5,
+            -10,
+            1
+          ],
+          [
+            10,
+            30,
+            -5
+          ]
+        ]
+      },
+      "expected": 7
+    },
+    {
+      "name": "one-negative",
+      "args": {
+        "dungeon": [
+          [
+            -5
+          ]
+        ]
+      },
+      "expected": 6
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "one-positive",
+      "args": {
+        "dungeon": [
+          [
+            5
+          ]
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "name": "row",
+      "args": {
+        "dungeon": [
+          [
+            0,
+            -3
+          ]
+        ]
+      },
+      "expected": 4
+    },
+    {
+      "name": "gain",
+      "args": {
+        "dungeon": [
+          [
+            2,
+            -1
+          ],
+          [
+            -1,
+            -1
+          ]
+        ]
+      },
+      "expected": 1
+    }
+  ]
+}

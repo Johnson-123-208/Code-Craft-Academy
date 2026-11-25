@@ -1,0 +1,120 @@
+{
+  "title": "Jump Game",
+  "slug": "jump-game",
+  "difficulty": "medium",
+  "topics": [
+    "arrays",
+    "greedy"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "Apple"
+  ],
+  "statement": "You start at index 0. `nums[i]` is the maximum forward jump length from i. Return true when index n - 1 is reachable.\n",
+  "constraints": [
+    "1 <= nums.length <= 10^4",
+    "0 <= nums[i] <= 10^5"
+  ],
+  "function_name": "can_jump",
+  "hints": [
+    "A BFS on indices is correct and uses a queue.",
+    "Greedy: track the farthest index reachable so far.",
+    "If the scan index ever passes that farthest index, you are stuck."
+  ],
+  "approaches": [
+    {
+      "name": "DFS or BFS",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Visit each index once if you mark it."
+    },
+    {
+      "name": "Farthest reach",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "One integer summarizes every earlier jump."
+    }
+  ],
+  "editorial": "Let reach be the largest index you can stand on. For each i from 0 while i <= reach, set reach = max(reach, i + nums[i]). If reach ever becomes at least n - 1, return true. If the loop ends because i walked past reach, a zero gap blocked every jump.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef can_jump(nums: list[int]) -> bool:\n    reach = 0\n    for i, step in enumerate(nums):\n        if i > reach:\n            return False\n        reach = max(reach, i + step)\n    return True\n",
+  "starter_code": "from typing import List\n\ndef can_jump(nums: List[int]) -> bool:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [2, 3, 1, 1, 4]",
+      "output": "true",
+      "explanation": "One jump of 2 and then 3 reaches the end."
+    },
+    {
+      "input": "nums = [3, 2, 1, 0, 4]",
+      "output": "false",
+      "explanation": "The 0 blocks the last index."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "yes",
+      "args": {
+        "nums": [
+          2,
+          3,
+          1,
+          1,
+          4
+        ]
+      },
+      "expected": true
+    },
+    {
+      "name": "no",
+      "args": {
+        "nums": [
+          3,
+          2,
+          1,
+          0,
+          4
+        ]
+      },
+      "expected": false
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "single",
+      "args": {
+        "nums": [
+          0
+        ]
+      },
+      "expected": true
+    },
+    {
+      "name": "zeros",
+      "args": {
+        "nums": [
+          1,
+          0,
+          1
+        ]
+      },
+      "expected": false
+    },
+    {
+      "name": "exact",
+      "args": {
+        "nums": [
+          2,
+          0,
+          0
+        ]
+      },
+      "expected": true
+    }
+  ]
+}

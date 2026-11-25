@@ -1,0 +1,108 @@
+{
+  "title": "Interleaving String",
+  "slug": "interleaving-string",
+  "difficulty": "medium",
+  "topics": [
+    "dynamic-programming",
+    "strings"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Bloomberg",
+    "Microsoft"
+  ],
+  "statement": "Return true when `s3` is formed by interleaving `s1` and `s2`. An interleaving preserves the relative order of characters from each string.\n",
+  "constraints": [
+    "0 <= s1.length, s2.length <= 100",
+    "s3.length == s1.length + s2.length"
+  ],
+  "function_name": "is_interleave",
+  "hints": [
+    "If the lengths do not add up, return false immediately.",
+    "dp[i][j] means s1[:i] and s2[:j] interleave to s3[:i+j].",
+    "The cell is true when the previous row matches the new s1 character, or the previous column matches the new s2 character."
+  ],
+  "approaches": [
+    {
+      "name": "Recursion with memo",
+      "complexity": {
+        "time": "O(n * m)",
+        "space": "O(n * m)"
+      },
+      "explanation": "State is the two indexes."
+    },
+    {
+      "name": "Boolean DP",
+      "complexity": {
+        "time": "O(n * m)",
+        "space": "O(n * m)"
+      },
+      "explanation": "Or one rolling row."
+    }
+  ],
+  "editorial": "dp[0][0] is true. A first-row cell depends only on s2, and a first-column cell only on s1. Every other cell looks up and left. The bottom-right cell is the answer.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef is_interleave(s1: str, s2: str, s3: str) -> bool:\n    if len(s1) + len(s2) != len(s3):\n        return False\n    dp = [[False] * (len(s2) + 1) for _ in range(len(s1) + 1)]\n    dp[0][0] = True\n    for i in range(len(s1) + 1):\n        for j in range(len(s2) + 1):\n            if i and dp[i - 1][j] and s1[i - 1] == s3[i + j - 1]:\n                dp[i][j] = True\n            if j and dp[i][j - 1] and s2[j - 1] == s3[i + j - 1]:\n                dp[i][j] = True\n    return dp[-1][-1]\n",
+  "starter_code": "def is_interleave(s1: str, s2: str, s3: str) -> bool:\n    pass\n",
+  "examples": [
+    {
+      "input": "s1 = 'aabcc', s2 = 'dbbca', s3 = 'aadbbcbcac'",
+      "output": "true",
+      "explanation": "One interleaving exists."
+    },
+    {
+      "input": "s1 = 'aabcc', s2 = 'dbbca', s3 = 'aadbbbaccc'",
+      "output": "false",
+      "explanation": "No interleaving preserves both orders."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "yes",
+      "args": {
+        "s1": "aabcc",
+        "s2": "dbbca",
+        "s3": "aadbbcbcac"
+      },
+      "expected": true
+    },
+    {
+      "name": "no",
+      "args": {
+        "s1": "aabcc",
+        "s2": "dbbca",
+        "s3": "aadbbbaccc"
+      },
+      "expected": false
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "empty",
+      "args": {
+        "s1": "",
+        "s2": "",
+        "s3": ""
+      },
+      "expected": true
+    },
+    {
+      "name": "one",
+      "args": {
+        "s1": "a",
+        "s2": "",
+        "s3": "a"
+      },
+      "expected": true
+    },
+    {
+      "name": "short",
+      "args": {
+        "s1": "ab",
+        "s2": "cd",
+        "s3": "acbd"
+      },
+      "expected": true
+    }
+  ]
+}

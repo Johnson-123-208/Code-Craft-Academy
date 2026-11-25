@@ -1,0 +1,116 @@
+{
+  "title": "Letter Case Permutation",
+  "slug": "letter-case-permutation",
+  "difficulty": "medium",
+  "topics": [
+    "backtracking",
+    "bit-manipulation"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Adobe",
+    "Microsoft",
+    "Apple"
+  ],
+  "statement": "Given a string of letters and digits, return every string obtained by changing the case of any letters. Digits stay fixed. Sort the result.\n",
+  "constraints": [
+    "1 <= s.length <= 12",
+    "s consists of letters and digits"
+  ],
+  "function_name": "letter_case_permutation",
+  "hints": [
+    "Each letter has two choices. Digits have one.",
+    "A DFS that branches only on letters builds every string.",
+    "There are 2^(number of letters) results."
+  ],
+  "approaches": [
+    {
+      "name": "Iterative product",
+      "complexity": {
+        "time": "O(2^k * n)",
+        "space": "O(2^k * n)"
+      },
+      "explanation": "Start from the empty prefix and extend."
+    },
+    {
+      "name": "Backtracking",
+      "complexity": {
+        "time": "O(2^k * n)",
+        "space": "O(n)"
+      },
+      "explanation": "The same product, depth-first."
+    }
+  ],
+  "editorial": "Walk the string. A digit is appended as itself. A letter branches into its lower and upper forms. At the end of the string, record the path. Sorting makes the list deterministic.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef letter_case_permutation(s: str) -> list[str]:\n    out: list[str] = []\n    path: list[str] = []\n\n    def dfs(i: int) -> None:\n        if i == len(s):\n            out.append(\"\".join(path))\n            return\n        ch = s[i]\n        if ch.isdigit():\n            path.append(ch)\n            dfs(i + 1)\n            path.pop()\n        else:\n            for variant in (ch.lower(), ch.upper()):\n                path.append(variant)\n                dfs(i + 1)\n                path.pop()\n\n    dfs(0)\n    return sorted(out)\n",
+  "starter_code": "from typing import List\n\ndef letter_case_permutation(s: str) -> List[str]:\n    pass\n",
+  "examples": [
+    {
+      "input": "s = 'a1b2'",
+      "output": "[\"A1B2\", \"A1b2\", \"a1B2\", \"a1b2\"]",
+      "explanation": "Four strings."
+    },
+    {
+      "input": "s = '123'",
+      "output": "[\"123\"]",
+      "explanation": "Only one string."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "s": "a1b2"
+      },
+      "expected": [
+        "A1B2",
+        "A1b2",
+        "a1B2",
+        "a1b2"
+      ]
+    },
+    {
+      "name": "digits",
+      "args": {
+        "s": "123"
+      },
+      "expected": [
+        "123"
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "one",
+      "args": {
+        "s": "a"
+      },
+      "expected": [
+        "A",
+        "a"
+      ]
+    },
+    {
+      "name": "three",
+      "args": {
+        "s": "ab"
+      },
+      "expected": [
+        "AB",
+        "Ab",
+        "aB",
+        "ab"
+      ]
+    },
+    {
+      "name": "mixed",
+      "args": {
+        "s": "3z4"
+      },
+      "expected": [
+        "3Z4",
+        "3z4"
+      ]
+    }
+  ]
+}

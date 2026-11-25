@@ -1,0 +1,145 @@
+{
+  "title": "Sort Colors",
+  "slug": "sort-colors",
+  "difficulty": "medium",
+  "topics": [
+    "arrays",
+    "two-pointers",
+    "dutch-flag"
+  ],
+  "company_tags": [
+    "Microsoft",
+    "Amazon",
+    "Adobe",
+    "Bloomberg"
+  ],
+  "statement": "`nums` contains only 0, 1, and 2, representing red, white, and blue. Sort the array in place so that colors are grouped in that order, and return the sorted array. Use a one-pass algorithm.\n",
+  "constraints": [
+    "1 <= nums.length <= 300",
+    "nums[i] is 0, 1, or 2"
+  ],
+  "function_name": "sort_colors",
+  "hints": [
+    "Counting each color and rewriting the array is a correct two-pass solution.",
+    "The Dutch national flag partition keeps three regions: confirmed 0s, confirmed 2s, and the unknown middle.",
+    "Maintain a write index for the next 0 and a write index for the next 2. The scan index only advances on 0 and 1."
+  ],
+  "approaches": [
+    {
+      "name": "Counting sort",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Count 0, 1, and 2, then overwrite the array."
+    },
+    {
+      "name": "Dutch national flag",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "One pass, three-way partition."
+    }
+  ],
+  "editorial": "Dijkstra's three-way partition uses pointers `low` and `high` around an unknown window. A 0 at the scan index is swapped to `low` and both advance. A 2 is swapped with `high` and only `high` retreats, because the swapped-in value has not been inspected. A 1 simply advances the scan.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef sort_colors(nums: list[int]) -> list[int]:\n    low = mid = 0\n    high = len(nums) - 1\n    while mid <= high:\n        if nums[mid] == 0:\n            nums[low], nums[mid] = nums[mid], nums[low]\n            low += 1\n            mid += 1\n        elif nums[mid] == 2:\n            nums[mid], nums[high] = nums[high], nums[mid]\n            high -= 1\n        else:\n            mid += 1\n    return nums\n",
+  "starter_code": "from typing import List\n\ndef sort_colors(nums: List[int]) -> List[int]:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [2, 0, 2, 1, 1, 0]",
+      "output": "[0, 0, 1, 1, 2, 2]",
+      "explanation": "Sorted order is 0, 0, 1, 1, 2, 2."
+    },
+    {
+      "input": "nums = [0, 1, 2]",
+      "output": "[0, 1, 2]",
+      "explanation": "Already partitioned."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "nums": [
+          2,
+          0,
+          2,
+          1,
+          1,
+          0
+        ]
+      },
+      "expected": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "name": "sorted",
+      "args": {
+        "nums": [
+          0,
+          1,
+          2
+        ]
+      },
+      "expected": [
+        0,
+        1,
+        2
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "ones",
+      "args": {
+        "nums": [
+          1,
+          1,
+          1
+        ]
+      },
+      "expected": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "reversed",
+      "args": {
+        "nums": [
+          2,
+          2,
+          1,
+          0,
+          0
+        ]
+      },
+      "expected": [
+        0,
+        0,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "name": "single",
+      "args": {
+        "nums": [
+          2
+        ]
+      },
+      "expected": [
+        2
+      ]
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "title": "Find the Index of the First Occurrence in a String",
+  "slug": "find-the-index-of-the-first-occurrence",
+  "difficulty": "easy",
+  "topics": [
+    "strings",
+    "kmp"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft",
+    "Adobe",
+    "Google"
+  ],
+  "statement": "Return the first index of needle in haystack, or -1 if needle is not a substring. Implement the search yourself. The Knuth-Morris-Pratt prefix table is the linear solution.\n",
+  "constraints": [
+    "1 <= haystack.length, needle.length <= 10^4"
+  ],
+  "function_name": "str_str",
+  "hints": [
+    "The naive double loop compares needle at every alignment.",
+    "KMP builds a longest-prefix-that-is-suffix table for needle.",
+    "On a mismatch, the table says how far the pattern can shift without re-reading the text."
+  ],
+  "approaches": [
+    {
+      "name": "Naive search",
+      "complexity": {
+        "time": "O(n * m)",
+        "space": "O(1)"
+      },
+      "explanation": "Try every alignment."
+    },
+    {
+      "name": "KMP",
+      "complexity": {
+        "time": "O(n + m)",
+        "space": "O(m)"
+      },
+      "explanation": "The prefix table plus one scan of the text."
+    }
+  ],
+  "editorial": "Build lps where lps[i] is the longest proper prefix of needle[:i+1] that is also a suffix. Scan the haystack with a pattern index. On a match, advance both. On a mismatch, jump the pattern index to lps[pattern index - 1], or move the text index if the pattern index is already 0. When the pattern index reaches the needle length, the match started at text index minus that length.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef str_str(haystack: str, needle: str) -> int:\n    if needle == \"\":\n        return 0\n    lps = [0] * len(needle)\n    length = 0\n    i = 1\n    while i < len(needle):\n        if needle[i] == needle[length]:\n            length += 1\n            lps[i] = length\n            i += 1\n        elif length:\n            length = lps[length - 1]\n        else:\n            lps[i] = 0\n            i += 1\n    i = j = 0\n    while i < len(haystack):\n        if haystack[i] == needle[j]:\n            i += 1\n            j += 1\n            if j == len(needle):\n                return i - j\n        elif j:\n            j = lps[j - 1]\n        else:\n            i += 1\n    return -1\n",
+  "starter_code": "def str_str(haystack: str, needle: str) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "haystack = 'sadbutsad', needle = 'sad'",
+      "output": "0",
+      "explanation": "The first match is at index 0."
+    },
+    {
+      "input": "haystack = 'leetcode', needle = 'leeto'",
+      "output": "-1",
+      "explanation": "No match."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "sad",
+      "args": {
+        "haystack": "sadbutsad",
+        "needle": "sad"
+      },
+      "expected": 0
+    },
+    {
+      "name": "miss",
+      "args": {
+        "haystack": "leetcode",
+        "needle": "leeto"
+      },
+      "expected": -1
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "middle",
+      "args": {
+        "haystack": "hello",
+        "needle": "ll"
+      },
+      "expected": 2
+    },
+    {
+      "name": "repeat",
+      "args": {
+        "haystack": "aaaaa",
+        "needle": "bba"
+      },
+      "expected": -1
+    },
+    {
+      "name": "overlap",
+      "args": {
+        "haystack": "aaa",
+        "needle": "aa"
+      },
+      "expected": 0
+    }
+  ]
+}

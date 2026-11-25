@@ -1,0 +1,278 @@
+{
+  "title": "LFU Cache",
+  "slug": "lfu-cache",
+  "difficulty": "hard",
+  "topics": [
+    "hashing",
+    "design",
+    "linked-lists"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "Uber"
+  ],
+  "statement": "Simulate an LFU cache of the given capacity. `operations` are get and put. get(key) returns the value or -1 and counts as a use. put(key, value) inserts or updates. When the cache is full, evict the least frequently used key, breaking ties by least recently used. put returns null. A capacity of 0 rejects every put.\n",
+  "constraints": [
+    "0 <= capacity <= 10^4",
+    "0 <= key, value <= 10^5",
+    "At most 2 * 10^5 calls"
+  ],
+  "function_name": "lfu_ops",
+  "hints": [
+    "A map from key to (value, frequency) answers get in constant time.",
+    "A second map from frequency to an ordered dictionary of keys keeps each frequency bucket in LRU order.",
+    "Remember the current minimum frequency. Eviction pops the oldest key in that bucket, and a use moves a key into the next bucket."
+  ],
+  "approaches": [
+    {
+      "name": "Scan for the eviction victim",
+      "complexity": {
+        "time": "O(n) per put",
+        "space": "O(capacity)"
+      },
+      "explanation": "Track frequency and a timestamp, then scan."
+    },
+    {
+      "name": "Frequency buckets",
+      "complexity": {
+        "time": "O(1) per call",
+        "space": "O(capacity)"
+      },
+      "explanation": "Ordered dictionaries give LRU order inside a frequency."
+    }
+  ],
+  "editorial": "get on a missing key returns -1. get on a present key increments its frequency and moves it to the most-recent end of the new bucket. If its old bucket becomes empty and it was the minimum frequency, the minimum rises by one. put of a new key evicts first when at capacity, then inserts the key at frequency 1, which becomes the new minimum.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef lfu_ops(capacity: int, operations: list[str], arguments: list[list[int]]) -> list[int | None]:\n    values: dict[int, int] = {}\n    freq: dict[int, int] = {}\n    buckets: dict[int, OrderedDict] = {}\n    minimum = 0\n\n    def touch(key: int) -> None:\n        nonlocal minimum\n        old = freq[key]\n        buckets[old].pop(key)\n        if not buckets[old] and minimum == old:\n            minimum += 1\n        freq[key] = old + 1\n        buckets.setdefault(old + 1, OrderedDict())[key] = None\n\n    out: list[int | None] = []\n    for op, arg in zip(operations, arguments):\n        if op == \"get\":\n            key = arg[0]\n            if key not in values:\n                out.append(-1)\n            else:\n                touch(key)\n                out.append(values[key])\n        else:\n            key, value = arg\n            if capacity == 0:\n                out.append(None)\n                continue\n            if key in values:\n                values[key] = value\n                touch(key)\n            else:\n                if len(values) >= capacity:\n                    evict, _marker = buckets[minimum].popitem(last=False)\n                    del values[evict]\n                    del freq[evict]\n                values[key] = value\n                freq[key] = 1\n                buckets.setdefault(1, OrderedDict())[key] = None\n                minimum = 1\n            out.append(None)\n    return out\n",
+  "starter_code": "from typing import List, Optional\n\ndef lfu_ops(capacity: int, operations: List[str], arguments: List[List[int]]) -> List[Optional[int]]:\n    pass\n",
+  "examples": [
+    {
+      "input": "capacity = 2, operations = ['put', 'put', 'get', 'put', 'get', 'get', 'put', 'get', 'get', 'get'], arguments = [[1, 1], [2, 2], [1], [3, 3], [2], [3], [4, 4], [1], [3], [4]]",
+      "output": "[null, null, 1, null, -1, 3, null, -1, 3, 4]",
+      "explanation": "Frequency, then recency, decides the eviction."
+    },
+    {
+      "input": "capacity = 0, operations = ['put', 'get'], arguments = [[1, 1], [1]]",
+      "output": "[null, -1]",
+      "explanation": "A zero-capacity cache stores nothing."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "capacity": 2,
+        "operations": [
+          "put",
+          "put",
+          "get",
+          "put",
+          "get",
+          "get",
+          "put",
+          "get",
+          "get",
+          "get"
+        ],
+        "arguments": [
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            1
+          ],
+          [
+            3,
+            3
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            1
+          ],
+          [
+            3
+          ],
+          [
+            4
+          ]
+        ]
+      },
+      "expected": [
+        null,
+        null,
+        1,
+        null,
+        -1,
+        3,
+        null,
+        -1,
+        3,
+        4
+      ]
+    },
+    {
+      "name": "zero",
+      "args": {
+        "capacity": 0,
+        "operations": [
+          "put",
+          "get"
+        ],
+        "arguments": [
+          [
+            1,
+            1
+          ],
+          [
+            1
+          ]
+        ]
+      },
+      "expected": [
+        null,
+        -1
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "update",
+      "args": {
+        "capacity": 2,
+        "operations": [
+          "put",
+          "put",
+          "put",
+          "get"
+        ],
+        "arguments": [
+          [
+            1,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            1
+          ]
+        ]
+      },
+      "expected": [
+        null,
+        null,
+        null,
+        2
+      ]
+    },
+    {
+      "name": "tie",
+      "args": {
+        "capacity": 2,
+        "operations": [
+          "put",
+          "put",
+          "get",
+          "get",
+          "put",
+          "get",
+          "get"
+        ],
+        "arguments": [
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3,
+            3
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ]
+        ]
+      },
+      "expected": [
+        null,
+        null,
+        1,
+        2,
+        null,
+        -1,
+        2
+      ]
+    },
+    {
+      "name": "one",
+      "args": {
+        "capacity": 1,
+        "operations": [
+          "put",
+          "get",
+          "put",
+          "get",
+          "get"
+        ],
+        "arguments": [
+          [
+            2,
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      },
+      "expected": [
+        null,
+        1,
+        null,
+        -1,
+        2
+      ]
+    }
+  ]
+}

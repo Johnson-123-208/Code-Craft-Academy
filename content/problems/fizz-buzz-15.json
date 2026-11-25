@@ -1,0 +1,80 @@
+{
+  "title": "Fizz Buzz n=15",
+  "slug": "fizz-buzz-15",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "simulation"
+  ],
+  "company_tags": [
+    "Google",
+    "Amazon",
+    "Meta",
+    "Apple"
+  ],
+  "statement": "Given integer `n`, return a string array where answer[i] follows FizzBuzz rules for i+1..n.",
+  "constraints": [
+    "1 <= n <= 10^4"
+  ],
+  "examples": [
+    {
+      "input": "n=15",
+      "output": "['1', '2', 'Fizz', '4', 'Buzz', 'Fizz', '7', '8', 'Fizz', 'Buzz', '11', 'Fizz', '13', '14', 'FizzBuzz']"
+    }
+  ],
+  "starter_code": "from typing import List\n\ndef fizz_buzz(n: int) -> List[str]:\n    pass\n",
+  "function_name": "fizz_buzz",
+  "hints": [
+    "Check %15 before %3/%5.",
+    "Build list 1..n.",
+    "Use string append."
+  ],
+  "approaches": [
+    {
+      "name": "Simulation",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Direct."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "primary",
+      "args": {
+        "n": 15
+      },
+      "expected": [
+        "1",
+        "2",
+        "Fizz",
+        "4",
+        "Buzz",
+        "Fizz",
+        "7",
+        "8",
+        "Fizz",
+        "Buzz",
+        "11",
+        "Fizz",
+        "13",
+        "14",
+        "FizzBuzz"
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "one",
+      "args": {
+        "n": 1
+      },
+      "expected": [
+        "1"
+      ]
+    }
+  ],
+  "editorial": "Classic modulo checks.",
+  "reference_solution": "from typing import List\n\ndef fizz_buzz(n: int) -> List[str]:\n    out = []\n    for i in range(1, n + 1):\n        if i % 15 == 0: out.append('FizzBuzz')\n        elif i % 3 == 0: out.append('Fizz')\n        elif i % 5 == 0: out.append('Buzz')\n        else: out.append(str(i))\n    return out\n"
+}

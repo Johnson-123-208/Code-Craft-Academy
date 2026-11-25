@@ -1,0 +1,119 @@
+{
+  "title": "Palindrome Linked List",
+  "slug": "palindrome-linked-list",
+  "difficulty": "easy",
+  "topics": [
+    "linked-lists",
+    "two-pointers"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Facebook",
+    "Microsoft",
+    "Apple"
+  ],
+  "statement": "Return true when the singly linked list, given as values, is a palindrome. The O(1) extra-memory method reverses the second half and compares.\n",
+  "constraints": [
+    "1 <= length <= 10^5",
+    "0 <= Node.val <= 9"
+  ],
+  "function_name": "is_palindrome_list",
+  "hints": [
+    "Copying values into an array and using two pointers is the easy solution.",
+    "Find the middle with slow and fast pointers, reverse the second half, and compare the two halves.",
+    "Restore the second half afterward if the caller needs the original list. The boolean answer does not require restoration."
+  ],
+  "approaches": [
+    {
+      "name": "Array copy",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Compare the sequence with its reverse."
+    },
+    {
+      "name": "Reverse second half",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Middle, reverse, compare, optional restore."
+    }
+  ],
+  "editorial": "The array solution is the right first answer in an interview. If the interviewer asks for constant extra memory, find the middle, reverse from there, and walk the first half against the reversed second half. A mismatch returns false. Equal length handling is automatic: on an odd list the middle value is shared and does not affect the comparison.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef is_palindrome_list(head: list[int]) -> bool:\n    slow = fast = _node_chain(head)\n    while fast is not None and fast.nxt is not None:\n        slow = slow.nxt\n        fast = fast.nxt.nxt\n    prev = None\n    while slow is not None:\n        nxt = slow.nxt\n        slow.nxt = prev\n        prev = slow\n        slow = nxt\n    left = _node_chain(head)\n    right = prev\n    while right is not None:\n        if left.value != right.value:\n            return False\n        left = left.nxt\n        right = right.nxt\n    return True\n",
+  "starter_code": "from typing import List\n\ndef is_palindrome_list(head: List[int]) -> bool:\n    pass\n",
+  "examples": [
+    {
+      "input": "head = [1, 2, 2, 1]",
+      "output": "true",
+      "explanation": "The list reads the same backward."
+    },
+    {
+      "input": "head = [1, 2]",
+      "output": "false",
+      "explanation": "1, 2 is not a palindrome."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "yes",
+      "args": {
+        "head": [
+          1,
+          2,
+          2,
+          1
+        ]
+      },
+      "expected": true
+    },
+    {
+      "name": "no",
+      "args": {
+        "head": [
+          1,
+          2
+        ]
+      },
+      "expected": false
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "odd",
+      "args": {
+        "head": [
+          1,
+          2,
+          3,
+          2,
+          1
+        ]
+      },
+      "expected": true
+    },
+    {
+      "name": "single",
+      "args": {
+        "head": [
+          7
+        ]
+      },
+      "expected": true
+    },
+    {
+      "name": "almost",
+      "args": {
+        "head": [
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "expected": false
+    }
+  ]
+}

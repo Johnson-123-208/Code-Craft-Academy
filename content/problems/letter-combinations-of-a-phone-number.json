@@ -1,0 +1,134 @@
+{
+  "title": "Letter Combinations of a Phone Number",
+  "slug": "letter-combinations-of-a-phone-number",
+  "difficulty": "medium",
+  "topics": [
+    "backtracking",
+    "strings"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft",
+    "Uber",
+    "Facebook"
+  ],
+  "statement": "Given a digit string from 2 to 9, return every letter combination the phone keypad can produce. Sort the result. An empty digit string returns an empty list.\n",
+  "constraints": [
+    "0 <= digits.length <= 4",
+    "digits[i] is in '2'..'9'"
+  ],
+  "function_name": "letter_combinations",
+  "hints": [
+    "Map each digit to its letters. Digit 7 has four letters and digit 9 has four letters.",
+    "The recursion depth is the index in the digit string.",
+    "Append one letter, recurse, and pop it. At the last digit, join the path."
+  ],
+  "approaches": [
+    {
+      "name": "Iterative product",
+      "complexity": {
+        "time": "O(4^n * n)",
+        "space": "O(4^n * n)"
+      },
+      "explanation": "Start from ['' ] and extend by each digit's letters."
+    },
+    {
+      "name": "Backtracking",
+      "complexity": {
+        "time": "O(4^n * n)",
+        "space": "O(n)"
+      },
+      "explanation": "Same product, built depth-first."
+    }
+  ],
+  "editorial": "This is the cartesian product of the letter lists. Backtracking builds one string at a time and reuses the path buffer. The empty input is the base case that must return an empty list rather than a list containing an empty string.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef letter_combinations(digits: str) -> list[str]:\n    if not digits:\n        return []\n    pad = {\n        \"2\": \"abc\",\n        \"3\": \"def\",\n        \"4\": \"ghi\",\n        \"5\": \"jkl\",\n        \"6\": \"mno\",\n        \"7\": \"pqrs\",\n        \"8\": \"tuv\",\n        \"9\": \"wxyz\",\n    }\n    out: list[str] = []\n    path: list[str] = []\n\n    def dfs(i: int) -> None:\n        if i == len(digits):\n            out.append(\"\".join(path))\n            return\n        for ch in pad[digits[i]]:\n            path.append(ch)\n            dfs(i + 1)\n            path.pop()\n\n    dfs(0)\n    return sorted(out)\n",
+  "starter_code": "from typing import List\n\ndef letter_combinations(digits: str) -> List[str]:\n    pass\n",
+  "examples": [
+    {
+      "input": "digits = '23'",
+      "output": "[\"ad\", \"ae\", \"af\", \"bd\", \"be\", \"bf\", \"cd\", \"ce\", \"cf\"]",
+      "explanation": "Nine combinations from abc and def."
+    },
+    {
+      "input": "digits = ''",
+      "output": "[]",
+      "explanation": "No digits means no combinations."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "two",
+      "args": {
+        "digits": "23"
+      },
+      "expected": [
+        "ad",
+        "ae",
+        "af",
+        "bd",
+        "be",
+        "bf",
+        "cd",
+        "ce",
+        "cf"
+      ]
+    },
+    {
+      "name": "empty",
+      "args": {
+        "digits": ""
+      },
+      "expected": []
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "one",
+      "args": {
+        "digits": "2"
+      },
+      "expected": [
+        "a",
+        "b",
+        "c"
+      ]
+    },
+    {
+      "name": "seven",
+      "args": {
+        "digits": "7"
+      },
+      "expected": [
+        "p",
+        "q",
+        "r",
+        "s"
+      ]
+    },
+    {
+      "name": "long",
+      "args": {
+        "digits": "79"
+      },
+      "expected": [
+        "pw",
+        "px",
+        "py",
+        "pz",
+        "qw",
+        "qx",
+        "qy",
+        "qz",
+        "rw",
+        "rx",
+        "ry",
+        "rz",
+        "sw",
+        "sx",
+        "sy",
+        "sz"
+      ]
+    }
+  ]
+}

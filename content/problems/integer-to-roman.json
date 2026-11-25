@@ -1,0 +1,98 @@
+{
+  "title": "Integer to Roman",
+  "slug": "integer-to-roman",
+  "difficulty": "medium",
+  "topics": [
+    "math",
+    "strings",
+    "greedy"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Adobe",
+    "Microsoft",
+    "Apple"
+  ],
+  "statement": "Convert an integer in the range 1..3999 to its Roman numeral. Use the standard subtractive pairs: CM, CD, XC, XL, IX, and IV.\n",
+  "constraints": [
+    "1 <= num <= 3999"
+  ],
+  "function_name": "int_to_roman",
+  "hints": [
+    "List the symbols from largest to smallest, including the six subtractive pairs.",
+    "Greedily take as many of the current symbol as fit.",
+    "Because the list is sorted and includes the subtractive forms, the greedy choice is the standard numeral."
+  ],
+  "approaches": [
+    {
+      "name": "Digit place tables",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "Four arrays for thousands, hundreds, tens, and ones."
+    },
+    {
+      "name": "Greedy symbol list",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "Thirteen symbols cover every value."
+    }
+  ],
+  "editorial": "Walk the value-symbol pairs from 1000 down to 1. While the remaining number is at least the current value, append the symbol and subtract. The subtractive pairs sit between the plain symbols, so 4, 9, 40, 90, 400, and 900 are taken before three or four copies of a smaller symbol.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef int_to_roman(num: int) -> str:\n    pairs = (\n        (1000, \"M\"),\n        (900, \"CM\"),\n        (500, \"D\"),\n        (400, \"CD\"),\n        (100, \"C\"),\n        (90, \"XC\"),\n        (50, \"L\"),\n        (40, \"XL\"),\n        (10, \"X\"),\n        (9, \"IX\"),\n        (5, \"V\"),\n        (4, \"IV\"),\n        (1, \"I\"),\n    )\n    parts: list[str] = []\n    for value, symbol in pairs:\n        while num >= value:\n            parts.append(symbol)\n            num -= value\n    return \"\".join(parts)\n",
+  "starter_code": "def int_to_roman(num: int) -> str:\n    pass\n",
+  "examples": [
+    {
+      "input": "num = 3",
+      "output": "\"III\"",
+      "explanation": "III."
+    },
+    {
+      "input": "num = 58",
+      "output": "\"LVIII\"",
+      "explanation": "LVIII."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "three",
+      "args": {
+        "num": 3
+      },
+      "expected": "III"
+    },
+    {
+      "name": "fifty-eight",
+      "args": {
+        "num": 58
+      },
+      "expected": "LVIII"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "year",
+      "args": {
+        "num": 1994
+      },
+      "expected": "MCMXCIV"
+    },
+    {
+      "name": "four",
+      "args": {
+        "num": 4
+      },
+      "expected": "IV"
+    },
+    {
+      "name": "nine-hundred",
+      "args": {
+        "num": 900
+      },
+      "expected": "CM"
+    }
+  ]
+}

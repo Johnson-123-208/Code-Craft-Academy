@@ -1,0 +1,97 @@
+{
+  "title": "Valid Parentheses",
+  "slug": "valid-parentheses",
+  "difficulty": "easy",
+  "topics": [
+    "stacks",
+    "strings"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft",
+    "Google",
+    "Bloomberg"
+  ],
+  "statement": "Return true when every bracket in `s` is closed by the same type and in the correct order. `s` contains only the characters ()[]{}.\n",
+  "constraints": [
+    "1 <= s.length <= 10^4"
+  ],
+  "function_name": "is_valid",
+  "hints": [
+    "A closing bracket is legal only when it matches the nearest still-open bracket.",
+    "A stack stores that nearest opener.",
+    "The string is valid when the stack ends empty and no closer arrived too early."
+  ],
+  "approaches": [
+    {
+      "name": "Replace pairs repeatedly",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(n)"
+      },
+      "explanation": "Delete () [] and the brace pair until nothing changes."
+    },
+    {
+      "name": "Stack of openers",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Push openers, pop on a matching closer."
+    }
+  ],
+  "editorial": "Scan left to right. Push opening brackets. On a closing bracket, the stack must be nonempty and its top must be the matching opener. Any other situation is invalid. After the scan the stack must be empty, otherwise some opener was never closed.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef is_valid(s: str) -> bool:\n    pairs = {\")\": \"(\", \"]\": \"[\", \"}\": \"{\"}\n    stack: list[str] = []\n    for ch in s:\n        if ch in \"([{\":\n            stack.append(ch)\n        elif not stack or stack.pop() != pairs[ch]:\n            return False\n    return not stack\n",
+  "starter_code": "def is_valid(s: str) -> bool:\n    pass\n",
+  "examples": [
+    {
+      "input": "s = '()[]{}'",
+      "output": "true",
+      "explanation": "Three independent pairs."
+    },
+    {
+      "input": "s = '([{}])'",
+      "output": "true",
+      "explanation": "Each closer matches the latest opener."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "yes",
+      "args": {
+        "s": "()[]{}"
+      },
+      "expected": true
+    },
+    {
+      "name": "nested",
+      "args": {
+        "s": "([{}])"
+      },
+      "expected": true
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "wrong",
+      "args": {
+        "s": "(]"
+      },
+      "expected": false
+    },
+    {
+      "name": "early",
+      "args": {
+        "s": ")("
+      },
+      "expected": false
+    },
+    {
+      "name": "open",
+      "args": {
+        "s": "((("
+      },
+      "expected": false
+    }
+  ]
+}

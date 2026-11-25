@@ -1,0 +1,119 @@
+{
+  "title": "Linked List Cycle II",
+  "slug": "linked-list-cycle-ii",
+  "difficulty": "medium",
+  "topics": [
+    "linked-lists",
+    "two-pointers"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft",
+    "Oracle",
+    "Bloomberg"
+  ],
+  "statement": "Using the same `values` and `pos` encoding as cycle detection, return the 0-based index where the cycle begins. Return -1 when there is no cycle. Floyd's second phase finds the entrance.\n",
+  "constraints": [
+    "0 <= length <= 10^4",
+    "-1 <= pos < length"
+  ],
+  "function_name": "detect_cycle",
+  "hints": [
+    "Phase one is ordinary Floyd. If they never meet, return -1.",
+    "Phase two resets one pointer to the head and moves both one step at a time.",
+    "Their next meeting is the entrance. The proof is that the head-to-entrance distance equals the meeting-point-to-entrance distance modulo the cycle length."
+  ],
+  "approaches": [
+    {
+      "name": "Set of seen nodes",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "The first repeated node is the entrance."
+    },
+    {
+      "name": "Floyd two phases",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Meet inside the cycle, then walk from the head."
+    }
+  ],
+  "editorial": "Let L be the distance from the head to the entrance and C the cycle length. When the pointers meet, the fast pointer has traveled a multiple of C farther than the slow pointer, and that meeting point is some offset into the cycle. Resetting one pointer to the head and advancing both by one makes them arrive at the entrance together. Map that node back to its index for the serialized answer.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef detect_cycle(values: list[int], pos: int) -> int:\n    nodes = []\n    for value in values:\n        node = _node_chain([value])\n        if nodes:\n            nodes[-1].nxt = node\n        nodes.append(node)\n    if not nodes:\n        return -1\n    if pos >= 0:\n        nodes[-1].nxt = nodes[pos]\n    slow = fast = nodes[0]\n    while fast is not None and fast.nxt is not None:\n        slow = slow.nxt\n        fast = fast.nxt.nxt\n        if slow is fast:\n            finder = nodes[0]\n            while finder is not slow:\n                finder = finder.nxt\n                slow = slow.nxt\n            return nodes.index(finder)\n    return -1\n",
+  "starter_code": "from typing import List\n\ndef detect_cycle(values: List[int], pos: int) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "values = [3, 2, 0, -4], pos = 1",
+      "output": "1",
+      "explanation": "The cycle begins at index 1."
+    },
+    {
+      "input": "values = [1, 2], pos = -1",
+      "output": "-1",
+      "explanation": "There is no entrance."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "middle",
+      "args": {
+        "values": [
+          3,
+          2,
+          0,
+          -4
+        ],
+        "pos": 1
+      },
+      "expected": 1
+    },
+    {
+      "name": "none",
+      "args": {
+        "values": [
+          1,
+          2
+        ],
+        "pos": -1
+      },
+      "expected": -1
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "head",
+      "args": {
+        "values": [
+          1,
+          2
+        ],
+        "pos": 0
+      },
+      "expected": 0
+    },
+    {
+      "name": "empty",
+      "args": {
+        "values": [],
+        "pos": -1
+      },
+      "expected": -1
+    },
+    {
+      "name": "tail",
+      "args": {
+        "values": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "pos": 3
+      },
+      "expected": 3
+    }
+  ]
+}

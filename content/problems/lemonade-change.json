@@ -1,0 +1,120 @@
+{
+  "title": "Lemonade Change",
+  "slug": "lemonade-change",
+  "difficulty": "easy",
+  "topics": [
+    "greedy"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Adobe",
+    "Bloomberg"
+  ],
+  "statement": "Lemonade costs 5. Customers pay with bills of 5, 10, or 20, in the given order. You start with no cash. Return true when you can give the correct change to every customer.\n",
+  "constraints": [
+    "1 <= bills.length <= 10^5",
+    "bills[i] is 5, 10, or 20"
+  ],
+  "function_name": "lemonade_change",
+  "hints": [
+    "A 5 needs no change and becomes a bill you can use later.",
+    "A 10 needs one 5.",
+    "A 20 prefers a 10 plus a 5, because a 10 is less useful later than three 5s. If you have no 10, use three 5s."
+  ],
+  "approaches": [
+    {
+      "name": "Simulate every bill combination",
+      "complexity": {
+        "time": "exponential",
+        "space": "O(n)"
+      },
+      "explanation": "Unnecessary. The greedy choice is forced."
+    },
+    {
+      "name": "Count fives and tens",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Twenties never help as change."
+    }
+  ],
+  "editorial": "Only 5s and 10s are useful change. Spend a 10 before three 5s on a 20, because a later 10-bill customer can only be served by a 5. If a required bill is missing, return false immediately.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef lemonade_change(bills: list[int]) -> bool:\n    five = ten = 0\n    for bill in bills:\n        if bill == 5:\n            five += 1\n        elif bill == 10:\n            if five == 0:\n                return False\n            five -= 1\n            ten += 1\n        else:\n            if ten and five:\n                ten -= 1\n                five -= 1\n            elif five >= 3:\n                five -= 3\n            else:\n                return False\n    return True\n",
+  "starter_code": "from typing import List\n\ndef lemonade_change(bills: List[int]) -> bool:\n    pass\n",
+  "examples": [
+    {
+      "input": "bills = [5, 5, 5, 10, 20]",
+      "output": "true",
+      "explanation": "The 20 is paid with a 10 and a 5."
+    },
+    {
+      "input": "bills = [5, 5, 10, 10, 20]",
+      "output": "false",
+      "explanation": "The last customer cannot be given change."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "yes",
+      "args": {
+        "bills": [
+          5,
+          5,
+          5,
+          10,
+          20
+        ]
+      },
+      "expected": true
+    },
+    {
+      "name": "no",
+      "args": {
+        "bills": [
+          5,
+          5,
+          10,
+          10,
+          20
+        ]
+      },
+      "expected": false
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "only-fives",
+      "args": {
+        "bills": [
+          5,
+          5,
+          5
+        ]
+      },
+      "expected": true
+    },
+    {
+      "name": "twenty-first",
+      "args": {
+        "bills": [
+          20
+        ]
+      },
+      "expected": false
+    },
+    {
+      "name": "tens",
+      "args": {
+        "bills": [
+          5,
+          10,
+          5,
+          10
+        ]
+      },
+      "expected": true
+    }
+  ]
+}

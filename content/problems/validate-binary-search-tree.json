@@ -1,0 +1,124 @@
+{
+  "title": "Validate Binary Search Tree",
+  "slug": "validate-binary-search-tree",
+  "difficulty": "medium",
+  "topics": [
+    "trees",
+    "bst"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Facebook",
+    "Microsoft",
+    "Bloomberg"
+  ],
+  "statement": "Return true when the tree is a valid BST. The left subtree of every node contains only smaller keys, and the right subtree contains only larger keys. Comparing a node with its parent is not enough.\n",
+  "constraints": [
+    "1 <= number of nodes <= 10^4",
+    "Node values fit in a 32-bit signed integer"
+  ],
+  "function_name": "is_valid_bst",
+  "hints": [
+    "An inorder traversal of a BST is strictly increasing.",
+    "Alternatively, carry an exclusive lower and upper bound into each subtree.",
+    "The bounds start as negative and positive infinity. A left child tightens the upper bound. A right child tightens the lower bound."
+  ],
+  "approaches": [
+    {
+      "name": "Inorder list",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Check that the sequence is strictly sorted."
+    },
+    {
+      "name": "Bound propagation",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(h)"
+      },
+      "explanation": "Every node is checked against the range inherited from its ancestors."
+    }
+  ],
+  "editorial": "The bug in 'greater than parent' is a node deep in the left subtree that is still larger than the root. Bounds fix that: every ancestor contributes a constraint. Inorder works for the same reason: the BST definition is exactly that inorder is sorted.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef is_valid_bst(root: list) -> bool:\n    def walk(node, low, high) -> bool:\n        if node is None:\n            return True\n        if not low < node.value < high:\n            return False\n        return walk(node.left, low, node.value) and walk(node.right, node.value, high)\n\n    return walk(_build(root), float(\"-inf\"), float(\"inf\"))\n",
+  "starter_code": "from typing import List, Optional\n\ndef is_valid_bst(root: List[Optional[int]]) -> bool:\n    pass\n",
+  "examples": [
+    {
+      "input": "root = [2, 1, 3]",
+      "output": "true",
+      "explanation": "A three-node BST."
+    },
+    {
+      "input": "root = [5, 1, 4, None, None, 3, 6]",
+      "output": "false",
+      "explanation": "3 is in the right subtree of 5 but is smaller than 5."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "yes",
+      "args": {
+        "root": [
+          2,
+          1,
+          3
+        ]
+      },
+      "expected": true
+    },
+    {
+      "name": "no",
+      "args": {
+        "root": [
+          5,
+          1,
+          4,
+          null,
+          null,
+          3,
+          6
+        ]
+      },
+      "expected": false
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "single",
+      "args": {
+        "root": [
+          1
+        ]
+      },
+      "expected": true
+    },
+    {
+      "name": "equal",
+      "args": {
+        "root": [
+          2,
+          2,
+          2
+        ]
+      },
+      "expected": false
+    },
+    {
+      "name": "deeper",
+      "args": {
+        "root": [
+          5,
+          4,
+          6,
+          null,
+          null,
+          3,
+          7
+        ]
+      },
+      "expected": false
+    }
+  ]
+}

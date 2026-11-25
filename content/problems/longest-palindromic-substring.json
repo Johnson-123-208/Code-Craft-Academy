@@ -1,0 +1,105 @@
+{
+  "title": "Longest Palindromic Substring",
+  "slug": "longest-palindromic-substring",
+  "difficulty": "medium",
+  "topics": [
+    "strings",
+    "dynamic-programming"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft",
+    "Adobe",
+    "Google"
+  ],
+  "statement": "Return the longest palindromic substring of `s`. If several share the maximum length, return the one that starts earliest.\n",
+  "constraints": [
+    "1 <= s.length <= 1000"
+  ],
+  "function_name": "longest_palindrome",
+  "hints": [
+    "Every palindrome has a center. The center is one character, or the gap between two characters.",
+    "Expand while the two sides match, and remember the best window.",
+    "Update the best window only when the new palindrome is strictly longer, so the earliest start wins ties."
+  ],
+  "approaches": [
+    {
+      "name": "Check every substring",
+      "complexity": {
+        "time": "O(n^3)",
+        "space": "O(1)"
+      },
+      "explanation": "Or O(n^2) if each slice reversal is charged carefully. Still quadratic-plus."
+    },
+    {
+      "name": "Expand around centers",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(1)"
+      },
+      "explanation": "2n - 1 centers, each expanded at most n steps."
+    },
+    {
+      "name": "Manacher",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "The linear algorithm, covered again in the string-algorithms module."
+    }
+  ],
+  "editorial": "A palindrome is determined by its center and its radius. For each index, expand the odd-length palindrome centered on the character and the even-length palindrome centered between that character and the next. Keep the longest window seen. Because centers are visited left to right and a tie does not replace the incumbent, the earliest longest substring is returned.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef longest_palindrome(s: str) -> str:\n    start = end = 0\n\n    def expand(left: int, right: int) -> tuple[int, int]:\n        while left >= 0 and right < len(s) and s[left] == s[right]:\n            left -= 1\n            right += 1\n        return left + 1, right - 1\n\n    for i in range(len(s)):\n        for left, right in (expand(i, i), expand(i, i + 1)):\n            if right - left > end - start:\n                start, end = left, right\n    return s[start : end + 1]\n",
+  "starter_code": "def longest_palindrome(s: str) -> str:\n    pass\n",
+  "examples": [
+    {
+      "input": "s = 'babad'",
+      "output": "\"bab\"",
+      "explanation": "bab starts before aba and both have length 3."
+    },
+    {
+      "input": "s = 'cbbd'",
+      "output": "\"bb\"",
+      "explanation": "bb is the longest palindrome."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "babad",
+      "args": {
+        "s": "babad"
+      },
+      "expected": "bab"
+    },
+    {
+      "name": "cbbd",
+      "args": {
+        "s": "cbbd"
+      },
+      "expected": "bb"
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "single",
+      "args": {
+        "s": "a"
+      },
+      "expected": "a"
+    },
+    {
+      "name": "even",
+      "args": {
+        "s": "abba"
+      },
+      "expected": "abba"
+    },
+    {
+      "name": "whole",
+      "args": {
+        "s": "racecar"
+      },
+      "expected": "racecar"
+    }
+  ]
+}

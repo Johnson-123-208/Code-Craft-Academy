@@ -1,0 +1,118 @@
+{
+  "title": "Number of Islands",
+  "slug": "number-of-islands",
+  "difficulty": "medium",
+  "topics": [
+    "graphs",
+    "dfs",
+    "bfs",
+    "grid"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "Bloomberg"
+  ],
+  "statement": "A grid of '1' (land) and '0' (water) is given as a list of strings. Return the number of islands. An island is a 4-directionally connected group of land cells.\n",
+  "constraints": [
+    "1 <= m, n <= 300",
+    "grid[i][j] is '0' or '1'"
+  ],
+  "function_name": "num_islands",
+  "hints": [
+    "Every unvisited land cell starts a new island.",
+    "DFS or BFS floods the whole island and marks it visited so it is not counted again.",
+    "Mutating the grid to water is a valid visited mark when the caller does not need the original grid."
+  ],
+  "approaches": [
+    {
+      "name": "BFS flood",
+      "complexity": {
+        "time": "O(mn)",
+        "space": "O(mn)"
+      },
+      "explanation": "A queue expands each island."
+    },
+    {
+      "name": "DFS flood",
+      "complexity": {
+        "time": "O(mn)",
+        "space": "O(mn)"
+      },
+      "explanation": "The recursion or an explicit stack marks the component."
+    }
+  ],
+  "editorial": "Scan every cell. When you see land, increment the island count and flood-fill every land cell reachable in four directions. Mark visited cells as water so later scans skip them. Each cell is entered a constant number of times, so the algorithm is linear in the number of cells.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef num_islands(grid: list[str]) -> int:\n    board = [list(row) for row in grid]\n    rows, cols = len(board), len(board[0])\n\n    def flood(r: int, c: int) -> None:\n        stack = [(r, c)]\n        board[r][c] = \"0\"\n        while stack:\n            x, y = stack.pop()\n            for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):\n                nx, ny = x + dx, y + dy\n                if 0 <= nx < rows and 0 <= ny < cols and board[nx][ny] == \"1\":\n                    board[nx][ny] = \"0\"\n                    stack.append((nx, ny))\n\n    count = 0\n    for r in range(rows):\n        for c in range(cols):\n            if board[r][c] == \"1\":\n                count += 1\n                flood(r, c)\n    return count\n",
+  "starter_code": "from typing import List\n\ndef num_islands(grid: List[str]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "grid = ['11110', '11010', '11000', '00000']",
+      "output": "1",
+      "explanation": "One island."
+    },
+    {
+      "input": "grid = ['11000', '11000', '00100', '00011']",
+      "output": "3",
+      "explanation": "Three islands."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "grid": [
+          "11110",
+          "11010",
+          "11000",
+          "00000"
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "name": "three",
+      "args": {
+        "grid": [
+          "11000",
+          "11000",
+          "00100",
+          "00011"
+        ]
+      },
+      "expected": 3
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "water",
+      "args": {
+        "grid": [
+          "000",
+          "000"
+        ]
+      },
+      "expected": 0
+    },
+    {
+      "name": "single",
+      "args": {
+        "grid": [
+          "1"
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "name": "diag",
+      "args": {
+        "grid": [
+          "10",
+          "01"
+        ]
+      },
+      "expected": 2
+    }
+  ]
+}

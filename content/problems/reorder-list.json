@@ -1,0 +1,129 @@
+{
+  "title": "Reorder List",
+  "slug": "reorder-list",
+  "difficulty": "medium",
+  "topics": [
+    "linked-lists",
+    "two-pointers"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Facebook",
+    "Microsoft",
+    "Adobe"
+  ],
+  "statement": "Reorder the list, given as values, from L0, L1, ..., Ln into L0, Ln, L1, Ln-1, L2, ... Find the middle, reverse the second half, and merge the halves by rewiring pointers.\n",
+  "constraints": [
+    "0 <= length <= 5 * 10^4"
+  ],
+  "function_name": "reorder_list",
+  "hints": [
+    "The slow and fast pointers find the start of the second half. Fast moves two steps, slow moves one.",
+    "Reverse the second half in place.",
+    "Merge by alternating one node from the first half and one node from the reversed second half."
+  ],
+  "approaches": [
+    {
+      "name": "Array of nodes",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "Index the ends toward the middle."
+    },
+    {
+      "name": "Middle, reverse, merge",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "The classic in-place reorder."
+    }
+  ],
+  "editorial": "Split after the middle so the first half is at least as long as the second. Reverse the second half, then weave: each step takes the next first-half node and the next second-half node. The weave ends when the second half is exhausted. A middle node of an odd-length list remains at the end of the first half.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef reorder_list(head: list[int]) -> list[int]:\n    class Node:\n        def __init__(self, value: int, nxt=None):\n            self.value = value\n            self.nxt = nxt\n\n    if len(head) < 2:\n        return head[:]\n    dummy = Node(0)\n    tail = dummy\n    for value in head:\n        tail.nxt = Node(value)\n        tail = tail.nxt\n    slow, fast = dummy.nxt, dummy.nxt\n    while fast and fast.nxt:\n        slow = slow.nxt\n        fast = fast.nxt.nxt\n    prev = None\n    cur = slow\n    while cur:\n        nxt = cur.nxt\n        cur.nxt = prev\n        prev = cur\n        cur = nxt\n    first = dummy.nxt\n    second = prev\n    while second.nxt:\n        nxt1, nxt2 = first.nxt, second.nxt\n        first.nxt = second\n        second.nxt = nxt1\n        first, second = nxt1, nxt2\n    out = []\n    node = dummy.nxt\n    while node:\n        out.append(node.value)\n        node = node.nxt\n    return out\n",
+  "starter_code": "from typing import List\n\ndef reorder_list(head: List[int]) -> List[int]:\n    pass\n",
+  "examples": [
+    {
+      "input": "head = [1, 2, 3, 4]",
+      "output": "[1, 4, 2, 3]",
+      "explanation": "The order becomes 1, 4, 2, 3."
+    },
+    {
+      "input": "head = [1, 2, 3, 4, 5]",
+      "output": "[1, 5, 2, 4, 3]",
+      "explanation": "The order becomes 1, 5, 2, 4, 3."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "head": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "expected": [
+        1,
+        4,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "odd",
+      "args": {
+        "head": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      "expected": [
+        1,
+        5,
+        2,
+        4,
+        3
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "empty",
+      "args": {
+        "head": []
+      },
+      "expected": []
+    },
+    {
+      "name": "one",
+      "args": {
+        "head": [
+          1
+        ]
+      },
+      "expected": [
+        1
+      ]
+    },
+    {
+      "name": "two",
+      "args": {
+        "head": [
+          1,
+          2
+        ]
+      },
+      "expected": [
+        1,
+        2
+      ]
+    }
+  ]
+}

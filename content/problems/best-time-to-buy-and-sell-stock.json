@@ -1,0 +1,122 @@
+{
+  "title": "Best Time to Buy and Sell Stock",
+  "slug": "best-time-to-buy-and-sell-stock",
+  "difficulty": "easy",
+  "topics": [
+    "arrays",
+    "sliding-window"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Bloomberg",
+    "Microsoft",
+    "Facebook"
+  ],
+  "statement": "You are given `prices`, where `prices[i]` is the price of a stock on day i. Choose one day to buy and a later day to sell. Return the maximum profit. If no profit is possible, return 0.\n",
+  "constraints": [
+    "1 <= prices.length <= 10^5",
+    "0 <= prices[i] <= 10^4"
+  ],
+  "function_name": "max_profit",
+  "hints": [
+    "Every pair of days is a candidate, but only later days can be sell days.",
+    "The best sell on day i is prices[i] minus the cheapest price seen before i.",
+    "Track the minimum price so far and the best difference in one left-to-right pass."
+  ],
+  "approaches": [
+    {
+      "name": "All pairs",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(1)"
+      },
+      "explanation": "Try every buy day and every later sell day."
+    },
+    {
+      "name": "Running minimum",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      },
+      "explanation": "Sell against the lowest price observed so far."
+    }
+  ],
+  "editorial": "A profitable sale on day i must buy at the minimum of prices[0..i-1]. Maintain that minimum while scanning, and keep the largest nonnegative difference. One pass is enough because every earlier price has already competed for the minimum.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef max_profit(prices: list[int]) -> int:\n    best = 0\n    low = prices[0]\n    for price in prices[1:]:\n        best = max(best, price - low)\n        low = min(low, price)\n    return best\n",
+  "starter_code": "from typing import List\n\ndef max_profit(prices: List[int]) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "prices = [7, 1, 5, 3, 6, 4]",
+      "output": "5",
+      "explanation": "Buy at 1 and sell at 6."
+    },
+    {
+      "input": "prices = [7, 6, 4, 3, 1]",
+      "output": "0",
+      "explanation": "Prices only fall, so the profit is 0."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "rise",
+      "args": {
+        "prices": [
+          7,
+          1,
+          5,
+          3,
+          6,
+          4
+        ]
+      },
+      "expected": 5
+    },
+    {
+      "name": "fall",
+      "args": {
+        "prices": [
+          7,
+          6,
+          4,
+          3,
+          1
+        ]
+      },
+      "expected": 0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "one-day",
+      "args": {
+        "prices": [
+          4
+        ]
+      },
+      "expected": 0
+    },
+    {
+      "name": "flat",
+      "args": {
+        "prices": [
+          3,
+          3,
+          3
+        ]
+      },
+      "expected": 0
+    },
+    {
+      "name": "late-peak",
+      "args": {
+        "prices": [
+          2,
+          4,
+          1,
+          7
+        ]
+      },
+      "expected": 6
+    }
+  ]
+}

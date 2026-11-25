@@ -1,0 +1,63 @@
+{
+  "title": "Python Warmup #3",
+  "slug": "python-ex-warmup-3",
+  "difficulty": "easy",
+  "topics": [
+    "python",
+    "basics"
+  ],
+  "company_tags": [
+    "Python"
+  ],
+  "statement": "Implement `solve()` that returns the value of: `sorted([3,1,2])`.",
+  "constraints": [
+    "Use pure Python"
+  ],
+  "examples": [
+    {
+      "input": "()",
+      "output": "[1, 2, 3]"
+    }
+  ],
+  "starter_code": "def solve() -> object:\n    pass\n",
+  "function_name": "solve",
+  "hints": [
+    "Return the expression value.",
+    "No I/O needed.",
+    "Keep it simple."
+  ],
+  "approaches": [
+    {
+      "name": "Direct",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      },
+      "explanation": "Return literal computation."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "primary",
+      "args": {},
+      "expected": [
+        1,
+        2,
+        3
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "again",
+      "args": {},
+      "expected": [
+        1,
+        2,
+        3
+      ]
+    }
+  ],
+  "editorial": "return sorted([3,1,2])",
+  "reference_solution": "def solve() -> object:\n    return sorted([3,1,2])\n"
+}

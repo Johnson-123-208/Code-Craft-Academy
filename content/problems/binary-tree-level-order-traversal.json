@@ -1,0 +1,160 @@
+{
+  "title": "Binary Tree Level Order Traversal",
+  "slug": "binary-tree-level-order-traversal",
+  "difficulty": "medium",
+  "topics": [
+    "trees",
+    "bfs"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft",
+    "Bloomberg",
+    "Facebook"
+  ],
+  "statement": "Return the level-order traversal as a list of levels, from left to right, top to bottom.\n",
+  "constraints": [
+    "0 <= number of nodes <= 2000"
+  ],
+  "function_name": "level_order",
+  "hints": [
+    "BFS with a queue is the definition of level order.",
+    "Snapshot the queue length at the start of each layer so you know when the layer ends.",
+    "Append node values for that many pops, and push the children."
+  ],
+  "approaches": [
+    {
+      "name": "DFS with depth index",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(h)"
+      },
+      "explanation": "Append to levels[depth]."
+    },
+    {
+      "name": "BFS by layer",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "The queue holds one layer plus the next."
+    }
+  ],
+  "editorial": "The queue invariant is that it contains exactly the next layer, left to right. Record its length, drain that many nodes, and enqueue their children. Each iteration of the outer loop is one level of the answer.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef level_order(root: list) -> list[list[int]]:\n    node = _build(root)\n    if node is None:\n        return []\n    out: list[list[int]] = []\n    queue = [node]\n    while queue:\n        layer: list[int] = []\n        nxt = []\n        for current in queue:\n            layer.append(current.value)\n            if current.left:\n                nxt.append(current.left)\n            if current.right:\n                nxt.append(current.right)\n        out.append(layer)\n        queue = nxt\n    return out\n",
+  "starter_code": "from typing import List, Optional\n\ndef level_order(root: List[Optional[int]]) -> List[List[int]]:\n    pass\n",
+  "examples": [
+    {
+      "input": "root = [3, 9, 20, None, None, 15, 7]",
+      "output": "[[3], [9, 20], [15, 7]]",
+      "explanation": "Levels are [3], [9, 20], [15, 7]."
+    },
+    {
+      "input": "root = []",
+      "output": "[]",
+      "explanation": "No levels."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "root": [
+          3,
+          9,
+          20,
+          null,
+          null,
+          15,
+          7
+        ]
+      },
+      "expected": [
+        [
+          3
+        ],
+        [
+          9,
+          20
+        ],
+        [
+          15,
+          7
+        ]
+      ]
+    },
+    {
+      "name": "empty",
+      "args": {
+        "root": []
+      },
+      "expected": []
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "single",
+      "args": {
+        "root": [
+          1
+        ]
+      },
+      "expected": [
+        [
+          1
+        ]
+      ]
+    },
+    {
+      "name": "skew",
+      "args": {
+        "root": [
+          1,
+          2,
+          null,
+          3
+        ]
+      },
+      "expected": [
+        [
+          1
+        ],
+        [
+          2
+        ],
+        [
+          3
+        ]
+      ]
+    },
+    {
+      "name": "full",
+      "args": {
+        "root": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ]
+      },
+      "expected": [
+        [
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          4,
+          5,
+          6,
+          7
+        ]
+      ]
+    }
+  ]
+}

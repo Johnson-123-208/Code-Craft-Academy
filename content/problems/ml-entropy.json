@@ -1,0 +1,102 @@
+{
+  "title": "Shannon Entropy",
+  "slug": "ml-entropy",
+  "difficulty": "medium",
+  "topics": [
+    "machine-learning",
+    "information-theory",
+    "trees"
+  ],
+  "company_tags": [
+    "DeepMind",
+    "Google"
+  ],
+  "statement": "Implement `entropy(labels)`, the Shannon entropy in bits of the empirical label distribution. Use log base 2. Skip classes that do not appear. A pure list has entropy 0. A fair coin of two labels has entropy 1.",
+  "constraints": [
+    "1 <= n <= 10^5",
+    "Use log base 2",
+    "Return a Python float"
+  ],
+  "examples": [
+    {
+      "input": "{\"labels\": [0, 0, 0]}",
+      "output": "0.0",
+      "explanation": "Matches the reference on this input."
+    },
+    {
+      "input": "{\"labels\": [0, 1, 0, 1]}",
+      "output": "1.0",
+      "explanation": "Matches the reference on this input."
+    }
+  ],
+  "starter_code": "def entropy(labels: list[int]) -> float:\n    pass\n",
+  "function_name": "entropy",
+  "hints": [
+    "Estimate p\u2096 as count(k) / n.",
+    "Add \u2212p log2(p) for each class that appears.",
+    "Do not include a zero-count class; the limit of p log p is 0 but log(0) is undefined."
+  ],
+  "approaches": [
+    {
+      "name": "Empirical entropy",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(c)"
+      },
+      "explanation": "ID3 and C4.5 split on information gain, which is the drop in this entropy."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "pure",
+      "args": {
+        "labels": [
+          0,
+          0,
+          0
+        ]
+      },
+      "expected": 0.0
+    },
+    {
+      "name": "fair-coin",
+      "args": {
+        "labels": [
+          0,
+          1,
+          0,
+          1
+        ]
+      },
+      "expected": 1.0
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "skewed",
+      "args": {
+        "labels": [
+          1,
+          1,
+          1,
+          0
+        ]
+      },
+      "expected": 0.8112781244591328
+    },
+    {
+      "name": "four-way",
+      "args": {
+        "labels": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "expected": 2.0
+    }
+  ],
+  "editorial": "Shannon entropy H = \u2212 \u03a3 p\u2096 log\u2082 p\u2096 measures surprise in bits. Decision-tree information gain is the entropy of the parent minus the weighted entropy of the children. Only observed classes contribute; a missing class has probability 0 and adds nothing. Natural log gives nats instead of bits. State the base. A balanced two-class node is exactly 1 bit.",
+  "reference_solution": "import math\nfrom collections import Counter\n\ndef entropy(labels: list[int]) -> float:\n    n = len(labels)\n    h = 0.0\n    for c in Counter(labels).values():\n        p = c / n\n        h -= p * math.log2(p)\n    return float(h)\n"
+}

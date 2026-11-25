@@ -1,0 +1,162 @@
+{
+  "title": "Permutations II",
+  "slug": "permutations-ii",
+  "difficulty": "medium",
+  "topics": [
+    "backtracking"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft",
+    "LinkedIn",
+    "Bloomberg"
+  ],
+  "statement": "Return the unique permutations of `nums`, which may contain duplicates. Sort the result.\n",
+  "constraints": [
+    "1 <= nums.length <= 8"
+  ],
+  "function_name": "permute_unique",
+  "hints": [
+    "Sort first so equal values are neighbors.",
+    "Skip a value when it equals the previous value and the previous value has not been used at this depth.",
+    "The used array is what distinguishes 'this duplicate was already chosen as the previous sibling' from 'this duplicate extends a deeper position'."
+  ],
+  "approaches": [
+    {
+      "name": "Set of permutations",
+      "complexity": {
+        "time": "O(n * n!)",
+        "space": "O(n * n!)"
+      },
+      "explanation": "Generate all and uniquify."
+    },
+    {
+      "name": "Sorted skip",
+      "complexity": {
+        "time": "O(n * n!)",
+        "space": "O(n)"
+      },
+      "explanation": "Prune duplicate branches before they run."
+    }
+  ],
+  "editorial": "After sorting, a duplicate value may be chosen at a depth only if the identical previous value was also chosen in this permutation. The condition `i > 0 and nums[i] == nums[i - 1] and not used[i - 1]` detects the illegal sibling branch and skips it.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef permute_unique(nums: list[int]) -> list[list[int]]:\n    nums = sorted(nums)\n    out: list[list[int]] = []\n    path: list[int] = []\n    used = [False] * len(nums)\n\n    def dfs() -> None:\n        if len(path) == len(nums):\n            out.append(path[:])\n            return\n        for i, value in enumerate(nums):\n            if used[i] or (i and nums[i] == nums[i - 1] and not used[i - 1]):\n                continue\n            used[i] = True\n            path.append(value)\n            dfs()\n            path.pop()\n            used[i] = False\n\n    dfs()\n    return out\n",
+  "starter_code": "from typing import List\n\ndef permute_unique(nums: List[int]) -> List[List[int]]:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [1, 1, 2]",
+      "output": "[[1, 1, 2], [1, 2, 1], [2, 1, 1]]",
+      "explanation": "Three unique permutations."
+    },
+    {
+      "input": "nums = [2, 2]",
+      "output": "[[2, 2]]",
+      "explanation": "Only one permutation."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "nums": [
+          1,
+          1,
+          2
+        ]
+      },
+      "expected": [
+        [
+          1,
+          1,
+          2
+        ],
+        [
+          1,
+          2,
+          1
+        ],
+        [
+          2,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "name": "all-same",
+      "args": {
+        "nums": [
+          2,
+          2
+        ]
+      },
+      "expected": [
+        [
+          2,
+          2
+        ]
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "unique",
+      "args": {
+        "nums": [
+          1,
+          2
+        ]
+      },
+      "expected": [
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          1
+        ]
+      ]
+    },
+    {
+      "name": "three",
+      "args": {
+        "nums": [
+          1,
+          2,
+          1
+        ]
+      },
+      "expected": [
+        [
+          1,
+          1,
+          2
+        ],
+        [
+          1,
+          2,
+          1
+        ],
+        [
+          2,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "name": "single",
+      "args": {
+        "nums": [
+          0
+        ]
+      },
+      "expected": [
+        [
+          0
+        ]
+      ]
+    }
+  ]
+}

@@ -1,0 +1,130 @@
+{
+  "title": "Surrounded Regions",
+  "slug": "surrounded-regions",
+  "difficulty": "medium",
+  "topics": [
+    "graphs",
+    "dfs",
+    "grid"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "Uber"
+  ],
+  "statement": "A board of 'X' and 'O' is given as a list of strings. Capture every region of 'O' that is 4-connected and completely surrounded by 'X'. A region that touches the border is not captured. Return the board as a list of strings.\n",
+  "constraints": [
+    "1 <= m, n <= 200"
+  ],
+  "function_name": "solve",
+  "hints": [
+    "Do not search for surrounded regions directly. Search for the regions that escape.",
+    "Any 'O' on the border, and anything connected to it, survives.",
+    "Mark those cells, flip every unmarked 'O' to 'X', and restore the marks to 'O'."
+  ],
+  "approaches": [
+    {
+      "name": "DFS from every O",
+      "complexity": {
+        "time": "O((mn)^2)",
+        "space": "O(mn)"
+      },
+      "explanation": "Check whether the component touches the border."
+    },
+    {
+      "name": "Border flood",
+      "complexity": {
+        "time": "O(mn)",
+        "space": "O(mn)"
+      },
+      "explanation": "One flood from the border, then one rewrite pass."
+    }
+  ],
+  "editorial": "Flood from every border O and mark the reachable O cells as temporary safe cells. Then scan the board: an O becomes X, and a safe mark becomes O again. X cells never change. This captures exactly the components with no border cell.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef solve(board: list[str]) -> list[str]:\n    grid = [list(row) for row in board]\n    rows, cols = len(grid), len(grid[0])\n\n    def flood(r: int, c: int) -> None:\n        stack = [(r, c)]\n        grid[r][c] = \"S\"\n        while stack:\n            x, y = stack.pop()\n            for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):\n                nx, ny = x + dx, y + dy\n                if 0 <= nx < rows and 0 <= ny < cols and grid[nx][ny] == \"O\":\n                    grid[nx][ny] = \"S\"\n                    stack.append((nx, ny))\n\n    for r in range(rows):\n        for c in range(cols):\n            if grid[r][c] == \"O\" and (r in (0, rows - 1) or c in (0, cols - 1)):\n                flood(r, c)\n    for r in range(rows):\n        for c in range(cols):\n            if grid[r][c] == \"O\":\n                grid[r][c] = \"X\"\n            elif grid[r][c] == \"S\":\n                grid[r][c] = \"O\"\n    return [\"\".join(row) for row in grid]\n",
+  "starter_code": "from typing import List\n\ndef solve(board: List[str]) -> List[str]:\n    pass\n",
+  "examples": [
+    {
+      "input": "board = ['XXXX', 'XOOX', 'XXOX', 'XOXX']",
+      "output": "[\"XXXX\", \"XXXX\", \"XXXX\", \"XOXX\"]",
+      "explanation": "The center region is captured. The border O survives."
+    },
+    {
+      "input": "board = ['X']",
+      "output": "[\"X\"]",
+      "explanation": "A single X stays."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "board": [
+          "XXXX",
+          "XOOX",
+          "XXOX",
+          "XOXX"
+        ]
+      },
+      "expected": [
+        "XXXX",
+        "XXXX",
+        "XXXX",
+        "XOXX"
+      ]
+    },
+    {
+      "name": "none",
+      "args": {
+        "board": [
+          "X"
+        ]
+      },
+      "expected": [
+        "X"
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "border",
+      "args": {
+        "board": [
+          "OO",
+          "OO"
+        ]
+      },
+      "expected": [
+        "OO",
+        "OO"
+      ]
+    },
+    {
+      "name": "inside",
+      "args": {
+        "board": [
+          "XXX",
+          "XOX",
+          "XXX"
+        ]
+      },
+      "expected": [
+        "XXX",
+        "XXX",
+        "XXX"
+      ]
+    },
+    {
+      "name": "row",
+      "args": {
+        "board": [
+          "XOX"
+        ]
+      },
+      "expected": [
+        "XOX"
+      ]
+    }
+  ]
+}

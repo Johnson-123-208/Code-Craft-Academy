@@ -1,0 +1,135 @@
+{
+  "title": "Summary Ranges",
+  "slug": "summary-ranges",
+  "difficulty": "easy",
+  "topics": [
+    "arrays",
+    "intervals"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Google",
+    "Adobe",
+    "Bloomberg"
+  ],
+  "statement": "`nums` is a sorted list of unique integers. Return the smallest sorted list of ranges that cover it. A range of one number is 'x'. A longer range is 'start->end'.\n",
+  "constraints": [
+    "0 <= nums.length <= 20",
+    "-2^31 <= nums[i] <= 2^31 - 1",
+    "All values are unique and sorted"
+  ],
+  "function_name": "summary_ranges",
+  "hints": [
+    "A new range starts when the current number is not one more than the previous number.",
+    "Track the start of the current run and the previous value.",
+    "Flush the run at every gap and once more after the loop."
+  ],
+  "approaches": [
+    {
+      "name": "Linear scan",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1) extra"
+      },
+      "explanation": "One pass plus the output."
+    },
+    {
+      "name": "Groupby on differences",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      },
+      "explanation": "The same idea with consecutive differences."
+    }
+  ],
+  "editorial": "Walk the sorted values. While each value is exactly one larger than the previous, extend the run. Otherwise emit the finished run and start a new one. A run of length one is emitted as a single number.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef summary_ranges(nums: list[int]) -> list[str]:\n    if not nums:\n        return []\n    out: list[str] = []\n    start = prev = nums[0]\n    for value in nums[1:]:\n        if value == prev + 1:\n            prev = value\n        else:\n            out.append(str(start) if start == prev else f\"{start}->{prev}\")\n            start = prev = value\n    out.append(str(start) if start == prev else f\"{start}->{prev}\")\n    return out\n",
+  "starter_code": "from typing import List\n\ndef summary_ranges(nums: List[int]) -> List[str]:\n    pass\n",
+  "examples": [
+    {
+      "input": "nums = [0, 1, 2, 4, 5, 7]",
+      "output": "[\"0->2\", \"4->5\", \"7\"]",
+      "explanation": "0->2, 4->5, and 7."
+    },
+    {
+      "input": "nums = [0, 2, 3, 4, 6, 8, 9]",
+      "output": "[\"0\", \"2->4\", \"6\", \"8->9\"]",
+      "explanation": "Mixed ranges."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "nums": [
+          0,
+          1,
+          2,
+          4,
+          5,
+          7
+        ]
+      },
+      "expected": [
+        "0->2",
+        "4->5",
+        "7"
+      ]
+    },
+    {
+      "name": "singles",
+      "args": {
+        "nums": [
+          0,
+          2,
+          3,
+          4,
+          6,
+          8,
+          9
+        ]
+      },
+      "expected": [
+        "0",
+        "2->4",
+        "6",
+        "8->9"
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "empty",
+      "args": {
+        "nums": []
+      },
+      "expected": []
+    },
+    {
+      "name": "one",
+      "args": {
+        "nums": [
+          5
+        ]
+      },
+      "expected": [
+        "5"
+      ]
+    },
+    {
+      "name": "neg",
+      "args": {
+        "nums": [
+          -3,
+          -2,
+          -1,
+          1
+        ]
+      },
+      "expected": [
+        "-3->-1",
+        "1"
+      ]
+    }
+  ]
+}

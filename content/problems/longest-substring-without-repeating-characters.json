@@ -1,0 +1,98 @@
+{
+  "title": "Longest Substring Without Repeating Characters",
+  "slug": "longest-substring-without-repeating-characters",
+  "difficulty": "medium",
+  "topics": [
+    "strings",
+    "sliding-window"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Bloomberg",
+    "Adobe",
+    "Google"
+  ],
+  "statement": "Given a string `s`, return the length of the longest substring that contains no repeated characters.\n",
+  "constraints": [
+    "0 <= s.length <= 5 * 10^4",
+    "s consists of English letters, digits, symbols, and spaces"
+  ],
+  "function_name": "length_of_longest_substring",
+  "hints": [
+    "A set of the current window tells you whether the next character is already inside.",
+    "When a duplicate appears, shrink the left edge until the window is valid again.",
+    "Store the last index of each character so the left edge can jump in one step."
+  ],
+  "approaches": [
+    {
+      "name": "Check every substring",
+      "complexity": {
+        "time": "O(n^3)",
+        "space": "O(n)"
+      },
+      "explanation": "Each slice is tested for uniqueness."
+    },
+    {
+      "name": "Sliding window with last index",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(min(n, alphabet))"
+      },
+      "explanation": "The window only moves forward."
+    }
+  ],
+  "editorial": "Keep the left edge of a valid window and the most recent index of every character. If s[right] was seen at or after left, move left to that index plus one. The answer is the maximum of right - left + 1. Each index enters and leaves the window at most once.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef length_of_longest_substring(s: str) -> int:\n    last: dict[str, int] = {}\n    left = best = 0\n    for right, ch in enumerate(s):\n        if ch in last and last[ch] >= left:\n            left = last[ch] + 1\n        last[ch] = right\n        best = max(best, right - left + 1)\n    return best\n",
+  "starter_code": "def length_of_longest_substring(s: str) -> int:\n    pass\n",
+  "examples": [
+    {
+      "input": "s = 'abcabcbb'",
+      "output": "3",
+      "explanation": "The longest piece is abc, length 3."
+    },
+    {
+      "input": "s = 'bbbbb'",
+      "output": "1",
+      "explanation": "A single character, length 1."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "abc",
+      "args": {
+        "s": "abcabcbb"
+      },
+      "expected": 3
+    },
+    {
+      "name": "repeat",
+      "args": {
+        "s": "bbbbb"
+      },
+      "expected": 1
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "empty",
+      "args": {
+        "s": ""
+      },
+      "expected": 0
+    },
+    {
+      "name": "pwwkew",
+      "args": {
+        "s": "pwwkew"
+      },
+      "expected": 3
+    },
+    {
+      "name": "symbols",
+      "args": {
+        "s": "abba"
+      },
+      "expected": 2
+    }
+  ]
+}

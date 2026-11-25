@@ -1,0 +1,202 @@
+{
+  "title": "Flood Fill",
+  "slug": "flood-fill",
+  "difficulty": "easy",
+  "topics": [
+    "graphs",
+    "dfs",
+    "grid"
+  ],
+  "company_tags": [
+    "Amazon",
+    "Microsoft",
+    "Adobe",
+    "Apple"
+  ],
+  "statement": "Re-color the 4-connected component that contains `(sr, sc)` with `color`. Return the image. If the starting pixel already has that color, return the image unchanged.\n",
+  "constraints": [
+    "1 <= m, n <= 50",
+    "0 <= image[i][j], color < 2^16"
+  ],
+  "function_name": "flood_fill",
+  "hints": [
+    "Remember the original color. Only pixels of that color are recolored.",
+    "If the original color equals the new color, stop immediately or you will loop forever.",
+    "DFS or BFS from the start pixel is the fill."
+  ],
+  "approaches": [
+    {
+      "name": "DFS",
+      "complexity": {
+        "time": "O(mn)",
+        "space": "O(mn)"
+      },
+      "explanation": "Recolor as you walk."
+    },
+    {
+      "name": "BFS",
+      "complexity": {
+        "time": "O(mn)",
+        "space": "O(mn)"
+      },
+      "explanation": "Same component, explicit queue."
+    }
+  ],
+  "editorial": "Capture the starting color. If it already equals the replacement, return. Otherwise walk every 4-neighbor that still has the starting color and paint it. Painting before enqueueing prevents a cell from being queued twice.",
+  "reference_solution": "from typing import Dict, List, Optional, Tuple\nfrom collections import Counter, OrderedDict, defaultdict, deque\nimport heapq\n\ndef flood_fill(image: list[list[int]], sr: int, sc: int, color: int) -> list[list[int]]:\n    original = image[sr][sc]\n    if original == color:\n        return image\n    rows, cols = len(image), len(image[0])\n    stack = [(sr, sc)]\n    image[sr][sc] = color\n    while stack:\n        r, c = stack.pop()\n        for dr, dc in ((1, 0), (-1, 0), (0, 1), (0, -1)):\n            nr, nc = r + dr, c + dc\n            if 0 <= nr < rows and 0 <= nc < cols and image[nr][nc] == original:\n                image[nr][nc] = color\n                stack.append((nr, nc))\n    return image\n",
+  "starter_code": "from typing import List\n\ndef flood_fill(image: List[List[int]], sr: int, sc: int, color: int) -> List[List[int]]:\n    pass\n",
+  "examples": [
+    {
+      "input": "image = [[1, 1, 1], [1, 1, 0], [1, 0, 1]], sr = 1, sc = 1, color = 2",
+      "output": "[[2, 2, 2], [2, 2, 0], [2, 0, 1]]",
+      "explanation": "The connected 1s become 2. The corner 1 stays."
+    },
+    {
+      "input": "image = [[0, 0], [0, 0]], sr = 0, sc = 0, color = 0",
+      "output": "[[0, 0], [0, 0]]",
+      "explanation": "The color is unchanged."
+    }
+  ],
+  "visible_tests": [
+    {
+      "name": "classic",
+      "args": {
+        "image": [
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            0
+          ],
+          [
+            1,
+            0,
+            1
+          ]
+        ],
+        "sr": 1,
+        "sc": 1,
+        "color": 2
+      },
+      "expected": [
+        [
+          2,
+          2,
+          2
+        ],
+        [
+          2,
+          2,
+          0
+        ],
+        [
+          2,
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "name": "same",
+      "args": {
+        "image": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        "sr": 0,
+        "sc": 0,
+        "color": 0
+      },
+      "expected": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "name": "single",
+      "args": {
+        "image": [
+          [
+            1
+          ]
+        ],
+        "sr": 0,
+        "sc": 0,
+        "color": 9
+      },
+      "expected": [
+        [
+          9
+        ]
+      ]
+    },
+    {
+      "name": "corner",
+      "args": {
+        "image": [
+          [
+            1,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "sr": 0,
+        "sc": 1,
+        "color": 3
+      },
+      "expected": [
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "name": "row",
+      "args": {
+        "image": [
+          [
+            2,
+            2,
+            2
+          ]
+        ],
+        "sr": 0,
+        "sc": 1,
+        "color": 1
+      },
+      "expected": [
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    }
+  ]
+}
